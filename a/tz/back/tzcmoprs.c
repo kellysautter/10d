@@ -1982,7 +1982,10 @@ fnCommitMetaOI( zVIEW  vSubtask,
       {
          GetStringFromAttribute( szSubOI_Name, zsizeof( szSubOI_Name ), vMOI, szSubEntityName, "Name" );
          GetIntegerFromAttribute( &lSubOI_ZKey, vMOI, szSubEntityName, "ZKey" );
-         nRC = fnCheckForDuplicateName( vMOI, vTempLPLR, szSubOI_Name, lSubOI_ZKey, 0 );
+		 // KJS 04/25/22 - I am going to try taking this out because we do a duplicate name check on save of domain name.
+		 // We have duplicate names because of error in migration. Need to delete them and this prevents the commit.
+         //nRC = fnCheckForDuplicateName( vMOI, vTempLPLR, szSubOI_Name, lSubOI_ZKey, 0 );
+		 nRC = 0;
          if ( nRC == -1 )
             return( -1 );
 
@@ -4009,6 +4012,7 @@ InitializeNextZKeyForObject( zVIEW  vMetaRootView,
    zCHAR     szCurrentEntityName[ 33 ];
    zLONG     lZKey = 0;
    zLONG     lMaxZKey = 0;
+   zLONG     lTempKey = 0;
    zSHORT    nHierRC = 0;
    zSHORT    nReturnLevel = 0;
 
@@ -4065,9 +4069,30 @@ InitializeNextZKeyForObject( zVIEW  vMetaRootView,
       // for generating the ZKey of the root entity and set the NextZKeyToAssign to 1000.
       // DateTimeStamp is of form YYYYMMDDHHMMSSTTT.
       // We will use 9 middle digits, DDHHMMSST, forming DDH,HMM,SST, which would generate a key up to 312,459,599.
+
+	   int i;
+	   for (i = 1; i < 1000000000; i++); // Adding an extra zero causes it to seemingly never return.
+	   for (i = 1; i < 1000000000; i++); // Adding an extra zero causes it to seemingly never return.
+	   for (i = 1; i < 1000000000; i++); // Adding an extra zero causes it to seemingly never return.
+
       SysGetDateTime( szDateTimeStamp, zsizeof( szDateTimeStamp ) );
-      ZeidonStringCopy( szGeneratedKey, 1, 0, szDateTimeStamp, 6, 9, 21 );
-      lMaxZKey = zStringToInteger( szGeneratedKey );
+	  //ZeidonStringCopy(szGeneratedKey, 1, 0, szDateTimeStamp, 6, 9, 21);
+	  ZeidonStringCopy(szGeneratedKey, 1, 0, szDateTimeStamp, 8, 9, 21);
+	  lMaxZKey = zStringToInteger( szGeneratedKey );
+	  /*
+	  srand(lMaxZKey);
+	  lTempKey = rand();
+
+	  int l, max = 1, min = 0;
+	  l = 9;
+
+	  while (l > 0) {
+		  max *= 10;
+		  l--;
+	  }
+	  min = max / 10;
+	  lMaxZKey =  min + rand() % (max - min);
+	  */
    }
 
    // Set the NextZKeyToAssign attribute

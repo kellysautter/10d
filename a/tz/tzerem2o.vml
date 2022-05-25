@@ -966,9 +966,15 @@ ERD_RelationshipCopy(  VIEW NewERD     BASED ON LOD TZEREMDO,
       LOOP WHILE FoundInd = 0
          IF OldERD2.ER_RelLinkIdentifier EXISTS AND
             OldERD2.ER_RelLinkIdentifier.ZKey = OldERD3.ER_RelLinkIdentifier.ZKey
+            
+            // KJS 05/05/22 - We get here and the identifier does not exist yet. Do we create it?
+            // I think this will get created later in process, so I think we should not include unless
+            // this already exists (which might never be the case... I'm not sure.
+            IF NewERD3.ER_FactType EXISTS
+               INCLUDE NewERD3.ER_RelLinkIdentifier FROM NewERD3.ER_RelLink_2
+            END
 
             FoundInd = 1
-            INCLUDE NewERD3.ER_RelLinkIdentifier FROM NewERD3.ER_RelLink_2
          ELSE
             SET CURSOR NEXT OldERD2.ER_FactType WITHIN OldERD2.ER_Entity
             SET CURSOR NEXT NewERD3.ER_FactType WITHIN NewERD3.ER_Entity
@@ -1014,7 +1020,13 @@ ERD_RelationshipCopy(  VIEW NewERD     BASED ON LOD TZEREMDO,
             OldERD2.ER_RelLinkIdentifier.ZKey = OldERD3.ER_RelLinkIdentifier.ZKey
 
             FoundInd = 1
-            INCLUDE NewERD3.ER_RelLinkIdentifier FROM NewERD3.ER_RelLink_2
+            
+            // KJS 05/05/22 - We get here and the identifier does not exist yet. Do we create it?
+            // I think this will get created later in process, so I think we should not include unless
+            // this already exists (which might never be the case... I'm not sure.
+            IF NewERD3.ER_FactType EXISTS
+               INCLUDE NewERD3.ER_RelLinkIdentifier FROM NewERD3.ER_RelLink_2
+            END
          ELSE
             SET CURSOR NEXT OldERD2.ER_FactType WITHIN OldERD2.ER_Entity
             SET CURSOR NEXT NewERD3.ER_FactType WITHIN NewERD3.ER_Entity
@@ -3038,13 +3050,17 @@ ConvertZKeyDomains( VIEW vERD BASED ON LOD TZEREMDO )
 
 END
 
-
-// Generate ID Identifiers for each ER Entity
-// 1. Without any current Identifier
-// 2. With an attribute named ID
-
+/*************************************************************************************************
+**    
+**    OPERATION: GenerateID_Identifiers
+**    
+*************************************************************************************************/
 TRANSFORMATION OPERATION
 GenerateID_Identifiers( VIEW vERD BASED ON LOD TZEREMDO )
+
+   // Generate ID Identifiers for each ER Entity
+   // 1. Without any current Identifier
+   // 2. With an attribute named ID
 
    FOR EACH vERD.ER_Entity
       IF vERD.ER_EntIdentifier DOES NOT EXIST

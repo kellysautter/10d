@@ -2614,6 +2614,34 @@ ActionQ( zVIEW vSubtask, zLONG lActionRequested ) // number of the action reques
          //                 zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
          // }
          }
+		 else
+		 // KJS 11/02/21 Including ExternalOperation for an operation that belongs in the same dialog but in a different vml file.
+		 if ( g_lOperationClass == qLOCALOPERATION || g_lOperationClass == qDIALOGOPERATION )
+		 {
+			 if ( g_lOperationClass == qDIALOGOPERATION )
+				 TraceLineI("Operation Class qDIALOGOPERATION: ", g_lOperationClass);
+			 
+			 if (CompareAttributeToAttribute( g_lpPIView, "SourceFile", "Name", vSource, "SourceFile", "Name") != 0)
+			 {
+				 lRC = SetCursorFirstEntityByInteger(g_lpSGView, "ExternalOperation", "ZKey", g_lOperationZKey, "");
+				 if (lRC != zCURSOR_SET)
+				 {
+					 zCHAR  szObjectName[zZEIDON_NAME_LTH + 1];
+					 MiGetObjectNameForView(szObjectName, vSource);
+
+					 IncludeSubobjectFromSubobject(g_lpPIView, "ExternalOperation", vSource, "Operation", zPOS_AFTER);
+					 SetAttributeFromAttribute(g_lpPIView, "ExternalOperation", "SourceZKey", vSource, "SourceFile", "ZKey");
+					 SetAttributeFromAttribute(g_lpPIView, "ExternalOperation", "MetaDLL_Name", vSource, "SourceFile", "Name");
+					 SetAttributeFromAttribute(g_lpPIView, "ExternalOperation", "SourceName", vSource, "SourceFile", "Name");
+
+					 if ( zstrstr(szObjectName, "TZZOLODO") > 0 )
+						SetAttributeFromString(g_lpPIView, "ExternalOperation", "SourceType", "Object" );
+					 else
+						 SetAttributeFromString(g_lpPIView, "ExternalOperation", "SourceType", "Dialog");
+
+				 }
+			 }
+		 }
          else
          if ( g_lOperationClass != qLOCALOPERATION &&   // 4001
               g_lOperationClass != qZEIDONOPERATION &&  // 4006

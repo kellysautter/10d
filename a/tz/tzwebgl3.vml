@@ -4014,7 +4014,7 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
             szHTML_Address = vDialogMenu.Action.WebHTML_TransferAddress
          END
       END
-      IF ActionType = zWAB_LinkToHTML_Address AND ( szStyleIsBootstrap = "" OR ( szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal" ) )
+     IF ActionType = zWAB_LinkToHTML_Address AND ( szStyleIsBootstrap = "" OR ( szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal" AND szHasBanner = "Y") ) // KJS 05/24/22 - added szHasBanner
          szWriteBuffer = "       <li id=^l" + szOptionTag + "^ name=^l" + szOptionTag + "^ " + szHTML5Attr + szClass + "><a href=^" + szHTML_Address + "^ target=^_blank^>" + szNavigationTitle + "</a></li>"
       ELSE
          // Regular Action
@@ -4045,6 +4045,23 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
                szWriteBuffer = szWriteBuffer + "       <a class=^dropdown-item^ href=^#^ id=^a" + szOptionTag + "^  onclick=^" + szActionName + "()^>"
             END
             szWriteBuffer = szWriteBuffer + "<i class=^align-middle mr-1 fas fa-fw " + szHTML5Attr + "^></i>" + szNavigationTitle + "</a>"
+         ELSE
+         IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal" AND szHasBanner = "N" // KJS 05/24/22 - added szHasBanner
+            szWriteBuffer = "       <li class=^nav-item dropdown ml-lg-2^ id=^l" + szActionName + "^ name=^l" + szActionName + "^ ><a href=^#^ id=^a" + szActionName + "^ " +
+                            "  class=^nav-link dropdown-toggle^ " + szClass + " data-toggle=^dropdown^>"
+            //szWriteBuffer = szWriteBuffer + "<i class=^align-middle fas fa-cog^></i></a>"
+            szWriteBuffer = szWriteBuffer + "<i class=^align-middle fas " + szHTML5Attr + "^></i></a>"
+            szWriteBuffer = szWriteBuffer + "<div class=^dropdown-menu dropdown-menu-right^ aria-labelledby=^a" + szActionName + "^>"
+            IF ActionType = zWAB_LinkToHTML_Address
+               //<a href=^" + szHTML_Address + "^ target=^_blank^
+               szWriteBuffer = szWriteBuffer + "<a class=^dropdown-item^ href=^" + szHTML_Address + "^ target=^_blank^ >"
+            ELSE
+               szWriteBuffer = szWriteBuffer + "<a class=^dropdown-item^ href=^#^ onclick=^" + szActionName + "()^>"
+            END
+            szWriteBuffer = szWriteBuffer + "<i class=^align-middle mr-1 fas fa-fw fa-arrow-alt-circle-right^></i>" + szNavigationTitle + "</a></div>"
+
+            szWriteBuffer = szWriteBuffer + "</li>" 
+            
          /*
          ELSE
          IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal"
@@ -4064,6 +4081,7 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
          */
          ELSE
             szWriteBuffer = "       <li id=^l" + szOptionTag + "^ name=^l" + szOptionTag + "^ " + szHTML5Attr + szClass + "><a href=^#^ onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+         END
          END
          END
       END //ActionType = zWAB_LinkToHTML_Address AND ( s

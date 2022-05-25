@@ -712,12 +712,12 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
             CreateMetaEntity( vSubtask, NewERD, "ER_Entity", zPOS_BEFORE )
             SetMatchingAttributesByName ( NewERD,    "ER_Entity",
                                           SourceERD, "ER_Entity", zSET_NULL )
-            FOR EACH OldRecursiveLOD.LOD_AttributeRec
-               IF OldRecursiveLOD.LOD_AttributeRec.Work != "Y" AND
-                  OldRecursiveLOD.ER_AttributeRec.Work  != "Y"
+            // KJS 05/05/22 - Seems like we should also be looping through the SourceERD so that we add ALL attributes to the new
+            // ER. But I guess we don't want all attributes in the LOD. Looks like there is an operation that copies the LOD Attributes so let's try SourceER here                                          
+            FOR EACH SourceERD.ER_Attribute
 
                   // This is an ER Attribute so add it to ER.
-                  nRC = LOD_CreateER_Attribute( OldRecursiveLOD,
+                  nRC = LOD_CreateER_AttrFrmER( SourceERD,
                                                 SourceLPLR,
                                                 CurrentLPLR,
                                                 NewERD,
@@ -725,7 +725,6 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
                   IF nRC < 0
                      RETURN nRC
                   END
-               END
             END
 
             // Set flag to create Identifiers.
@@ -754,7 +753,7 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
          END
       END
    END
-
+   
    // Process ER Relationship for LOD, if it exists.
    // If the LOD Entity is part of an ER relationship, make sure that relationship is also in the new ER.
    // We will use the relationship in the LOD to locate the relationship in the ER and then copy the relationship from the ER.
@@ -876,17 +875,22 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
                             AND NewERD.ER_Entity_Other.Name  = SourceERD.ER_Entity_Other_Identifier.Name
                IF RESULT < zCURSOR_SET
                   szMsg = "ER Entity (" + EREntityName +
-                          ") Identifier (" + SourceERD.ER_RelLinkIdentifier.Name + "-" + SourceERD.ER_Entity_Other_Identifier.Name +
+                          ") Identifier Relationship (" + SourceERD.ER_RelLinkIdentifier.Name + " - " + SourceERD.ER_Entity_Other_Identifier.Name +
                           ") does not exist in new ERD." +
-                          NEW_LINE + "LOD (" + OldMainLOD.LOD.Name +
-                          ") will not be migrated."
+                          NEW_LINE + NEW_LINE +
+                          " At the end of migration, you should check that it exists, (if Entity " + SourceERD.ER_Entity_Other_Identifier.Name + " has also been migrated)."
                   MessageSend( vSubtask, "ZO00404", "Entity Copy",
                                szMsg,
                                zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-                  DELETE ENTITY NewRecursiveLOD.LOD_EntityParent NONE
-                  RETURN 0
+                  // KJS 05/05/22 - I'm going to take out the next two lines momentarily because I'm not exactly sure what to do...
+                  // If I haven't yet added the Entity for this relationship, it's not necessarily an error. Although we would really need to come back and
+                  // create it wouldn't we. In case of mTst, I will end up creating the Entity, but what if that wasn't part of migrated object. What to do??
+                  // Would we try to create that other Entity? (my example is AdmissionsTrackRequirement has REL AdmissionTrack/AdmissionRequirement.
+                  //DELETE ENTITY NewRecursiveLOD.LOD_EntityParent NONE
+                  //RETURN 0
+               ELSE
+                  INCLUDE NewERD.ER_RelLinkIdentifier FROM NewERD.ER_RelLink_Other
                END
-               INCLUDE NewERD.ER_AttributeIdentifier FROM NewERD.ER_Attribute
             END
          END
       END
@@ -936,7 +940,7 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
                          SourceLPLR,
                          CurrentLPLR,
                          NewERD,
-                         "Y" )
+                         "" ) // KJS 05/05/22 - I am changing this to "" (from "Y")because we add attribute to er up above. And I don't want to call CopyERAttribute because passes ERD not LOD.
 
    END
 
@@ -1008,6 +1012,65 @@ END
 
 /*************************************************************************************************
 **
+**    OPERATION: LOD_CreateER_AttrFrmER
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+LOD_CreateER_AttrFrmER( VIEW OldERD          BASED ON LOD TZEREMDO,
+                        VIEW SourceLPLR      BASED ON LOD TZCMLPLO,
+                        VIEW CurrentLPLR     BASED ON LOD TZCMLPLO,
+                        VIEW NewERD          BASED ON LOD TZEREMDO,
+                        VIEW vSubtask )
+
+   VIEW NewDomain BASED ON LOD TZDGSRCO
+   SHORT nRC
+   STRING ( 254)  szMsg
+
+   // First make sure that the Domain exists.
+   nRC = ActivateMetaOI_ByName( vSubtask, NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, OldERD.Domain.Name, 0 )
+   IF nRC < 0
+      // The Domain was not found, so prompt User whether or not to add it.
+      IF SourceLPLR != 0
+         // There is a Source LPLR, so add the Domain
+         //DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
+         //                   CurrentLPLR.LPLR.MetaSrcDir,
+         //                   OldRecursiveLOD.DomainRec.Name, vSubtask )
+         nRC = DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
+                                  SourceLPLR.LPLR.MetaSrcDir,
+                                  OldERD.Domain.Name, vSubtask )
+         IF nRC < 0
+            RETURN nRC
+         END
+      ELSE
+         // The Domain was not found, so give error and don't copy attribute.
+         szMsg = "Domain (" + OldERD.Domain.Name + ") does not exist. Attribute (" +
+                 OldERD.ER_Attribute.Name + ") will not be copied."
+         MessageSend( vSubtask, "ZO00403", "Entity Copy", szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+         RETURN -1   // Return indicating an error has occurred so the attribute will be dropped later.
+      END
+   END
+   
+   // KJS 05/04/22 - I don't understand why it seems like we are pointing to the wrong domain when creating field in the ER. I have tried several
+   // things. Now I will try setting to the correct domain.
+   SET CURSOR FIRST NewDomain.Domain WHERE NewDomain.Domain.Name = OldERD.Domain.Name
+   IF RESULT < 0
+      szMsg = "" // just want to be able to set a break point here and see if we ever get here.
+   END
+
+   // Since the Domain was either found or created, continue with add of ER Attribute
+   // Create ER Attribute from LOD Attribute. Create as last Attribute for Entity.
+   SET CURSOR LAST NewERD.ER_Attribute
+   CreateMetaEntity( vSubtask, NewERD, "ER_Attribute", zPOS_AFTER )
+   SetMatchingAttributesByName ( NewERD, "ER_Attribute",
+                                 OldERD, "ER_Attribute", zSET_NULL )
+   INCLUDE NewERD.Domain FROM NewDomain.Domain
+   CurrentLPLR.LPLR.wMergeER_ModifiedFlag = "Y"    // Indicate that the ER has been modified.
+   DropMetaOI( vSubtask, NewDomain )
+
+END
+
+/*************************************************************************************************
+**
 **    OPERATION: LOD_CreateER_Attribute
 **
 *************************************************************************************************/
@@ -1028,9 +1091,12 @@ LOD_CreateER_Attribute( VIEW OldRecursiveLOD BASED ON LOD TZZOLODO,
       // The Domain was not found, so prompt User whether or not to add it.
       IF SourceLPLR != 0
          // There is a Source LPLR, so add the Domain
-         DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
-                            CurrentLPLR.LPLR.MetaSrcDir,
-                            OldRecursiveLOD.DomainRec.Name, vSubtask )
+         //DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
+         //                   CurrentLPLR.LPLR.MetaSrcDir,
+         //                   OldRecursiveLOD.DomainRec.Name, vSubtask )
+         nRC = DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
+                                  SourceLPLR.LPLR.MetaSrcDir,
+                                  OldRecursiveLOD.DomainRec.Name, vSubtask )
          IF nRC < 0
             RETURN nRC
          END
@@ -1041,6 +1107,13 @@ LOD_CreateER_Attribute( VIEW OldRecursiveLOD BASED ON LOD TZZOLODO,
          MessageSend( vSubtask, "ZO00403", "Entity Copy", szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
          RETURN -1   // Return indicating an error has occurred so the attribute will be dropped later.
       END
+   END
+   
+   // KJS 05/04/22 - I don't understand why it seems like we are pointing to the wrong domain when creating field in the ER. I have tried several
+   // things. Now I will try setting to the correct domain.
+   SET CURSOR FIRST NewDomain.Domain WHERE NewDomain.Domain.Name = OldRecursiveLOD.DomainRec.Name
+   IF RESULT < 0
+      szMsg = "" // just want to be able to set a break point here and see if we ever get here.
    END
 
    // Since the Domain was either found or created, continue with add of ER Attribute
@@ -1123,7 +1196,7 @@ LOD_AttributeCopy( VIEW        vSubtask,
                SET CURSOR FIRST SourceLPLR.W_MetaType
                           WHERE SourceLPLR.W_MetaType.Type = 2003
                SET CURSOR FIRST SourceLPLR.W_MetaDef
-                          WHERE SourceLPLR.W_MetaDef.CPLR_ZKey = OldRecursiveLOD.DomainRec.ZKey
+                          WHERE SourceLPLR.W_MetaDef.CPLR_ZKey = OldRecursiveLOD.DomainRec.ZKey // KJS 05/05/22 - should this be by name, not zkey???
                IF RESULT >= zCURSOR_SET
                   DomainName = SourceLPLR.W_MetaDef.Name
                   SET CURSOR FIRST CurrentLPLR.W_MetaDef
@@ -2579,14 +2652,14 @@ LOD_Merge( VIEW TargetLOD BASED ON LOD TZZOLODO,
    // Also activate the Source ERD.
    GET VIEW CurrentLPLR NAMED "TaskLPLR"
    IF CurrentLPLR.LPLR.wMergeSourceLPLR_Name != ""
-      szFileName = CurrentLPLR.LPLR.MetaSrcDir + "\bin\" +
+      szFileName = CurrentLPLR.LPLR.wFullyQualifiedFileName + "\bin\" +
                    CurrentLPLR.LPLR.wMergeSourceLPLR_Name + ".XLP"
       nRC = ActivateOI_FromFile( SourceLPLR, "TZCMLPLO", TargetLOD, szFileName, zSINGLE )
       IF nRC >= 0
          NAME VIEW SourceLPLR "SourceLPLR"
 
          // Activate Source ERD.
-         szFileName = CurrentLPLR.LPLR.MetaSrcDir + "\" +
+         szFileName = CurrentLPLR.LPLR.wFullyQualifiedFileName + "\" +
                       CurrentLPLR.LPLR.wMergeSourceLPLR_Name + ".PMD"
          nRC = ActivateOI_FromFile( SourceERD, "TZEREMDO", TargetLOD, szFileName, zSINGLE )
          IF nRC >= 0
@@ -2809,7 +2882,7 @@ LOD_MergeEntity( VIEW TargetLOD      BASED ON LOD TZZOLODO,
                             SourceLPLR,
                             CurrentLPLR,
                             NewERD,
-                            "Y" )
+                            "Y" ) 
       END
    END
 

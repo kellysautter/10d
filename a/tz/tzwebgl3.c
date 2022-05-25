@@ -1647,9 +1647,9 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
       } 
 
       //:END
-      //:IF ActionType = zWAB_LinkToHTML_Address AND ( szStyleIsBootstrap = "" OR ( szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal" ) )
+      //:IF ActionType = zWAB_LinkToHTML_Address AND ( szStyleIsBootstrap = "" OR ( szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal" AND szHasBanner = "Y") ) // KJS 05/24/22 - added szHasBanner
       if ( ActionType == zWAB_LinkToHTML_Address && ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 || ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 &&
-           ZeidonStringCompare( szMenuStyle, 1, 0, "Horizontal", 1, 0, 51 ) == 0 ) ) )
+           ZeidonStringCompare( szMenuStyle, 1, 0, "Horizontal", 1, 0, 51 ) == 0 && ZeidonStringCompare( szHasBanner, 1, 0, "Y", 1, 0, 2 ) == 0 ) ) )
       { 
          //:szWriteBuffer = "       <li id=^l" + szOptionTag + "^ name=^l" + szOptionTag + "^ " + szHTML5Attr + szClass + "><a href=^" + szHTML_Address + "^ target=^_blank^>" + szNavigationTitle + "</a></li>"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "       <li id=^l", 1, 0, 10001 );
@@ -1736,40 +1736,98 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
                ZeidonStringConcat( szWriteBuffer, 1, 0, "^></i>", 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, szNavigationTitle, 1, 0, 10001 );
                ZeidonStringConcat( szWriteBuffer, 1, 0, "</a>", 1, 0, 10001 );
-               //:/*
-               //:ELSE
-               //:IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal"
-               //:szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ ><a href=^#^ id=^a" + szActionName + "^ " +
-               //:             " " + vDialogMenu.Option.CSS_Class + ">"
-               //://szWriteBuffer = szWriteBuffer + "<i class=^align-middle fas fa-cog^></i></a>"
-               //:szWriteBuffer = szWriteBuffer + "<i class=^align-middle fas " + szHTML5Attr + "^></i></a>"
-               //:szWriteBuffer = szWriteBuffer + "<div class=^dropdown-menu dropdown-menu-right^ aria-labelledby=^a" + szActionName + "^>"
-               //:IF ActionType = zWAB_LinkToHTML_Address
-               //://<a href=^" + szHTML_Address + "^ target=^_blank^
-               //:szWriteBuffer = szWriteBuffer + "<a href=^" + szHTML_Address + "^ target=^_blank^ >"
-               //:ELSE
-               //:szWriteBuffer = szWriteBuffer + "<a href=^#^ onclick=^" + szActionName + "()^>"
-               //:END
-               //:szWriteBuffer = szWriteBuffer + szNavigationTitle + "</a></div>"
-               //:szWriteBuffer = szWriteBuffer + "</li>" 
-               //:*/
                //:ELSE
             } 
             else
             { 
-               //:szWriteBuffer = "       <li id=^l" + szOptionTag + "^ name=^l" + szOptionTag + "^ " + szHTML5Attr + szClass + "><a href=^#^ onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
-               ZeidonStringCopy( szWriteBuffer, 1, 0, "       <li id=^l", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szOptionTag, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, "^ name=^l", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szOptionTag, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szHTML5Attr, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, "><a href=^#^ onclick=^", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, "()^>", 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, szNavigationTitle, 1, 0, 10001 );
-               ZeidonStringConcat( szWriteBuffer, 1, 0, "</a></li>", 1, 0, 10001 );
+               //:IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal" AND szHasBanner = "N" // KJS 05/24/22 - added szHasBanner
+               if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szMenuStyle, 1, 0, "Horizontal", 1, 0, 51 ) == 0 && ZeidonStringCompare( szHasBanner, 1, 0, "N", 1, 0, 2 ) == 0 )
+               { 
+                  //:szWriteBuffer = "       <li class=^nav-item dropdown ml-lg-2^ id=^l" + szActionName + "^ name=^l" + szActionName + "^ ><a href=^#^ id=^a" + szActionName + "^ " +
+                  //:          "  class=^nav-link dropdown-toggle^ " + szClass + " data-toggle=^dropdown^>"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "       <li class=^nav-item dropdown ml-lg-2^ id=^l", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ name=^l", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ><a href=^#^ id=^a", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "  class=^nav-link dropdown-toggle^ ", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, " data-toggle=^dropdown^>", 1, 0, 10001 );
+                  //://szWriteBuffer = szWriteBuffer + "<i class=^align-middle fas fa-cog^></i></a>"
+                  //:szWriteBuffer = szWriteBuffer + "<i class=^align-middle fas " + szHTML5Attr + "^></i></a>"
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "<i class=^align-middle fas ", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szHTML5Attr, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^></i></a>", 1, 0, 10001 );
+                  //:szWriteBuffer = szWriteBuffer + "<div class=^dropdown-menu dropdown-menu-right^ aria-labelledby=^a" + szActionName + "^>"
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "<div class=^dropdown-menu dropdown-menu-right^ aria-labelledby=^a", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^>", 1, 0, 10001 );
+                  //:IF ActionType = zWAB_LinkToHTML_Address
+                  if ( ActionType == zWAB_LinkToHTML_Address )
+                  { 
+                     //://<a href=^" + szHTML_Address + "^ target=^_blank^
+                     //:szWriteBuffer = szWriteBuffer + "<a class=^dropdown-item^ href=^" + szHTML_Address + "^ target=^_blank^ >"
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "<a class=^dropdown-item^ href=^", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szHTML_Address, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "^ target=^_blank^ >", 1, 0, 10001 );
+                     //:ELSE
+                  } 
+                  else
+                  { 
+                     //:szWriteBuffer = szWriteBuffer + "<a class=^dropdown-item^ href=^#^ onclick=^" + szActionName + "()^>"
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "<a class=^dropdown-item^ href=^#^ onclick=^", 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
+                     ZeidonStringConcat( szWriteBuffer, 1, 0, "()^>", 1, 0, 10001 );
+                  } 
+
+                  //:END
+                  //:szWriteBuffer = szWriteBuffer + "<i class=^align-middle mr-1 fas fa-fw fa-arrow-alt-circle-right^></i>" + szNavigationTitle + "</a></div>"
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "<i class=^align-middle mr-1 fas fa-fw fa-arrow-alt-circle-right^></i>", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szNavigationTitle, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "</a></div>", 1, 0, 10001 );
+
+                  //:szWriteBuffer = szWriteBuffer + "</li>" 
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "</li>", 1, 0, 10001 );
+
+                  //:/*
+                  //:ELSE
+                  //:IF szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal"
+                  //:szWriteBuffer = "       <li id=^l" + szActionName + "^ name=^l" + szActionName + "^ ><a href=^#^ id=^a" + szActionName + "^ " +
+                  //:          " " + vDialogMenu.Option.CSS_Class + ">"
+                  //://szWriteBuffer = szWriteBuffer + "<i class=^align-middle fas fa-cog^></i></a>"
+                  //:szWriteBuffer = szWriteBuffer + "<i class=^align-middle fas " + szHTML5Attr + "^></i></a>"
+                  //:szWriteBuffer = szWriteBuffer + "<div class=^dropdown-menu dropdown-menu-right^ aria-labelledby=^a" + szActionName + "^>"
+                  //:IF ActionType = zWAB_LinkToHTML_Address
+                  //://<a href=^" + szHTML_Address + "^ target=^_blank^
+                  //:szWriteBuffer = szWriteBuffer + "<a href=^" + szHTML_Address + "^ target=^_blank^ >"
+                  //:ELSE
+                  //:szWriteBuffer = szWriteBuffer + "<a href=^#^ onclick=^" + szActionName + "()^>"
+                  //:END
+                  //:szWriteBuffer = szWriteBuffer + szNavigationTitle + "</a></div>"
+                  //:szWriteBuffer = szWriteBuffer + "</li>" 
+                  //:*/
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:szWriteBuffer = "       <li id=^l" + szOptionTag + "^ name=^l" + szOptionTag + "^ " + szHTML5Attr + szClass + "><a href=^#^ onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "       <li id=^l", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szOptionTag, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ name=^l", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szOptionTag, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szHTML5Attr, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "><a href=^#^ onclick=^", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "()^>", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szNavigationTitle, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "</a></li>", 1, 0, 10001 );
+               } 
+
+               //:END
             } 
 
             //:END

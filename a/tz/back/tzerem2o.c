@@ -4621,12 +4621,14 @@ oTZEREMDO_ERD_RelationshipCopy( zVIEW     NewERD,
 
 //:TRANSFORMATION OPERATION
 //:ERD_Compare( VIEW TargetERD BASED ON LOD TZEREMDO,
-//:             VIEW SourceERD BASED ON LOD TZEREMDO )
+//:             VIEW SourceERD BASED ON LOD TZEREMDO,
+//:             STRING ( 1 ) szMergeType )
 
 //:   VIEW TargetERD2 BASED ON LOD TZEREMDO
 zOPER_EXPORT zSHORT OPERATION
 oTZEREMDO_ERD_Compare( zVIEW     TargetERD,
-                       zVIEW     SourceERD )
+                       zVIEW     SourceERD,
+                       zPCHAR    szMergeType )
 {
    zVIEW     TargetERD2 = 0; 
    //:INTEGER SourceLength
@@ -4695,20 +4697,26 @@ oTZEREMDO_ERD_Compare( zVIEW     TargetERD,
          //:TargetERD.CompareEntityResult.CompareResultType = "New Entity"
          SetAttributeFromString( TargetERD, "CompareEntityResult", "CompareResultType", "New Entity" );
 
-         //:// Add Attributes.
-         //:FOR EACH SourceERD.ER_Attribute
-         RESULT = SetCursorFirstEntity( SourceERD, "ER_Attribute", "" );
-         while ( RESULT > zCURSOR_UNCHANGED )
+         //:// Add Attributes unless Merge Type is Entity Only.
+         //:IF szMergeType != "E"
+         if ( ZeidonStringCompare( szMergeType, 1, 0, "E", 1, 0, 2 ) != 0 )
          { 
-            //:CREATE ENTITY TargetERD.CompareAttributeResult
-            RESULT = CreateEntity( TargetERD, "CompareAttributeResult", zPOS_AFTER );
-            //:TargetERD.CompareAttributeResult.AttributeID               = SourceERD.ER_Attribute.ZKey
-            SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeID", SourceERD, "ER_Attribute", "ZKey" );
-            //:TargetERD.CompareAttributeResult.AttributeName             = SourceERD.ER_Attribute.Name
-            SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeName", SourceERD, "ER_Attribute", "Name" );
-            //:TargetERD.CompareAttributeResult.SourceDifferentDomainName = SourceERD.Domain.Name
-            SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "SourceDifferentDomainName", SourceERD, "Domain", "Name" );
-            RESULT = SetCursorNextEntity( SourceERD, "ER_Attribute", "" );
+            //:FOR EACH SourceERD.ER_Attribute
+            RESULT = SetCursorFirstEntity( SourceERD, "ER_Attribute", "" );
+            while ( RESULT > zCURSOR_UNCHANGED )
+            { 
+               //:CREATE ENTITY TargetERD.CompareAttributeResult
+               RESULT = CreateEntity( TargetERD, "CompareAttributeResult", zPOS_AFTER );
+               //:TargetERD.CompareAttributeResult.AttributeID               = SourceERD.ER_Attribute.ZKey
+               SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeID", SourceERD, "ER_Attribute", "ZKey" );
+               //:TargetERD.CompareAttributeResult.AttributeName             = SourceERD.ER_Attribute.Name
+               SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeName", SourceERD, "ER_Attribute", "Name" );
+               //:TargetERD.CompareAttributeResult.SourceDifferentDomainName = SourceERD.Domain.Name
+               SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "SourceDifferentDomainName", SourceERD, "Domain", "Name" );
+               RESULT = SetCursorNextEntity( SourceERD, "ER_Attribute", "" );
+            } 
+
+            //:END
          } 
 
          //:END
@@ -4748,34 +4756,22 @@ oTZEREMDO_ERD_Compare( zVIEW     TargetERD,
          SetAttributeFromAttribute( TargetERD, "CompareEntityResult", "EntityID", SourceERD, "ER_Entity", "ZKey" );
          //:TargetERD.CompareEntityResult.CompareResultType = "Old Entity"
          SetAttributeFromString( TargetERD, "CompareEntityResult", "CompareResultType", "Old Entity" );
-         //:FOR EACH SourceERD.ER_Attribute
-         RESULT = SetCursorFirstEntity( SourceERD, "ER_Attribute", "" );
-         while ( RESULT > zCURSOR_UNCHANGED )
+
+         //:// Process attributes only if Merge Type is not Entity Only
+         //:IF szMergeType != "E"
+         if ( ZeidonStringCompare( szMergeType, 1, 0, "E", 1, 0, 2 ) != 0 )
          { 
-            //:SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = SourceERD.ER_Attribute.Name
-            GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), SourceERD, "ER_Attribute", "Name" );
-            RESULT = SetCursorFirstEntityByString( TargetERD, "ER_Attribute", "Name", szTempString_0, "" );
-            //:IF RESULT < zCURSOR_SET
-            if ( RESULT < zCURSOR_SET )
+            //:FOR EACH SourceERD.ER_Attribute
+            RESULT = SetCursorFirstEntity( SourceERD, "ER_Attribute", "" );
+            while ( RESULT > zCURSOR_UNCHANGED )
             { 
-               //:// There is no match on Attribute, create new Attribute entry.
-               //:CREATE ENTITY TargetERD.CompareAttributeResult
-               RESULT = CreateEntity( TargetERD, "CompareAttributeResult", zPOS_AFTER );
-               //:TargetERD.CompareAttributeResult.AttributeID               = SourceERD.ER_Attribute.ZKey
-               SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeID", SourceERD, "ER_Attribute", "ZKey" );
-               //:TargetERD.CompareAttributeResult.AttributeName             = SourceERD.ER_Attribute.Name
-               SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeName", SourceERD, "ER_Attribute", "Name" );
-               //:TargetERD.CompareAttributeResult.SourceDifferentDomainName = SourceERD.Domain.Name
-               SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "SourceDifferentDomainName", SourceERD, "Domain", "Name" );
-               //:ELSE
-            } 
-            else
-            { 
-               //:// There is a match on Attribute. Compare Domain and String Length.
-               //:IF TargetERD.Domain.Name != SourceERD.Domain.Name
-               if ( CompareAttributeToAttribute( TargetERD, "Domain", "Name", SourceERD, "Domain", "Name" ) != 0 )
+               //:SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = SourceERD.ER_Attribute.Name
+               GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), SourceERD, "ER_Attribute", "Name" );
+               RESULT = SetCursorFirstEntityByString( TargetERD, "ER_Attribute", "Name", szTempString_0, "" );
+               //:IF RESULT < zCURSOR_SET
+               if ( RESULT < zCURSOR_SET )
                { 
-                  //:// There is no match on Domain.
+                  //:// There is no match on Attribute, create new Attribute entry.
                   //:CREATE ENTITY TargetERD.CompareAttributeResult
                   RESULT = CreateEntity( TargetERD, "CompareAttributeResult", zPOS_AFTER );
                   //:TargetERD.CompareAttributeResult.AttributeID               = SourceERD.ER_Attribute.ZKey
@@ -4784,59 +4780,79 @@ oTZEREMDO_ERD_Compare( zVIEW     TargetERD,
                   SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeName", SourceERD, "ER_Attribute", "Name" );
                   //:TargetERD.CompareAttributeResult.SourceDifferentDomainName = SourceERD.Domain.Name
                   SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "SourceDifferentDomainName", SourceERD, "Domain", "Name" );
-                  //:TargetERD.CompareAttributeResult.TargetDifferentDomainName = TargetERD.Domain.Name
-                  SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "TargetDifferentDomainName", TargetERD, "Domain", "Name" );
                   //:ELSE
                } 
                else
                { 
-                  //:// There is a match on Domain. For string domains, check for difference on length.
-                  //:IF TargetERD.Domain.DataType = "S"
-                  if ( CompareAttributeToString( TargetERD, "Domain", "DataType", "S" ) == 0 )
+                  //:// There is a match on Attribute. Compare Domain and String Length.
+                  //:IF TargetERD.Domain.Name != SourceERD.Domain.Name
+                  if ( CompareAttributeToAttribute( TargetERD, "Domain", "Name", SourceERD, "Domain", "Name" ) != 0 )
                   { 
-                     //:IF SourceERD.ER_Attribute.Lth = ""
-                     if ( CompareAttributeToString( SourceERD, "ER_Attribute", "Lth", "" ) == 0 )
+                     //:// There is no match on Domain.
+                     //:CREATE ENTITY TargetERD.CompareAttributeResult
+                     RESULT = CreateEntity( TargetERD, "CompareAttributeResult", zPOS_AFTER );
+                     //:TargetERD.CompareAttributeResult.AttributeID               = SourceERD.ER_Attribute.ZKey
+                     SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeID", SourceERD, "ER_Attribute", "ZKey" );
+                     //:TargetERD.CompareAttributeResult.AttributeName             = SourceERD.ER_Attribute.Name
+                     SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeName", SourceERD, "ER_Attribute", "Name" );
+                     //:TargetERD.CompareAttributeResult.SourceDifferentDomainName = SourceERD.Domain.Name
+                     SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "SourceDifferentDomainName", SourceERD, "Domain", "Name" );
+                     //:TargetERD.CompareAttributeResult.TargetDifferentDomainName = TargetERD.Domain.Name
+                     SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "TargetDifferentDomainName", TargetERD, "Domain", "Name" );
+                     //:ELSE
+                  } 
+                  else
+                  { 
+                     //:// There is a match on Domain. For string domains, check for difference on length.
+                     //:IF TargetERD.Domain.DataType = "S"
+                     if ( CompareAttributeToString( TargetERD, "Domain", "DataType", "S" ) == 0 )
                      { 
-                        //:SourceLength = SourceERD.Domain.MaxStringLth
-                        GetIntegerFromAttribute( &SourceLength, SourceERD, "Domain", "MaxStringLth" );
-                        //:ELSE
-                     } 
-                     else
-                     { 
-                        //:SourceLength = SourceERD.ER_Attribute.Lth
-                        GetIntegerFromAttribute( &SourceLength, SourceERD, "ER_Attribute", "Lth" );
-                     } 
+                        //:IF SourceERD.ER_Attribute.Lth = ""
+                        if ( CompareAttributeToString( SourceERD, "ER_Attribute", "Lth", "" ) == 0 )
+                        { 
+                           //:SourceLength = SourceERD.Domain.MaxStringLth
+                           GetIntegerFromAttribute( &SourceLength, SourceERD, "Domain", "MaxStringLth" );
+                           //:ELSE
+                        } 
+                        else
+                        { 
+                           //:SourceLength = SourceERD.ER_Attribute.Lth
+                           GetIntegerFromAttribute( &SourceLength, SourceERD, "ER_Attribute", "Lth" );
+                        } 
 
-                     //:END
-                     //:IF TargetERD.ER_Attribute.Lth = ""
-                     if ( CompareAttributeToString( TargetERD, "ER_Attribute", "Lth", "" ) == 0 )
-                     { 
-                        //:TargetLength = TargetERD.Domain.MaxStringLth
-                        GetIntegerFromAttribute( &TargetLength, TargetERD, "Domain", "MaxStringLth" );
-                        //:ELSE
-                     } 
-                     else
-                     { 
-                        //:TargetLength = TargetERD.ER_Attribute.Lth
-                        GetIntegerFromAttribute( &TargetLength, TargetERD, "ER_Attribute", "Lth" );
-                     } 
+                        //:END
+                        //:IF TargetERD.ER_Attribute.Lth = ""
+                        if ( CompareAttributeToString( TargetERD, "ER_Attribute", "Lth", "" ) == 0 )
+                        { 
+                           //:TargetLength = TargetERD.Domain.MaxStringLth
+                           GetIntegerFromAttribute( &TargetLength, TargetERD, "Domain", "MaxStringLth" );
+                           //:ELSE
+                        } 
+                        else
+                        { 
+                           //:TargetLength = TargetERD.ER_Attribute.Lth
+                           GetIntegerFromAttribute( &TargetLength, TargetERD, "ER_Attribute", "Lth" );
+                        } 
 
-                     //:END
-                     //:IF TargetLength != SourceLength
-                     if ( TargetLength != SourceLength )
-                     { 
-                        //:CREATE ENTITY TargetERD.CompareAttributeResult
-                        RESULT = CreateEntity( TargetERD, "CompareAttributeResult", zPOS_AFTER );
-                        //:TargetERD.CompareAttributeResult.AttributeID                 = SourceERD.ER_Attribute.ZKey
-                        SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeID", SourceERD, "ER_Attribute", "ZKey" );
-                        //:TargetERD.CompareAttributeResult.AttributeName               = SourceERD.ER_Attribute.Name
-                        SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeName", SourceERD, "ER_Attribute", "Name" );
-                        //:TargetERD.CompareAttributeResult.SourceDifferentDomainName   = TargetERD.Domain.Name
-                        SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "SourceDifferentDomainName", TargetERD, "Domain", "Name" );
-                        //:TargetERD.CompareAttributeResult.SourceDifferentStringLength = SourceLength
-                        SetAttributeFromInteger( TargetERD, "CompareAttributeResult", "SourceDifferentStringLength", SourceLength );
-                        //:TargetERD.CompareAttributeResult.TargetDifferentStringLength = TargetLength
-                        SetAttributeFromInteger( TargetERD, "CompareAttributeResult", "TargetDifferentStringLength", TargetLength );
+                        //:END
+                        //:IF TargetLength != SourceLength
+                        if ( TargetLength != SourceLength )
+                        { 
+                           //:CREATE ENTITY TargetERD.CompareAttributeResult
+                           RESULT = CreateEntity( TargetERD, "CompareAttributeResult", zPOS_AFTER );
+                           //:TargetERD.CompareAttributeResult.AttributeID                 = SourceERD.ER_Attribute.ZKey
+                           SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeID", SourceERD, "ER_Attribute", "ZKey" );
+                           //:TargetERD.CompareAttributeResult.AttributeName               = SourceERD.ER_Attribute.Name
+                           SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "AttributeName", SourceERD, "ER_Attribute", "Name" );
+                           //:TargetERD.CompareAttributeResult.SourceDifferentDomainName   = TargetERD.Domain.Name
+                           SetAttributeFromAttribute( TargetERD, "CompareAttributeResult", "SourceDifferentDomainName", TargetERD, "Domain", "Name" );
+                           //:TargetERD.CompareAttributeResult.SourceDifferentStringLength = SourceLength
+                           SetAttributeFromInteger( TargetERD, "CompareAttributeResult", "SourceDifferentStringLength", SourceLength );
+                           //:TargetERD.CompareAttributeResult.TargetDifferentStringLength = TargetLength
+                           SetAttributeFromInteger( TargetERD, "CompareAttributeResult", "TargetDifferentStringLength", TargetLength );
+                        } 
+
+                        //:END
                      } 
 
                      //:END
@@ -4845,10 +4861,10 @@ oTZEREMDO_ERD_Compare( zVIEW     TargetERD,
                   //:END
                } 
 
+               RESULT = SetCursorNextEntity( SourceERD, "ER_Attribute", "" );
                //:END
             } 
 
-            RESULT = SetCursorNextEntity( SourceERD, "ER_Attribute", "" );
             //:END
          } 
 
@@ -4897,15 +4913,21 @@ oTZEREMDO_ERD_Compare( zVIEW     TargetERD,
          //:END
 
          //:// Eliminate any Entity entry that does not have any Attribute or Relationship differences.
-         //:IF TargetERD.CompareRelationshipResult DOES NOT EXIST AND
-         lTempInteger_0 = CheckExistenceOfEntity( TargetERD, "CompareRelationshipResult" );
-         //:   TargetERD.CompareAttributeResult DOES NOT EXIST
-         lTempInteger_1 = CheckExistenceOfEntity( TargetERD, "CompareAttributeResult" );
-         if ( lTempInteger_0 != 0 && lTempInteger_1 != 0 )
+         //:IF szMergeType != "E"
+         if ( ZeidonStringCompare( szMergeType, 1, 0, "E", 1, 0, 2 ) != 0 )
          { 
+            //:IF TargetERD.CompareRelationshipResult DOES NOT EXIST AND
+            lTempInteger_0 = CheckExistenceOfEntity( TargetERD, "CompareRelationshipResult" );
+            //:   TargetERD.CompareAttributeResult DOES NOT EXIST
+            lTempInteger_1 = CheckExistenceOfEntity( TargetERD, "CompareAttributeResult" );
+            if ( lTempInteger_0 != 0 && lTempInteger_1 != 0 )
+            { 
 
-            //:DELETE ENTITY TargetERD.CompareEntityResult NONE
-            RESULT = DeleteEntity( TargetERD, "CompareEntityResult", zREPOS_NONE );
+               //:DELETE ENTITY TargetERD.CompareEntityResult NONE
+               RESULT = DeleteEntity( TargetERD, "CompareEntityResult", zREPOS_NONE );
+            } 
+
+            //:END
          } 
 
          //:END
@@ -5078,13 +5100,15 @@ oTZEREMDO_ERD_Compare( zVIEW     TargetERD,
 //:TRANSFORMATION OPERATION
 //:ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
 //:           VIEW SourceERD BASED ON LOD TZEREMDO,
-//:           VIEW vSubtask )
+//:           VIEW vSubtask,
+//:           STRING ( 1 ) szWholeLPLRFlag )
 
 //:   VIEW TargetERD2     BASED ON LOD TZEREMDO
 zOPER_EXPORT zSHORT OPERATION
 oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
                      zVIEW     SourceERD,
-                     zVIEW     vSubtask )
+                     zVIEW     vSubtask,
+                     zPCHAR    szWholeLPLRFlag )
 {
    zVIEW     TargetERD2 = 0; 
    //:VIEW SourceERD2     BASED ON LOD TZEREMDO
@@ -5107,19 +5131,89 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
    zLONG     MetaID = 0; 
    //:INTEGER        Count
    zLONG     Count = 0; 
+   //:INTEGER        MaxYPos
+   zLONG     MaxYPos = 0; 
+   //:INTEGER        Entity1PosY
+   zLONG     Entity1PosY = 0; 
+   //:INTEGER        Entity2PosY
+   zLONG     Entity2PosY = 0; 
+   //:INTEGER        EntityNewPosX
+   zLONG     EntityNewPosX = 0; 
+   //:INTEGER        EntityOldPosXleft
+   zLONG     EntityOldPosXleft = 0; 
+   //:INTEGER        EntityOldPosXright
+   zLONG     EntityOldPosXright = 0; 
    zSHORT    RESULT; 
    zCHAR     szTempString_0[ 255 ]; 
    zCHAR     szTempString_1[ 255 ]; 
+   zLONG     lTempInteger_0; 
+   zLONG     lTempInteger_1; 
    zCHAR     szTempString_2[ 255 ]; 
    zCHAR     szTempString_3[ 255 ]; 
-   zLONG     lTempInteger_0; 
-   zCHAR     szTempString_4[ 33 ]; 
-   zCHAR     szTempString_5[ 33 ]; 
-   zLONG     lTempInteger_1; 
+   zCHAR     szTempString_4[ 255 ]; 
    zLONG     lTempInteger_2; 
+   zCHAR     szTempString_5[ 33 ]; 
+   zCHAR     szTempString_6[ 33 ]; 
    zLONG     lTempInteger_3; 
-   zCHAR     szTempString_6[ 255 ]; 
-   zSHORT    lTempInteger_4; 
+   zLONG     lTempInteger_4; 
+   zLONG     lTempInteger_5; 
+   zLONG     lTempInteger_6; 
+   zLONG     lTempInteger_7; 
+   zLONG     lTempInteger_8; 
+   zLONG     lTempInteger_9; 
+   zLONG     lTempInteger_10; 
+   zLONG     lTempInteger_11; 
+   zLONG     lTempInteger_12; 
+   zLONG     lTempInteger_13; 
+   zLONG     lTempInteger_14; 
+   zLONG     lTempInteger_15; 
+   zLONG     lTempInteger_16; 
+   zLONG     lTempInteger_17; 
+   zLONG     lTempInteger_18; 
+   zLONG     lTempInteger_19; 
+   zLONG     lTempInteger_20; 
+   zLONG     lTempInteger_21; 
+   zLONG     lTempInteger_22; 
+   zLONG     lTempInteger_23; 
+   zLONG     lTempInteger_24; 
+   zLONG     lTempInteger_25; 
+   zLONG     lTempInteger_26; 
+   zLONG     lTempInteger_27; 
+   zLONG     lTempInteger_28; 
+   zLONG     lTempInteger_29; 
+   zLONG     lTempInteger_30; 
+   zLONG     lTempInteger_31; 
+   zLONG     lTempInteger_32; 
+   zLONG     lTempInteger_33; 
+   zLONG     lTempInteger_34; 
+   zLONG     lTempInteger_35; 
+   zLONG     lTempInteger_36; 
+   zLONG     lTempInteger_37; 
+   zLONG     lTempInteger_38; 
+   zLONG     lTempInteger_39; 
+   zLONG     lTempInteger_40; 
+   zLONG     lTempInteger_41; 
+   zLONG     lTempInteger_42; 
+   zLONG     lTempInteger_43; 
+   zLONG     lTempInteger_44; 
+   zLONG     lTempInteger_45; 
+   zLONG     lTempInteger_46; 
+   zLONG     lTempInteger_47; 
+   zLONG     lTempInteger_48; 
+   zLONG     lTempInteger_49; 
+   zLONG     lTempInteger_50; 
+   zLONG     lTempInteger_51; 
+   zLONG     lTempInteger_52; 
+   zLONG     lTempInteger_53; 
+   zLONG     lTempInteger_54; 
+   zLONG     lTempInteger_55; 
+   zLONG     lTempInteger_56; 
+   zLONG     lTempInteger_57; 
+   zLONG     lTempInteger_58; 
+   zLONG     lTempInteger_59; 
+   zLONG     lTempInteger_60; 
+   zCHAR     szTempString_7[ 255 ]; 
+   zSHORT    lTempInteger_61; 
 
 
    //:// Merge the SourceERD into the TargetERD based on the selection specified in the
@@ -5170,12 +5264,55 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
 
    //:END
 
+   //:// DonC 04/06/22 - It is the object of this algorithm to create the new Entity icons in the ER diagram as a group underneath the
+   //:// current Entity icons. Thus, we will search the target ER to get the Entity with the largest vertical position and
+   //:// add 15 to it as the beginning Y position for the new Entities.
+   //:MaxYPos = 0
+   MaxYPos = 0;
+   //:FOR TargetERD.ER_Entity 
+   RESULT = SetCursorFirstEntity( TargetERD, "ER_Entity", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:IF TargetERD.ER_Entity.ER_DiagramPosY > MaxYPos
+      if ( CompareAttributeToInteger( TargetERD, "ER_Entity", "ER_DiagramPosY", MaxYPos ) > 0 )
+      { 
+         //:MaxYPos = TargetERD.ER_Entity.ER_DiagramPosY 
+         GetIntegerFromAttribute( &MaxYPos, TargetERD, "ER_Entity", "ER_DiagramPosY" );
+      } 
+
+      RESULT = SetCursorNextEntity( TargetERD, "ER_Entity", "" );
+      //:END 
+   } 
+
+   //:END
+   //:MaxYPos = MaxYPos + 15
+   MaxYPos = MaxYPos + 15;
+
+   //:   
+   //:// KJS 04/06/22 - If we are merging the "whole" lplr, lets loop through the display and mark all as "selected".
+   //:IF szWholeLPLRFlag = "Y"
+   if ( ZeidonStringCompare( szWholeLPLRFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+      //:FOR EACH TargetERD.DisplayCompareResult
+      RESULT = SetCursorFirstEntity( TargetERD, "DisplayCompareResult", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //:TargetERD.DisplayCompareResult.SelectedFlag = "Y"
+         SetAttributeFromString( TargetERD, "DisplayCompareResult", "SelectedFlag", "Y" );
+         RESULT = SetCursorNextEntity( TargetERD, "DisplayCompareResult", "" );
+      } 
+
+      //:END
+   } 
+
+   //:END
+
    //:// Loop through the selected Display entries and copy over those selected Entities, Attributes and Relationships.
    //:FOR EACH TargetERD.DisplayCompareResult
    RESULT = SetCursorFirstEntity( TargetERD, "DisplayCompareResult", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
    { 
-      //:IF TargetERD.DisplayCompareResult.SelectedFlag = "Y"
+      //:IF TargetERD.DisplayCompareResult.SelectedFlag = "Y" //OR szWholeLPLRFlag = "Y"
       if ( CompareAttributeToString( TargetERD, "DisplayCompareResult", "SelectedFlag", "Y" ) == 0 )
       { 
          //:// ER_Entity Type.
@@ -5210,6 +5347,106 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
                CreateMetaEntity( vSubtask, TargetERD, "ER_Entity", zPOS_AFTER );
                //:SetMatchingAttributesByName( TargetERD, "ER_Entity", SourceERD, "ER_Entity", zSET_NULL )
                SetMatchingAttributesByName( TargetERD, "ER_Entity", SourceERD, "ER_Entity", zSET_NULL );
+               //:IF szWholeLPLRFlag = "Y" // DonC - 04/06/22
+               if ( ZeidonStringCompare( szWholeLPLRFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
+               { 
+                  //:TargetERD.ER_Entity.ER_DiagramPosY = TargetERD.ER_Entity.ER_DiagramPosY + MaxYPos   // Increment to below current ER
+                  GetIntegerFromAttribute( &lTempInteger_0, TargetERD, "ER_Entity", "ER_DiagramPosY" );
+                  lTempInteger_1 = lTempInteger_0 + MaxYPos;
+                  SetAttributeFromInteger( TargetERD, "ER_Entity", "ER_DiagramPosY", lTempInteger_1 );
+                  //:// Need to copy attributes.
+                  //:FOR EACH SourceERD.ER_Attribute
+                  RESULT = SetCursorFirstEntity( SourceERD, "ER_Attribute", "" );
+                  while ( RESULT > zCURSOR_UNCHANGED )
+                  { 
+                     //:SET CURSOR LAST TargetERD.ER_Attribute
+                     RESULT = SetCursorLastEntity( TargetERD, "ER_Attribute", "" );
+                     //:CreateMetaEntity( vSubtask, TargetERD, "ER_Attribute", zPOS_AFTER )
+                     CreateMetaEntity( vSubtask, TargetERD, "ER_Attribute", zPOS_AFTER );
+                     //:SetMatchingAttributesByName( TargetERD, "ER_Attribute", SourceERD, "ER_Attribute", zSET_NULL )
+                     SetMatchingAttributesByName( TargetERD, "ER_Attribute", SourceERD, "ER_Attribute", zSET_NULL );
+
+                     //:// Get Domain or create new Domain.
+                     //:DomainName = SourceERD.Domain.Name
+                     GetVariableFromAttribute( DomainName, 0, 'S', 33, SourceERD, "Domain", "Name", "", 0 );
+                     //:nRC = ActivateMetaOI_ByName( vSubtask, NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, DomainName, 0 )
+                     nRC = ActivateMetaOI_ByName( vSubtask, &NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, DomainName, 0 );
+                     //:IF nRC >= 0
+                     if ( nRC >= 0 )
+                     { 
+                        //:// The Domain exists in Current LPLR, so include it here.
+                        //:INCLUDE TargetERD.Domain FROM NewDomain.Domain
+                        RESULT = IncludeSubobjectFromSubobject( TargetERD, "Domain", NewDomain, "Domain", zPOS_AFTER );
+                        //:DropMetaOI( vSubtask, NewDomain )
+                        DropMetaOI( vSubtask, NewDomain );
+                        //:ELSE
+                     } 
+                     else
+                     { 
+                        //:// The Domain doesn't exist in Current LPLR, so add it, if there is a Source LPLR.
+                        //:IF SourceLPLR != 0
+                        if ( SourceLPLR != 0 )
+                        { 
+                           //:DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
+                           //:                CurrentLPLR.LPLR.wFullyQualifiedFileName,    // Source LPLR Directory Structure
+                           //:                DomainName, vSubtask )
+                           GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
+                           oTZDGSRCO_DomainAddForMerge( &NewDomain, SourceLPLR, CurrentLPLR, szTempString_1, DomainName, vSubtask );
+                           //:ELSE
+                        } 
+                        else
+                        { 
+                           //:szMsg = "Domain, " + DomainName + ", from the Source ERD does not exist in the current LPLR and " +
+                           //:     "no Source LPLR was specified. The Merge function is aborted."
+                           ZeidonStringCopy( szMsg, 1, 0, "Domain, ", 1, 0, 301 );
+                           ZeidonStringConcat( szMsg, 1, 0, DomainName, 1, 0, 301 );
+                           ZeidonStringConcat( szMsg, 1, 0, ", from the Source ERD does not exist in the current LPLR and ", 1, 0, 301 );
+                           ZeidonStringConcat( szMsg, 1, 0, "no Source LPLR was specified. The Merge function is aborted.", 1, 0, 301 );
+                           //:MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+                           MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+                           //:RETURN -1
+                           return( -1 );
+                        } 
+
+                        //:END
+                     } 
+
+                     RESULT = SetCursorNextEntity( SourceERD, "ER_Attribute", "" );
+                     //:END
+                  } 
+
+
+                  //:END // FOR EACH SourceERD.ER_Attribute
+
+                  //:// Copy ID Identifier.
+                  //:SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = "ID"
+                  RESULT = SetCursorFirstEntityByString( TargetERD, "ER_Attribute", "Name", "ID", "" );
+                  //:IF RESULT >= zCURSOR_SET 
+                  if ( RESULT >= zCURSOR_SET )
+                  { 
+                     //:CreateMetaEntity( vSubtask, TargetERD, "ER_EntIdentifier", zPOS_AFTER )
+                     CreateMetaEntity( vSubtask, TargetERD, "ER_EntIdentifier", zPOS_AFTER );
+                     //:SetMatchingAttributesByName( TargetERD, "ER_EntIdentifier", SourceERD, "ER_EntIdentifier", zSET_NULL )
+                     SetMatchingAttributesByName( TargetERD, "ER_EntIdentifier", SourceERD, "ER_EntIdentifier", zSET_NULL );
+                     //:CreateMetaEntity( vSubtask, TargetERD, "ER_FactType", zPOS_AFTER )
+                     CreateMetaEntity( vSubtask, TargetERD, "ER_FactType", zPOS_AFTER );
+                     //:SetMatchingAttributesByName( TargetERD, "ER_FactType", SourceERD, "ER_FactType", zSET_NULL )
+                     SetMatchingAttributesByName( TargetERD, "ER_FactType", SourceERD, "ER_FactType", zSET_NULL );
+                     //:INCLUDE TargetERD.ER_AttributeIdentifier FROM TargetERD.ER_Attribute 
+                     RESULT = IncludeSubobjectFromSubobject( TargetERD, "ER_AttributeIdentifier", TargetERD, "ER_Attribute", zPOS_AFTER );
+                  } 
+
+                  //:END
+               } 
+
+               //:END
+            } 
+
+            //:END
+
+            //:IF szWholeLPLRFlag = "Y" 
+            if ( ZeidonStringCompare( szWholeLPLRFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
+            { 
             } 
 
             //:END
@@ -5234,20 +5471,20 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
                { 
                   //:SET CURSOR FIRST TargetERD.ER_Entity
                   //:           WHERE TargetERD.ER_Entity.Name = TargetERD.DisplayCompareResult.SourceEntityName
-                  GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), TargetERD, "DisplayCompareResult", "SourceEntityName" );
-                  RESULT = SetCursorFirstEntityByString( TargetERD, "ER_Entity", "Name", szTempString_1, "" );
+                  GetStringFromAttribute( szTempString_2, zsizeof( szTempString_2 ), TargetERD, "DisplayCompareResult", "SourceEntityName" );
+                  RESULT = SetCursorFirstEntityByString( TargetERD, "ER_Entity", "Name", szTempString_2, "" );
                   //:IF RESULT < zCURSOR_SET
                   if ( RESULT < zCURSOR_SET )
                   { 
                      //:szMsg = "Entity " + TargetERD.DisplayCompareResult.SourceEntityName  +
                      //:        " for Attribute " + TargetERD.DisplayCompareResult.SourceAttributeName +
                      //:        " does not exist in the current ERD. The Merge function is aborted."
-                     GetVariableFromAttribute( szTempString_1, 0, 'S', 255, TargetERD, "DisplayCompareResult", "SourceEntityName", "", 0 );
+                     GetVariableFromAttribute( szTempString_2, 0, 'S', 255, TargetERD, "DisplayCompareResult", "SourceEntityName", "", 0 );
                      ZeidonStringCopy( szMsg, 1, 0, "Entity ", 1, 0, 301 );
-                     ZeidonStringConcat( szMsg, 1, 0, szTempString_1, 1, 0, 301 );
-                     ZeidonStringConcat( szMsg, 1, 0, " for Attribute ", 1, 0, 301 );
-                     GetVariableFromAttribute( szTempString_2, 0, 'S', 255, TargetERD, "DisplayCompareResult", "SourceAttributeName", "", 0 );
                      ZeidonStringConcat( szMsg, 1, 0, szTempString_2, 1, 0, 301 );
+                     ZeidonStringConcat( szMsg, 1, 0, " for Attribute ", 1, 0, 301 );
+                     GetVariableFromAttribute( szTempString_3, 0, 'S', 255, TargetERD, "DisplayCompareResult", "SourceAttributeName", "", 0 );
+                     ZeidonStringConcat( szMsg, 1, 0, szTempString_3, 1, 0, 301 );
                      ZeidonStringConcat( szMsg, 1, 0, " does not exist in the current ERD. The Merge function is aborted.", 1, 0, 301 );
                      //:MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
                      MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
@@ -5266,14 +5503,14 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
                { 
                   //:SET CURSOR FIRST SourceERD.ER_Entity
                   //:           WHERE SourceERD.ER_Entity.Name = TargetERD.DisplayCompareResult.SourceEntityName
-                  GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), TargetERD, "DisplayCompareResult", "SourceEntityName" );
-                  RESULT = SetCursorFirstEntityByString( SourceERD, "ER_Entity", "Name", szTempString_3, "" );
+                  GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), TargetERD, "DisplayCompareResult", "SourceEntityName" );
+                  RESULT = SetCursorFirstEntityByString( SourceERD, "ER_Entity", "Name", szTempString_4, "" );
                } 
 
                //:END
                //:SET CURSOR FIRST SourceERD.ER_Attribute WHERE SourceERD.ER_Attribute.Name = TargetERD.DisplayCompareResult.SourceAttributeName
-               GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), TargetERD, "DisplayCompareResult", "SourceAttributeName" );
-               RESULT = SetCursorFirstEntityByString( SourceERD, "ER_Attribute", "Name", szTempString_3, "" );
+               GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), TargetERD, "DisplayCompareResult", "SourceAttributeName" );
+               RESULT = SetCursorFirstEntityByString( SourceERD, "ER_Attribute", "Name", szTempString_4, "" );
 
                //:// Create ER_Attribute at end of current ER_Attributes.
                //:SET CURSOR LAST TargetERD.ER_Attribute
@@ -5307,8 +5544,8 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
                      //:DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
                      //:                   CurrentLPLR.LPLR.wFullyQualifiedFileName,    // Source LPLR Directory Structure
                      //:                   DomainName, vSubtask )
-                     GetStringFromAttribute( szTempString_3, zsizeof( szTempString_3 ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
-                     oTZDGSRCO_DomainAddForMerge( &NewDomain, SourceLPLR, CurrentLPLR, szTempString_3, DomainName, vSubtask );
+                     GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), CurrentLPLR, "LPLR", "wFullyQualifiedFileName" );
+                     oTZDGSRCO_DomainAddForMerge( &NewDomain, SourceLPLR, CurrentLPLR, szTempString_4, DomainName, vSubtask );
                      //:ELSE
                   } 
                   else
@@ -5421,8 +5658,8 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
 
             //:// First position on the Relationship to be copied in the Source ERD.
             //:SET CURSOR FIRST SourceERD.ER_RelType WHERE SourceERD.ER_RelType.ZKey = TargetERD.DisplayCompareResult.MetaID
-            GetIntegerFromAttribute( &lTempInteger_0, TargetERD, "DisplayCompareResult", "MetaID" );
-            RESULT = SetCursorFirstEntityByInteger( SourceERD, "ER_RelType", "ZKey", lTempInteger_0, "" );
+            GetIntegerFromAttribute( &lTempInteger_2, TargetERD, "DisplayCompareResult", "MetaID" );
+            RESULT = SetCursorFirstEntityByInteger( SourceERD, "ER_RelType", "ZKey", lTempInteger_2, "" );
             //:SET CURSOR LAST TargetERD.ER_RelType
             RESULT = SetCursorLastEntity( TargetERD, "ER_RelType", "" );
 
@@ -5431,15 +5668,15 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
 
             //:// First SourceERD/TargetERD.
             //:SET CURSOR FIRST TargetERD.ER_Entity WHERE TargetERD.ER_Entity.Name = SourceERD.ER_Entity_2.Name
-            GetStringFromAttribute( szTempString_4, zsizeof( szTempString_4 ), SourceERD, "ER_Entity_2", "Name" );
-            RESULT = SetCursorFirstEntityByString( TargetERD, "ER_Entity", "Name", szTempString_4, "" );
+            GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), SourceERD, "ER_Entity_2", "Name" );
+            RESULT = SetCursorFirstEntityByString( TargetERD, "ER_Entity", "Name", szTempString_5, "" );
             //:IF RESULT < zCURSOR_SET
             if ( RESULT < zCURSOR_SET )
             { 
                //:szMsg = "Entity, " + SourceERD.ER_Entity_2.Name + ", of Relationship does not exist. The Copy Relationship function is aborted."
-               GetVariableFromAttribute( szTempString_4, 0, 'S', 33, SourceERD, "ER_Entity_2", "Name", "", 0 );
+               GetVariableFromAttribute( szTempString_5, 0, 'S', 33, SourceERD, "ER_Entity_2", "Name", "", 0 );
                ZeidonStringCopy( szMsg, 1, 0, "Entity, ", 1, 0, 301 );
-               ZeidonStringConcat( szMsg, 1, 0, szTempString_4, 1, 0, 301 );
+               ZeidonStringConcat( szMsg, 1, 0, szTempString_5, 1, 0, 301 );
                ZeidonStringConcat( szMsg, 1, 0, ", of Relationship does not exist. The Copy Relationship function is aborted.", 1, 0, 301 );
                //:MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
                MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
@@ -5459,15 +5696,15 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
             //:SET CURSOR NEXT SourceERD2.ER_RelLink_2
             RESULT = SetCursorNextEntity( SourceERD2, "ER_RelLink_2", "" );
             //:SET CURSOR FIRST TargetERD2.ER_Entity WHERE TargetERD2.ER_Entity.Name = SourceERD2.ER_Entity_2.Name
-            GetStringFromAttribute( szTempString_5, zsizeof( szTempString_5 ), SourceERD2, "ER_Entity_2", "Name" );
-            RESULT = SetCursorFirstEntityByString( TargetERD2, "ER_Entity", "Name", szTempString_5, "" );
+            GetStringFromAttribute( szTempString_6, zsizeof( szTempString_6 ), SourceERD2, "ER_Entity_2", "Name" );
+            RESULT = SetCursorFirstEntityByString( TargetERD2, "ER_Entity", "Name", szTempString_6, "" );
             //:IF RESULT < zCURSOR_SET
             if ( RESULT < zCURSOR_SET )
             { 
                //:szMsg = "Entity, " + SourceERD2.ER_Entity_2.Name + ", of Relationship does not exist. The Copy Relationship function is aborted."
-               GetVariableFromAttribute( szTempString_5, 0, 'S', 33, SourceERD2, "ER_Entity_2", "Name", "", 0 );
+               GetVariableFromAttribute( szTempString_6, 0, 'S', 33, SourceERD2, "ER_Entity_2", "Name", "", 0 );
                ZeidonStringCopy( szMsg, 1, 0, "Entity, ", 1, 0, 301 );
-               ZeidonStringConcat( szMsg, 1, 0, szTempString_5, 1, 0, 301 );
+               ZeidonStringConcat( szMsg, 1, 0, szTempString_6, 1, 0, 301 );
                ZeidonStringConcat( szMsg, 1, 0, ", of Relationship does not exist. The Copy Relationship function is aborted.", 1, 0, 301 );
                //:MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
                MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
@@ -5492,8 +5729,8 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
             RESULT = IncludeSubobjectFromSubobject( TargetERD, "ER_Entity_2", TargetERD, "ER_Entity", zPOS_AFTER );
 
             //:SET CURSOR FIRST TargetERD.ER_RelLink WHERE TargetERD.ER_RelLink.ZKey = TargetERD.ER_RelLink_2.ZKey
-            GetIntegerFromAttribute( &lTempInteger_1, TargetERD, "ER_RelLink_2", "ZKey" );
-            RESULT = SetCursorFirstEntityByInteger( TargetERD, "ER_RelLink", "ZKey", lTempInteger_1, "" );
+            GetIntegerFromAttribute( &lTempInteger_3, TargetERD, "ER_RelLink_2", "ZKey" );
+            RESULT = SetCursorFirstEntityByInteger( TargetERD, "ER_RelLink", "ZKey", lTempInteger_3, "" );
 
             //:// TargetERD Relationship Side.
             //:CreateMetaEntity( vSubtask, TargetERD, "ER_RelLink_2", zPOS_AFTER )
@@ -5503,17 +5740,388 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
             //:INCLUDE TargetERD.ER_Entity_2 FROM TargetERD2.ER_Entity
             RESULT = IncludeSubobjectFromSubobject( TargetERD, "ER_Entity_2", TargetERD2, "ER_Entity", zPOS_AFTER );
 
+            //:IF szWholeLPLRFlag != "Y" 
+            if ( ZeidonStringCompare( szWholeLPLRFlag, 1, 0, "Y", 1, 0, 2 ) != 0 )
+            { 
+
+               //:// Finish relationship processing when NOT merging whole LPLR.
+               //:SET CURSOR FIRST TargetERD.ER_RelLink WHERE TargetERD.ER_RelLink.ZKey = TargetERD.ER_RelLink_2.ZKey
+               GetIntegerFromAttribute( &lTempInteger_4, TargetERD, "ER_RelLink_2", "ZKey" );
+               RESULT = SetCursorFirstEntityByInteger( TargetERD, "ER_RelLink", "ZKey", lTempInteger_4, "" );
+
+               //:// TargetERD Relationship Side.
+               //:CreateMetaEntity( vSubtask, TargetERD, "ER_RelLink_2", zPOS_AFTER )
+               CreateMetaEntity( vSubtask, TargetERD, "ER_RelLink_2", zPOS_AFTER );
+               //:SetMatchingAttributesByName( TargetERD, "ER_RelLink_2", SourceERD2, "ER_RelLink_2", zSET_NULL )
+               SetMatchingAttributesByName( TargetERD, "ER_RelLink_2", SourceERD2, "ER_RelLink_2", zSET_NULL );
+               //:INCLUDE TargetERD.ER_Entity_2 FROM TargetERD2.ER_Entity
+               RESULT = IncludeSubobjectFromSubobject( TargetERD, "ER_Entity_2", TargetERD2, "ER_Entity", zPOS_AFTER );
+
+               //:ELSE
+            } 
+            else
+            { 
+
+               //:// RESETTING RELTYPE POSITIONS WHEN MERGING WHOLE LPLR.        
+               //://   DonC changes 4/8/2022
+               //:/*   All ER_RelType positions must be reevaluated because of the new positions of Entities as follows:
+
+               //:In determining the RelType position values, there are 3 separate conditions:
+               //:1. Both entities in the relationship belong to the original targer ER and they're not modified at all.
+               //:2. Both entities in the relationship belong to the new source ER and the Y values are incremented.
+               //:3. One entity is from the source and one the target, so all positions must be re-evaluated.
+
+               //:Re-evaluate all positions as follows:
+               //:    (In understanding the increments below, it is helpful to know that a box width and height are considered 8 and 3,)
+
+               //:The E1PosX and E2PosX values depend on whether the ER_Entity2 entries are old or new.
+               //:There are 6 conditions for this with processing as follows:
+               //:1. The first Entity is the New Entity
+               //:   a. The Old Entity is to left of New Entity. (up then left)
+               //:      E1X = New Entity PosX + 4 (half-way across box)
+               //:      E1Y = New Entity PosY - 1 (top of box)
+               //:      E2X = Old Entity PosX + 9 (right side of box)
+               //:      E2Y = Old Entity PosY + 2 (half-way down box)
+               //:      BendX = E1X
+               //:      BendY = E2Y
+               //:   b. The Old Entity is to right of New Entity. (up then right)
+               //:      E1X = New Entity PosX + 4 (half-way across box) 
+               //:      E1Y = New Entity PosY - 1 (top of box)
+               //:      E2X = Old Entity PosX - 1 (left side of box)
+               //:      E2Y = Old Entity PosY + 2 (half-way down box)
+               //:      BendX = E1X
+               //:      BendY = E2Y
+               //:   c. The Old Entity is above New Entity
+               //:      E1X = New Entity PosX + 4 (half-way across box)
+               //:      E1Y = New Entity PosY - 1 (top of box)
+               //:      E2X = New Entity PosX + 4 (old X is same as new X)
+               //:      E2Y = Old Entity PosY + 5 (bottom of box)
+               //:      BendX = 0
+               //:      BendY = 0
+
+               //:2. The first Entity is the Old Entity
+               //:   a. The Old Entity is to left of New Entity.   (up then left)
+               //:      E1X = Old Entity PosX + 9 (right side of box)
+               //:      E1Y = Old Entity PosY + 2 (half-way down box)
+               //:      E2X = New Entity PosX + 4 (half-way across box)
+               //:      E2Y = New Entity PosY - 1 (top of box)
+               //:      BendX = E1X
+               //:      BendY = E2Y
+               //:   b. The Old Entity is to right of New Entity.  (up then right)
+               //:      E1X = Old Entity PosX - 1 (left side of box)
+               //:      E1Y = Old Entity PosY + 2 (half-way down box)
+               //:      E2X = New Entity PosX + 4 (half-way across box) 
+               //:      E2Y = New Entity PosY - 1 (top of box)
+               //:      BendX = E1X
+               //:      BendY = E2Y
+               //:   c. The Old Entity is above New Entity
+               //:      E2X = New Entity PosX + 4 (half-way across box)
+               //:      E2Y = New Entity PosY - 1 (top of box)
+               //:      E1X = New Entity PosX + 4 (old X is same as new X)
+               //:      E1Y = Old Entity PosY + 5 (bottom of box)
+               //:      BendX = 0
+               //:      BendY = 0
+               //:*/
+
+               //:// We'll determine whether an entity is new or old depending on its Y position.
+               //:SET CURSOR FIRST TargetERD.ER_RelLink_2 
+               RESULT = SetCursorFirstEntity( TargetERD, "ER_RelLink_2", "" );
+               //:Entity1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY
+               GetIntegerFromAttribute( &Entity1PosY, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+               //:SET CURSOR NEXT TargetERD.ER_RelLink_2 
+               RESULT = SetCursorNextEntity( TargetERD, "ER_RelLink_2", "" );
+               //:Entity2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY
+               GetIntegerFromAttribute( &Entity2PosY, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+
+               //:IF Entity1PosY < MaxYPos AND Entity2PosY < MaxYPos
+               if ( Entity1PosY < MaxYPos && Entity2PosY < MaxYPos )
+               { 
+
+                  //:// Both entities are old, so don'modify RelType positions.
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:IF Entity1PosY > MaxYPos AND Entity2PosY > MaxYPos
+                  if ( Entity1PosY > MaxYPos && Entity2PosY > MaxYPos )
+                  { 
+
+                     //:// Both entities are new, so just increment Y positions by MaxYPos, except for BendY when it's zero.
+                     //:TargetERD.ER_RelType.ER_DiagramE1PosY   = TargetERD.ER_RelType.ER_DiagramE1PosY   + MaxYPos
+                     GetIntegerFromAttribute( &lTempInteger_5, TargetERD, "ER_RelType", "ER_DiagramE1PosY" );
+                     lTempInteger_6 = lTempInteger_5 + MaxYPos;
+                     SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosY", lTempInteger_6 );
+                     //:TargetERD.ER_RelType.ER_DiagramE2PosY   = TargetERD.ER_RelType.ER_DiagramE2PosY   + MaxYPos
+                     GetIntegerFromAttribute( &lTempInteger_7, TargetERD, "ER_RelType", "ER_DiagramE2PosY" );
+                     lTempInteger_8 = lTempInteger_7 + MaxYPos;
+                     SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosY", lTempInteger_8 );
+                     //:IF TargetERD.ER_RelType.ER_DiagramBendPosY != 0
+                     if ( CompareAttributeToInteger( TargetERD, "ER_RelType", "ER_DiagramBendPosY", 0 ) != 0 )
+                     { 
+                        //:TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramBendPosY + MaxYPos
+                        GetIntegerFromAttribute( &lTempInteger_9, TargetERD, "ER_RelType", "ER_DiagramBendPosY" );
+                        lTempInteger_10 = lTempInteger_9 + MaxYPos;
+                        SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramBendPosY", lTempInteger_10 );
+                     } 
+
+                     //:END
+
+                     //:ELSE
+                  } 
+                  else
+                  { 
+                     //:// Entities are a combination and all positions must be reevaluated.
+
+                     //:IF Entity1PosY > MaxYPos
+                     if ( Entity1PosY > MaxYPos )
+                     { 
+                        //:// 1. The first Entity is the New Entity
+                        //:SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                        RESULT = SetCursorFirstEntity( TargetERD, "ER_RelLink_2", "" );
+                        //:EntityNewPosX = TargetERD.ER_Entity_2.ER_DiagramPosX 
+                        GetIntegerFromAttribute( &EntityNewPosX, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                        //:SET CURSOR NEXT TargetERD.ER_RelLink_2 
+                        RESULT = SetCursorNextEntity( TargetERD, "ER_RelLink_2", "" );
+                        //:EntityOldPosXleft  = TargetERD.ER_Entity_2.ER_DiagramPosX + 8
+                        GetIntegerFromAttribute( &lTempInteger_11, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                        EntityOldPosXleft = lTempInteger_11 + 8;
+                        //:EntityOldPosXright = TargetERD.ER_Entity_2.ER_DiagramPosX - 8
+                        GetIntegerFromAttribute( &lTempInteger_12, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                        EntityOldPosXright = lTempInteger_12 - 8;
+
+                        //:IF EntityOldPosXleft < EntityNewPosX     // + 8 makes sure old entity is at least a box width left
+                        if ( EntityOldPosXleft < EntityNewPosX )
+                        { 
+                           //:// a. The Old Entity is to left of New Entity. (up then left)
+                           //:SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                           RESULT = SetCursorFirstEntity( TargetERD, "ER_RelLink_2", "" );
+                           //:TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                           GetIntegerFromAttribute( &lTempInteger_13, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                           lTempInteger_14 = lTempInteger_13 + 4;
+                           SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosX", lTempInteger_14 );
+                           //:TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                           GetIntegerFromAttribute( &lTempInteger_15, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                           lTempInteger_16 = lTempInteger_15 - 1;
+                           SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosY", lTempInteger_16 );
+                           //:SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                           RESULT = SetCursorNextEntity( TargetERD, "ER_RelLink_2", "" );
+                           //:TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 9 // (right side of box)
+                           GetIntegerFromAttribute( &lTempInteger_17, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                           lTempInteger_18 = lTempInteger_17 + 9;
+                           SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosX", lTempInteger_18 );
+                           //:TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                           GetIntegerFromAttribute( &lTempInteger_19, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                           lTempInteger_20 = lTempInteger_19 + 2;
+                           SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosY", lTempInteger_20 );
+                           //:TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
+                           SetAttributeFromAttribute( TargetERD, "ER_RelType", "ER_DiagramBendPosX", TargetERD, "ER_RelType", "ER_DiagramE1PosX" );
+                           //:TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY 
+                           SetAttributeFromAttribute( TargetERD, "ER_RelType", "ER_DiagramBendPosY", TargetERD, "ER_RelType", "ER_DiagramE2PosY" );
+                           //:ELSE
+                        } 
+                        else
+                        { 
+                           //:IF EntityOldPosXright > EntityNewPosX     // - 8 makes sure old entity is at least a box width right
+                           if ( EntityOldPosXright > EntityNewPosX )
+                           { 
+                              //:// b. The Old Entity is to right of New Entity. (up then right)
+                              //:SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                              RESULT = SetCursorFirstEntity( TargetERD, "ER_RelLink_2", "" );
+                              //:TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                              GetIntegerFromAttribute( &lTempInteger_21, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                              lTempInteger_22 = lTempInteger_21 + 4;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosX", lTempInteger_22 );
+                              //:TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                              GetIntegerFromAttribute( &lTempInteger_23, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                              lTempInteger_24 = lTempInteger_23 - 1;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosY", lTempInteger_24 );
+                              //:SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                              RESULT = SetCursorNextEntity( TargetERD, "ER_RelLink_2", "" );
+                              //:TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX - 1 // (left side of box)
+                              GetIntegerFromAttribute( &lTempInteger_25, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                              lTempInteger_26 = lTempInteger_25 - 1;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosX", lTempInteger_26 );
+                              //:TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                              GetIntegerFromAttribute( &lTempInteger_27, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                              lTempInteger_28 = lTempInteger_27 + 2;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosY", lTempInteger_28 );
+                              //:TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
+                              SetAttributeFromAttribute( TargetERD, "ER_RelType", "ER_DiagramBendPosX", TargetERD, "ER_RelType", "ER_DiagramE1PosX" );
+                              //:TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY
+                              SetAttributeFromAttribute( TargetERD, "ER_RelType", "ER_DiagramBendPosY", TargetERD, "ER_RelType", "ER_DiagramE2PosY" );
+                              //:ELSE
+                           } 
+                           else
+                           { 
+                              //:// c. The Old Entity is above New Entity
+                              //:SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                              RESULT = SetCursorFirstEntity( TargetERD, "ER_RelLink_2", "" );
+                              //:TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                              GetIntegerFromAttribute( &lTempInteger_29, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                              lTempInteger_30 = lTempInteger_29 + 4;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosX", lTempInteger_30 );
+                              //:TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                              GetIntegerFromAttribute( &lTempInteger_31, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                              lTempInteger_32 = lTempInteger_31 - 1;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosY", lTempInteger_32 );
+                              //:SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                              RESULT = SetCursorNextEntity( TargetERD, "ER_RelLink_2", "" );
+                              //:TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_RelType.ER_DiagramE1PosX    // (old X is same as new X)
+                              SetAttributeFromAttribute( TargetERD, "ER_RelType", "ER_DiagramE2PosX", TargetERD, "ER_RelType", "ER_DiagramE1PosX" );
+                              //:TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 5 // (bottom of box)
+                              GetIntegerFromAttribute( &lTempInteger_33, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                              lTempInteger_34 = lTempInteger_33 + 5;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosY", lTempInteger_34 );
+                              //:TargetERD.ER_RelType.ER_DiagramBendPosX = 0 // No Bend
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramBendPosX", 0 );
+                              //:TargetERD.ER_RelType.ER_DiagramBendPosY = 0 // No Bend
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramBendPosY", 0 );
+                           } 
+
+                           //:END
+                        } 
+
+                        //:END
+
+                        //:ELSE
+                     } 
+                     else
+                     { 
+                        //:// 2. The first Entity is the Old Entity
+                        //:SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                        RESULT = SetCursorFirstEntity( TargetERD, "ER_RelLink_2", "" );
+                        //:EntityOldPosXleft  = TargetERD.ER_Entity_2.ER_DiagramPosX + 8
+                        GetIntegerFromAttribute( &lTempInteger_35, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                        EntityOldPosXleft = lTempInteger_35 + 8;
+                        //:EntityOldPosXright = TargetERD.ER_Entity_2.ER_DiagramPosX - 8
+                        GetIntegerFromAttribute( &lTempInteger_36, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                        EntityOldPosXright = lTempInteger_36 - 8;
+                        //:SET CURSOR NEXT TargetERD.ER_RelLink_2
+                        RESULT = SetCursorNextEntity( TargetERD, "ER_RelLink_2", "" );
+                        //:EntityNewPosX = TargetERD.ER_Entity_2.ER_DiagramPosX
+                        GetIntegerFromAttribute( &EntityNewPosX, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+
+                        //:IF EntityOldPosXleft < EntityNewPosX     // + 8 makes sure old entity is at least a box width left
+                        if ( EntityOldPosXleft < EntityNewPosX )
+                        { 
+                           //:// a. The Old Entity is to left of New Entity.   (up then left)
+                           //:SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                           RESULT = SetCursorFirstEntity( TargetERD, "ER_RelLink_2", "" );
+                           //:TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 9 // (right side of box)
+                           GetIntegerFromAttribute( &lTempInteger_37, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                           lTempInteger_38 = lTempInteger_37 + 9;
+                           SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosX", lTempInteger_38 );
+                           //:TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                           GetIntegerFromAttribute( &lTempInteger_39, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                           lTempInteger_40 = lTempInteger_39 + 2;
+                           SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosY", lTempInteger_40 );
+                           //:SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                           RESULT = SetCursorNextEntity( TargetERD, "ER_RelLink_2", "" );
+                           //:TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                           GetIntegerFromAttribute( &lTempInteger_41, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                           lTempInteger_42 = lTempInteger_41 + 4;
+                           SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosX", lTempInteger_42 );
+                           //:TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                           GetIntegerFromAttribute( &lTempInteger_43, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                           lTempInteger_44 = lTempInteger_43 - 1;
+                           SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosY", lTempInteger_44 );
+                           //:TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
+                           SetAttributeFromAttribute( TargetERD, "ER_RelType", "ER_DiagramBendPosX", TargetERD, "ER_RelType", "ER_DiagramE1PosX" );
+                           //:TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY 
+                           SetAttributeFromAttribute( TargetERD, "ER_RelType", "ER_DiagramBendPosY", TargetERD, "ER_RelType", "ER_DiagramE2PosY" );
+                           //:ELSE
+                        } 
+                        else
+                        { 
+                           //:IF EntityOldPosXright > EntityNewPosX     // - 8 makes sure old entity is at least a box width right
+                           if ( EntityOldPosXright > EntityNewPosX )
+                           { 
+                              //:// b. The Old Entity is to right of New Entity.  (up then right)
+                              //:SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                              RESULT = SetCursorFirstEntity( TargetERD, "ER_RelLink_2", "" );
+                              //:TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX - 1 // (left side of box)
+                              GetIntegerFromAttribute( &lTempInteger_45, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                              lTempInteger_46 = lTempInteger_45 - 1;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosX", lTempInteger_46 );
+                              //:TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                              GetIntegerFromAttribute( &lTempInteger_47, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                              lTempInteger_48 = lTempInteger_47 + 2;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosY", lTempInteger_48 );
+                              //:SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                              RESULT = SetCursorNextEntity( TargetERD, "ER_RelLink_2", "" );
+                              //:TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                              GetIntegerFromAttribute( &lTempInteger_49, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                              lTempInteger_50 = lTempInteger_49 + 4;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosX", lTempInteger_50 );
+                              //:TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                              GetIntegerFromAttribute( &lTempInteger_51, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                              lTempInteger_52 = lTempInteger_51 - 1;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosY", lTempInteger_52 );
+                              //:TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE2PosX 
+                              SetAttributeFromAttribute( TargetERD, "ER_RelType", "ER_DiagramBendPosX", TargetERD, "ER_RelType", "ER_DiagramE2PosX" );
+                              //:TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE1PosY
+                              SetAttributeFromAttribute( TargetERD, "ER_RelType", "ER_DiagramBendPosY", TargetERD, "ER_RelType", "ER_DiagramE1PosY" );
+                              //:ELSE
+                           } 
+                           else
+                           { 
+                              //:// c. The Old Entity is above New Entity
+                              //:SET CURSOR FIRST TargetERD.ER_RelLink_2 
+                              RESULT = SetCursorFirstEntity( TargetERD, "ER_RelLink_2", "" );
+                              //:SET CURSOR NEXT TargetERD.ER_RelLink_2    // Position on New Entity
+                              RESULT = SetCursorNextEntity( TargetERD, "ER_RelLink_2", "" );
+                              //:TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                              GetIntegerFromAttribute( &lTempInteger_53, TargetERD, "ER_Entity_2", "ER_DiagramPosX" );
+                              lTempInteger_54 = lTempInteger_53 + 4;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosX", lTempInteger_54 );
+                              //:TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                              GetIntegerFromAttribute( &lTempInteger_55, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                              lTempInteger_56 = lTempInteger_55 - 1;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE2PosY", lTempInteger_56 );
+                              //:SET CURSOR FIRST TargetERD.ER_RelLink_2   // Reposition on Old Entity
+                              RESULT = SetCursorFirstEntity( TargetERD, "ER_RelLink_2", "" );
+                              //:TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_RelType.ER_DiagramE2PosX    // (old X is same as new X)
+                              SetAttributeFromAttribute( TargetERD, "ER_RelType", "ER_DiagramE1PosX", TargetERD, "ER_RelType", "ER_DiagramE2PosX" );
+                              //:TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 5 // (bottom of box)
+                              GetIntegerFromAttribute( &lTempInteger_57, TargetERD, "ER_Entity_2", "ER_DiagramPosY" );
+                              lTempInteger_58 = lTempInteger_57 + 5;
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramE1PosY", lTempInteger_58 );
+                              //:TargetERD.ER_RelType.ER_DiagramBendPosX = 0 // No Bend
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramBendPosX", 0 );
+                              //:TargetERD.ER_RelType.ER_DiagramBendPosY = 0 // No Bend
+                              SetAttributeFromInteger( TargetERD, "ER_RelType", "ER_DiagramBendPosY", 0 );
+                           } 
+
+                           //:END
+                        } 
+
+                        //:END
+                     } 
+
+
+                     //:END
+                  } 
+
+                  //:END
+               } 
+
+               //:END
+            } 
+
+            //:END
+
+
             //:// Now include the lower level substructures.
             //:// We will first have to position TargetERD2 on the new RelType and on the first RelLink for that type.
             //:// TargetERD is already positioned on the 2nd RelLink.
             //:// We will also have to position TargetERD2 on the correct ER_RelLink for the corresponding ER_RelLink_2
             //:// for the 2nd side of the relationship (the TargetERD.ER_RelLink_2 entity).
             //:SET CURSOR FIRST TargetERD2.ER_RelType WHERE TargetERD2.ER_RelType.ZKey = TargetERD.ER_RelType.ZKey
-            GetIntegerFromAttribute( &lTempInteger_2, TargetERD, "ER_RelType", "ZKey" );
-            RESULT = SetCursorFirstEntityByInteger( TargetERD2, "ER_RelType", "ZKey", lTempInteger_2, "" );
+            GetIntegerFromAttribute( &lTempInteger_59, TargetERD, "ER_RelType", "ZKey" );
+            RESULT = SetCursorFirstEntityByInteger( TargetERD2, "ER_RelType", "ZKey", lTempInteger_59, "" );
             //:SET CURSOR FIRST TargetERD2.ER_RelLink WHERE TargetERD2.ER_RelLink.ZKey = TargetERD.ER_RelLink_2.ZKey
-            GetIntegerFromAttribute( &lTempInteger_3, TargetERD, "ER_RelLink_2", "ZKey" );
-            RESULT = SetCursorFirstEntityByInteger( TargetERD2, "ER_RelLink", "ZKey", lTempInteger_3, "" );
+            GetIntegerFromAttribute( &lTempInteger_60, TargetERD, "ER_RelLink_2", "ZKey" );
+            RESULT = SetCursorFirstEntityByInteger( TargetERD2, "ER_RelLink", "ZKey", lTempInteger_60, "" );
             //:INCLUDE TargetERD.ER_RelLink_Other  FROM TargetERD2.ER_RelLink
             RESULT = IncludeSubobjectFromSubobject( TargetERD, "ER_RelLink_Other", TargetERD2, "ER_RelLink", zPOS_AFTER );
             //:INCLUDE TargetERD2.ER_RelLink_Other FROM TargetERD.ER_RelLink
@@ -5549,11 +6157,11 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
 
             //:// Position on Source and Target ER_Entities and loop through each Source Identifier to create Target entries.
             //:SET CURSOR FIRST SourceERD.ER_Entity WHERE SourceERD.ER_Entity.Name = TargetERD.DisplayCompareResult.SourceEntityName
-            GetStringFromAttribute( szTempString_6, zsizeof( szTempString_6 ), TargetERD, "DisplayCompareResult", "SourceEntityName" );
-            RESULT = SetCursorFirstEntityByString( SourceERD, "ER_Entity", "Name", szTempString_6, "" );
+            GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), TargetERD, "DisplayCompareResult", "SourceEntityName" );
+            RESULT = SetCursorFirstEntityByString( SourceERD, "ER_Entity", "Name", szTempString_7, "" );
             //:SET CURSOR FIRST TargetERD.ER_Entity WHERE TargetERD.ER_Entity.Name = TargetERD.DisplayCompareResult.SourceEntityName
-            GetStringFromAttribute( szTempString_6, zsizeof( szTempString_6 ), TargetERD, "DisplayCompareResult", "SourceEntityName" );
-            RESULT = SetCursorFirstEntityByString( TargetERD, "ER_Entity", "Name", szTempString_6, "" );
+            GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), TargetERD, "DisplayCompareResult", "SourceEntityName" );
+            RESULT = SetCursorFirstEntityByString( TargetERD, "ER_Entity", "Name", szTempString_7, "" );
             //:FOR EACH SourceERD.ER_EntIdentifier
             RESULT = SetCursorFirstEntity( SourceERD, "ER_EntIdentifier", "" );
             while ( RESULT > zCURSOR_UNCHANGED )
@@ -5571,8 +6179,8 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
                { 
                   //:// We'll only handle Attribute FactTypes at this time.
                   //:IF SourceERD.ER_RelLinkIdentifier EXISTS
-                  lTempInteger_4 = CheckExistenceOfEntity( SourceERD, "ER_RelLinkIdentifier" );
-                  if ( lTempInteger_4 == 0 )
+                  lTempInteger_61 = CheckExistenceOfEntity( SourceERD, "ER_RelLinkIdentifier" );
+                  if ( lTempInteger_61 == 0 )
                   { 
                      //:IssueError( vSubtask,0,0, "RelLink Identifiers are not being handled at this time." )
                      IssueError( vSubtask, 0, 0, "RelLink Identifiers are not being handled at this time." );
@@ -5586,8 +6194,8 @@ oTZEREMDO_ERD_Merge( zVIEW     TargetERD,
                      //:SetMatchingAttributesByName( TargetERD, "ER_FactType", SourceERD, "ER_EntIdentifier", zSET_NULL )
                      SetMatchingAttributesByName( TargetERD, "ER_FactType", SourceERD, "ER_EntIdentifier", zSET_NULL );
                      //:SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = SourceERD.ER_AttributeIdentifier.Name
-                     GetStringFromAttribute( szTempString_6, zsizeof( szTempString_6 ), SourceERD, "ER_AttributeIdentifier", "Name" );
-                     RESULT = SetCursorFirstEntityByString( TargetERD, "ER_Attribute", "Name", szTempString_6, "" );
+                     GetStringFromAttribute( szTempString_7, zsizeof( szTempString_7 ), SourceERD, "ER_AttributeIdentifier", "Name" );
+                     RESULT = SetCursorFirstEntityByString( TargetERD, "ER_Attribute", "Name", szTempString_7, "" );
                      //:INCLUDE TargetERD.ER_AttributeIdentifier FROM TargetERD.ER_Attribute
                      RESULT = IncludeSubobjectFromSubobject( TargetERD, "ER_AttributeIdentifier", TargetERD, "ER_Attribute", zPOS_AFTER );
                   } 

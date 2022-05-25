@@ -3180,7 +3180,7 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szBrowseFile
    STRING ( 1 )   szNumber
    STRING ( 1 )   szStyleIsBootstrap
-   STRING ( 20 )  szCSSBootstrap
+   STRING ( 40 )  szCSSBootstrap
    INTEGER        lMaxStringLth
    INTEGER        lStyleX
    INTEGER        lTemp
@@ -3584,13 +3584,20 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    szClass = ""
    IF vDialog.Control.CSS_Class != "" OR szStyleIsBootstrap = "Y"
       IF szStyleIsBootstrap = "Y"
+      
          szCSSBootstrap = "form-control "
-      ELSE
+         // KJS 05/20/22
+         IF vDialog.CtrlMapER_Domain EXISTS AND
+            ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
+            // KJS 05/20/22 - We might want to right align number fields, but at the moment I think it might just be in the grids,
+            // so I am commenting this out for now. But I don't want to delete in case we want it later.
+            //szCSSBootstrap = szCSSBootstrap + "text-right "
+         END
+     ELSE
          szCSSBootstrap = ""
       END
       szClass = " class=^" + szCSSBootstrap + vDialog.Control.CSS_Class + "^ "
    END
-
    CreateDisabledString( vDialog, szDisabled )
    szWriteBuffer = "<input" + szClass + " name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
                    szAutoCompleteOff + szTitleHTML + szHTML5Attr + szPlaceholder + szStyle + szType + szValue + szEditActionCode + " >"
@@ -3694,6 +3701,7 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
    szBootstrapNoWrap = ""
    // If there is a class on this control OR if the style is bootstrap and it's a label (we want to then use input-group-text), then set the class=...
    IF vDialog.Control.CSS_Class != "" OR szStyleIsBootstrap = "Y"
+         
       IF szStyleIsBootstrap = "Y" AND szLabelFor != "" //szIsLabel = "Y"
          // If bootstrap, but control already has the groupbox around it (//input-group-prepend), then we don't want to put another group around.
          szClassHTML = vDialog.Control.CSS_Class
@@ -3709,16 +3717,39 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
       ELSE
       IF szStyleIsBootstrap = "Y" AND vDialog.Control.Tag = vWork.Root.szLabelLink
          szCSSBootstrap = "form-control"
-         szClassHTML = "class=^" + szCSSBootstrap + " " + vDialog.Control.CSS_Class + "^ "
-      ELSE
-      IF vDialog.Control.CSS_Class != ""
-         szCSSBootstrap = ""
-         szClassHTML = "class=^" + vDialog.Control.CSS_Class + "^ "
+         // KJS 05/20/22 - If we are bootstrap AND this is not a label AND this is a decimal or integer field, we are going to put in a
+         // class for right align.
+         IF szStyleIsBootstrap = "Y" AND szLabelFor = "" AND vDialog.CtrlMapER_Domain EXISTS AND
+            ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
+            szText = " text-right"
+         ELSE
+            szText = ""
          END
-      END
+         // KJS 05/20/22 - We might want to right align number fields, but at the moment I think it might just be in the grids,
+         // so I am setting szText = "" for now. But I don't want to delete in case we want it later.
+         szText = ""
+         szClassHTML = "class=^" + szCSSBootstrap + " " + vDialog.Control.CSS_Class + szText + "^ "
+      ELSE
+         // KJS 05/20/22 - If we are bootstrap AND this is not a label AND this is a decimal or integer field, we are going to put in a
+         // class for right align.
+         IF szStyleIsBootstrap = "Y" AND szLabelFor = "" AND vDialog.CtrlMapER_Domain EXISTS AND
+            ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
+            szText = " text-right"
+         ELSE
+            szText = ""
+         END
+         // KJS 05/20/22 - We might want to right align number fields, but at the moment I think it might just be in the grids,
+         // so I am setting szText = "" for now. But I don't want to delete in case we want it later.
+         szText = ""
+         IF vDialog.Control.CSS_Class != ""
+            szCSSBootstrap = ""
+            szClassHTML = "class=^" + vDialog.Control.CSS_Class + szText + "^ "
+            END
+         END
       END
       //szClassHTML = "class=^" + szCSSBootstrap + " " + vDialog.Control.CSS_Class + "^ "
    END
+   szText = ""
    
    IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = ""
       szWriteBuffer = "<div class=^input-group-prepend^>"

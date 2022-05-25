@@ -13,6 +13,7 @@ BuildSideNavSectionJ( VIEW vDialog,
                       STRING (1) szReusableMenu,
                       VIEW vDialogDfltMenu BASED ON LOD TZWDLGSO )
 
+   VIEW vDialogDfltT BASED ON LOD TZWDLGSO
    STRING ( 10000 ) szWriteBuffer
    STRING ( 500 )   szNavigationTitle
    STRING ( 500 )   szText
@@ -26,6 +27,7 @@ BuildSideNavSectionJ( VIEW vDialog,
    STRING ( 100 )   szActionName
    STRING ( 1 )     szStyleIsjMobile
    STRING ( 1 )     szStyleIsBootstrap
+   STRING ( 1 )     szSideMenuOptions
    STRING ( 256 )   szClass
    STRING ( 256 )   szClass2
    INTEGER          ActionType
@@ -43,11 +45,47 @@ BuildSideNavSectionJ( VIEW vDialog,
       ( vDialog.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
       szStyleIsBootstrap = "Y"
    END 
-        
+   
+   szSideMenuOptions = ""
    IF vDialogMenu.Menu EXISTS 
       szMenuName = vDialogMenu.Menu.Tag 
       IF vDialogMenu.Menu.CSS_Class != ""
          szClass = " class=^" + vDialogMenu.Menu.CSS_Class + "^ " 
+      END
+      IF szStyleIsBootstrap = "Y"
+         // In Boostrap, if we have no option in the side menu (we have a side menu so it is consistent look with pages with a side menu but no
+         // text in the option.
+         IF vDialogMenu.Option EXISTS
+            szText = vDialogMenu.Option.Text
+            zRTrim( szText, szText, 500 )
+            zLTrim( szText, szText, 500 )
+             // We want to make sure there is no other option
+            SET CURSOR NEXT vDialogMenu.Option
+            IF RESULT >= zCURSOR_SET OR szText != ""
+               szSideMenuOptions = "Y" // There is one menu option but it is a blank menu
+            END
+         END
+      END
+   END
+   // If we did not find a menu option above with text... also check vDialogDfltMenu if it exists.
+   IF szStyleIsBootstrap = "Y" AND szSideMenuOptions = "" AND vDialogDfltMenu != 0
+      szSideMenuOptions = "" 
+      // In Boostrap, if we have no option in the side menu (we have a side menu so it is consistent look with pages with a side menu but no
+      // text in the option.
+      IF vDialogDfltMenu.DfltMenu  EXISTS
+         CreateViewFromViewForTask( vDialogDfltT, vDialogDfltMenu, 0 )
+         SET CURSOR FIRST vDialogDfltT.Menu WHERE vDialogDfltT.Menu.ZKey = vDialogDfltMenu.DfltMenu.ZKey
+         IF vDialogDfltT.Option EXISTS
+            szText = vDialogDfltT.Option.Text
+            zRTrim( szText, szText, 500 )
+            zLTrim( szText, szText, 500 )
+             // We want to make sure there is no other option
+            SET CURSOR NEXT vDialogDfltT.Option
+            IF RESULT >= zCURSOR_SET OR szText != ""
+               szSideMenuOptions = "Y" // There is one menu option but it is a blank menu
+            END
+         END
+         DropView( vDialogDfltT )
       END
    END
 
@@ -61,7 +99,13 @@ BuildSideNavSectionJ( VIEW vDialog,
       szWriteBuffer = "<div id=^sidenavigation^" + szClass + ">"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    ELSE
-      szWriteBuffer = "<nav id=^sidebar^ class=^sidebar^>"
+      IF szSideMenuOptions = "Y"
+         // For bootstrap we are adding a class of contentExists so determine if the side menu
+         // should be open or closed on a page. We will handle this through the class.
+         szWriteBuffer = "<nav id=^sidebar^ class=^sidebar contentExists^>"
+      ELSE
+         szWriteBuffer = "<nav id=^sidebar^ class=^sidebar^>"
+      END
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "<%@ include file=^./include/sidemenubootstrap.inc^ %>"    
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -200,16 +244,16 @@ BuildSideNavSectionJ( VIEW vDialog,
    // This is for building a default menu?
    // Trying to get this file to compile.
    IF vDialogDfltMenu != 0
-      CreateViewFromViewForTask( vDialogDfltMenu, vDialogDfltMenu, 0 )
-      SET CURSOR FIRST vDialogDfltMenu.Menu WHERE vDialogDfltMenu.Menu.ZKey = vDialogDfltMenu.DfltMenu.ZKey
-      FOR EACH vDialogDfltMenu.OptAct WITHIN vDialogDfltMenu.Menu
+      CreateViewFromViewForTask( vDialogDfltT, vDialogDfltMenu, 0 )
+      SET CURSOR FIRST vDialogDfltT.Menu WHERE vDialogDfltT.Menu.ZKey = vDialogDfltMenu.DfltMenu.ZKey
+      FOR EACH vDialogDfltT.OptAct WITHIN vDialogDfltT.Menu
          //szNavigationTitle = vDialogDfltMenu.Option.Text
          // KJS 09/30/16 - Language Conversion.
          // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
          // So for now, I am always using, if the flag is set.
          IF vDialog.Dialog.wWebUsesLanguageConversion = "Y" // Look at wWebUsesLanguageConversion from dialog that we are in, not the one where menu is.
-            szText = vDialogDfltMenu.Option.Text
-            szTextID = vDialogDfltMenu.Option.LangID
+            szText = vDialogDfltT.Option.Text
+            szTextID = vDialogDfltT.Option.LangID
             zSearchAndReplace( szText, 500, "\", "\\" )
             szSrch = "\" + QUOTES 
             zSearchAndReplace( szText, 500, QUOTES, szSrch )
@@ -220,45 +264,45 @@ BuildSideNavSectionJ( VIEW vDialog,
             END
             //szNavigationTitle = "<%=LangConv.getLanguageText(^" + szText + "^)%>" 
          ELSE
-            szNavigationTitle = vDialogDfltMenu.Option.Text
+            szNavigationTitle = vDialogDfltT.Option.Text
          END
-         szDialogName = vDialogDfltMenu.OptAct.DialogName
+         szDialogName = vDialogDfltT.OptAct.DialogName
          IF szDialogName = ""
             szDialogName = "NoDialogName"
          END
 
       // szHTML_Name = szDialogName + vDialogDfltMenu.OptAct.WindowName + ".jsp"
-         IF vDialogDfltMenu.OptAct EXISTS
-            szActionName = "onclick=^" + vDialogDfltMenu.OptAct.Tag + "()^"
+         IF vDialogDfltT.OptAct EXISTS
+            szActionName = "onclick=^" + vDialogDfltT.OptAct.Tag + "()^"
             //szActionName = vDialogDfltMenu.OptAct.Tag
-            ActionType = vDialogDfltMenu.OptAct.Type
+            ActionType = vDialogDfltT.OptAct.Type
          ELSE
             szActionName = ""
             ActionType = 0
          END
 
          //szMenuName = vDialogMenu.Option.Tag         
-         szMenuName = vDialogDfltMenu.Option.Tag         
+         szMenuName = vDialogDfltT.Option.Tag         
 
          // If the window we are currently generating is the same window that this
          // side menu points to, then we want to set a class on this option.  The
          // reason is so that we can tell which side menu option the user has selected.
-         IF vDialogDfltMenu.OptAct.WindowName = vDialog.Window.Tag
+         IF vDialogDfltT.OptAct.WindowName = vDialog.Window.Tag
             szClass2 = "class=^sideselected^ "
          ELSE
             szClass2 = ""
          END
       
-         IF vDialogDfltMenu.Option.CSS_Class != "" 
-            szClass = "class=^" + vDialogDfltMenu.Option.CSS_Class + "^"
+         IF vDialogDfltT.Option.CSS_Class != "" 
+            szClass = "class=^" + vDialogDfltT.Option.CSS_Class + "^"
          ELSE
             szClass = ""
          END
 
          szWriteBuffer = "<%"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szOptionTag = vDialogDfltMenu.Option.Tag
-         szOptionTag = vDialogDfltMenu.Option.Tag
+         szOptionTag = vDialogDfltT.Option.Tag
+         szOptionTag = vDialogDfltT.Option.Tag
          szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "   if ( !csrRC.isSet( ) )"
@@ -274,8 +318,8 @@ BuildSideNavSectionJ( VIEW vDialog,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          ELSE
             //szText = vDialogDfltMenu.Option.WebHTML5Attribute
-            IF vDialogDfltMenu.Option.WebHTML5Attribute != ""
-               szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogDfltMenu.Option.WebHTML5Attribute  + "^></i>"
+            IF vDialogDfltT.Option.WebHTML5Attribute != ""
+               szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogDfltT.Option.WebHTML5Attribute  + "^></i>"
             ELSE
                szText = ""
             END
@@ -294,7 +338,7 @@ BuildSideNavSectionJ( VIEW vDialog,
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       END
 
-      DropView( vDialogDfltMenu )
+      DropView( vDialogDfltT )
    END
 
    // Division ending for Navigation Bar.
@@ -323,6 +367,20 @@ BuildSideNavSectionJ( VIEW vDialog,
    END
    szWriteBuffer = ""
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   
+   /*
+   // KJS 02/15/22 - For bootstrap... we want to have the side menu visible only if there are menu options (as long as the window is greater than
+   IF szStyleIsBootstrap = "Y"
+      szWriteBuffer = "<script>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "   if($(window).width() > 991.98 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "     $(^#sidebar^).addClass(^toggled^);"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "</script>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
+   */
 
    /*
    szCSS_Class = vDialog.Window.CSS_Class
@@ -852,6 +910,11 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
       IF vDialogRoot.Dialog.wWebUsesControlActionsView = "Y"
          szWriteBuffer = "      strDisabled = ^^;"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+         // KJS 11/15/21 - taking out because then some of our pages are too long and get the 'exceeds 6555...' error.     
+         //szWriteBuffer = "      try {"
+         //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
          szWriteBuffer = "      if ( " + vDialog.CtrlMapView.Name + ".isReadOnly( ) )"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          //szWriteBuffer = "                  strCtrlActionsView = strCtrlActionsView + ^" + szCtrlTag + ",Disabled,^;"
@@ -870,6 +933,22 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
                       vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
                       vDialog.CtrlMapER_Attribute.Name + "^ ).getString( );"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+
+      // KJS 11/15/21 - taking out because then some of our pages are too long and get the 'exceeds 6555...' error.     
+      /*
+      szWriteBuffer = "     }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "     catch (Exception e){"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "        out.println(^There is an error on checkbox " + szCtrlTag + ": ^ + e.getMessage());"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "        task.log().error( ^*** Error on ctrl " + szCtrlTag + "^, e );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "     }"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      */
+
+
       szWriteBuffer = "   }"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    END
@@ -1003,9 +1082,10 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    VIEW vEntity BASED ON LOD TZWDLGSO  // identifies entity mapping for list entries
    VIEW vScope  BASED ON LOD TZWDLGSO  // identifies scoping entity for list entries
    VIEW vDialogRoot BASED ON LOD TZWDLGSO
+   VIEW vLPLR       BASED ON LOD TZCMLPLO
    STRING ( 32 )  szContextName
    STRING ( 32 )  szScopingEntityName
-   STRING ( 32 )  szListEntityName
+   STRING ( 64 )  szListEntityName
    STRING ( 300 ) szStyle
    STRING ( 256 ) szClass
    STRING ( 256 ) szTitle
@@ -1023,6 +1103,7 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 100 ) szDisabled
    STRING ( 1 )   szStyleIsBootstrap
    STRING ( 20 )  szCSSBootstrap
+   STRING ( 100 ) szJavaPackage
    DECIMAL        dDLUnits
    INTEGER        lSubtype
    SHORT          nRC
@@ -1184,8 +1265,17 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
          szInListCtrlTag = "inList" + szCtrlTag
 
          szWriteBuffer = "   boolean " + szInListCtrlTag + " = false;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   strComboCurrentInternalValue = ^^;"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-
+         //strComboCurrentInternalValue  = ""; 
+         
+         // KJS 10/29/21 - add try/catch for domain select.  
+         // 11/15/21 - taking out because then some of our pages are too long and get the 'exceeds 6555...' error.     
+         //szWriteBuffer = "   try{"
+         //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         
+         
          szWriteBuffer = "   " + vDialog.CtrlMapView.Name + " = " +
                       "task.getViewByName( ^" + vDialog.CtrlMapView.Name + "^ );"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1216,8 +1306,16 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
                szContextName = ""
             END
 
-            szWriteBuffer = "      List<TableEntry> list = JspWebUtils.getTableDomainValues( " + vDialog.CtrlMapView.Name + " , ^" +
-                            vDialog.CtrlMapRelatedEntity.Name + "^, ^" + vDialog.CtrlMapER_Attribute.Name + "^, ^" + szContextName + "^ );"
+            IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y" 
+               GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
+               szJavaPackage = vLPLR.LPLR.JavaPackageName
+               zSearchAndReplace( szJavaPackage, 100, "\", "." )
+               szWriteBuffer = "      List<TableEntry> list = " + szJavaPackage + ".jspWebUtilsLang.getTableDomainValuesLanguage( " + vDialog.CtrlMapView.Name + " , ^" +
+                                vDialog.CtrlMapRelatedEntity.Name + "^, ^" + vDialog.CtrlMapER_Attribute.Name + "^, ^" + szContextName + "^ );"
+            ELSE
+               szWriteBuffer = "      List<TableEntry> list = JspWebUtils.getTableDomainValues( " + vDialog.CtrlMapView.Name + " , ^" +
+                               vDialog.CtrlMapRelatedEntity.Name + "^, ^" + vDialog.CtrlMapER_Attribute.Name + "^, ^" + szContextName + "^ );"
+            END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
             szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name + ".cursor( ^" +
@@ -1232,16 +1330,27 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
             szWriteBuffer = "         strComboCurrentValue = " + vDialog.CtrlMapView.Name + ".cursor( ^" +
                      vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
                      vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^^ );"
+                     // KJS 05/27/21 - I tried to add the context name back in. But this causes an error when the currentvalue does NOT exist
+                     // in the context (like it's an old value). Seem to work using the default context, even with language... so I am going back.
+                     //vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^" + szContextName + "^ );"
                      // KJS 10/22/14 - Right now we are not adding the context name, we only want the default, which
                      // I am currently assuming has ALL the values (old and new) of this domain. When we get DGs domain fix
                      // I think we need to put this back!!!!!!!
                      //vDialog.CtrlMapER_Attribute.Name + "^, ^" + szContextName + "^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         strComboCurrentInternalValue = " + vDialog.CtrlMapView.Name + ".cursor( ^" +
+                     vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
+                     vDialog.CtrlMapER_Attribute.Name + "^ ).getString( );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
             // KJS 02/15/11 - Thinking I need to add code to change values returned as null to "".
             szWriteBuffer = "         if ( strComboCurrentValue == null )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            strComboCurrentValue = ^^;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         if ( strComboCurrentInternalValue == null )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            strComboCurrentInternalValue = ^^;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1250,6 +1359,8 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
             szWriteBuffer = "      {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         strComboCurrentValue = ^^;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         strComboCurrentInternalValue = ^^;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      }"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -1312,17 +1423,19 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
             // The following if statement eliminates a null value, which would be the second null in the combo box.
-            szWriteBuffer = "         if ( !StringUtils.isBlank( externalValue ) )"
+            szWriteBuffer = "         if ( !StringUtils.isBlank( internalValue ) )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            if ( StringUtils.equals( strComboCurrentValue, externalValue ) )"
+            szWriteBuffer = "            if ( StringUtils.equals( strComboCurrentInternalValue, internalValue ) )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
             szWriteBuffer = "               " + szInListCtrlTag + " = true;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            //szWriteBuffer = "               strComboCurrentInternalValue = internalValue;"
+            //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
             szWriteBuffer = "%>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1363,7 +1476,7 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
             szWriteBuffer = "%>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-            szWriteBuffer = "         <option disabled selected=^selected^ value=^<%=strComboCurrentValue%>^><%=strComboCurrentValue%></option>"
+            szWriteBuffer = "         <option disabled selected=^selected^ value=^<%=strComboCurrentInternalValue%>^><%=strComboCurrentValue%></option>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "<%"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1373,15 +1486,40 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
             
             
          END
-      END
 
-      szWriteBuffer = "   }  // if view != null"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   }  // if view != null"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         
+         // KJS 10/29/21 - add try/catch for domain select.       
+         // 11/15/21 - taking out because then some of our pages are too long and get the 'exceeds 6555...' error.    
+         /* 
+         szWriteBuffer = "   } // end of try"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   catch( Exception e )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   {"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         out.println(^There is an error on " + szCtrlTag + ": ^ + e.getMessage());"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         task.log().info( ^*** Error on ctrl " + szCtrlTag + "^ + e.getMessage() );"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+ 
+         szWriteBuffer = "         %>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         <option disabled selected=^selected^ ><%=e.getMessage()%></option>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         <%"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   }"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         */
+      END  // end of IF vDialog.CtrlMapView EXISTS
+
       szWriteBuffer = "%>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "</select>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-      szWriteBuffer = "<input name=^h" + szCtrlTag + szRepeatGrpKey + "^ id=^h" + szCtrlTag + szRepeatGrpKey + "^ type=^hidden^ value=^<%=strComboCurrentValue%>^ >"
+      szWriteBuffer = "<input name=^h" + szCtrlTag + szRepeatGrpKey + "^ id=^h" + szCtrlTag + szRepeatGrpKey + "^ type=^hidden^ value=^<%=strComboCurrentInternalValue%>^ >"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
    ELSE  
@@ -1452,9 +1590,11 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
             ELSE
                szContextName = ""
             END
+            // Get the internal value of the 
             szWriteBuffer = "            strComboCurrentValue = " + vDialog.CtrlMapView.Name + ".cursor( ^" +
                      vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
-                     vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^" + szContextName + "^ );"
+                     vDialog.CtrlMapER_Attribute.Name + "^ ).getString( );"
+                     //vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^" + szContextName + "^ );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
             // KJS 02/15/11 - Thinking I need to add code to change values returned as null to "".
@@ -1583,7 +1723,11 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          END
           */
-         szWriteBuffer = "         if ( StringUtils.equals( strComboCurrentValue, strErrorMapValue ) )"
+         szWriteBuffer = "         // if ( StringUtils.equals( strComboCurrentValue, strErrorMapValue ) )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         if ( StringUtils.equals( strComboCurrentValue, v" + szCtrlTag + ".cursor( ^" +
+                            vList.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
+                            vList.CtrlMapER_Attribute.Name + "^ ).getString( ) ) )"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "         {"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -3040,6 +3184,7 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    INTEGER        lMaxStringLth
    INTEGER        lStyleX
    INTEGER        lTemp
+   INTEGER        lSubtype
    SHORT          bMapping
    SHORT          nRC
 
@@ -3187,12 +3332,34 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
       ELSE
          szMaxStringLth = lMaxStringLth
       END
-
-      szWriteBuffer = "               strErrorMapValue = " +
-                      vDialog.CtrlMapView.Name + ".cursor( ^" +
-                      vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
-                      vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^" +
-                      szContextName + "^ );"
+      
+      // KJS 05/14/21 - Making a change for language translation... if there is no context... I think we should assume then that on an edit field,
+      // that we will get the internal value .getString() not what we were doing .getString(""). Because if we are editting, shouldn't we be looking
+      // at "internal value"? 
+      // KJS 12/09/21 - At HFI, they have several "date" fields that are edit controls with disable checked (which is excluded from input mapping). Need
+      // to allow the default context in this case.
+      IF szContextName = ""
+         lSubtype = vDialog.Control.Subtype
+         lTemp = IsFlagSequenceSet( lSubtype, zCONTROL_DISABLED )
+         IF lTemp != 0
+            // Disabled edit boxes will use default context.
+            szWriteBuffer = "               strErrorMapValue = " +
+                            vDialog.CtrlMapView.Name + ".cursor( ^" +
+                            vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
+                            vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^^ );"
+         ELSE
+            szWriteBuffer = "               strErrorMapValue = " +
+                            vDialog.CtrlMapView.Name + ".cursor( ^" +
+                            vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
+                            vDialog.CtrlMapER_Attribute.Name + "^ ).getString( );"
+         END
+      ELSE
+         szWriteBuffer = "               strErrorMapValue = " +
+                         vDialog.CtrlMapView.Name + ".cursor( ^" +
+                         vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
+                         vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^" +
+                         szContextName + "^ );"
+      END
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       
       IF vDialogRoot.Dialog.wWebUsesControlActionsView = "Y"
@@ -5319,7 +5486,7 @@ GenJSPJ_CrtePushButton( VIEW vDialog BASED ON LOD TZWDLGSO,
       ELSE
          szText = vDialog.Control.Text
       END
-      szWriteBuffer = szWidget + szCtrlTag + "^ id=^" + szCtrlTag + "^" + szStyle + " ><a href=^<%=strErrorMapValue%>^ target=^_blank^>" + 
+      szWriteBuffer = szWidget + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^" + szStyle + " ><a href=^<%=strErrorMapValue%>^ target=^_blank^>" + 
                       szText + "</a></button>"    
    ELSE
    IF szParentWebType = "Div" OR szParentWebType = "DivScroll" OR
@@ -5328,10 +5495,10 @@ GenJSPJ_CrtePushButton( VIEW vDialog BASED ON LOD TZWDLGSO,
       szWriteBuffer = "<p></p>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       CreateSizeString( vDialog, szSize )
-      szWriteBuffer = szWidget + szCtrlTag + "^ id=^" + szCtrlTag + "^ value=^" + szText + "^ onclick=^" +
+      szWriteBuffer = szWidget + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ value=^" + szText + "^ onclick=^" +
                       szAction + "^ " + "style=^" + szSize + "^>" + szTerm
    ELSE
-      szWriteBuffer = szWidget + szCtrlTag + "^ id=^" + szCtrlTag + "^ value=^" + szText + "^ onclick=^" +
+      szWriteBuffer = szWidget + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ value=^" + szText + "^ onclick=^" +
                       szAction + "^ " + szStyle + ">" + szTerm
    END
    END
@@ -5351,10 +5518,14 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
                               STRING ( 10000 ) szWriteBuffer,
                               STRING ( 32 ) szIndent,
                               STRING ( 1 ) szNoPositioning,
+                              STRING ( 1 ) szStyleIsBootstrap,
+                              STRING ( 1 ) szBootstrapOuterCard,
                               INTEGER          lOffsetX,
                               INTEGER          lOffsetY )
 
+   VIEW vLPLR        BASED ON LOD TZCMLPLO
    VIEW vDialogTemp  BASED ON LOD TZWDLGSO
+   STRING ( 64 )    szSystemIniApplName
    STRING ( 64 )    szFormName
    STRING ( 50 )    szCSS_Class
    STRING ( 256 )   szClass
@@ -5378,10 +5549,11 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
    STRING ( 1 )   szIncludeFileFlag
    STRING ( 1 )   szNoHeightFlag
    STRING ( 1 )   szNoWidthFlag
-   INTEGER          lControl
-   INTEGER          lSizeX
-   INTEGER          lSizeY
-   INTEGER          lTrace
+   STRING ( 1 )   szDateFormatDBFlag
+   INTEGER        lControl
+   INTEGER        lSizeX
+   INTEGER        lSizeY
+   INTEGER        lTrace
    INTEGER        lHeight
    INTEGER        lWidth
    INTEGER        LastY_Pos
@@ -5394,12 +5566,50 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
    INTEGER        Y_Size
    INTEGER        X_Pos
    INTEGER        Y_Pos
-   SHORT            nRC
+   SHORT          nRC
 
    DECIMAL        dDLUnits
    STRING ( 100 )  szSize
    STRING ( 100 )  szPosition
 
+   // KJS 07/30/20
+   szWriteBuffer = "<%"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+   szWriteBuffer = "   if ( StringUtils.equals( strErrorFlag, ^X^ ) )"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   {"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+   IF (lTrace = 1)
+      szWriteBuffer = "      task.log().info( ^Post FindErrorFields Error: ^ + strError );"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   END
+
+   szWriteBuffer = "      nPos = strError.indexOf( ^\t^, 2 );"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      if ( nPos >= 0 )"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         strErrorTitle = strError.substring( 2, nPos );"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         int nPos2 = strError.indexOf( ^\t\n^ );"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         strErrorMsg = strError.substring( nPos + 1, nPos2 );"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "%>"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "   <input name=^zError^ id=^zError^ type=^hidden^ value=^<%=strErrorMsg%>^>"
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+
+   //******************************************
    
    // KJS 11/07/16 - For file transfer, since it doesn't place the controls correctly (if there are more controls than the
    // edit and button), we are going to try, closing the previous <form> and creating the form for the upload. Any controls
@@ -5446,6 +5656,13 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
    // Note that each Group requires a subcontrol of type EditBox and another of type PushBtn.
    CreateViewFromView( vDialogTemp, vDialog )
    NAME VIEW vDialogTemp "vDialogTemp"
+
+   // KJS 11/12/21 - If we are on the outer groupbox and bootstrap.
+   IF szIndent = "   " AND szStyleIsBootstrap = "Y" AND szBootstrapOuterCard = "Y" 
+      // Trying out using mb-2 all the time...
+      szWriteBuffer = "<div id=^" + szCtrlTag + "zcard^ class=^card card-body mb-2^>  <!-- Create card/card-body for bootstrap -->"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   END         
 
    // Generate Form Statement for Group, with hidden field zAction.
    szWriteBuffer = ""
@@ -5502,7 +5719,7 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
          CreateAbsolStyleString( vDialog, szStyle, lOffsetX, lOffsetY, "" )
       END
       END
-
+      
       szClass = ""
       IF vDialogTemp.Control.CSS_Class != ""
          szClass = " class=^" + vDialogTemp.Control.CSS_Class + "^"
@@ -5517,6 +5734,52 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
       // Generate hidden field zTargetFileName, with JSP to retrieve name.
       // We are currently positioned on the GroupBox and need to reposition on the subcontrol Button
       // to generate the FileName mapping..
+      
+      // KJS 09/01/20 - We are going to look at the UsesDateFormatFromDB for the moment to determine if the file upload max length comes
+      // from the database.
+      szDateFormatDBFlag = ""
+      GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
+      szSystemIniApplName = "[App." + vLPLR.LPLR.Name + "]"
+      SysReadZeidonIni( -1, szSystemIniApplName, "UsesDateFormatFromDB", szDateFormatDBFlag )
+      IF szDateFormatDBFlag = "Y"
+         szWriteBuffer = "<%"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   try {"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      strErrorMapValue = ^10485760^;"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+         szWriteBuffer = "      View sHostT = task.getViewByName( ^sHost^ );"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      if ( VmlOperation.isValid( sHostT ) )"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      {"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         nRC = sHostT.cursor( ^Host^ ).checkExistenceOfEntity( ).toInt();"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         if ( nRC >= 0 )"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "            strErrorMapValue = sHostT.cursor(^Host^).getAttribute( ^UploadFileSizeMax^ ).getString( );"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "            if ( StringUtils.isBlank( strErrorMapValue ) )"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "               strErrorMapValue = ^10485760^;"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      }"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   } catch ( Exception e ) {"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      strErrorMapValue = ^10485760^;"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   }"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+
+         szWriteBuffer = "%>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "   <input name=^zFileSize^ id=^zFileSize^ type=^hidden^ value=^<%=strErrorMapValue%>^ >"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      END
+
       szWriteBuffer = "<%"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   strErrorMapValue = ^^;"
@@ -5562,9 +5825,13 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
             END
          END
       END
+      
       szWriteBuffer = "%>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   <input name=^zTargetFileName^ id=^zTargetFileName^ type=^hidden^ value=^<%=strErrorMapValue%>^ >"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      // KJS 07/29/20 - Generate hidden field for in case user wants the uploaded file to have a different name when uploaded.
+      szWriteBuffer = "   <input name=^zNewFileName^ id=^zNewFileName^ type=^hidden^ value=^<%=vKZXMLPGO.cursor(^Session^).getAttribute(^PrintFileName^).getString()%>^ >"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
       IF szGroupIsTable = "Y" 
@@ -5812,6 +6079,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    STRING ( 10000 ) szJavaScript
    STRING ( 32 )    szJavaScriptLocation
    STRING ( 64 )    szSystemIniApplName
+   STRING ( 200 )   szMsg
    STRING ( 100 )   szViewName
    STRING ( 100 )   szEntityName
    STRING ( 100 )   szEntityNameR
@@ -6048,13 +6316,14 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
          // Download File mapping view: Mapping must be specified for download processing.
          IF vDialogCtrl = 0
-            MessageSend( vDialog, "", "Download File Generation",
-                                     "The Control with 'Download File' action could not be located.",
+            //szActionName  kkkkkkkkk
+            szMsg = "A Control for the 'Download File' action " + szActionName + " could not be located. The action is not being used."
+            MessageSend( vDialog, "", "Download File Generation", szMsg,
                                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
          ELSE
             IF vDialogCtrl.CtrlMapER_Attribute DOES NOT EXIST
-               MessageSend( vDialog, "", "Download File Generation",
-                                        "The Control with 'Download File' action must specify mapping for the source file name.",
+               szMsg = "The Control " + vDialogCtrl.Control.Tag + " with 'Download File' action " + szActionName + " must specify mapping for the source file name."
+               MessageSend( vDialog, "", "Download File Generation", szMsg,
                                         zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
             ELSE
                szDownloadViewName = vDialogCtrl.CtrlMapView.Name
@@ -6095,11 +6364,22 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
          // Aadit, wants there to be an upload file limit, so that for email attachment, the file isn't too big to bring
          // down the mail server. This really needs to be an updatable field...
-         szWriteBuffer = "      if ( iFileLth > 10485760 )"
+         szWriteBuffer = "      if ( iFileLth > iFileLthMax )"  //10485760
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "      {"
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "         VmlOperation.CreateMessage( task, ^" + szCtrlTag + "^, ^This file is too large!^, ^This file is too large!^ );"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         break;"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      }"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         // KJS 08/31/20 - Give message if no file was selected.
+         szWriteBuffer = "      if ( iFileLth == -1 )"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      {"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         VmlOperation.CreateMessage( task, ^" + szCtrlTag + "^, ^No file was selected.^, ^No file was selected.^ );"
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "         break;"
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -7320,6 +7600,26 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         sSourceFileNameOnly = sDownloadFile.substring( x + 1 );"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+         
+            // KJS 07/24/20 - Added ability to give a new filename to download to.
+            szWriteBuffer = "         // Check if there is a filename in KZXMLPGO.Session.PrintFileName. If so, we will"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         // download to a file with that name instead of using the downloaded filename."
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         if ( ! vKZXMLPGO.cursor(^Session^).getAttribute(^PrintFileName^).getString().equals(^^) )"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         {"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            sSourceFileNameOnly = vKZXMLPGO.cursor(^Session^).getAttribute(^PrintFileName^).getString();"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            vKZXMLPGO.cursor(^Session^).getAttribute(^PrintFileName^).setValue(^^);"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            // Replace any quotes."
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            sSourceFileNameOnly = sSourceFileNameOnly.replaceAll( ^\^^, ^^ );"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         }"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
             szWriteBuffer = "         File InputFile = new File( sDownloadFile );"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -7340,7 +7640,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            response.setContentType(contenttype);"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            response.setHeader( ^Content-Disposition^, ^attachment; filename=^ + sSourceFileNameOnly + ^;^ );"
+            szWriteBuffer = "            response.setHeader( ^Content-Disposition^, ^attachment; filename=\^^ + sSourceFileNameOnly + ^\^;^ );"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            ServletOutputStream outStream = response.getOutputStream( );"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )

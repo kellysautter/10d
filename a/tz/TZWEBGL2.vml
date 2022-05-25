@@ -765,8 +765,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
          // If we are on the most outer group box, put 
          IF lIndexStrLth = 0 AND szStyleIsBootstrap = "Y" AND szToggleFlag = "" AND szToggleFlag2 = "" AND szBootstrapOuterCard = "Y" AND vDialog.Control.WebCtrlType != "Hidden"
-            //kkkkkkk
-            szWriteBuffer = "</div>  <!-- Close card/card-body for bootstrap -->"
+             szWriteBuffer = "</div>  <!-- Close card/card-body for bootstrap -->"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          END         
 
@@ -2450,7 +2449,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             // Set to the ctrl subobject to loop thru the tabs on the tab control
             SetViewToSubobject( vDialog, "CtrlCtrl" )
             OrderEntityForView( vDialog, "Control", "Type A" )
-
+            // Loop through tab control
             FOR EACH vDialog.Control
 
                szCtrlCtrlTag = vDialog.Control.Tag
@@ -2940,34 +2939,55 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            szText = vDialog.Control.Text
                         END
                         
-
+                        // KJS 05/20/22 - Should we check if the heading should be right justified when the value displayed is integer or decimal?
+                        // KJS 05/20/22 - If this field has mapping and it's a mapping domain of decimal or integer, we want to right align this field.
+                        // should we do this here? Or is it fine that I put this in the text control code.
+                        IF szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Domain EXISTS AND 
+                           ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
+                           IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-left" ) <= 0
+                              szClass = " text-right"
+                           END   
+                        ELSE
+                           szClass = ""
+                        END  
+                        
                         IF szStyleIsBootstrap = "" OR vDialog.CtrlMapER_Attribute DOES NOT EXIST OR
                            ( szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Attribute EXISTS AND vDialog.CtrlMapER_Attribute.Name != "wHide")
-                        // If this is sortable and this is a pushbutton on the grid...
-                        IF lSort != 0 AND lPushBtn != 0
-                           IF  szAbsoluteWidth = ""
-                              szWriteBuffer = "   <th class=^gridheading^>" + szText
+                           // If this is sortable and this is a pushbutton on the grid...
+                           IF lSort != 0 AND lPushBtn != 0
+                              IF szAbsoluteWidth = ""
+                                 szWriteBuffer = "   <th class=^gridheading^>" + szText
+                              ELSE
+                                 szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^ class=^gridheading^>" + szText
+                              END
                            ELSE
-                              szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^ class=^gridheading^>" + szText
+                              IF szAbsoluteWidth = ""
+                                 // KJS 05/20/22
+                                 IF szClass = ""
+                                    szWriteBuffer = "   <th"
+                                 ELSE
+                                    szWriteBuffer = "   <th class=^" + szClass + "^"
+                                 END
+                              ELSE
+                                 // KJS 05/20/22
+                                 IF szClass = ""
+                                    szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^"
+                                 ELSE
+                                    szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^" + " class=^" + szClass + "^"
+                                 END
+                              END
+   
+                              //If this column is for a checkbox with no header text, we are creating a checkbox so that
+                              //the user can "select all" for this column.  Because of this, we do not want this
+                              //column to be able to sort.  Put on the class "gridheading" which keeps this column
+                              //from sorting.
+                              IF vDialog.Control.Text = "" AND ( vDialog.ControlDef.Tag = "GridCheckCtl" OR vDialog.ControlDef.Tag = "CheckBox" )
+                                 szWriteBuffer = szWriteBuffer + " class=^gridheading^"
+                              END
+   
+                              //Put the ending on the tag and the text if there is any.
+                              szWriteBuffer = szWriteBuffer + ">" + szText
                            END
-                        ELSE
-                           IF  szAbsoluteWidth = ""
-                              szWriteBuffer = "   <th"
-                           ELSE
-                              szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^"
-                           END
-
-                           //If this column is for a checkbox with no header text, we are creating a checkbox so that
-                           //the user can "select all" for this column.  Because of this, we do not want this
-                           //column to be able to sort.  Put on the class "gridheading" which keeps this column
-                           //from sorting.
-                           IF vDialog.Control.Text = "" AND ( vDialog.ControlDef.Tag = "GridCheckCtl" OR vDialog.ControlDef.Tag = "CheckBox" )
-                              szWriteBuffer = szWriteBuffer + " class=^gridheading^"
-                           END
-
-                           //Put the ending on the tag and the text if there is any.
-                           szWriteBuffer = szWriteBuffer + ">" + szText
-                        END
                         END
 
                         //KJS 10/19/07 - If there is no Text and the control is a checkbox, then we want to create a
@@ -3577,7 +3597,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                   lCol = 0
                END               
                //lCol = 0
-               FOR EACH vDialog.Control   // Loop to create table columns
+               // Loop to create table columns
+               FOR EACH vDialog.Control
 
                   szCtrlCtrlType = vDialog.ControlDef.Tag
                   IF szCtrlCtrlType = "GridSubCtl" AND vDialog.CtrlCtrl EXISTS
@@ -3699,7 +3720,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      ELSE
                         szText = vDialog.Control.Text
                      END   
-
 */
                      //If we put a title on the control, when the mouse is hovered over the control, this text will display.
                      szTitleHTML = ""
@@ -3709,6 +3729,16 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      END
 
                      szClass = vDialog.Control.CSS_Class
+                     
+                     // KJS 05/20/22 - If this field has mapping and it's a mapping domain of decimal or integer, we want to right align this field.
+                     // should we do this here? Or is it fine that I put this in the text control code.
+                     IF szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Domain EXISTS AND 
+                        ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
+                        IF ZeidonStringFind( szClass, 1, "text-left" ) <= 0
+                           szClass = szClass + " text-right"
+                        END
+                     END  
+                     
                      IF szClass != "" AND szCtrlCtrlType != "PushBtn"  // Don't add Class here for Push Button.
                         szItemTableHeader = szItemTableHeader + " class=^" + szClass + "^"
                      END
@@ -3965,12 +3995,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               szWriteBuffer = "<%"
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         // KJS 05/27/21 - If the value from the database is not part of the domain anymore, we will put that option in but
-         // we will set it as disabled. We already had this code in GenJSPJ_CrteComboBox
-         szInListCtrlTag = "inList" + szListCtrlTag
-
-         szWriteBuffer = "   boolean " + szInListCtrlTag + " = false;"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              // KJS 05/27/21 - If the value from the database is not part of the domain anymore, we will put that option in but
+                              // we will set it as disabled. We already had this code in GenJSPJ_CrteComboBox
+                              szInListCtrlTag = "inList" + szListCtrlTag
+                     
+                              szWriteBuffer = "   boolean " + szInListCtrlTag + " = false;"
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               szWriteBuffer = "   strComboCurrentInternalValue = ^^;"
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                              // szWriteBuffer = "      nRC = " + szViewName + ".GetView( strSessionId, ^" + szViewName + "^, vAppSubtask );"
@@ -4053,8 +4083,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                                  szWriteBuffer = "            {"
                                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-               szWriteBuffer = "         " + szInListCtrlTag + " = true;"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                 szWriteBuffer = "         " + szInListCtrlTag + " = true;"
+                                 WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                
                                  szWriteBuffer = "%>"
                                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -4112,8 +4142,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               szWriteBuffer = "            {"
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-            szWriteBuffer = "               " + szInListCtrlTag + " = true;"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              szWriteBuffer = "               " + szInListCtrlTag + " = true;"
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                               szWriteBuffer = "%>"
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -4145,23 +4175,23 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               // KJS 10/31/12 - END OF New Code for java
 
-            // KJS 05/27/21 - Add this value as disabled. We already had this in GenJSPJ_CrteComboBox
-            szWriteBuffer = "      // The value from the database isn't in the domain, add it to the list as disabled."
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      if ( !" + szInListCtrlTag + " )"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      { "
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "%>"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
-            szWriteBuffer = "         <option disabled selected=^selected^ value=^<%=strComboCurrentInternalValue%>^><%=strComboCurrentValue%></option>"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "<%"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
-            szWriteBuffer = "      }  "
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              // KJS 05/27/21 - Add this value as disabled. We already had this in GenJSPJ_CrteComboBox
+                              szWriteBuffer = "      // The value from the database isn't in the domain, add it to the list as disabled."
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              szWriteBuffer = "      if ( !" + szInListCtrlTag + " )"
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              szWriteBuffer = "      { "
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              szWriteBuffer = "%>"
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  
+                              szWriteBuffer = "         <option disabled selected=^selected^ value=^<%=strComboCurrentInternalValue%>^><%=strComboCurrentValue%></option>"
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              szWriteBuffer = "<%"
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  
+                              szWriteBuffer = "      }  "
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                               szWriteBuffer = "%>"
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )

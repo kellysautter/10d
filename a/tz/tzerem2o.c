@@ -4402,11 +4402,13 @@ oTZEREMDO_ERD_RelationshipCopy( zVIEW     NewERD,
    zLONG     lTempInteger_1; 
    zLONG     lTempInteger_2; 
    zSHORT    lTempInteger_3; 
-   zLONG     lTempInteger_4; 
+   zSHORT    lTempInteger_4; 
    zLONG     lTempInteger_5; 
    zLONG     lTempInteger_6; 
-   zSHORT    lTempInteger_7; 
-   zLONG     lTempInteger_8; 
+   zLONG     lTempInteger_7; 
+   zSHORT    lTempInteger_8; 
+   zSHORT    lTempInteger_9; 
+   zLONG     lTempInteger_10; 
 
 
    //:// Copy the Relationship from the source ERD to the target ERD.
@@ -4487,10 +4489,21 @@ oTZEREMDO_ERD_RelationshipCopy( zVIEW     NewERD,
          if ( lTempInteger_3 == 0 && CompareAttributeToAttribute( OldERD2, "ER_RelLinkIdentifier", "ZKey", OldERD3, "ER_RelLinkIdentifier", "ZKey" ) == 0 )
          { 
 
+            //:// KJS 05/05/22 - We get here and the identifier does not exist yet. Do we create it?
+            //:// I think this will get created later in process, so I think we should not include unless
+            //:// this already exists (which might never be the case... I'm not sure.
+            //:IF NewERD3.ER_FactType EXISTS
+            lTempInteger_4 = CheckExistenceOfEntity( NewERD3, "ER_FactType" );
+            if ( lTempInteger_4 == 0 )
+            { 
+               //:INCLUDE NewERD3.ER_RelLinkIdentifier FROM NewERD3.ER_RelLink_2
+               RESULT = IncludeSubobjectFromSubobject( NewERD3, "ER_RelLinkIdentifier", NewERD3, "ER_RelLink_2", zPOS_AFTER );
+            } 
+
+            //:END
+
             //:FoundInd = 1
             FoundInd = 1;
-            //:INCLUDE NewERD3.ER_RelLinkIdentifier FROM NewERD3.ER_RelLink_2
-            RESULT = IncludeSubobjectFromSubobject( NewERD3, "ER_RelLinkIdentifier", NewERD3, "ER_RelLink_2", zPOS_AFTER );
             //:ELSE
          } 
          else
@@ -4509,8 +4522,8 @@ oTZEREMDO_ERD_RelationshipCopy( zVIEW     NewERD,
       DropView( OldERD2 );
       //:SET CURSOR NEXT OldERD3.ER_RelLinkIdentifier WITHIN OldERD3.EntpER_Model
       //:          WHERE OldERD3.ER_RelLinkIdentifier.ZKey = OldERD.ER_RelLink_2.ZKey
-      GetIntegerFromAttribute( &lTempInteger_4, OldERD, "ER_RelLink_2", "ZKey" );
-      RESULT = SetCursorNextEntityByInteger( OldERD3, "ER_RelLinkIdentifier", "ZKey", lTempInteger_4, "EntpER_Model" );
+      GetIntegerFromAttribute( &lTempInteger_5, OldERD, "ER_RelLink_2", "ZKey" );
+      RESULT = SetCursorNextEntityByInteger( OldERD3, "ER_RelLinkIdentifier", "ZKey", lTempInteger_5, "EntpER_Model" );
    } 
 
    //:END
@@ -4538,8 +4551,8 @@ oTZEREMDO_ERD_RelationshipCopy( zVIEW     NewERD,
    RESULT = IncludeSubobjectFromSubobject( NewERD2, "ER_Entity_2", NewERD2, "ER_Entity", zPOS_AFTER );
    //:// Position on other side of relationship just included.
    //:SET CURSOR FIRST NewERD2.ER_RelLink WHERE NewERD2.ER_RelLink.ZKey = NewERD2.ER_RelLink_2.ZKey
-   GetIntegerFromAttribute( &lTempInteger_5, NewERD2, "ER_RelLink_2", "ZKey" );
-   RESULT = SetCursorFirstEntityByInteger( NewERD2, "ER_RelLink", "ZKey", lTempInteger_5, "" );
+   GetIntegerFromAttribute( &lTempInteger_6, NewERD2, "ER_RelLink_2", "ZKey" );
+   RESULT = SetCursorFirstEntityByInteger( NewERD2, "ER_RelLink", "ZKey", lTempInteger_6, "" );
 
    //:// We must now do any includes of ER_RelLinkIdentifier under ER_FactType.
    //:// This is complex because the ER_RelLink entity has no unique logical key
@@ -4553,8 +4566,8 @@ oTZEREMDO_ERD_RelationshipCopy( zVIEW     NewERD,
    SetNameForView( NewERD3, "NewERD3", 0, zLEVEL_TASK );
    //:SET CURSOR FIRST OldERD3.ER_RelLinkIdentifier WITHIN OldERD3.EntpER_Model
    //:           WHERE OldERD3.ER_RelLinkIdentifier.ZKey = OldERD.ER_RelLink_2.ZKey
-   GetIntegerFromAttribute( &lTempInteger_6, OldERD, "ER_RelLink_2", "ZKey" );
-   RESULT = SetCursorFirstEntityByInteger( OldERD3, "ER_RelLinkIdentifier", "ZKey", lTempInteger_6, "EntpER_Model" );
+   GetIntegerFromAttribute( &lTempInteger_7, OldERD, "ER_RelLink_2", "ZKey" );
+   RESULT = SetCursorFirstEntityByInteger( OldERD3, "ER_RelLinkIdentifier", "ZKey", lTempInteger_7, "EntpER_Model" );
    //:LOOP WHILE RESULT >= zCURSOR_SET
    while ( RESULT >= zCURSOR_SET )
    { 
@@ -4571,15 +4584,26 @@ oTZEREMDO_ERD_RelationshipCopy( zVIEW     NewERD,
       while ( FoundInd == 0 )
       { 
          //:IF OldERD2.ER_RelLinkIdentifier EXISTS AND
-         lTempInteger_7 = CheckExistenceOfEntity( OldERD2, "ER_RelLinkIdentifier" );
+         lTempInteger_8 = CheckExistenceOfEntity( OldERD2, "ER_RelLinkIdentifier" );
          //:   OldERD2.ER_RelLinkIdentifier.ZKey = OldERD3.ER_RelLinkIdentifier.ZKey
-         if ( lTempInteger_7 == 0 && CompareAttributeToAttribute( OldERD2, "ER_RelLinkIdentifier", "ZKey", OldERD3, "ER_RelLinkIdentifier", "ZKey" ) == 0 )
+         if ( lTempInteger_8 == 0 && CompareAttributeToAttribute( OldERD2, "ER_RelLinkIdentifier", "ZKey", OldERD3, "ER_RelLinkIdentifier", "ZKey" ) == 0 )
          { 
 
             //:FoundInd = 1
             FoundInd = 1;
-            //:INCLUDE NewERD3.ER_RelLinkIdentifier FROM NewERD3.ER_RelLink_2
-            RESULT = IncludeSubobjectFromSubobject( NewERD3, "ER_RelLinkIdentifier", NewERD3, "ER_RelLink_2", zPOS_AFTER );
+
+            //:// KJS 05/05/22 - We get here and the identifier does not exist yet. Do we create it?
+            //:// I think this will get created later in process, so I think we should not include unless
+            //:// this already exists (which might never be the case... I'm not sure.
+            //:IF NewERD3.ER_FactType EXISTS
+            lTempInteger_9 = CheckExistenceOfEntity( NewERD3, "ER_FactType" );
+            if ( lTempInteger_9 == 0 )
+            { 
+               //:INCLUDE NewERD3.ER_RelLinkIdentifier FROM NewERD3.ER_RelLink_2
+               RESULT = IncludeSubobjectFromSubobject( NewERD3, "ER_RelLinkIdentifier", NewERD3, "ER_RelLink_2", zPOS_AFTER );
+            } 
+
+            //:END
             //:ELSE
          } 
          else
@@ -4598,8 +4622,8 @@ oTZEREMDO_ERD_RelationshipCopy( zVIEW     NewERD,
       DropView( OldERD2 );
       //:SET CURSOR NEXT OldERD3.ER_RelLinkIdentifier WITHIN OldERD3.EntpER_Model
       //:          WHERE OldERD3.ER_RelLinkIdentifier.ZKey = OldERD.ER_RelLink_2.ZKey
-      GetIntegerFromAttribute( &lTempInteger_8, OldERD, "ER_RelLink_2", "ZKey" );
-      RESULT = SetCursorNextEntityByInteger( OldERD3, "ER_RelLinkIdentifier", "ZKey", lTempInteger_8, "EntpER_Model" );
+      GetIntegerFromAttribute( &lTempInteger_10, OldERD, "ER_RelLink_2", "ZKey" );
+      RESULT = SetCursorNextEntityByInteger( OldERD3, "ER_RelLinkIdentifier", "ZKey", lTempInteger_10, "EntpER_Model" );
    } 
 
    //:END

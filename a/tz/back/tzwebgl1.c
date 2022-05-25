@@ -11395,14 +11395,12 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
                         ZeidonStringCopy( szWriteBuffer, 1, 0, "       strErrorMapValue = ^^;", 1, 0, 10001 );
                         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-                        //:szWriteBuffer = "   if ( strErrorMapValue.length( ) > 0 )"
-                        ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( strErrorMapValue.length( ) > 0 )", 1, 0, 10001 );
-                        //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-                        //:szWriteBuffer = "   {"
-                        ZeidonStringCopy( szWriteBuffer, 1, 0, "   {", 1, 0, 10001 );
-                        //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                        //:// KJS 04/08/22 - Taking out the if statement, will add the <th> no matter what (it was causing problems with bootstrap
+                        //:// because there were more <td> values than <th> values.
+                        //://szWriteBuffer = "   if ( strErrorMapValue.length( ) > 0 )"
+                        //://WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        //://szWriteBuffer = "   {"
+                        //://WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         //:szWriteBuffer = "%>"
                         ZeidonStringCopy( szWriteBuffer, 1, 0, "%>", 1, 0, 10001 );
                         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -11441,10 +11439,9 @@ GenJSP_CrteCtrlsRecurs( zVIEW     vDialog,
 
                         //:END
 
-                        //:szWriteBuffer = "   }"
-                        ZeidonStringCopy( szWriteBuffer, 1, 0, "   }", 1, 0, 10001 );
-                        //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+                        //:// KJS 04/08/22
+                        //://szWriteBuffer = "   }"
+                        //://WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         //:ELSE
                      } 
                      else

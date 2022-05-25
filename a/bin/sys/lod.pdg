@@ -1,15 +1,16 @@
-z1000-Zeidon    LOD      TZDGSRCO 01/08/13   12:28:53 1.0a2    
+z1000-Zeidon    LOD      TZDGSRCO                         05/25/22   11:49:38 1.0a2   
 eDomainGroup 1
 aZKey      1320146
+aNextZKeyToAssign 92716726
 aName      LOD
 aExtension C
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      1320147
 aName      LOD_EntitySequence
 aDesc      Attribute or Relative Position
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N
@@ -39,10 +40,110 @@ aExternalValue - none -
 aInternalValue -
 
 eDomain    2
+aZKey      92716718
+aName      DerivedAttrParmAction
+aDesc      Derived Attribute Action such as Sum and Avg
+aDomainType T
 aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 10
+aContextRestriction N
+
+eContext   3
+aZKey      92716719
+aName      DerivedAttrParmAction
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92716720
+aExternalValue Sum
+aInternalValue Sum
+
+eTableEntry 4
+aZKey      92716721
+aExternalValue Avg
+aInternalValue Avg
+
+eTableEntry 4
+aZKey      92716722
+aExternalValue Max
+aInternalValue Max
+
+eTableEntry 4
+aZKey      92716723
+aExternalValue Min
+aInternalValue Min
+
+eTableEntry 4
+aZKey      92716724
+aExternalValue Count
+aInternalValue Count
+
+eTableEntry 4
+aZKey      92716725
+aExternalValue Any
+aInternalValue Any
+
+eTableEntry 4
+aZKey      92716726
+aExternalValue All
+aInternalValue All
+
+eDomain    2
+aZKey      92716709
+aName      DerivedAttrParmOperator
+aDesc      LOD_Attribute Derived Attribute Operators such as <> and >
+aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aDataType  S
+aMaxStringLth 10
+aContextRestriction N
+
+eContext   3
+aZKey      92716710
+aName      DerivedAttrParmOperator
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92716711
+aExternalValue Subselect
+aInternalValue Subselect
+
+eTableEntry 4
+aZKey      92716712
+aExternalValue <>
+aInternalValue <>
+
+eTableEntry 4
+aZKey      92716713
+aExternalValue =
+aInternalValue =
+
+eTableEntry 4
+aZKey      92716714
+aExternalValue >
+aInternalValue >
+
+eTableEntry 4
+aZKey      92716715
+aExternalValue >=
+aInternalValue >=
+
+eTableEntry 4
+aZKey      92716716
+aExternalValue <
+aInternalValue <
+
+eTableEntry 4
+aZKey      92716717
+aExternalValue <=
+aInternalValue <=
+
+eDomain    2
 aZKey      4330375
 aName      LOD_AttributeHashkeyType
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N
@@ -51,9 +152,6 @@ eContext   3
 aZKey      4330376
 aName      LOD_AttributeHashkeyType
 aIsDefault Y
-
-eTableEntry 4
-aZKey      92716707
 
 eTableEntry 4
 aZKey      4330377
@@ -66,11 +164,11 @@ aExternalValue Under Parent
 aInternalValue P
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      90201051
 aName      LOD_DB_DerivedValue
 aDesc      X - MAX, N - MIN, A - AVG, S - SUM, C - COUNT
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N
@@ -110,11 +208,11 @@ aExternalValue COUNT
 aInternalValue C
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      1320152
 aName      LOD_ParentDeleteBehavior
 aDesc      Delete, Restrict, Exclude
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N

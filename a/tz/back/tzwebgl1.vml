@@ -2336,10 +2336,12 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         szWriteBuffer = "       strErrorMapValue = ^^;"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        szWriteBuffer = "   if ( strErrorMapValue.length( ) > 0 )"
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        szWriteBuffer = "   {"
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        // KJS 04/08/22 - Taking out the if statement, will add the <th> no matter what (it was causing problems with bootstrap
+                        // because there were more <td> values than <th> values.
+                        //szWriteBuffer = "   if ( strErrorMapValue.length( ) > 0 )"
+                        //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        //szWriteBuffer = "   {"
+                        //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         szWriteBuffer = "%>"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         IF  szAbsoluteWidth = ""
@@ -2356,8 +2358,9 @@ GenJSP_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         END
 
+                        // KJS 04/08/22 - keeping writebuffer but not writing it out.
                         szWriteBuffer = "   }"
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                      ELSE
                         // The Title is a constant.
                         IF szWriteBuffer = "   }"

@@ -490,6 +490,7 @@ MigrateMeta( zVIEW     vSubtask )
    //:GET VIEW SourceVOR_LPLR NAMED "SourceVOR_LPLR"
    RESULT = GetViewByName( &SourceVOR_LPLR, "SourceVOR_LPLR", vSubtask, zLEVEL_TASK );
 
+
    //:// Process the Domain Groups and the Operation Groups first, since they must exist before
    //:// other metas can be processed, and their numbers put them at the end of the list.
 
@@ -524,6 +525,10 @@ MigrateMeta( zVIEW     vSubtask )
    } 
 
    //:END
+
+   //:// KJS 05/03/22
+   //:GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+   RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
 
    //://nConvertFlag = 0        // Indicate that we are not converting.
    //:nRC = SetCursorFirstSelectedEntity( SourceLPLR, "W_MetaDef", "LPLR" )
@@ -771,9 +776,67 @@ MigrateMeta( zVIEW     vSubtask )
          oTZEREMDO_ERD_Migrate( NewERD, &OrigLPLR, vSubtask );
          //:DropMetaOI( vSubtask, NewERD )
          DropMetaOI( vSubtask, NewERD );
+         //:ELSE
+      } 
+      else
+      { 
+         //:// KJS 05/02/22 - Maybe this is where we should check... activate the ER, if it doesn't exist, then create one.
+
+         //:// If the ERD doesn't already exist, create it.
+         //:// Otherwise pass the activated ERD to the migrate routine so that entities, attributes and
+         //:// relationships can be merged.
+         //:GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+         RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+         //:MetaName = CurrentLPLR.LPLR.Name
+         GetVariableFromAttribute( MetaName, 0, 'S', 33, CurrentLPLR, "LPLR", "Name", "", 0 );
+         //:nRC = ActivateMetaOI_ByName( vSubtask, NewERD, 0, zSOURCE_ERD_META, zSINGLE, MetaName, 0 )
+         nRC = ActivateMetaOI_ByName( vSubtask, &NewERD, 0, zSOURCE_ERD_META, zSINGLE, MetaName, 0 );
+         //:IF nRC < 0
+         if ( nRC < 0 )
+         { 
+            //:ActivateEmptyMetaOI( vSubtask, NewERD, zSOURCE_ERD_META, zSINGLE )
+            ActivateEmptyMetaOI( vSubtask, &NewERD, zSOURCE_ERD_META, zSINGLE );
+            //:CreateMetaEntity( vSubtask, NewERD, "EntpER_Model", zPOS_AFTER )
+            CreateMetaEntity( vSubtask, NewERD, "EntpER_Model", zPOS_AFTER );
+            //:NewERD.EntpER_Model.Name = MetaName
+            SetAttributeFromString( NewERD, "EntpER_Model", "Name", MetaName );
+            //:CreateMetaEntity( vSubtask, NewERD, "ER_Entity", zPOS_AFTER )
+            CreateMetaEntity( vSubtask, NewERD, "ER_Entity", zPOS_AFTER );
+            //:SetAttributeFromString( NewERD, "ER_Entity", "Purpose", "F" )
+            SetAttributeFromString( NewERD, "ER_Entity", "Purpose", "F" );
+            //:SetAttributeFromAttribute( NewERD, "ER_Entity", "Name", CurrentLPLR, "LPLR", "Name" )
+            SetAttributeFromAttribute( NewERD, "ER_Entity", "Name", CurrentLPLR, "LPLR", "Name" );
+            //:CommitMetaOI( vSubtask, NewERD, zSOURCE_ERD_META )
+            CommitMetaOI( vSubtask, NewERD, zSOURCE_ERD_META );
+            //:DropMetaOI( vSubtask, NewERD )
+            DropMetaOI( vSubtask, NewERD );
+         } 
+
+         //:   // We overwrote original MetaName, so get the one we originally had.
+         //: END
+         //: MetaName = SourceLPLR.W_MetaDef.Name         
+         GetVariableFromAttribute( MetaName, 0, 'S', 33, SourceLPLR, "W_MetaDef", "Name", "", 0 );
       } 
 
+      //:   //NAME VIEW NewERD "NewERD"
+      //:   //NAME VIEW NewERD "TZEREMDO_REF"
 
+      //:          
+      //:   // KJS 05/02/22 - Question... should we activate the ER now, so that it exists when needed for other operations.
+      //:   // And if there is no ER, should we create one?
+      //:   // Was thinking this should happen after looking at the domains/operations, but now I'm not sure.   
+      //:   // Get access to ER Object.
+      //:   /*
+      //:   IF GetViewByName( vTZEREMDO_REF, "TZEREMDO_REF", vSubtask, zLEVEL_TASK ) < 1 
+      //:      RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_ERD_META )
+      //:      IF ( CheckExistenceOfEntity( CurrentLPLR, "W_MetaDef" ) == zCURSOR_SET )
+      //:         ActivateMetaOI( vSubtask, &vTZEREMDO_REF, CurrentLPLR, zREFER_ERD_META, zSINGLE | zLEVEL_APPLICATION )
+      //:         SetNameForView( vTZEREMDO_REF, "TZEREMDO_REF", vSubtask, zLEVEL_TASK )
+      //:      ELSE
+      //:         vTZEREMDO_REF = 0
+      //:      END      
+      //:   END
+      //:   */
       //:END
 
       //:// Subject Area: W_MetaType.Type = 2005 for Subject Area meta

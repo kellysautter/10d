@@ -1257,7 +1257,7 @@ zwfnTZDMUPDD_DeleteDomain( zVIEW  vSubtask,
    zVIEW    vDomainGrpCur;
    zVIEW    vDomainGrpOrig;
    zVIEW    vParentWindow;
-   zVIEW    vERD_Source;
+   zVIEW    vTZEREMDO_REF;
    zSHORT   nRC;
    zSHORT   nDeleteCode;
    zULONG   ulZKey;
@@ -1308,17 +1308,31 @@ zwfnTZDMUPDD_DeleteDomain( zVIEW  vSubtask,
    // KJS 04/22/22 - Check if this domain is used in the ER. If so, then we don't want to delete.
    // I also want to make sure that if I've selected the second duplicate domain, that I am positioned on the
    // second.
-   RetrieveViewForMetaList(vSubtask, &vCM_List2, zREFER_ERD_META);
-   ActivateMetaOI( vSubtask, &vERD_Source, vCM_List2, zSOURCE_ERD_META,
-                   zSINGLE | zLEVEL_APPLICATION );
-   SetNameForView( vERD_Source, "DELETE_ER_DDOMAIN", vSubtask, zLEVEL_TASK );
-   DropView(vCM_List2);
+   //RetrieveViewForMetaList(vSubtask, &vCM_List2, zREFER_ERD_META);
+   //ActivateMetaOI( vSubtask, &vERD_Source, vCM_List2, zSOURCE_ERD_META,
+   //                zSINGLE | zLEVEL_APPLICATION );
+   //SetNameForView( vERD_Source, "DELETE_ER_DDOMAIN", vSubtask, zLEVEL_TASK );
+   //DropView(vCM_List2);
+
+   // Get access to ER Object.
+   if (GetViewByName(&vTZEREMDO_REF, "TZEREMDO_REF", vSubtask, zLEVEL_TASK) < 1)
+   {
+	   RetrieveViewForMetaList(vSubtask, &vCM_List2, zREFER_ERD_META);
+	   if (CheckExistenceOfEntity(vCM_List2, "W_MetaDef") == zCURSOR_SET)
+	   {
+		   ActivateMetaOI(vSubtask, &vTZEREMDO_REF, vCM_List2, zREFER_ERD_META, zSINGLE | zLEVEL_APPLICATION);
+		   SetNameForView(vTZEREMDO_REF, "TZEREMDO_REF", vSubtask, zLEVEL_TASK);
+	   }
+	   else
+		   vTZEREMDO_REF = 0;
+
+	   DropView(vCM_List2);
+   }
 
    // Find if this domain exists
    //GetIntegerFromAttribute( (zPLONG) &ulZKey, vDomainGrp,
    //                         "Domain", "ZKey" );
-   nRC = SetCursorFirstEntityByInteger(vERD_Source, "Domain", "ZKey", ulZKey, "EntpER_Model");
-   DropView(vERD_Source);
+   nRC = SetCursorFirstEntityByInteger(vTZEREMDO_REF, "Domain", "ZKey", ulZKey, "EntpER_Model");
 
    // Domain exists in the ER so do not allow the delete.
    if (nRC >= zCURSOR_SET)
@@ -1383,11 +1397,9 @@ zwTZDMUPDD_DeleteDuplDomains(zVIEW  vSubtask,
 	zSHORT   nRC;
 	zSHORT   bContinue = 0;
 	zSHORT   bFirstInstance = 0;
-	zSHORT   nDeleteCode;
 	zULONG   ulZKey;
 	zLONG    lControl = 0;
 	zCHAR    szDomainName[33];
-	zCHAR    szLastDomainName[33];
 
 	// KJS 04/25/22  kkkkkkkkkkkkkkk
 

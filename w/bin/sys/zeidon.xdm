@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZDMXGPO                         04/26/22   09:51:55 1.0a2   
+z1000-Zeidon    ZEIDON   TZDMXGPO                         05/25/22   11:49:41 1.0a2   
 eDomainGroup 1
 aName      Zeidon9B
 
@@ -2487,6 +2487,106 @@ aName      DecimalKey0
 aIsDefault Y
 
 eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      92716718
+aName      DerivedAttrParmAction
+aDesc      Derived Attribute Action such as Sum and Avg
+aDomainType T
+aDataType  S
+aMaxStringLth 10
+aContextRestriction N
+
+eContext   3
+aZKey      92716719
+aName      DerivedAttrParmAction
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92716720
+aExternalValue Sum
+aInternalValue Sum
+
+eTableEntry 4
+aZKey      92716721
+aExternalValue Avg
+aInternalValue Avg
+
+eTableEntry 4
+aZKey      92716722
+aExternalValue Max
+aInternalValue Max
+
+eTableEntry 4
+aZKey      92716723
+aExternalValue Min
+aInternalValue Min
+
+eTableEntry 4
+aZKey      92716724
+aExternalValue Count
+aInternalValue Count
+
+eTableEntry 4
+aZKey      92716725
+aExternalValue Any
+aInternalValue Any
+
+eTableEntry 4
+aZKey      92716726
+aExternalValue All
+aInternalValue All
+
+eDomain    2
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
+aZKey      92716709
+aName      DerivedAttrParmOperator
+aDesc      LOD_Attribute Derived Attribute Operators such as <> and >
+aDomainType T
+aDataType  S
+aMaxStringLth 10
+aContextRestriction N
+
+eContext   3
+aZKey      92716710
+aName      DerivedAttrParmOperator
+aIsDefault Y
+
+eTableEntry 4
+aZKey      92716711
+aExternalValue Subselect
+aInternalValue Subselect
+
+eTableEntry 4
+aZKey      92716712
+aExternalValue <>
+aInternalValue <>
+
+eTableEntry 4
+aZKey      92716713
+aExternalValue =
+aInternalValue =
+
+eTableEntry 4
+aZKey      92716714
+aExternalValue >
+aInternalValue >
+
+eTableEntry 4
+aZKey      92716715
+aExternalValue >=
+aInternalValue >=
+
+eTableEntry 4
+aZKey      92716716
+aExternalValue <
+aInternalValue <
+
+eTableEntry 4
+aZKey      92716717
+aExternalValue <=
+aInternalValue <=
+
+eDomain    2
 aJavaClass com.quinsoft.zeidon.domains.StringDomain
 aZKey      90000030
 aName      Description
@@ -3125,9 +3225,6 @@ eContext   3
 aZKey      4330376
 aName      LOD_AttributeHashkeyType
 aIsDefault Y
-
-eTableEntry 4
-aZKey      92716707
 
 eTableEntry 4
 aZKey      4330377

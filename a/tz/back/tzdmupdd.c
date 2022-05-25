@@ -801,6 +801,7 @@ zOPER_EXPORT zSHORT OPERATION
 zwTZDMUPDD_SaveDomain( zVIEW    vSubtask )
 {
    zVIEW    vDomainGrp;
+   zVIEW    vCM_List;
    zVIEW    vWindow;
    zCHAR    szType[ 2 ];
    zLONG    lMaxStringLength;
@@ -838,6 +839,17 @@ zwTZDMUPDD_SaveDomain( zVIEW    vSubtask )
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( -1 );
    }
+   
+   // KJS 04/25/22 - We should check for duplicate name here so that we don't check when we try to delete. Yes?
+   nRC = GetViewByName( &vCM_List, "CM_List", vSubtask, zLEVEL_TASK );
+   if ( oTZDMSRCO_UniqueDomainName( vDomainGrp, vCM_List ) == 0 )
+   {
+      MessageSend( vSubtask, "DM00101", "Domain Maintenance",
+                   "Domain Name is not unique.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
+      return( -1 );
+   }
+   // SaveDomain has a check duplicate but I will keep above because we don't want to AcceptSubobject.
 
    // Accept the Domain.
    AcceptSubobject( vDomainGrp, "Domain" );
@@ -1245,6 +1257,7 @@ zwfnTZDMUPDD_DeleteDomain( zVIEW  vSubtask,
    zVIEW    vDomainGrpCur;
    zVIEW    vDomainGrpOrig;
    zVIEW    vParentWindow;
+   zVIEW    vTZEREMDO_REF;
    zSHORT   nRC;
    zSHORT   nDeleteCode;
    zULONG   ulZKey;
@@ -1263,18 +1276,21 @@ zwfnTZDMUPDD_DeleteDomain( zVIEW  vSubtask,
                          zSINGLE | zLEVEL_APPLICATION );
    DropView( vCM_List2 );
 
-   if ( nRC <= 0 )
-   {
-      // If the meta was not found, we nevertheless want to delete it from XLP.
-      zwfnTZDMUPDD_DeleteFromXLP( vCM_List, ulZKey );
-      return( -1 );
-   }
-
    // Prompt for Delete
    nDeleteCode = zwfnTZDMUPDD_PromptForDelete( vSubtask, vDomainGrp, nPromptForDelete,
                                                nDeleteOperationCode );
-   if ( nDeleteCode < 0 )
-      return( 0 );
+   if (nDeleteCode < 0)
+   {
+	   //DropView(vCM_List2);
+	   return(0);
+   }
+
+   if (nRC <= 0)
+   {
+	   // If the meta was not found, we nevertheless want to delete it from XLP. Only if user confirmed.
+	   zwfnTZDMUPDD_DeleteFromXLP(vCM_List, ulZKey);
+	   return(-1);
+   }
 
    // If the DomainGroup just activated is the same as the one
    // currently in memory, use the one in memory.
@@ -1288,15 +1304,58 @@ zwfnTZDMUPDD_DeleteDomain( zVIEW  vSubtask,
       vDomainGrpOrig = vDomainGrp;
       vDomainGrp     = vDomainGrpCur;
    }
+   
+   // KJS 04/22/22 - Check if this domain is used in the ER. If so, then we don't want to delete.
+   // I also want to make sure that if I've selected the second duplicate domain, that I am positioned on the
+   // second.
+   //RetrieveViewForMetaList(vSubtask, &vCM_List2, zREFER_ERD_META);
+   //ActivateMetaOI( vSubtask, &vERD_Source, vCM_List2, zSOURCE_ERD_META,
+   //                zSINGLE | zLEVEL_APPLICATION );
+   //SetNameForView( vERD_Source, "DELETE_ER_DDOMAIN", vSubtask, zLEVEL_TASK );
+   //DropView(vCM_List2);
 
-   oTZDMSRCO_RemoveDomainFromXDM( vSubtask, vDomainGrp );
-   GetIntegerFromAttribute( (zPLONG) &ulZKey, vDomainGrp, "Domain", "ZKey" );
+   // Get access to ER Object.
+   if (GetViewByName(&vTZEREMDO_REF, "TZEREMDO_REF", vSubtask, zLEVEL_TASK) < 1)
+   {
+	   RetrieveViewForMetaList(vSubtask, &vCM_List2, zREFER_ERD_META);
+	   if (CheckExistenceOfEntity(vCM_List2, "W_MetaDef") == zCURSOR_SET)
+	   {
+		   ActivateMetaOI(vSubtask, &vTZEREMDO_REF, vCM_List2, zREFER_ERD_META, zSINGLE | zLEVEL_APPLICATION);
+		   SetNameForView(vTZEREMDO_REF, "TZEREMDO_REF", vSubtask, zLEVEL_TASK);
+	   }
+	   else
+		   vTZEREMDO_REF = 0;
+
+	   DropView(vCM_List2);
+   }
+
+   // Find if this domain exists
+   //GetIntegerFromAttribute( (zPLONG) &ulZKey, vDomainGrp,
+   //                         "Domain", "ZKey" );
+   nRC = SetCursorFirstEntityByInteger(vTZEREMDO_REF, "Domain", "ZKey", ulZKey, "EntpER_Model");
+   DropView(vTZEREMDO_REF);
+
+   // Domain exists in the ER so do not allow the delete.
+   if (nRC >= zCURSOR_SET)
+   {
+	   MessageSend(vSubtask, "", "Domain Maintenance",
+		           "This domain is being used in the ER, it can not be deleted.",
+		           zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+	   return(0);
+   }
+      
+    // end of KJS 04/22/22
 
    if ( nDeleteCode == 1 )
       zwfnTZDMUPDD_DeleteCode( vSubtask, vDomainGrp );
 
    DeleteEntity( vDomainGrp, "Domain", zREPOS_NEXT );
-   CommitMetaOI( vSubtask, vDomainGrp, zSOURCE_DOMAINGRP_META );
+   nRC = CommitMetaOI( vSubtask, vDomainGrp, zSOURCE_DOMAINGRP_META );
+   // Duplicate name can cause this to not commit. Let's check return.
+   if (nRC < 0)
+	   return (-1);
+
+   oTZDMSRCO_RemoveDomainFromXDM(vSubtask, vDomainGrp);
 
    if ( vDomainGrpOrig )
       DropObjectInstance( vDomainGrpOrig );
@@ -1325,6 +1384,128 @@ zwTZDMUPDD_DeleteDomain( zVIEW vSubtask )
    return( nRC );
 }
 
+
+zOPER_EXPORT zSHORT OPERATION
+zwTZDMUPDD_DeleteDuplDomains(zVIEW  vSubtask,
+	zSHORT nPromptForDelete,
+	zSHORT nDeleteOperationCode)
+{
+	zVIEW    vCM_List;
+	zVIEW    vCM_List2;
+	zVIEW    vCM_List3;
+	zVIEW    vDomainGrp;
+	zVIEW    vERD_Source;
+	zSHORT   nRC;
+	zSHORT   bContinue = 0;
+	zSHORT   bFirstInstance = 0;
+	zULONG   ulZKey;
+	zLONG    lControl = 0;
+	zCHAR    szDomainName[33];
+
+	// KJS 04/25/22  kkkkkkkkkkkkkkk
+
+	GetViewByName(&vCM_List, "CM_List", vSubtask, zLEVEL_ANY);
+
+	// KJS 04/22/22 - Check if this domain is used in the ER. If so, then we don't want to delete.
+	// I also want to make sure that if I've selected the second duplicate domain, that I am positioned on the
+	// second.
+	RetrieveViewForMetaList(vSubtask, &vCM_List3, zREFER_ERD_META);
+	ActivateMetaOI(vSubtask, &vERD_Source, vCM_List3, zSOURCE_ERD_META,
+		zSINGLE | zLEVEL_APPLICATION);
+	SetNameForView(vERD_Source, "DELETE_ER_DDOMAIN", vSubtask, zLEVEL_TASK);
+	DropView(vCM_List3);
+
+
+	// Create a second view since the Activate will loose position on
+	// the CM_List view passed in to it.
+	CreateViewFromViewForTask(&vCM_List2, vCM_List, 0);
+	SetCursorFirstEntityByInteger(vCM_List2, "W_MetaType", "Type", 2003, 0);  //SubType + 2000
+	strcpy_s(szDomainName, zsizeof(szDomainName), "xxx");
+
+	// Loop through the domain names, when one has a duplicate, then try to delete.
+	nRC = SetCursorFirstEntity(vCM_List2, "W_MetaDef", "");
+	while (nRC >= zCURSOR_SET )
+	{
+		if ( CompareAttributeToString(vCM_List2, "W_MetaDef", "Name", szDomainName )  != 0 )
+			GetStringFromAttribute( szDomainName, zsizeof(szDomainName), vCM_List2, "W_MetaDef", "Name" );
+		else
+		{
+			// Set back to the first occurence of this domain name.
+			SetCursorPrevEntity(vCM_List2, "W_MetaDef", "");
+			bContinue = 1;
+			bFirstInstance = 1;
+			while ( bContinue == 1 )
+			{
+
+				GetIntegerFromAttribute( (zPLONG)&ulZKey, vCM_List2, "W_MetaDef", "CPLR_ZKey" );
+				nRC = SetCursorFirstEntityByInteger(vERD_Source, "Domain", "ZKey", ulZKey, "EntpER_Model");
+				// Only drop if it doesn't exist in the ER.
+				if ( nRC < zCURSOR_SET )
+				{
+				////////
+					CreateViewFromViewForTask(&vCM_List3, vCM_List2, 0);
+					// Need to activate the domain group.
+					nRC = ActivateMetaOI(vSubtask, &vDomainGrp, vCM_List3,
+						zSOURCE_DOMAIN_META,
+						zSINGLE | zLEVEL_APPLICATION);
+					DropView(vCM_List3);
+
+					DeleteEntity(vCM_List2, "W_MetaDef", zREPOS_NEXT);
+
+					// Position on the correct domain by zkey.
+					nRC = SetCursorFirstEntityByInteger(vDomainGrp, "Domain", "ZKey", ulZKey, "");
+
+					DeleteEntity(vDomainGrp, "Domain", zREPOS_NEXT);
+					nRC = CommitMetaOI(vSubtask, vDomainGrp, zSOURCE_DOMAINGRP_META);
+					// Duplicate name can cause this to not commit. Let's check return.
+					if (nRC >= 0)
+						oTZDMSRCO_RemoveDomainFromXDM(vSubtask, vDomainGrp);
+					// Indicate that we deleted one of the duplicates. We won't bother with the next one.
+					bContinue = 0;
+					// Do we drop from vCM_List2???
+					DropView(vDomainGrp);
+					// Delete Domain from our copy of cm list.
+					// Blah! When I get here... w_MetaDef is "undefined". I'm not exactly sure what to do... Will the SetCursorNext get us back into position?
+					//SetCursorNextEntity(vCM_List2, "W_MetaDef", "");
+
+					//nRC = SetCursorFirstEntityByInteger(vCM_List, "W_MetaDef", "CPLR_ZKey", ulZKey, "");
+					//zwfnTZDMUPDD_DeleteFromXLP(vCM_List, ulZKey);
+					// After we've done the above deletes, we've lost position in vCM_List and vCM_List2 is pointed on "undefined" and I can't seem to get off of it even
+					// with a setcursorfirst... Let's recreate it. See how that goes.
+					//GetViewByName(&vCM_List, "CM_List", vSubtask, zLEVEL_ANY);
+					OrderEntityForView(vCM_List, "W_MetaDef", "Name A");
+
+					nRC = SetCursorFirstEntityByString(vCM_List, "W_MetaDef", "Name", szDomainName, "");
+					DropView(vCM_List2);
+					CreateViewFromViewForTask(&vCM_List2, vCM_List, 0);
+					SetCursorFirstEntityByInteger(vCM_List2, "W_MetaType", "Type", 2003, 0);  //SubType + 2000
+					OrderEntityForView(vCM_List2, "W_MetaDef", "Name A");
+					nRC = SetCursorFirstEntityByString(vCM_List2, "W_MetaDef", "Name", szDomainName, "");
+					bContinue = 0;
+				}
+				else
+				{
+					if (bFirstInstance == 1)
+					{
+						// Set cursor to the second instance of the domain name and see if that one is not in the ER and then delete.
+						SetCursorNextEntity(vCM_List2, "W_MetaDef", "");
+						bFirstInstance = 0;
+					}
+					else
+						bContinue = 0; // need to get out of the loop if for some reason both duplicates exist in db.
+				}
+				////////
+			}
+
+		}
+		nRC = SetCursorNextEntity(vCM_List2, "W_MetaDef", "");
+	}
+
+	// Find if this domain exists
+	DropView(vERD_Source);
+	return (0);
+
+}
 
 zOPER_EXPORT zSHORT OPERATION
 zwTZDMUPDD_ContextPopup( zVIEW    vSubtask )

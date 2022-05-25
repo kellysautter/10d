@@ -156,19 +156,43 @@ oTZDGSRCO_DomainMigrate( zVIEW     NewDomainGroup,
 
 
 //:TRANSFORMATION OPERATION
+//:DomainMigrateReus( VIEW NewDomainGroup BASED ON LOD TZDGSRCO,
+//:                   VIEW OldDomainGroup BASED ON LOD TZDGSRCO,
+//:                   VIEW vSubtask )
+
+//:   VIEW CurrentLPLRO BASED ON LOD TZCMLPLO
 zOPER_EXPORT zSHORT OPERATION
 oTZDGSRCO_DomainMigrateReus( zVIEW     NewDomainGroup,
                              zVIEW     OldDomainGroup,
                              zVIEW     vSubtask )
 {
-   zSHORT    lTempInteger_0; 
+   zVIEW     CurrentLPLRO = 0; 
    zSHORT    RESULT; 
    zCHAR     szTempString_0[ 33 ]; 
+   zSHORT    lTempInteger_0; 
    zSHORT    lTempInteger_1; 
 
-   //:DomainMigrateReus( VIEW NewDomainGroup BASED ON LOD TZDGSRCO,
-   //:                VIEW OldDomainGroup BASED ON LOD TZDGSRCO,
-   //:                VIEW vSubtask )
+
+   //:// KJS 05/03/22 - We should always do a search of the domain name both in the group and in the LPLR to make sure we don't
+   //:// add duplicates.
+   //:// The question is... what if a domain already exists, but we have new context? What should we do, we would need to 
+   //:// open a new domain group and check, right?
+   //://SET CURSOR FIRST CurrentLPLR.W_MetaDef WHERE CurrentLPLR.W_MetaDef.Name = OldDomainGroup.Domain.Name
+   //:RetrieveViewForMetaList( vSubtask, CurrentLPLRO, zREFER_DOMAIN_META ) // This points to DOMAIN as opposed to DomainGrp
+   RetrieveViewForMetaList( vSubtask, &CurrentLPLRO, zREFER_DOMAIN_META );
+   //:SET CURSOR FIRST CurrentLPLRO.W_MetaDef WHERE CurrentLPLRO.W_MetaDef.Name = OldDomainGroup.Domain.Name
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDomainGroup, "Domain", "Name" );
+   RESULT = SetCursorFirstEntityByString( CurrentLPLRO, "W_MetaDef", "Name", szTempString_0, "" );
+   //:IF RESULT >= zCURSOR_SET
+   if ( RESULT >= zCURSOR_SET )
+   { 
+      //://DropMetaOI( vSubtask, CurrentLPLRO )
+      //:RETURN 0
+      return( 0 );
+   } 
+
+   //:END
+   //://DropMetaOI( vSubtask, CurrentLPLRO )
 
    //:// If the source Domain has an Operation subobject and the target does not, add it.
    //:IF OldDomainGroup.SelectedOperation EXISTS
@@ -196,52 +220,72 @@ oTZDGSRCO_DomainMigrateReus( zVIEW     NewDomainGroup,
 
    //:END
 
-   //:CreateMetaEntity( vSubtask, NewDomainGroup, "Domain", zPOS_AFTER )
-   CreateMetaEntity( vSubtask, NewDomainGroup, "Domain", zPOS_AFTER );
-   //:SetMatchingAttributesByName( NewDomainGroup, "Domain",
-   //:                             OldDomainGroup, "Domain", zSET_NULL )
-   SetMatchingAttributesByName( NewDomainGroup, "Domain", OldDomainGroup, "Domain", zSET_NULL );
+   //:// KJS 05/03/22 - We should always do a search of the domain name both in the group and in the LPLR to make sure we don't
+   //:// Add duplicates.
+   //:SET CURSOR FIRST NewDomainGroup.Domain WHERE NewDomainGroup.Domain.Name = OldDomainGroup.Domain.Name
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDomainGroup, "Domain", "Name" );
+   RESULT = SetCursorFirstEntityByString( NewDomainGroup, "Domain", "Name", szTempString_0, "" );
+   //:IF RESULT < zCURSOR_SET
+   if ( RESULT < zCURSOR_SET )
+   { 
+      //:CreateMetaEntity( vSubtask, NewDomainGroup, "Domain", zPOS_AFTER )
+      CreateMetaEntity( vSubtask, NewDomainGroup, "Domain", zPOS_AFTER );
+      //:SetMatchingAttributesByName( NewDomainGroup, "Domain",
+      //:                             OldDomainGroup, "Domain", zSET_NULL )
+      SetMatchingAttributesByName( NewDomainGroup, "Domain", OldDomainGroup, "Domain", zSET_NULL );
+   } 
+
+   //:END                                
 
    //:FOR EACH OldDomainGroup.Context
    RESULT = SetCursorFirstEntity( OldDomainGroup, "Context", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
    { 
 
-      //:CreateMetaEntity( vSubtask, NewDomainGroup, "Context", zPOS_AFTER )
-      CreateMetaEntity( vSubtask, NewDomainGroup, "Context", zPOS_AFTER );
-      //:SetMatchingAttributesByName( NewDomainGroup, "Context",
-      //:                             OldDomainGroup, "Context", zSET_NULL )
-      SetMatchingAttributesByName( NewDomainGroup, "Context", OldDomainGroup, "Context", zSET_NULL );
-      //:FOR EACH OldDomainGroup.TableEntry
-      RESULT = SetCursorFirstEntity( OldDomainGroup, "TableEntry", "" );
-      while ( RESULT > zCURSOR_UNCHANGED )
+      //:// Check if the context exists. Don't add if it already does.
+      //:SET CURSOR FIRST NewDomainGroup.Context WHERE NewDomainGroup.Context.Name = OldDomainGroup.Context.Name
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDomainGroup, "Context", "Name" );
+      RESULT = SetCursorFirstEntityByString( NewDomainGroup, "Context", "Name", szTempString_0, "" );
+      //:IF RESULT < zCURSOR_SET
+      if ( RESULT < zCURSOR_SET )
       { 
-         //:CreateMetaEntity( vSubtask, NewDomainGroup, "TableEntry", zPOS_AFTER )
-         CreateMetaEntity( vSubtask, NewDomainGroup, "TableEntry", zPOS_AFTER );
-         //:SetMatchingAttributesByName( NewDomainGroup, "TableEntry",
-         //:                             OldDomainGroup, "TableEntry", zSET_NULL )
-         SetMatchingAttributesByName( NewDomainGroup, "TableEntry", OldDomainGroup, "TableEntry", zSET_NULL );
-         RESULT = SetCursorNextEntity( OldDomainGroup, "TableEntry", "" );
-      } 
+         //:CreateMetaEntity( vSubtask, NewDomainGroup, "Context", zPOS_AFTER )
+         CreateMetaEntity( vSubtask, NewDomainGroup, "Context", zPOS_AFTER );
+         //:SetMatchingAttributesByName( NewDomainGroup, "Context",
+         //:                             OldDomainGroup, "Context", zSET_NULL )
+         SetMatchingAttributesByName( NewDomainGroup, "Context", OldDomainGroup, "Context", zSET_NULL );
+         //:FOR EACH OldDomainGroup.TableEntry
+         RESULT = SetCursorFirstEntity( OldDomainGroup, "TableEntry", "" );
+         while ( RESULT > zCURSOR_UNCHANGED )
+         { 
+            //:CreateMetaEntity( vSubtask, NewDomainGroup, "TableEntry", zPOS_AFTER )
+            CreateMetaEntity( vSubtask, NewDomainGroup, "TableEntry", zPOS_AFTER );
+            //:SetMatchingAttributesByName( NewDomainGroup, "TableEntry",
+            //:                             OldDomainGroup, "TableEntry", zSET_NULL )
+            SetMatchingAttributesByName( NewDomainGroup, "TableEntry", OldDomainGroup, "TableEntry", zSET_NULL );
+            RESULT = SetCursorNextEntity( OldDomainGroup, "TableEntry", "" );
+         } 
 
-      //:END
+         //:END
 
-      //:FOR EACH OldDomainGroup.RegularExpression
-      RESULT = SetCursorFirstEntity( OldDomainGroup, "RegularExpression", "" );
-      while ( RESULT > zCURSOR_UNCHANGED )
-      { 
-         //:CreateMetaEntity( vSubtask, NewDomainGroup, "RegularExpression", zPOS_AFTER )
-         CreateMetaEntity( vSubtask, NewDomainGroup, "RegularExpression", zPOS_AFTER );
-         //:SetMatchingAttributesByName( NewDomainGroup, "RegularExpression",
-         //:                             OldDomainGroup, "RegularExpression", zSET_NULL )
-         SetMatchingAttributesByName( NewDomainGroup, "RegularExpression", OldDomainGroup, "RegularExpression", zSET_NULL );
-         RESULT = SetCursorNextEntity( OldDomainGroup, "RegularExpression", "" );
+         //:FOR EACH OldDomainGroup.RegularExpression
+         RESULT = SetCursorFirstEntity( OldDomainGroup, "RegularExpression", "" );
+         while ( RESULT > zCURSOR_UNCHANGED )
+         { 
+            //:CreateMetaEntity( vSubtask, NewDomainGroup, "RegularExpression", zPOS_AFTER )
+            CreateMetaEntity( vSubtask, NewDomainGroup, "RegularExpression", zPOS_AFTER );
+            //:SetMatchingAttributesByName( NewDomainGroup, "RegularExpression",
+            //:                             OldDomainGroup, "RegularExpression", zSET_NULL )
+            SetMatchingAttributesByName( NewDomainGroup, "RegularExpression", OldDomainGroup, "RegularExpression", zSET_NULL );
+            RESULT = SetCursorNextEntity( OldDomainGroup, "RegularExpression", "" );
+         } 
+
+         //:END
       } 
 
       RESULT = SetCursorNextEntity( OldDomainGroup, "Context", "" );
       //:END
    } 
-
 
    //:END
 
@@ -281,6 +325,8 @@ oTZDGSRCO_DomainAddForMerge( zPVIEW    NewDomainGroup,
                              zVIEW     vSubtask )
 {
    zVIEW     OldDomainGroup = 0; 
+   //:VIEW CurrentLPLRO BASED ON LOD TZCMLPLO
+   zVIEW     CurrentLPLRO = 0; 
    //:STRING ( 513 ) SourceFileName                 // size according to zMAX_FILESPEC_LTH+1
    zCHAR     SourceFileName[ 514 ] = { 0 }; 
    //:STRING ( 32 )  DomainGroupMetaName
@@ -291,6 +337,13 @@ oTZDGSRCO_DomainAddForMerge( zPVIEW    NewDomainGroup,
    zSHORT    nRC = 0; 
    zSHORT    RESULT; 
 
+
+   //:// KJS 05/03/22 - We should always do a search of the domain name both in the group and in the LPLR to make sure we don't
+   //:// add duplicates.
+   //:// The question is... what if a domain already exists, but we have new context? What should we do, we would need to 
+   //:// open a new domain group and check, right?
+   //:RetrieveViewForMetaList( vSubtask, CurrentLPLRO, zREFER_DOMAIN_META ) // This points to DOMAIN as opposed to DomainGrp
+   RetrieveViewForMetaList( vSubtask, &CurrentLPLRO, zREFER_DOMAIN_META );
 
    //:// Activate existing source meta OldDomainGroup. To do this, we must locate the Domain and DomainGroup in the  SourceLPLR.
    //:SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2003    // 2003 is Domain
@@ -307,6 +360,21 @@ oTZDGSRCO_DomainAddForMerge( zPVIEW    NewDomainGroup,
    } 
 
    //:END
+   //:// KJS 05/03/2022 - As an added check... see if the domain already exists for the currentLPLR.
+   //://SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 2003    // 2003 is Domain
+   //://IF RESULT >= zCURSOR_SET
+   //:   SET CURSOR FIRST CurrentLPLRO.W_MetaDef WHERE CurrentLPLRO.W_MetaDef.Name = DomainName
+   RESULT = SetCursorFirstEntityByString( CurrentLPLRO, "W_MetaDef", "Name", DomainName, "" );
+   //:   IF RESULT >= zCURSOR_SET
+   if ( RESULT >= zCURSOR_SET )
+   { 
+      //:   // Domain exists in current lplr, so we can return?
+      //:   RETURN 0
+      return( 0 );
+   } 
+
+   //:   END
+   //://END
    //:SET CURSOR FIRST SourceLPLR.W_MetaDef WHERE SourceLPLR.W_MetaDef.Name = DomainName
    RESULT = SetCursorFirstEntityByString( SourceLPLR, "W_MetaDef", "Name", DomainName, "" );
    //:IF RESULT < zCURSOR_SET
@@ -341,28 +409,50 @@ oTZDGSRCO_DomainAddForMerge( zPVIEW    NewDomainGroup,
       ZeidonStringConcat( szMsg, 1, 0, ") was not found in Source LPLR.", 1, 0, 201 );
       //:MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
       MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
-      //:RETURN -1
+      //://MessageSend( vSubtask, "CM01001", "Configuration Management",
+      //://             MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      //:RETURN -1   
       return( -1 );
    } 
 
-   //:END
+   //: END
 
    //:// Activate the Target Domain Group which will contain the new Domain.
+   //:// KJS 05/03/22 - We should probably check FIRST to see if the domain name already exists for the LPLR.
+   //:// Then... if it doesn't we could add the domain group? Or we should just add one domain at a time into group?
    //:nRC = ActivateMetaOI_ByName( vSubtask, NewDomainGroup, 0, zSOURCE_DOMAINGRP_META, zSINGLE, DomainGroupMetaName, 0 )
    nRC = ActivateMetaOI_ByName( vSubtask, NewDomainGroup, 0, zSOURCE_DOMAINGRP_META, zSINGLE, DomainGroupMetaName, 0 );
    //:IF nRC < 0
    if ( nRC < 0 )
    { 
-      //:szMsg = "Domain Group (" + DomainGroupMetaName + ") was not found in Target LPLR."
-      ZeidonStringCopy( szMsg, 1, 0, "Domain Group (", 1, 0, 201 );
-      ZeidonStringConcat( szMsg, 1, 0, DomainGroupMetaName, 1, 0, 201 );
-      ZeidonStringConcat( szMsg, 1, 0, ") was not found in Target LPLR.", 1, 0, 201 );
-      //:MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-      MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
-      //:RETURN -1
-      return( -1 );
+      //:// KJS 05/02/22 - If we don't have the domain group... then migrate it.
+      //:ActivateEmptyMetaOI( vSubtask, NewDomainGroup, zSOURCE_DOMAINGRP_META, zSINGLE )
+      ActivateEmptyMetaOI( vSubtask, NewDomainGroup, zSOURCE_DOMAINGRP_META, zSINGLE );
+      //:nRC = DomainGrpMigrate( NewDomainGroup, DomainGroupMetaName, SourceLPLR, vSubtask )
+      nRC = oTZDGSRCO_DomainGrpMigrate( *NewDomainGroup, DomainGroupMetaName, SourceLPLR, vSubtask );
+      //:IF nRC < 0
+      if ( nRC < 0 )
+      { 
+         //://MG_ErrorMessage = "Domain Group(" + DomainGroupMetaName + ") aborted."
+         //:szMsg = "Domain Group (" + DomainGroupMetaName + ") was not found in Target LPLR."
+         ZeidonStringCopy( szMsg, 1, 0, "Domain Group (", 1, 0, 201 );
+         ZeidonStringConcat( szMsg, 1, 0, DomainGroupMetaName, 1, 0, 201 );
+         ZeidonStringConcat( szMsg, 1, 0, ") was not found in Target LPLR.", 1, 0, 201 );
+         //:MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+         //://MessageSend( vSubtask, "CM01001", "Configuration Management",
+         //://             MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         //:RETURN -1
+         return( -1 );
+      } 
+
+      //:END
    } 
 
+
+   //:   //szMsg = "Domain Group (" + DomainGroupMetaName + ") was not found in Target LPLR."
+   //:   //MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+   //:   //RETURN -1
    //:END
 
    //:NAME VIEW OldDomainGroup "OldDomainGroup"
@@ -382,17 +472,56 @@ oTZDGSRCO_DomainAddForMerge( zPVIEW    NewDomainGroup,
 
    //:END
 
+   //:// KJS 05/04/22 If we migrated the group above... then we want to position on the domain name in group.
+   //:SET CURSOR FIRST NewDomainGroup.Domain WHERE NewDomainGroup.Domain.Name = DomainName
+   RESULT = SetCursorFirstEntityByString( *NewDomainGroup, "Domain", "Name", DomainName, "" );
+   //:IF RESULT >= zCURSOR_SET
+   if ( RESULT >= zCURSOR_SET )
+   { 
+      //:DropObjectInstance( OldDomainGroup )
+      DropObjectInstance( OldDomainGroup );
+      //:RETURN 0
+      return( 0 );
+   } 
+
+   //:END
+
+   //:// KJS 05/03/2022 - As an added check... see if the domain already exists for the currentLPLR.
+   //://SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 2003    // 2003 is Domain
+   //://IF RESULT >= zCURSOR_SET
+   //:   SET CURSOR FIRST CurrentLPLRO.W_MetaDef WHERE CurrentLPLRO.W_MetaDef.Name = DomainName
+   RESULT = SetCursorFirstEntityByString( CurrentLPLRO, "W_MetaDef", "Name", DomainName, "" );
+   //:   IF RESULT >= zCURSOR_SET
+   if ( RESULT >= zCURSOR_SET )
+   { 
+      //:   // What if we get here... which means that domain exists in LPLR... but is not part of
+      //:   // this original domain group?
+      //:   // At the moment... I suppose we should not get here? Because we have tried to activate domain
+      //:   // in the calling code. Which was < 0 so we got here. Not sure if that would be every case.
+      //:   // Domain exists in current lplr, so we can return?
+      //:   DropObjectInstance( OldDomainGroup )
+      DropObjectInstance( OldDomainGroup );
+      //:   RETURN 0
+      return( 0 );
+   } 
+
+   //:   END
+   //://END
+
    //:// Call operation to actually do the copy of the Domain.
    //:DomainMigrateReus( NewDomainGroup, OldDomainGroup, vSubtask )
    oTZDGSRCO_DomainMigrateReus( *NewDomainGroup, OldDomainGroup, vSubtask );
 
    //:// Prompt User for Add of Domain.
+   //:// KJS 05/03/22 - Do we want to ask user or should we just commit. Seems annoying to continue to ask and I'm not sure
+   //:// why the user would not want to.
    //:szMsg = "Domain, " + DomainName + ", has been added. Do you want it commited to the new LPLR?"
    ZeidonStringCopy( szMsg, 1, 0, "Domain, ", 1, 0, 201 );
    ZeidonStringConcat( szMsg, 1, 0, DomainName, 1, 0, 201 );
    ZeidonStringConcat( szMsg, 1, 0, ", has been added. Do you want it commited to the new LPLR?", 1, 0, 201 );
-   //:nRC = MessagePrompt( vSubtask, "", "Add/Merge Domain", szMsg, 1, zBUTTONS_YESNO, zRESPONSE_YES, 0 )
-   nRC = MessagePrompt( vSubtask, "", "Add/Merge Domain", szMsg, 1, zBUTTONS_YESNO, zRESPONSE_YES, 0 );
+   //://nRC = MessagePrompt( vSubtask, "", "Add/Merge Domain", szMsg, 1, zBUTTONS_YESNO, zRESPONSE_YES, 0 )
+   //:nRC = zRESPONSE_YES
+   nRC = zRESPONSE_YES;
    //:IF nRC = zRESPONSE_YES
    if ( nRC == zRESPONSE_YES )
    { 
@@ -470,8 +599,8 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
                             zVIEW     vSubtask )
 {
    zVIEW     OldDomainGroup = 0; 
-   //:VIEW CurrentLPLR  BASED ON LOD TZCMLPLO
-   zVIEW     CurrentLPLR = 0; 
+   //:VIEW CurrentLPLRO  BASED ON LOD TZCMLPLO
+   zVIEW     CurrentLPLRO = 0; 
 
    //:STRING ( 513 ) SourceFileName                 // size according to zMAX_FILESPEC_LTH+1
    zCHAR     SourceFileName[ 514 ] = { 0 }; 
@@ -494,7 +623,6 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
    zSHORT    lTempInteger_1; 
    zSHORT    lTempInteger_2; 
 
-
    //:// Activate existing source meta OldDomain Group
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DomainGroupMetaName + ".PDG"
    GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
@@ -505,6 +633,9 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
    //:                      SourceFileName, 8192 )
    ActivateOI_FromFile( &OldDomainGroup, "TZDGSRCO", SourceLPLR, SourceFileName, 8192 );
    //:// 8192 IS zIGNORE_ATTRIB_ERRORS
+
+   //int i;
+   //for (i = 1; i < 1000; i++);
 
    //:NAME VIEW OldDomainGroup "OldDomainGroup"
    SetNameForView( OldDomainGroup, "OldDomainGroup", 0, zLEVEL_TASK );
@@ -529,10 +660,11 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
       //:IF OldDomainGroup.DomainGroup.Extension != ""
       if ( CompareAttributeToString( OldDomainGroup, "DomainGroup", "Extension", "" ) != 0 )
       { 
-         //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get view for directory info.
-         RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zSOURCE_ERD_META );
-         //:ResetViewFromSubobject( CurrentLPLR )
-         ResetViewFromSubobject( CurrentLPLR );
+         //:// KJS 05/03/22 - Commenting out the next two lines because I am passing in CurrentLPLR... and commenting out DropMetaOI.
+         //:RetrieveViewForMetaList( vSubtask, CurrentLPLRO, zSOURCE_ERD_META ) // Get view for directory info.
+         RetrieveViewForMetaList( vSubtask, &CurrentLPLRO, zSOURCE_ERD_META );
+         //:ResetViewFromSubobject( CurrentLPLRO )
+         ResetViewFromSubobject( CurrentLPLRO );
          //:SourceMetaName = NewDomainGroup.DomainGroup.Name
          GetVariableFromAttribute( SourceMetaName, 0, 'S', 33, NewDomainGroup, "DomainGroup", "Name", "", 0 );
          //:IF OldDomainGroup.DomainGroup.Extension = "C"
@@ -555,14 +687,14 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
          GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "PgmSrcDir" );
          ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
          ZeidonStringConcat( SourceFileName, 1, 0, SourceName, 1, 0, 514 );
-         //:SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName
-         GetStringFromAttribute( SourceFileName2, zsizeof( SourceFileName2 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
+         //:SourceFileName2 = CurrentLPLRO.LPLR.PgmSrcDir + "\" + SourceName
+         GetStringFromAttribute( SourceFileName2, zsizeof( SourceFileName2 ), CurrentLPLRO, "LPLR", "PgmSrcDir" );
          ZeidonStringConcat( SourceFileName2, 1, 0, "\\", 1, 0, 514 );
          ZeidonStringConcat( SourceFileName2, 1, 0, SourceName, 1, 0, 514 );
          //:SysCopyFile( vSubtask, SourceFileName, SourceFileName2, TRUE )
          SysCopyFile( vSubtask, SourceFileName, SourceFileName2, TRUE );
-         //:DropMetaOI( vSubtask, CurrentLPLR )
-         DropMetaOI( vSubtask, CurrentLPLR );
+         //:DropMetaOI( vSubtask, CurrentLPLRO )
+         DropMetaOI( vSubtask, CurrentLPLRO );
       } 
 
       //:END
@@ -597,16 +729,18 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
    //:END
 
    //:// Migrate each Domain/Context not in the target LPLR.
-   //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_DOMAIN_META ) // Get view for domain info.
-   RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zREFER_DOMAIN_META );
+   //:// KJS 05/03/22 - We should look to see if the domain already exists (could exist in a separate domain group).
+   //:// Passing in now...RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_DOMAIN_META ) // Get view for domain info.
+   //:RetrieveViewForMetaList( vSubtask, CurrentLPLRO, zREFER_DOMAIN_META ) // Try this again because it points to DOMAIN as opposed to DomainGrp
+   RetrieveViewForMetaList( vSubtask, &CurrentLPLRO, zREFER_DOMAIN_META );
    //:FOR EACH OldDomainGroup.Domain
    RESULT = SetCursorFirstEntity( OldDomainGroup, "Domain", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
    { 
       //:// Add any Domains and/or Contexts in the Source LPLR not in the Target LPLR.
-      //:SET CURSOR FIRST CurrentLPLR.W_MetaDef WHERE CurrentLPLR.W_MetaDef.Name = OldDomainGroup.Domain.Name
+      //:SET CURSOR FIRST CurrentLPLRO.W_MetaDef WHERE CurrentLPLRO.W_MetaDef.Name = OldDomainGroup.Domain.Name
       GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDomainGroup, "Domain", "Name" );
-      RESULT = SetCursorFirstEntityByString( CurrentLPLR, "W_MetaDef", "Name", szTempString_0, "" );
+      RESULT = SetCursorFirstEntityByString( CurrentLPLRO, "W_MetaDef", "Name", szTempString_0, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
       { 
@@ -695,6 +829,7 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
 
    //:END
 
+   //://DropMetaOI( vSubtask, CurrentLPLRO )
    //:DropObjectInstance( OldDomainGroup )
    DropObjectInstance( OldDomainGroup );
    //:CommitMetaOI( vSubtask, NewDomainGroup, 13 )  // 13 is zSOURCE_DOMAINGRP_META

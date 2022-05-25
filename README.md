@@ -18,6 +18,14 @@ Run MAKEALL.BAT.
 ### 'Access is denied' on an executable like qspawn.exe
 Check the permissions on the executable.  It looks like git might not set the permissions correctly on checkout.  Your local user must have read + execute authority
 
+Change made 05/25/22
+
+* Merged in DonC changes for LOD attribute derived attribute rule code. This is not complete, but mainly for viewing
+  at the moment.
+* KJS changes for Workstation Migration. More duplication elimination. Also allows user to start with moving a LOD like
+  sHost.LOD and it will create the ER/PDG/LOD etc.
+
+
 Change made 04/29/22
 
 * DonC made some changes in the ER "Compare/Merge ERD" functionality for the purposes of demo.

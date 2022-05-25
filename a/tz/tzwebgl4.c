@@ -140,20 +140,14 @@ BuildSideNavSectionJ( zVIEW     vDialog,
             //: // We want to make sure there is no other option
             //:SET CURSOR NEXT vDialogMenu.Option
             RESULT = SetCursorNextEntity( vDialogMenu, "Option", "" );
-            //:IF RESULT < zCURSOR_SET AND szText = ""
-            if ( RESULT < zCURSOR_SET && ZeidonStringCompare( szText, 1, 0, "", 1, 0, 501 ) == 0 )
+            //:IF RESULT >= zCURSOR_SET OR szText != ""
+            if ( RESULT >= zCURSOR_SET || ZeidonStringCompare( szText, 1, 0, "", 1, 0, 501 ) != 0 )
             { 
-               //:szSideMenuOptions = "N" // There is one menu option but it is a blank menu
-               ZeidonStringCopy( szSideMenuOptions, 1, 0, "N", 1, 0, 2 );
+               //:szSideMenuOptions = "Y" // There is one menu option but it is a blank menu
+               ZeidonStringCopy( szSideMenuOptions, 1, 0, "Y", 1, 0, 2 );
             } 
 
             //:END
-            //:ELSE
-         } 
-         else
-         { 
-            //:szSideMenuOptions = "N" // There is a menu but no options in the menu
-            ZeidonStringCopy( szSideMenuOptions, 1, 0, "N", 1, 0, 2 );
          } 
 
          //:END
@@ -164,8 +158,8 @@ BuildSideNavSectionJ( zVIEW     vDialog,
 
    //:END
    //:// If we did not find a menu option above with text... also check vDialogDfltMenu if it exists.
-   //:IF szStyleIsBootstrap = "Y" AND szSideMenuOptions = "N" AND vDialogDfltMenu != 0
-   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szSideMenuOptions, 1, 0, "N", 1, 0, 2 ) == 0 && vDialogDfltMenu != 0 )
+   //:IF szStyleIsBootstrap = "Y" AND szSideMenuOptions = "" AND vDialogDfltMenu != 0
+   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szSideMenuOptions, 1, 0, "", 1, 0, 2 ) == 0 && vDialogDfltMenu != 0 )
    { 
       //:szSideMenuOptions = "" 
       ZeidonStringCopy( szSideMenuOptions, 1, 0, "", 1, 0, 2 );
@@ -193,20 +187,14 @@ BuildSideNavSectionJ( zVIEW     vDialog,
             //: // We want to make sure there is no other option
             //:SET CURSOR NEXT vDialogDfltT.Option
             RESULT = SetCursorNextEntity( vDialogDfltT, "Option", "" );
-            //:IF RESULT < zCURSOR_SET AND szText = ""
-            if ( RESULT < zCURSOR_SET && ZeidonStringCompare( szText, 1, 0, "", 1, 0, 501 ) == 0 )
+            //:IF RESULT >= zCURSOR_SET OR szText != ""
+            if ( RESULT >= zCURSOR_SET || ZeidonStringCompare( szText, 1, 0, "", 1, 0, 501 ) != 0 )
             { 
-               //:szSideMenuOptions = "N" // There is one menu option but it is a blank menu
-               ZeidonStringCopy( szSideMenuOptions, 1, 0, "N", 1, 0, 2 );
+               //:szSideMenuOptions = "Y" // There is one menu option but it is a blank menu
+               ZeidonStringCopy( szSideMenuOptions, 1, 0, "Y", 1, 0, 2 );
             } 
 
             //:END
-            //:ELSE
-         } 
-         else
-         { 
-            //:szSideMenuOptions = "N" // There is a menu but no options in the menu
-            ZeidonStringCopy( szSideMenuOptions, 1, 0, "N", 1, 0, 2 );
          } 
 
          //:END
@@ -244,17 +232,19 @@ BuildSideNavSectionJ( zVIEW     vDialog,
    } 
    else
    { 
-      //:IF szSideMenuOptions = ""
-      if ( ZeidonStringCompare( szSideMenuOptions, 1, 0, "", 1, 0, 2 ) == 0 )
+      //:IF szSideMenuOptions = "Y"
+      if ( ZeidonStringCompare( szSideMenuOptions, 1, 0, "Y", 1, 0, 2 ) == 0 )
       { 
-         //:szWriteBuffer = "<nav id=^sidebar^ class=^sidebar^>"
-         ZeidonStringCopy( szWriteBuffer, 1, 0, "<nav id=^sidebar^ class=^sidebar^>", 1, 0, 10001 );
+         //:// For bootstrap we are adding a class of contentExists so determine if the side menu
+         //:// should be open or closed on a page. We will handle this through the class.
+         //:szWriteBuffer = "<nav id=^sidebar^ class=^sidebar contentExists^>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<nav id=^sidebar^ class=^sidebar contentExists^>", 1, 0, 10001 );
          //:ELSE
       } 
       else
       { 
-         //:szWriteBuffer = "<nav id=^sidebar^ class=^sidebar toggled^>"
-         ZeidonStringCopy( szWriteBuffer, 1, 0, "<nav id=^sidebar^ class=^sidebar toggled^>", 1, 0, 10001 );
+         //:szWriteBuffer = "<nav id=^sidebar^ class=^sidebar^>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<nav id=^sidebar^ class=^sidebar^>", 1, 0, 10001 );
       } 
 
       //:END
@@ -10525,7 +10515,9 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    zSHORT    nRC = 0; 
    zCHAR     szTempString_0[ 255 ]; 
    zSHORT    lTempInteger_0; 
+   zSHORT    lTempInteger_1; 
    zCHAR     szTempString_1[ 255 ]; 
+   zSHORT    lTempInteger_2; 
    zCHAR     szTempString_2[ 255 ]; 
    zCHAR     szTempString_3[ 255 ]; 
    zCHAR     szTempString_4[ 33 ]; 
@@ -10533,27 +10525,27 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    zCHAR     szTempString_6[ 33 ]; 
    zCHAR     szTempString_7[ 33 ]; 
    zCHAR     szTempString_8[ 33 ]; 
-   zSHORT    lTempInteger_1; 
+   zSHORT    lTempInteger_3; 
    zCHAR     szTempString_9[ 33 ]; 
    zCHAR     szTempString_10[ 33 ]; 
    zCHAR     szTempString_11[ 33 ]; 
    zCHAR     szTempString_12[ 33 ]; 
    zCHAR     szTempString_13[ 33 ]; 
    zCHAR     szTempString_14[ 33 ]; 
-   zSHORT    lTempInteger_2; 
+   zSHORT    lTempInteger_4; 
    zCHAR     szTempString_15[ 33 ]; 
    zCHAR     szTempString_16[ 33 ]; 
    zCHAR     szTempString_17[ 33 ]; 
    zCHAR     szTempString_18[ 33 ]; 
    zCHAR     szTempString_19[ 33 ]; 
-   zSHORT    lTempInteger_3; 
+   zSHORT    lTempInteger_5; 
    zCHAR     szTempString_20[ 33 ]; 
    zCHAR     szTempString_21[ 33 ]; 
    zCHAR     szTempString_22[ 33 ]; 
    zCHAR     szTempString_23[ 33 ]; 
    zCHAR     szTempString_24[ 33 ]; 
    zCHAR     szTempString_25[ 33 ]; 
-   zLONG     lTempInteger_4; 
+   zLONG     lTempInteger_6; 
    zCHAR     szTempString_26[ 255 ]; 
    zCHAR     szTempString_27[ 33 ]; 
    zCHAR     szTempString_28[ 33 ]; 
@@ -10625,6 +10617,7 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    //:IF vDialog.Control.CSS_Class != "" OR szStyleIsBootstrap = "Y"
    if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) != 0 || ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 )
    { 
+      //:   
       //:IF szStyleIsBootstrap = "Y" AND szLabelFor != "" //szIsLabel = "Y"
       if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) != 0 )
       { 
@@ -10663,26 +10656,74 @@ GenJSPJ_CrteText( zVIEW     vDialog,
          { 
             //:szCSSBootstrap = "form-control"
             ZeidonStringCopy( szCSSBootstrap, 1, 0, "form-control", 1, 0, 21 );
-            //:szClassHTML = "class=^" + szCSSBootstrap + " " + vDialog.Control.CSS_Class + "^ "
+            //:// KJS 05/20/22 - If we are bootstrap AND this is not a label AND this is a decimal or integer field, we are going to put in a
+            //:// class for right align.
+            //:IF szStyleIsBootstrap = "Y" AND szLabelFor = "" AND vDialog.CtrlMapER_Domain EXISTS AND
+            lTempInteger_1 = CheckExistenceOfEntity( vDialog, "CtrlMapER_Domain" );
+            //:( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
+            if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) == 0 && lTempInteger_1 == 0 &&
+                 ( CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "M" ) == 0 || CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "L" ) == 0 ) )
+            { 
+               //:szText = " text-right"
+               ZeidonStringCopy( szText, 1, 0, " text-right", 1, 0, 1001 );
+               //:ELSE
+            } 
+            else
+            { 
+               //:szText = ""
+               ZeidonStringCopy( szText, 1, 0, "", 1, 0, 1001 );
+            } 
+
+            //:END
+            //:// KJS 05/20/22 - We might want to right align number fields, but at the moment I think it might just be in the grids,
+            //:// so I am setting szText = "" for now. But I don't want to delete in case we want it later.
+            //:szText = ""
+            ZeidonStringCopy( szText, 1, 0, "", 1, 0, 1001 );
+            //:szClassHTML = "class=^" + szCSSBootstrap + " " + vDialog.Control.CSS_Class + szText + "^ "
             ZeidonStringCopy( szClassHTML, 1, 0, "class=^", 1, 0, 257 );
             ZeidonStringConcat( szClassHTML, 1, 0, szCSSBootstrap, 1, 0, 257 );
             ZeidonStringConcat( szClassHTML, 1, 0, " ", 1, 0, 257 );
             GetVariableFromAttribute( szTempString_1, 0, 'S', 255, vDialog, "Control", "CSS_Class", "", 0 );
             ZeidonStringConcat( szClassHTML, 1, 0, szTempString_1, 1, 0, 257 );
+            ZeidonStringConcat( szClassHTML, 1, 0, szText, 1, 0, 257 );
             ZeidonStringConcat( szClassHTML, 1, 0, "^ ", 1, 0, 257 );
             //:ELSE
          } 
          else
          { 
+            //:// KJS 05/20/22 - If we are bootstrap AND this is not a label AND this is a decimal or integer field, we are going to put in a
+            //:// class for right align.
+            //:IF szStyleIsBootstrap = "Y" AND szLabelFor = "" AND vDialog.CtrlMapER_Domain EXISTS AND
+            lTempInteger_2 = CheckExistenceOfEntity( vDialog, "CtrlMapER_Domain" );
+            //:( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
+            if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) == 0 && lTempInteger_2 == 0 &&
+                 ( CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "M" ) == 0 || CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "L" ) == 0 ) )
+            { 
+               //:szText = " text-right"
+               ZeidonStringCopy( szText, 1, 0, " text-right", 1, 0, 1001 );
+               //:ELSE
+            } 
+            else
+            { 
+               //:szText = ""
+               ZeidonStringCopy( szText, 1, 0, "", 1, 0, 1001 );
+            } 
+
+            //:END
+            //:// KJS 05/20/22 - We might want to right align number fields, but at the moment I think it might just be in the grids,
+            //:// so I am setting szText = "" for now. But I don't want to delete in case we want it later.
+            //:szText = ""
+            ZeidonStringCopy( szText, 1, 0, "", 1, 0, 1001 );
             //:IF vDialog.Control.CSS_Class != ""
             if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) != 0 )
             { 
                //:szCSSBootstrap = ""
                ZeidonStringCopy( szCSSBootstrap, 1, 0, "", 1, 0, 21 );
-               //:szClassHTML = "class=^" + vDialog.Control.CSS_Class + "^ "
+               //:szClassHTML = "class=^" + vDialog.Control.CSS_Class + szText + "^ "
                GetVariableFromAttribute( szTempString_2, 0, 'S', 255, vDialog, "Control", "CSS_Class", "", 0 );
                ZeidonStringCopy( szClassHTML, 1, 0, "class=^", 1, 0, 257 );
                ZeidonStringConcat( szClassHTML, 1, 0, szTempString_2, 1, 0, 257 );
+               ZeidonStringConcat( szClassHTML, 1, 0, szText, 1, 0, 257 );
                ZeidonStringConcat( szClassHTML, 1, 0, "^ ", 1, 0, 257 );
             } 
 
@@ -10697,6 +10738,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
 
    //:   //szClassHTML = "class=^" + szCSSBootstrap + " " + vDialog.Control.CSS_Class + "^ "
    //:END
+   //:szText = ""
+   ZeidonStringCopy( szText, 1, 0, "", 1, 0, 1001 );
 
    //:IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = ""
    if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) != 0 && ZeidonStringCompare( szBootstrapNoWrap, 1, 0, "", 1, 0, 2 ) == 0 )
@@ -11062,8 +11105,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
       //:IF vDialog.CtrlMapContext EXISTS
-      lTempInteger_1 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
-      if ( lTempInteger_1 == 0 )
+      lTempInteger_3 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
+      if ( lTempInteger_3 == 0 )
       { 
          //:szContextName = vDialog.CtrlMapContext.Name
          GetVariableFromAttribute( szContextName, 0, 'S', 33, vDialog, "CtrlMapContext", "Name", "", 0 );
@@ -11230,8 +11273,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    //:END
 
    //:IF vDialog.EventAct EXISTS    // There is only one EventAct, which is HotText.
-   lTempInteger_2 = CheckExistenceOfEntity( vDialog, "EventAct" );
-   if ( lTempInteger_2 == 0 )
+   lTempInteger_4 = CheckExistenceOfEntity( vDialog, "EventAct" );
+   if ( lTempInteger_4 == 0 )
    { 
       //:IF vDialog.EventAct.Type = 45    // Type 45 is Hyperlink Action.
       if ( CompareAttributeToInteger( vDialog, "EventAct", "Type", 45 ) == 0 )
@@ -11300,8 +11343,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
             //:IF vDialog.CtrlMapContext EXISTS
-            lTempInteger_3 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
-            if ( lTempInteger_3 == 0 )
+            lTempInteger_5 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
+            if ( lTempInteger_5 == 0 )
             { 
                //:szContextName = vDialog.CtrlMapContext.Name
                GetVariableFromAttribute( szContextName, 0, 'S', 33, vDialog, "CtrlMapContext", "Name", "", 0 );
@@ -11425,8 +11468,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
 
             //:// The Hyperlink URL value is a constant in the Action.
             //:SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialog.EventAct.ZKey
-            GetIntegerFromAttribute( &lTempInteger_4, vDialog, "EventAct", "ZKey" );
-            RESULT = SetCursorFirstEntityByInteger( vDialogRoot, "Action", "ZKey", lTempInteger_4, "" );
+            GetIntegerFromAttribute( &lTempInteger_6, vDialog, "EventAct", "ZKey" );
+            RESULT = SetCursorFirstEntityByInteger( vDialogRoot, "Action", "ZKey", lTempInteger_6, "" );
             //:IF vDialogRoot.Action.WebHTML_TransferAddress = ""
             if ( CompareAttributeToString( vDialogRoot, "Action", "WebHTML_TransferAddress", "" ) == 0 )
             { 
@@ -11709,8 +11752,8 @@ GenJSPJ_CrteEditBox( zVIEW     vDialog,
    zCHAR     szNumber[ 2 ] = { 0 }; 
    //:STRING ( 1 )   szStyleIsBootstrap
    zCHAR     szStyleIsBootstrap[ 2 ] = { 0 }; 
-   //:STRING ( 20 )  szCSSBootstrap
-   zCHAR     szCSSBootstrap[ 21 ] = { 0 }; 
+   //:STRING ( 40 )  szCSSBootstrap
+   zCHAR     szCSSBootstrap[ 41 ] = { 0 }; 
    //:INTEGER        lMaxStringLth
    zLONG     lMaxStringLth = 0; 
    //:INTEGER        lStyleX
@@ -11762,6 +11805,7 @@ GenJSPJ_CrteEditBox( zVIEW     vDialog,
    zCHAR     szTempString_21[ 255 ]; 
    zCHAR     szTempString_22[ 255 ]; 
    zCHAR     szTempString_23[ 255 ]; 
+   zSHORT    lTempInteger_4; 
    zCHAR     szTempString_24[ 255 ]; 
 
 
@@ -12683,14 +12727,27 @@ GenJSPJ_CrteEditBox( zVIEW     vDialog,
       //:IF szStyleIsBootstrap = "Y"
       if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 )
       { 
+
          //:szCSSBootstrap = "form-control "
-         ZeidonStringCopy( szCSSBootstrap, 1, 0, "form-control ", 1, 0, 21 );
+         ZeidonStringCopy( szCSSBootstrap, 1, 0, "form-control ", 1, 0, 41 );
+         //:// KJS 05/20/22
+         //:IF vDialog.CtrlMapER_Domain EXISTS AND
+         lTempInteger_4 = CheckExistenceOfEntity( vDialog, "CtrlMapER_Domain" );
+         //:   ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
+         if ( lTempInteger_4 == 0 && ( CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "M" ) == 0 || CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "L" ) == 0 ) )
+         { 
+         } 
+
+         //:   // KJS 05/20/22 - We might want to right align number fields, but at the moment I think it might just be in the grids,
+         //:   // so I am commenting this out for now. But I don't want to delete in case we want it later.
+         //:   //szCSSBootstrap = szCSSBootstrap + "text-right "
+         //:END
          //:ELSE
       } 
       else
       { 
          //:szCSSBootstrap = ""
-         ZeidonStringCopy( szCSSBootstrap, 1, 0, "", 1, 0, 21 );
+         ZeidonStringCopy( szCSSBootstrap, 1, 0, "", 1, 0, 41 );
       } 
 
       //:END
@@ -12703,7 +12760,6 @@ GenJSPJ_CrteEditBox( zVIEW     vDialog,
    } 
 
    //:END
-
    //:CreateDisabledString( vDialog, szDisabled )
    CreateDisabledString( vDialog, szDisabled );
    //:szWriteBuffer = "<input" + szClass + " name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
@@ -16038,7 +16094,6 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
       //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       //:   szWriteBuffer = "         <%"
       //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
       //:   szWriteBuffer = "   }"
       //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       //:   */

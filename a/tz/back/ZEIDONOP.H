@@ -267,7 +267,7 @@ oTZERSASO_SA_RelinkDelete( zVIEW vViewToInstance0,
                            zVIEW vSubtask1 );
 
 //end
-//start TZDGSRCO 2020.03.18 13:12:43
+//start TZDGSRCO 2022.05.04 15:29:21
 zOPER_EXPORT zSHORT OPERATION
 oTZDGSRCO_DomainMigrate( zVIEW vViewToInstance0,
                          zPCHAR pchSourceDomainMetaName1,
@@ -730,7 +730,7 @@ ActivateMetaOI( zVIEW vSubtask0,
                 zLONG lControlFlag4 );
 
 //end
-//start TZEREMDO 2020.03.18 13:12:44
+//start TZEREMDO 2022.04.06 15:17:58
 zOPER_EXPORT zSHORT OPERATION
 oTZEREMDO_ImportADW_Model( zVIEW vViewToInstance0,
                            zVIEW vADWWorkObject1,
@@ -870,13 +870,15 @@ oTZEREMDO_ERD_RelationshipCopy( zVIEW vViewToInstance0,
                                 zVIEW vvSubtask2 );
 
 zOPER_EXPORT zSHORT OPERATION
-oTZEREMDO_ERD_Compare( zVIEW vTargetERD0,
-                       zVIEW vSourceERD1 );
+oTZEREMDO_ERD_Compare( zVIEW vViewToInstance0,
+                       zVIEW vSourceERD1,
+                       zPCHAR pchszMergeType2 );
 
 zOPER_EXPORT zSHORT OPERATION
 oTZEREMDO_ERD_Merge( zVIEW vViewToInstance0,
                      zVIEW vSourceERD1,
-                     zVIEW vvSubtask2 );
+                     zVIEW vvSubtask2,
+                     zPCHAR pchszWholeLPLRFlag3 );
 
 zOPER_EXPORT zSHORT OPERATION
 oTZEREMDO_GenerateID_Identifiers( zVIEW vViewToInstance0 );
@@ -1287,7 +1289,7 @@ oTZ__PRFO_GetViewToProfile( zPVIEW vViewToInstance0,
                             zSHORT nCurrentOrReloadFlag3 );
 
 //end
-//start TZZOLODO 2020.03.18 13:12:55
+//start TZZOLODO 2022.05.05 11:40:37
 zOPER_EXPORT zSHORT OPERATION
 oTZZOLODO_ParseDerivedExpr( zVIEW vViewToInstance0,
                             zVIEW vWindowsubtask1 );
@@ -1331,9 +1333,16 @@ oTZZOLODO_LOD_EntityCopy( zVIEW vViewToInstance0,
                           zPCHAR pchszAddER_EntityFlag11 );
 
 zOPER_EXPORT zSHORT OPERATION
-oTZZOLODO_LOD_CreateER_Attribute( zVIEW vOldRecursiveLOD0,
+oTZZOLODO_LOD_CreateER_Attribute( zVIEW vSourceLOD0,
                                   zVIEW vSourceLPLR1,
                                   zVIEW vCurrentLPLR2,
+                                  zVIEW vNewERD3,
+                                  zVIEW vvSubtask4 );
+
+zOPER_EXPORT zSHORT OPERATION
+oTZZOLODO_LOD_CreateER_AttrFrmER( zVIEW vSourceERD0,
+                                  zVIEW vSourceLPLR1,
+                                  zVIEW vCourseLPLR2,
                                   zVIEW vNewERD3,
                                   zVIEW vvSubtask4 );
 
@@ -1771,7 +1780,7 @@ GenJSPJ_InputMapRecurs( zVIEW vDialog0,
                         zPCHAR pchszRepeatingGrpKey5 );
 
 //end
-//start TZWEBGL3 2020.05.27 16:49:08
+//start TZWEBGL3 2022.04.12 16:40:45
 zOPER_EXPORT zSHORT OPERATION
 BuildMainNavSection( zVIEW vDialog0,
                      zVIEW vDialogRoot1,
@@ -1799,7 +1808,8 @@ GenJSP_MenuFunctionsRecurs( zVIEW vDialog0,
 zOPER_EXPORT zSHORT OPERATION
 BuildMainNavSectionBootstrap( zVIEW vvDialog0,
                               zVIEW vvDialogRoot1,
-                              zLONG llFile2 );
+                              zLONG llFile2,
+                              zPCHAR pchSideMenuExsitsFlag3 );
 
 zOPER_EXPORT zSHORT OPERATION
 GenJSPJ_CrteSideMenuRecurs( zVIEW vvDialog0,
@@ -1940,7 +1950,7 @@ CreateTabIndexString( zVIEW vDialog0,
                       zPCHAR pchTabIndex1 );
 
 //end
-//start TZWEBGL4 2019.12.09 12:09:30
+//start TZWEBGL4 2021.11.12 13:15:26
 zOPER_EXPORT zSHORT OPERATION
 BuildSideNavSectionJ( zVIEW vvDialog0,
                       zVIEW vvDialogRoot1,
@@ -1975,8 +1985,10 @@ GenJSPJ_CrteFileTransferForm( zVIEW vvDialog0,
                               zPCHAR pchWriteBuffer3,
                               zPCHAR pchIndent4,
                               zPCHAR pchNoPositioning5,
-                              zLONG lOffsetX6,
-                              zLONG lOffsetY7 );
+                              zPCHAR pchszStyleIsBootstrap6,
+                              zPCHAR pchszBootstrapOuterCard7,
+                              zLONG lOffsetX8,
+                              zLONG lOffsetY9 );
 
 zOPER_EXPORT zSHORT OPERATION
 GenJSPJ_CrteListBoxAsList( zVIEW vvDialog0,

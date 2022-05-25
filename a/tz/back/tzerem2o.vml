@@ -2303,7 +2303,8 @@ END
 *************************************************************************************************/
 TRANSFORMATION OPERATION
 ERD_Compare( VIEW TargetERD BASED ON LOD TZEREMDO,
-             VIEW SourceERD BASED ON LOD TZEREMDO )
+             VIEW SourceERD BASED ON LOD TZEREMDO,
+             STRING ( 1 ) szMergeType )
 
    VIEW TargetERD2 BASED ON LOD TZEREMDO
    INTEGER SourceLength
@@ -2332,12 +2333,14 @@ ERD_Compare( VIEW TargetERD BASED ON LOD TZEREMDO,
          TargetERD.CompareEntityResult.EntityID   = SourceERD.ER_Entity.ZKey
          TargetERD.CompareEntityResult.CompareResultType = "New Entity"
 
-         // Add Attributes.
-         FOR EACH SourceERD.ER_Attribute
-            CREATE ENTITY TargetERD.CompareAttributeResult
-            TargetERD.CompareAttributeResult.AttributeID               = SourceERD.ER_Attribute.ZKey
-            TargetERD.CompareAttributeResult.AttributeName             = SourceERD.ER_Attribute.Name
-            TargetERD.CompareAttributeResult.SourceDifferentDomainName = SourceERD.Domain.Name
+         // Add Attributes unless Merge Type is Entity Only.
+         IF szMergeType != "E"
+            FOR EACH SourceERD.ER_Attribute
+               CREATE ENTITY TargetERD.CompareAttributeResult
+               TargetERD.CompareAttributeResult.AttributeID               = SourceERD.ER_Attribute.ZKey
+               TargetERD.CompareAttributeResult.AttributeName             = SourceERD.ER_Attribute.Name
+               TargetERD.CompareAttributeResult.SourceDifferentDomainName = SourceERD.Domain.Name
+            END
          END
 
          // Add Relationships.
@@ -2357,43 +2360,47 @@ ERD_Compare( VIEW TargetERD BASED ON LOD TZEREMDO,
          TargetERD.CompareEntityResult.EntityName = SourceERD.ER_Entity.Name
          TargetERD.CompareEntityResult.EntityID   = SourceERD.ER_Entity.ZKey
          TargetERD.CompareEntityResult.CompareResultType = "Old Entity"
-         FOR EACH SourceERD.ER_Attribute
-            SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = SourceERD.ER_Attribute.Name
-            IF RESULT < zCURSOR_SET
-               // There is no match on Attribute, create new Attribute entry.
-               CREATE ENTITY TargetERD.CompareAttributeResult
-               TargetERD.CompareAttributeResult.AttributeID               = SourceERD.ER_Attribute.ZKey
-               TargetERD.CompareAttributeResult.AttributeName             = SourceERD.ER_Attribute.Name
-               TargetERD.CompareAttributeResult.SourceDifferentDomainName = SourceERD.Domain.Name
-            ELSE
-               // There is a match on Attribute. Compare Domain and String Length.
-               IF TargetERD.Domain.Name != SourceERD.Domain.Name
-                  // There is no match on Domain.
+         
+         // Process attributes only if Merge Type is not Entity Only
+         IF szMergeType != "E"
+            FOR EACH SourceERD.ER_Attribute
+               SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = SourceERD.ER_Attribute.Name
+               IF RESULT < zCURSOR_SET
+                  // There is no match on Attribute, create new Attribute entry.
                   CREATE ENTITY TargetERD.CompareAttributeResult
                   TargetERD.CompareAttributeResult.AttributeID               = SourceERD.ER_Attribute.ZKey
                   TargetERD.CompareAttributeResult.AttributeName             = SourceERD.ER_Attribute.Name
                   TargetERD.CompareAttributeResult.SourceDifferentDomainName = SourceERD.Domain.Name
-                  TargetERD.CompareAttributeResult.TargetDifferentDomainName = TargetERD.Domain.Name
                ELSE
-                  // There is a match on Domain. For string domains, check for difference on length.
-                  IF TargetERD.Domain.DataType = "S"
-                     IF SourceERD.ER_Attribute.Lth = ""
-                        SourceLength = SourceERD.Domain.MaxStringLth
-                     ELSE
-                        SourceLength = SourceERD.ER_Attribute.Lth
-                     END
-                     IF TargetERD.ER_Attribute.Lth = ""
-                        TargetLength = TargetERD.Domain.MaxStringLth
-                     ELSE
-                        TargetLength = TargetERD.ER_Attribute.Lth
-                     END
-                     IF TargetLength != SourceLength
-                        CREATE ENTITY TargetERD.CompareAttributeResult
-                        TargetERD.CompareAttributeResult.AttributeID                 = SourceERD.ER_Attribute.ZKey
-                        TargetERD.CompareAttributeResult.AttributeName               = SourceERD.ER_Attribute.Name
-                        TargetERD.CompareAttributeResult.SourceDifferentDomainName   = TargetERD.Domain.Name
-                        TargetERD.CompareAttributeResult.SourceDifferentStringLength = SourceLength
-                        TargetERD.CompareAttributeResult.TargetDifferentStringLength = TargetLength
+                  // There is a match on Attribute. Compare Domain and String Length.
+                  IF TargetERD.Domain.Name != SourceERD.Domain.Name
+                     // There is no match on Domain.
+                     CREATE ENTITY TargetERD.CompareAttributeResult
+                     TargetERD.CompareAttributeResult.AttributeID               = SourceERD.ER_Attribute.ZKey
+                     TargetERD.CompareAttributeResult.AttributeName             = SourceERD.ER_Attribute.Name
+                     TargetERD.CompareAttributeResult.SourceDifferentDomainName = SourceERD.Domain.Name
+                     TargetERD.CompareAttributeResult.TargetDifferentDomainName = TargetERD.Domain.Name
+                  ELSE
+                     // There is a match on Domain. For string domains, check for difference on length.
+                     IF TargetERD.Domain.DataType = "S"
+                        IF SourceERD.ER_Attribute.Lth = ""
+                           SourceLength = SourceERD.Domain.MaxStringLth
+                        ELSE
+                           SourceLength = SourceERD.ER_Attribute.Lth
+                        END
+                        IF TargetERD.ER_Attribute.Lth = ""
+                           TargetLength = TargetERD.Domain.MaxStringLth
+                        ELSE
+                           TargetLength = TargetERD.ER_Attribute.Lth
+                        END
+                        IF TargetLength != SourceLength
+                           CREATE ENTITY TargetERD.CompareAttributeResult
+                           TargetERD.CompareAttributeResult.AttributeID                 = SourceERD.ER_Attribute.ZKey
+                           TargetERD.CompareAttributeResult.AttributeName               = SourceERD.ER_Attribute.Name
+                           TargetERD.CompareAttributeResult.SourceDifferentDomainName   = TargetERD.Domain.Name
+                           TargetERD.CompareAttributeResult.SourceDifferentStringLength = SourceLength
+                           TargetERD.CompareAttributeResult.TargetDifferentStringLength = TargetLength
+                        END
                      END
                   END
                END
@@ -2417,10 +2424,12 @@ ERD_Compare( VIEW TargetERD BASED ON LOD TZEREMDO,
          END
 
          // Eliminate any Entity entry that does not have any Attribute or Relationship differences.
-         IF TargetERD.CompareRelationshipResult DOES NOT EXIST AND
-            TargetERD.CompareAttributeResult DOES NOT EXIST
-
-            DELETE ENTITY TargetERD.CompareEntityResult NONE
+         IF szMergeType != "E"
+            IF TargetERD.CompareRelationshipResult DOES NOT EXIST AND
+               TargetERD.CompareAttributeResult DOES NOT EXIST
+   
+               DELETE ENTITY TargetERD.CompareEntityResult NONE
+            END
          END
       END
    END
@@ -2498,7 +2507,8 @@ END
 TRANSFORMATION OPERATION
 ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
            VIEW SourceERD BASED ON LOD TZEREMDO,
-           VIEW vSubtask )
+           VIEW vSubtask,
+           STRING ( 1 ) szWholeLPLRFlag )
 
    VIEW TargetERD2     BASED ON LOD TZEREMDO
    VIEW SourceERD2     BASED ON LOD TZEREMDO
@@ -2511,6 +2521,12 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
    SHORT          nRC
    INTEGER        MetaID
    INTEGER        Count
+   INTEGER        MaxYPos
+   INTEGER        Entity1PosY
+   INTEGER        Entity2PosY
+   INTEGER        EntityNewPosX
+   INTEGER        EntityOldPosXleft
+   INTEGER        EntityOldPosXright
 
    // Merge the SourceERD into the TargetERD based on the selection specified in the
    // CompareEntityResult and CompareOperationResult subobjects in TargetERD.
@@ -2534,10 +2550,29 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
    ELSE
       SourceLPLR = 0
    END
+   
+   // DonC 04/06/22 - It is the object of this algorithm to create the new Entity icons in the ER diagram as a group underneath the
+   // current Entity icons. Thus, we will search the target ER to get the Entity with the largest vertical position and
+   // add 15 to it as the beginning Y position for the new Entities.
+   MaxYPos = 0
+   FOR TargetERD.ER_Entity 
+      IF TargetERD.ER_Entity.ER_DiagramPosY > MaxYPos
+         MaxYPos = TargetERD.ER_Entity.ER_DiagramPosY 
+      END 
+   END
+   MaxYPos = MaxYPos + 15
+   
+      
+   // KJS 04/06/22 - If we are merging the "whole" lplr, lets loop through the display and mark all as "selected".
+   IF szWholeLPLRFlag = "Y"
+      FOR EACH TargetERD.DisplayCompareResult
+         TargetERD.DisplayCompareResult.SelectedFlag = "Y"
+      END
+   END
 
    // Loop through the selected Display entries and copy over those selected Entities, Attributes and Relationships.
    FOR EACH TargetERD.DisplayCompareResult
-      IF TargetERD.DisplayCompareResult.SelectedFlag = "Y"
+      IF TargetERD.DisplayCompareResult.SelectedFlag = "Y" //OR szWholeLPLRFlag = "Y"
          // ER_Entity Type.
          IF TargetERD.DisplayCompareResult.CompareResultType = "New Entity" OR
             TargetERD.DisplayCompareResult.CompareResultType = "Old Entity"
@@ -2554,6 +2589,50 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
                SET CURSOR LAST TargetERD.ER_Entity
                CreateMetaEntity( vSubtask, TargetERD, "ER_Entity", zPOS_AFTER )
                SetMatchingAttributesByName( TargetERD, "ER_Entity", SourceERD, "ER_Entity", zSET_NULL )
+               IF szWholeLPLRFlag = "Y" // DonC - 04/06/22
+                  TargetERD.ER_Entity.ER_DiagramPosY = TargetERD.ER_Entity.ER_DiagramPosY + MaxYPos   // Increment to below current ER
+               // Need to copy attributes.
+               FOR EACH SourceERD.ER_Attribute
+                  SET CURSOR LAST TargetERD.ER_Attribute
+                  CreateMetaEntity( vSubtask, TargetERD, "ER_Attribute", zPOS_AFTER )
+                  SetMatchingAttributesByName( TargetERD, "ER_Attribute", SourceERD, "ER_Attribute", zSET_NULL )
+
+                  // Get Domain or create new Domain.
+                  DomainName = SourceERD.Domain.Name
+                  nRC = ActivateMetaOI_ByName( vSubtask, NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, DomainName, 0 )
+                  IF nRC >= 0
+                     // The Domain exists in Current LPLR, so include it here.
+                     INCLUDE TargetERD.Domain FROM NewDomain.Domain
+                     DropMetaOI( vSubtask, NewDomain )
+                  ELSE
+                     // The Domain doesn't exist in Current LPLR, so add it, if there is a Source LPLR.
+                     IF SourceLPLR != 0
+                        DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
+                                           CurrentLPLR.LPLR.wFullyQualifiedFileName,    // Source LPLR Directory Structure
+                                           DomainName, vSubtask )
+                     ELSE
+                        szMsg = "Domain, " + DomainName + ", from the Source ERD does not exist in the current LPLR and " +
+                                "no Source LPLR was specified. The Merge function is aborted."
+                        MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+                        RETURN -1
+                     END
+                  END
+
+               END // FOR EACH SourceERD.ER_Attribute
+               
+               // Copy ID Identifier.
+               SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = "ID"
+               IF RESULT >= zCURSOR_SET 
+                  CreateMetaEntity( vSubtask, TargetERD, "ER_EntIdentifier", zPOS_AFTER )
+                  SetMatchingAttributesByName( TargetERD, "ER_EntIdentifier", SourceERD, "ER_EntIdentifier", zSET_NULL )
+                  CreateMetaEntity( vSubtask, TargetERD, "ER_FactType", zPOS_AFTER )
+                  SetMatchingAttributesByName( TargetERD, "ER_FactType", SourceERD, "ER_FactType", zSET_NULL )
+                  INCLUDE TargetERD.ER_AttributeIdentifier FROM TargetERD.ER_Attribute 
+               END
+               END
+            END
+            
+            IF szWholeLPLRFlag = "Y" 
             END
 
             // Turn off selected flag so if we execute again, we won't repeat this entry.
@@ -2690,6 +2769,192 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
             CreateMetaEntity( vSubtask, TargetERD, "ER_RelLink_2", zPOS_AFTER )
             SetMatchingAttributesByName( TargetERD, "ER_RelLink_2", SourceERD2, "ER_RelLink_2", zSET_NULL )
             INCLUDE TargetERD.ER_Entity_2 FROM TargetERD2.ER_Entity
+            
+            IF szWholeLPLRFlag != "Y" 
+            
+               // Finish relationship processing when NOT merging whole LPLR.
+               SET CURSOR FIRST TargetERD.ER_RelLink WHERE TargetERD.ER_RelLink.ZKey = TargetERD.ER_RelLink_2.ZKey
+
+               // TargetERD Relationship Side.
+               CreateMetaEntity( vSubtask, TargetERD, "ER_RelLink_2", zPOS_AFTER )
+               SetMatchingAttributesByName( TargetERD, "ER_RelLink_2", SourceERD2, "ER_RelLink_2", zSET_NULL )
+               INCLUDE TargetERD.ER_Entity_2 FROM TargetERD2.ER_Entity
+            
+            ELSE
+               
+               // RESETTING RELTYPE POSITIONS WHEN MERGING WHOLE LPLR.        
+               //   DonC changes 4/8/2022
+               /*   All ER_RelType positions must be reevaluated because of the new positions of Entities as follows:
+               
+               In determining the RelType position values, there are 3 separate conditions:
+               1. Both entities in the relationship belong to the original targer ER and they're not modified at all.
+               2. Both entities in the relationship belong to the new source ER and the Y values are incremented.
+               3. One entity is from the source and one the target, so all positions must be re-evaluated.
+               
+               Re-evaluate all positions as follows:
+                   (In understanding the increments below, it is helpful to know that a box width and height are considered 8 and 3,)
+               
+               The E1PosX and E2PosX values depend on whether the ER_Entity2 entries are old or new.
+               There are 6 conditions for this with processing as follows:
+               1. The first Entity is the New Entity
+                  a. The Old Entity is to left of New Entity. (up then left)
+                     E1X = New Entity PosX + 4 (half-way across box)
+                     E1Y = New Entity PosY - 1 (top of box)
+                     E2X = Old Entity PosX + 9 (right side of box)
+                     E2Y = Old Entity PosY + 2 (half-way down box)
+                     BendX = E1X
+                     BendY = E2Y
+                  b. The Old Entity is to right of New Entity. (up then right)
+                     E1X = New Entity PosX + 4 (half-way across box) 
+                     E1Y = New Entity PosY - 1 (top of box)
+                     E2X = Old Entity PosX - 1 (left side of box)
+                     E2Y = Old Entity PosY + 2 (half-way down box)
+                     BendX = E1X
+                     BendY = E2Y
+                  c. The Old Entity is above New Entity
+                     E1X = New Entity PosX + 4 (half-way across box)
+                     E1Y = New Entity PosY - 1 (top of box)
+                     E2X = New Entity PosX + 4 (old X is same as new X)
+                     E2Y = Old Entity PosY + 5 (bottom of box)
+                     BendX = 0
+                     BendY = 0
+               
+               2. The first Entity is the Old Entity
+                  a. The Old Entity is to left of New Entity.   (up then left)
+                     E1X = Old Entity PosX + 9 (right side of box)
+                     E1Y = Old Entity PosY + 2 (half-way down box)
+                     E2X = New Entity PosX + 4 (half-way across box)
+                     E2Y = New Entity PosY - 1 (top of box)
+                     BendX = E1X
+                     BendY = E2Y
+                  b. The Old Entity is to right of New Entity.  (up then right)
+                     E1X = Old Entity PosX - 1 (left side of box)
+                     E1Y = Old Entity PosY + 2 (half-way down box)
+                     E2X = New Entity PosX + 4 (half-way across box) 
+                     E2Y = New Entity PosY - 1 (top of box)
+                     BendX = E1X
+                     BendY = E2Y
+                  c. The Old Entity is above New Entity
+                     E2X = New Entity PosX + 4 (half-way across box)
+                     E2Y = New Entity PosY - 1 (top of box)
+                     E1X = New Entity PosX + 4 (old X is same as new X)
+                     E1Y = Old Entity PosY + 5 (bottom of box)
+                     BendX = 0
+                     BendY = 0
+               */
+               
+               // We'll determine whether an entity is new or old depending on its Y position.
+               SET CURSOR FIRST TargetERD.ER_RelLink_2 
+               Entity1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY
+               SET CURSOR NEXT TargetERD.ER_RelLink_2 
+               Entity2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY
+               
+               IF Entity1PosY < MaxYPos AND Entity2PosY < MaxYPos
+               
+                  // Both entities are old, so don'modify RelType positions.
+               ELSE
+               IF Entity1PosY > MaxYPos AND Entity2PosY > MaxYPos
+               
+                  // Both entities are new, so just increment Y positions by MaxYPos, except for BendY when it's zero.
+                  TargetERD.ER_RelType.ER_DiagramE1PosY   = TargetERD.ER_RelType.ER_DiagramE1PosY   + MaxYPos
+                  TargetERD.ER_RelType.ER_DiagramE2PosY   = TargetERD.ER_RelType.ER_DiagramE2PosY   + MaxYPos
+                  IF TargetERD.ER_RelType.ER_DiagramBendPosY != 0
+                     TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramBendPosY + MaxYPos
+                  END
+                  
+               ELSE
+                  // Entities are a combination and all positions must be reevaluated.
+                  
+                  IF Entity1PosY > MaxYPos
+                     // 1. The first Entity is the New Entity
+                     SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                     EntityNewPosX = TargetERD.ER_Entity_2.ER_DiagramPosX 
+                     SET CURSOR NEXT TargetERD.ER_RelLink_2 
+                     EntityOldPosXleft  = TargetERD.ER_Entity_2.ER_DiagramPosX + 8
+                     EntityOldPosXright = TargetERD.ER_Entity_2.ER_DiagramPosX - 8
+                     
+                     IF EntityOldPosXleft < EntityNewPosX     // + 8 makes sure old entity is at least a box width left
+                        // a. The Old Entity is to left of New Entity. (up then left)
+                        SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                        SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 9 // (right side of box)
+                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                        TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
+                        TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY 
+                     ELSE
+                     IF EntityOldPosXright > EntityNewPosX     // - 8 makes sure old entity is at least a box width right
+                        // b. The Old Entity is to right of New Entity. (up then right)
+                        SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                        SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX - 1 // (left side of box)
+                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                        TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
+                        TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY
+                     ELSE
+                        // c. The Old Entity is above New Entity
+                        SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                        SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_RelType.ER_DiagramE1PosX    // (old X is same as new X)
+                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 5 // (bottom of box)
+                        TargetERD.ER_RelType.ER_DiagramBendPosX = 0 // No Bend
+                        TargetERD.ER_RelType.ER_DiagramBendPosY = 0 // No Bend
+                     END
+                     END
+                     
+                  ELSE
+                     // 2. The first Entity is the Old Entity
+                     SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                     EntityOldPosXleft  = TargetERD.ER_Entity_2.ER_DiagramPosX + 8
+                     EntityOldPosXright = TargetERD.ER_Entity_2.ER_DiagramPosX - 8
+                     SET CURSOR NEXT TargetERD.ER_RelLink_2
+                     EntityNewPosX = TargetERD.ER_Entity_2.ER_DiagramPosX
+                     
+                     IF EntityOldPosXleft < EntityNewPosX     // + 8 makes sure old entity is at least a box width left
+                        // a. The Old Entity is to left of New Entity.   (up then left)
+                        SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 9 // (right side of box)
+                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                        SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                        TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
+                        TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY 
+                     ELSE
+                     IF EntityOldPosXright > EntityNewPosX     // - 8 makes sure old entity is at least a box width right
+                        // b. The Old Entity is to right of New Entity.  (up then right)
+                        SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX - 1 // (left side of box)
+                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                        SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                        TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE2PosX 
+                        TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE1PosY
+                     ELSE
+                        // c. The Old Entity is above New Entity
+                        SET CURSOR FIRST TargetERD.ER_RelLink_2 
+                        SET CURSOR NEXT TargetERD.ER_RelLink_2    // Position on New Entity
+                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                        SET CURSOR FIRST TargetERD.ER_RelLink_2   // Reposition on Old Entity
+                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_RelType.ER_DiagramE2PosX    // (old X is same as new X)
+                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 5 // (bottom of box)
+                        TargetERD.ER_RelType.ER_DiagramBendPosX = 0 // No Bend
+                        TargetERD.ER_RelType.ER_DiagramBendPosY = 0 // No Bend
+                     END
+                     END
+
+                  END
+               END
+               END
+            END
+            
 
             // Now include the lower level substructures.
             // We will first have to position TargetERD2 on the new RelType and on the first RelLink for that type.

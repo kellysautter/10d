@@ -267,7 +267,7 @@ oTZERSASO_SA_RelinkDelete( zVIEW vViewToInstance0,
                            zVIEW vSubtask1 );
 
 //end
-//start TZDGSRCO 2020.03.18 13:12:43
+//start TZDGSRCO 2022.05.04 15:29:21
 zOPER_EXPORT zSHORT OPERATION
 oTZDGSRCO_DomainMigrate( zVIEW vViewToInstance0,
                          zPCHAR pchSourceDomainMetaName1,
@@ -1289,7 +1289,7 @@ oTZ__PRFO_GetViewToProfile( zPVIEW vViewToInstance0,
                             zSHORT nCurrentOrReloadFlag3 );
 
 //end
-//start TZZOLODO 2020.03.18 13:12:55
+//start TZZOLODO 2022.05.25 11:57:44
 zOPER_EXPORT zSHORT OPERATION
 oTZZOLODO_ParseDerivedExpr( zVIEW vViewToInstance0,
                             zVIEW vWindowsubtask1 );
@@ -1333,9 +1333,16 @@ oTZZOLODO_LOD_EntityCopy( zVIEW vViewToInstance0,
                           zPCHAR pchszAddER_EntityFlag11 );
 
 zOPER_EXPORT zSHORT OPERATION
-oTZZOLODO_LOD_CreateER_Attribute( zVIEW vOldRecursiveLOD0,
+oTZZOLODO_LOD_CreateER_Attribute( zVIEW vSourceLOD0,
                                   zVIEW vSourceLPLR1,
                                   zVIEW vCurrentLPLR2,
+                                  zVIEW vNewERD3,
+                                  zVIEW vvSubtask4 );
+
+zOPER_EXPORT zSHORT OPERATION
+oTZZOLODO_LOD_CreateER_AttrFrmER( zVIEW vSourceERD0,
+                                  zVIEW vSourceLPLR1,
+                                  zVIEW vCourseLPLR2,
                                   zVIEW vNewERD3,
                                   zVIEW vvSubtask4 );
 
