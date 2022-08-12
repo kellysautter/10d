@@ -4762,6 +4762,11 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
    //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
 
+
+   //:CreateDisabledString( vDialog, szDisabled )
+   CreateDisabledString( vDialog, szDisabled );
+
+
    //:lSubtype = vDialog.Control.Subtype
    GetIntegerFromAttribute( &lSubtype, vDialog, "Control", "Subtype" );
    //:nRC = AreBitsSetInFlag( lSubtype, 61440 ) // 0x0000F000
@@ -4818,9 +4823,6 @@ GenJSP_CrteComboBox( zVIEW     vDialog,
       } 
 
       //:END
-
-      //:CreateDisabledString( vDialog, szDisabled )
-      CreateDisabledString( vDialog, szDisabled );
 
       //:IF szClass = ""
       if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )

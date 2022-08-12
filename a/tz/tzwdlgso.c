@@ -441,16 +441,29 @@ oTZWDLGSO_CloneAction( zVIEW     vSourceLPLR,
          RESULT = SetCursorFirstEntityByString( vOrigW, "Operation", "Name", szTempString_0, "Dialog" );
          //:szLanguageType = vOrigW.SourceFile.LanguageType
          GetVariableFromAttribute( szLanguageType, 0, 'S', 2, vOrigW, "SourceFile", "LanguageType", "", 0 );
+         //:szSourceName = vOrigW.SourceFile.Name
+         GetVariableFromAttribute( szSourceName, 0, 'S', 33, vOrigW, "SourceFile", "Name", "", 0 );
+         //:// KJS 06/23/22 - When migrating a dialog, we are not copying all of the SourceFile(s). I am not sure
+         //:// why this set cursor was only looking at LanguageType. I am adding SourceFile.Name.
          //:SET CURSOR FIRST vNewW.SourceFile WHERE
+         //:    vNewW.SourceFile.Name = szSourceName AND
          //:    vNewW.SourceFile.LanguageType = szLanguageType
-         RESULT = SetCursorFirstEntityByString( vNewW, "SourceFile", "LanguageType", szLanguageType, "" );
+         RESULT = SetCursorFirstEntity( vNewW, "SourceFile", "" );
+         if ( RESULT > zCURSOR_UNCHANGED )
+         { 
+            while ( RESULT > zCURSOR_UNCHANGED && ( CompareAttributeToString( vNewW, "SourceFile", "Name", szSourceName ) != 0 || CompareAttributeToString( vNewW, "SourceFile", "LanguageType", szLanguageType ) != 0 ) )
+            { 
+               RESULT = SetCursorNextEntity( vNewW, "SourceFile", "" );
+            } 
+
+         } 
+
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
          { 
             //: // There was no SourceFileEntry of correct language type.
             //: // Add one, but make sure name is unique.
-            //: szSourceName = vNewW.Dialog.Tag
-            GetVariableFromAttribute( szSourceName, 0, 'S', 33, vNewW, "Dialog", "Tag", "", 0 );
+            //: //szSourceName = vNewW.Dialog.Tag
             //: SET CURSOR FIRST vNewW.SourceFile WHERE
             //:    vNewW.SourceFile.Name = szSourceName
             RESULT = SetCursorFirstEntityByString( vNewW, "SourceFile", "Name", szSourceName, "" );
@@ -460,11 +473,13 @@ oTZWDLGSO_CloneAction( zVIEW     vSourceLPLR,
                //: // A SourceFile entity by dialog name already exists. Modify name.
                //: nLength = GetStringLength( szSourceName )
                nLength = GetStringLength( szSourceName );
-               //: IF nLength >= 8
-               if ( nLength >= 8 )
+               //: // KJS - we used to have a maximum of 8 characters for meta names. Now I believe it's 32 but I know
+               //: // we have issues if the SourceFileName + Operation Name is too long. I will try cutting off at 15.
+               //: IF nLength >= 15
+               if ( nLength >= 15 )
                { 
-                  //: szSourceName = szSourceName[1:7]
-                  ZeidonStringCopy( szSourceName, 1, 0, szSourceName, 1, 7, 33 );
+                  //: szSourceName = szSourceName[1:14]
+                  ZeidonStringCopy( szSourceName, 1, 0, szSourceName, 1, 14, 33 );
                } 
 
                //: END
@@ -475,24 +490,54 @@ oTZWDLGSO_CloneAction( zVIEW     vSourceLPLR,
             //: END
             //: CreateMetaEntity( vSubtask, vNewW, "SourceFile", zPOS_AFTER )
             CreateMetaEntity( vSubtask, vNewW, "SourceFile", zPOS_AFTER );
-            //:  vNewW.SourceFile.Name         = szSourceName
+            //: vNewW.SourceFile.Name         = szSourceName
             SetAttributeFromString( vNewW, "SourceFile", "Name", szSourceName );
-            //:  vNewW.SourceFile.LanguageType = szLanguageType
+            //: vNewW.SourceFile.LanguageType = szLanguageType
             SetAttributeFromString( vNewW, "SourceFile", "LanguageType", szLanguageType );
-            //:  IF szLanguageType = "V"
+            //: IF szLanguageType = "V"
             if ( ZeidonStringCompare( szLanguageType, 1, 0, "V", 1, 0, 2 ) == 0 )
             { 
-               //:  vNewW.SourceFile.Extension = "VML"
+               //: vNewW.SourceFile.Extension = "VML"
                SetAttributeFromString( vNewW, "SourceFile", "Extension", "VML" );
                //:ELSE
             } 
             else
             { 
-               //:  vNewW.SourceFile.Extension = "C"
-               SetAttributeFromString( vNewW, "SourceFile", "Extension", "C" );
+               //: IF szLanguageType = "C"
+               if ( ZeidonStringCompare( szLanguageType, 1, 0, "C", 1, 0, 2 ) == 0 )
+               { 
+                  //: vNewW.SourceFile.Extension = "C"
+                  SetAttributeFromString( vNewW, "SourceFile", "Extension", "C" );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //: IF szLanguageType = "J"
+                  if ( ZeidonStringCompare( szLanguageType, 1, 0, "J", 1, 0, 2 ) == 0 )
+                  { 
+                     //: vNewW.SourceFile.Extension = "Java"
+                     SetAttributeFromString( vNewW, "SourceFile", "Extension", "Java" );
+                     //:ELSE
+                  } 
+                  else
+                  { 
+                     //: IF szLanguageType = "S"
+                     if ( ZeidonStringCompare( szLanguageType, 1, 0, "S", 1, 0, 2 ) == 0 )
+                     { 
+                        //: vNewW.SourceFile.Extension = "Scala"
+                        SetAttributeFromString( vNewW, "SourceFile", "Extension", "Scala" );
+                     } 
+
+                     //: END
+                  } 
+
+                  //: END
+               } 
+
+               //: END
             } 
 
-            //:  END
+            //: END
          } 
 
          //:END
@@ -1755,7 +1800,7 @@ oTZWDLGSO_MergeWindowComponents( zVIEW     vNewW,
 //:               VIEW vOrigW BASED ON LOD TZWDLGSO,
 //:               VIEW vSubtask )
 
-//:   VIEW TZDLG_List REGISTERED AS TZCMLPLO
+//:   VIEW TZDLG_List REGISTERED AS TZDIALOGS
 zOPER_EXPORT zSHORT OPERATION
 oTZWDLGSO_MergeWebMenus( zVIEW     vNewW,
                          zVIEW     vOrigW,
@@ -1767,113 +1812,258 @@ oTZWDLGSO_MergeWebMenus( zVIEW     vNewW,
    zVIEW     TZWND_List = 0; 
    //:INTEGER nRC
    zLONG     nRC = 0; 
+   zSHORT    lTempInteger_0; 
+   zSHORT    lTempInteger_1; 
+   zCHAR     szTempString_0[ 33 ]; 
+   zSHORT    lTempInteger_2; 
+   zSHORT    lTempInteger_3; 
+   zSHORT    lTempInteger_4; 
+   zSHORT    lTempInteger_5; 
 
-   RESULT = GetViewByName( &TZDLG_List, "TZCMLPLO", vNewW, zLEVEL_TASK );
+   RESULT = GetViewByName( &TZDLG_List, "TZDIALOGS", vNewW, zLEVEL_TASK );
 
-   //:// KJS 11/28/16 - This code does not seem to work correctly. First the above registered TZCMLPLO doesn't exist, but if
-   //:// I change it to "TZDLG_List" then I go into code below that drops views it shouldn't and I get even more errors. I am thinking
-   //:// that this never works correctly so I am returning.
+   //:// Merge the following Web Menus only if they don't already exist.
+   //://  ReusableSideMenu
+   //://  ReusableMainMenu
+   //:IF vOrigW.ReusableSideWindow EXISTS AND vNewW.ReusableSideWindow DOES NOT EXIST
+   lTempInteger_0 = CheckExistenceOfEntity( vOrigW, "ReusableSideWindow" );
+   lTempInteger_1 = CheckExistenceOfEntity( vNewW, "ReusableSideWindow" );
+   if ( lTempInteger_0 == 0 && lTempInteger_1 != 0 )
+   { 
+      //:IF vOrigW.ReusableSideDialog.Tag = vNewW.Dialog.Tag
+      if ( CompareAttributeToAttribute( vOrigW, "ReusableSideDialog", "Tag", vNewW, "Dialog", "Tag" ) == 0 )
+      { 
+         //:// The Reusable Menu IS in this Dialog, so find the correct Window and include it.
+         //:CreateViewFromView( TZWND_List, vNewW )
+         CreateViewFromView( &TZWND_List, vNewW );
+         //:SET CURSOR FIRST TZWND_List.Window
+         //:           WHERE TZWND_List.Window.Tag = vOrigW.ReusableSideWindow.Tag
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableSideWindow", "Tag" );
+         RESULT = SetCursorFirstEntityByString( TZWND_List, "Window", "Tag", szTempString_0, "" );
+         //:IF RESULT >= zCURSOR_SET
+         if ( RESULT >= zCURSOR_SET )
+         { 
+            //:INCLUDE vNewW.ReusableSideWindow FROM TZWND_List.Window
+            RESULT = IncludeSubobjectFromSubobject( vNewW, "ReusableSideWindow", TZWND_List, "Window", zPOS_AFTER );
+         } 
+
+         //:END
+         //:DropView( TZWND_List )
+         DropView( TZWND_List );
+         //:ELSE
+      } 
+      else
+      { 
+         //:// The Reusable Menu is not in this Dialog, so look for an external Dialog.
+         //:SET CURSOR FIRST TZDLG_List.W_MetaDef
+         //:           WHERE TZDLG_List.W_MetaDef.Name = vOrigW.ReusableSideDialog.Tag
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableSideDialog", "Tag" );
+         RESULT = SetCursorFirstEntityByString( TZDLG_List, "W_MetaDef", "Name", szTempString_0, "" );
+         //:IF RESULT >= zCURSOR_SET
+         if ( RESULT >= zCURSOR_SET )
+         { 
+            //:// Make sure that any left over ReusableDialogSelection entity is removed and then
+            //:// include new Dialog.
+            //:IF vNewW.ReusableDialogSelection EXISTS
+            lTempInteger_2 = CheckExistenceOfEntity( vNewW, "ReusableDialogSelection" );
+            if ( lTempInteger_2 == 0 )
+            { 
+               //:EXCLUDE vNewW.ReusableDialogSelection
+               RESULT = ExcludeEntity( vNewW, "ReusableDialogSelection", zREPOS_AFTER );
+            } 
+
+            //:END
+            //:INCLUDE vNewW.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
+            RESULT = IncludeSubobjectFromSubobject( vNewW, "ReusableDialogSelection", TZDLG_List, "W_MetaDef", zPOS_AFTER );
+
+            //:// Make sure the Dialog to be included is active in view TZWND_List.
+            //:// Then find the Window and include it.
+            //:GET VIEW TZWND_List NAMED "TZWND_List"
+            RESULT = GetViewByName( &TZWND_List, "TZWND_List", vNewW, zLEVEL_TASK );
+            //:IF RESULT >= 0
+            if ( RESULT >= 0 )
+            { 
+               //:IF TZWND_List.Dialog.Tag != vOrigW.ReusableSideDialog.Tag
+               if ( CompareAttributeToAttribute( TZWND_List, "Dialog", "Tag", vOrigW, "ReusableSideDialog", "Tag" ) != 0 )
+               { 
+                  //:DropMetaOI( vSubtask, TZWND_List )
+                  DropMetaOI( vSubtask, TZWND_List );
+                  //:TZWND_List = 0
+                  TZWND_List = 0;
+               } 
+
+               //:END
+               //:ELSE
+            } 
+            else
+            { 
+               //:TZWND_List = 0
+               TZWND_List = 0;
+            } 
+
+            //:END
+
+            //:IF TZWND_List = 0
+            if ( TZWND_List == 0 )
+            { 
+               //:ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
+               ActivateMetaOI( vSubtask, &TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE );
+               //:NAME VIEW TZWND_List "TZWND_List"
+               SetNameForView( TZWND_List, "TZWND_List", 0, zLEVEL_TASK );
+            } 
+
+            //:END
+
+            //:IF TZWND_List != 0
+            if ( TZWND_List != 0 )
+            { 
+               //:SET CURSOR FIRST TZWND_List.Window
+               //:           WHERE TZWND_List.Window.Tag = vOrigW.ReusableSideWindow.Tag
+               GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableSideWindow", "Tag" );
+               RESULT = SetCursorFirstEntityByString( TZWND_List, "Window", "Tag", szTempString_0, "" );
+               //:IF RESULT >= zCURSOR_SET
+               if ( RESULT >= zCURSOR_SET )
+               { 
+                  //:INCLUDE vNewW.ReusableSideWindow FROM TZWND_List.Window
+                  RESULT = IncludeSubobjectFromSubobject( vNewW, "ReusableSideWindow", TZWND_List, "Window", zPOS_AFTER );
+               } 
+
+               //:END
+               //:DropView( TZWND_List )
+               DropView( TZWND_List );
+            } 
+
+            //:END
+         } 
+
+         //:END
+      } 
+
+      //:END
+   } 
+
+   //:END
+
+   //:IF vOrigW.ReusableMainWindow EXISTS AND vNewW.ReusableMainWindow DOES NOT EXIST
+   lTempInteger_3 = CheckExistenceOfEntity( vOrigW, "ReusableMainWindow" );
+   lTempInteger_4 = CheckExistenceOfEntity( vNewW, "ReusableMainWindow" );
+   if ( lTempInteger_3 == 0 && lTempInteger_4 != 0 )
+   { 
+      //:IF vOrigW.ReusableMainDialog.Tag = vNewW.Dialog.Tag
+      if ( CompareAttributeToAttribute( vOrigW, "ReusableMainDialog", "Tag", vNewW, "Dialog", "Tag" ) == 0 )
+      { 
+         //:// The Reusable Menu IS in this Dialog, so find the correct Window and include it.
+         //:CreateViewFromView( TZWND_List, vNewW )
+         CreateViewFromView( &TZWND_List, vNewW );
+         //:SET CURSOR FIRST TZWND_List.Window
+         //:           WHERE TZWND_List.Window.Tag = vOrigW.ReusableMainWindow.Tag
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableMainWindow", "Tag" );
+         RESULT = SetCursorFirstEntityByString( TZWND_List, "Window", "Tag", szTempString_0, "" );
+         //:IF RESULT >= zCURSOR_SET
+         if ( RESULT >= zCURSOR_SET )
+         { 
+            //:INCLUDE vNewW.ReusableMainWindow FROM TZWND_List.Window
+            RESULT = IncludeSubobjectFromSubobject( vNewW, "ReusableMainWindow", TZWND_List, "Window", zPOS_AFTER );
+         } 
+
+         //:END
+         //:DropView( TZWND_List )
+         DropView( TZWND_List );
+         //:ELSE
+      } 
+      else
+      { 
+         //:SET CURSOR FIRST TZDLG_List.W_MetaDef
+         //:           WHERE TZDLG_List.W_MetaDef.Name = vOrigW.ReusableMainDialog.Tag
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableMainDialog", "Tag" );
+         RESULT = SetCursorFirstEntityByString( TZDLG_List, "W_MetaDef", "Name", szTempString_0, "" );
+         //:IF RESULT >= zCURSOR_SET
+         if ( RESULT >= zCURSOR_SET )
+         { 
+            //:// Make sure that any left over ReusableDialogSelection entity is removed and then
+            //:// include new Dialog.
+            //:IF vNewW.ReusableDialogSelection EXISTS
+            lTempInteger_5 = CheckExistenceOfEntity( vNewW, "ReusableDialogSelection" );
+            if ( lTempInteger_5 == 0 )
+            { 
+               //:EXCLUDE vNewW.ReusableDialogSelection
+               RESULT = ExcludeEntity( vNewW, "ReusableDialogSelection", zREPOS_AFTER );
+            } 
+
+            //:END
+            //:INCLUDE vNewW.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
+            RESULT = IncludeSubobjectFromSubobject( vNewW, "ReusableDialogSelection", TZDLG_List, "W_MetaDef", zPOS_AFTER );
+
+            //:// Make sure the Dialog to be included is active in view TZWND_List.
+            //:// Then find the Window and include it.
+            //:GET VIEW TZWND_List NAMED "TZWND_List"
+            RESULT = GetViewByName( &TZWND_List, "TZWND_List", vNewW, zLEVEL_TASK );
+            //:IF RESULT >= 0
+            if ( RESULT >= 0 )
+            { 
+               //:IF TZWND_List.Dialog.Tag != vOrigW.ReusableMainDialog.Tag
+               if ( CompareAttributeToAttribute( TZWND_List, "Dialog", "Tag", vOrigW, "ReusableMainDialog", "Tag" ) != 0 )
+               { 
+                  //:DropMetaOI( vSubtask, TZWND_List )
+                  DropMetaOI( vSubtask, TZWND_List );
+                  //:TZWND_List = 0
+                  TZWND_List = 0;
+               } 
+
+               //:END
+               //:ELSE
+            } 
+            else
+            { 
+               //:TZWND_List = 0
+               TZWND_List = 0;
+            } 
+
+            //:END
+
+            //:IF TZWND_List = 0
+            if ( TZWND_List == 0 )
+            { 
+               //:ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
+               ActivateMetaOI( vSubtask, &TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE );
+               //:NAME VIEW TZWND_List "TZWND_List"
+               SetNameForView( TZWND_List, "TZWND_List", 0, zLEVEL_TASK );
+            } 
+
+            //:END
+
+            //:IF TZWND_List != 0
+            if ( TZWND_List != 0 )
+            { 
+               //:SET CURSOR FIRST TZWND_List.Window
+               //:           WHERE TZWND_List.Window.Tag = vOrigW.ReusableMainWindow.Tag
+               GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ReusableMainWindow", "Tag" );
+               RESULT = SetCursorFirstEntityByString( TZWND_List, "Window", "Tag", szTempString_0, "" );
+               //:IF RESULT >= zCURSOR_SET
+               if ( RESULT >= zCURSOR_SET )
+               { 
+                  //:INCLUDE vNewW.ReusableMainWindow FROM TZWND_List.Window
+                  RESULT = IncludeSubobjectFromSubobject( vNewW, "ReusableMainWindow", TZWND_List, "Window", zPOS_AFTER );
+               } 
+
+               //:END
+               //:DropView( TZWND_List )
+               DropView( TZWND_List );
+            } 
+
+            //:END
+         } 
+
+         //:END
+      } 
+
+      //:END
+   } 
+
+   //:END
+
    //:RETURN 0
    return( 0 );
-// /*
-//    // Merge the following Web Menus only if they don't already exist.
-//    //  ReusableSideMenu
-//    //  ReusableMainMenu
-//    IF vOrigW.ReusableSideWindow EXISTS AND vNewW.ReusableSideWindow DOES NOT EXIST
-//       IF vOrigW.ReusableSideDialog.Tag = vNewW.Dialog.Tag
-//          // The Reusable Menu IS in this Dialog, so find the correct Window and include it.
-//          CreateViewFromView( TZWND_List, vNewW )
-//          SET CURSOR FIRST TZWND_List.Window
-//                     WHERE TZWND_List.Window.Tag = vOrigW.ReusableSideWindow.Tag
-//          IF RESULT >= zCURSOR_SET
-//             INCLUDE vNewW.ReusableSideWindow FROM TZWND_List.Window
-//          END
-//          DropView( TZWND_List )
-//       ELSE
-//          // The Reusable Menu is not in this Dialog, so look for an external Dialog.
-//          SET CURSOR FIRST TZDLG_List.W_MetaDef
-//                     WHERE TZDLG_List.W_MetaDef.Name = vOrigW.ReusableSideDialog.Tag
-//          IF RESULT >= zCURSOR_SET
-//             // Make sure that any left over ReusableDialogSelection entity is removed and then
-//             // include new Dialog.
-//             IF vNewW.ReusableDialogSelection EXISTS
-//                EXCLUDE vNewW.ReusableDialogSelection
-//             END
-//             INCLUDE vNewW.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
-//             // Make sure the Dialog to be included is active in view TZWND_List.
-//             // Then find the Window and include it.
-//             GET VIEW TZWND_List NAMED "TZWND_List"
-//             IF RESULT >= 0
-//                IF TZWND_List.Dialog.Tag != vOrigW.ReusableSideDialog.Tag
-//                   DropMetaOI( vSubtask, TZWND_List )
-//                   TZWND_List = 0
-//                END
-//             ELSE
-//                TZWND_List = 0
-//             END
-//             IF TZWND_List = 0
-//                ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
-//                NAME VIEW TZWND_List "TZWND_List"
-//             END
-//             IF TZWND_List != 0
-//                SET CURSOR FIRST TZWND_List.Window
-//                           WHERE TZWND_List.Window.Tag = vOrigW.ReusableSideWindow.Tag
-//                IF RESULT >= zCURSOR_SET
-//                   INCLUDE vNewW.ReusableSideWindow FROM TZWND_List.Window
-//                END
-//                DropView( TZWND_List )
-//             END
-//          END
-//       END
-//    END
-//    IF vOrigW.ReusableMainWindow EXISTS AND vNewW.ReusableMainWindow DOES NOT EXIST
-//       IF vOrigW.ReusableMainDialog.Tag = vNewW.Dialog.Tag
-//          // The Reusable Menu IS in this Dialog, so find the correct Window and include it.
-//          CreateViewFromView( TZWND_List, vNewW )
-//          SET CURSOR FIRST TZWND_List.Window
-//                     WHERE TZWND_List.Window.Tag = vOrigW.ReusableMainWindow.Tag
-//          IF RESULT >= zCURSOR_SET
-//             INCLUDE vNewW.ReusableMainWindow FROM TZWND_List.Window
-//          END
-//          DropView( TZWND_List )
-//       ELSE
-//          SET CURSOR FIRST TZDLG_List.W_MetaDef
-//                     WHERE TZDLG_List.W_MetaDef.Name = vOrigW.ReusableMainDialog.Tag
-//          IF RESULT >= zCURSOR_SET
-//             // Make sure that any left over ReusableDialogSelection entity is removed and then
-//             // include new Dialog.
-//             IF vNewW.ReusableDialogSelection EXISTS
-//                EXCLUDE vNewW.ReusableDialogSelection
-//             END
-//             INCLUDE vNewW.ReusableDialogSelection FROM TZDLG_List.W_MetaDef
-//             // Make sure the Dialog to be included is active in view TZWND_List.
-//             // Then find the Window and include it.
-//             GET VIEW TZWND_List NAMED "TZWND_List"
-//             IF RESULT >= 0
-//                IF TZWND_List.Dialog.Tag != vOrigW.ReusableMainDialog.Tag
-//                   DropMetaOI( vSubtask, TZWND_List )
-//                   TZWND_List = 0
-//                END
-//             ELSE
-//                TZWND_List = 0
-//             END
-//             IF TZWND_List = 0
-//                ActivateMetaOI( vSubtask, TZWND_List, TZDLG_List, zREFER_DIALOG_META, zSINGLE )
-//                NAME VIEW TZWND_List "TZWND_List"
-//             END
-//             IF TZWND_List != 0
-//                SET CURSOR FIRST TZWND_List.Window
-//                           WHERE TZWND_List.Window.Tag = vOrigW.ReusableMainWindow.Tag
-//                IF RESULT >= zCURSOR_SET
-//                   INCLUDE vNewW.ReusableMainWindow FROM TZWND_List.Window
-//                END
-//                DropView( TZWND_List )
-//             END
-//          END
-//       END
-//    END
-//    RETURN 0
-// */
 // END
 } 
 
@@ -2643,49 +2833,138 @@ oTZWDLGSO_DialogMigrate( zVIEW     NewDialog,
 
    //:END
 
+   //://///////////////////////////////////////////////////////////
    //:// Copy Operations and Source File
    //:// If the Dialog was created here, we'll simply copy over the SourceFile/Operation prototypes and files.
    //:// If the Dialog is being merged, we'll copy over SourceFile/Operation prototypes and files not marked to be be saved.
-   //:/*IF NewDialogFlag = "Y"
-   //:   // This is a new Dialog, copy over everything.
-   //:   FOR EACH OldDialog.SourceFile
-   //:      ExtensionName = OldDialog.SourceFile.Extension
-   //:      MetaName = OldDialog.SourceFile.Name
-   //:      CreateMetaEntity( vSubtask, NewDialog, "SourceFile", zPOS_AFTER )
-   //:      SetMatchingAttributesByName( NewDialog, "SourceFile", OldDialog, "SourceFile", zSET_NULL )
-   //:      FOR EACH OldDialog.Operation
-   //:         CreateMetaEntity( vSubtask, NewDialog, "Operation", zPOS_AFTER )
-   //:         SetMatchingAttributesByName( NewDialog, "Operation", OldDialog, "Operation", zSET_NULL )
-   //:         FOR EACH OldDialog.Parameter
-   //:            IF OldDialog.Parameter.ShortDesc = ""
-   //:               OldDialog.Parameter.ShortDesc = "Subtask"
-   //:            END
-   //:            CreateMetaEntity( vSubtask, NewDialog, "Parameter", zPOS_AFTER )
-   //:            SetMatchingAttributesByName( NewDialog, "Parameter", OldDialog, "Parameter", zSET_NULL )
-   //:         END
-   //:      END
-   //:      // Copy the .C file or the .VML file, if it exists, from the source directory to the
-   //:      // target directory.
-   //:      // Note that if it isn't there (it wasn't created in the source LPLR), we're going to
-   //:      // just ignore it; we're not going to return an error message.
-   //:      RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get a view for directory info.
-   //:      ResetViewFromSubobject( CurrentLPLR ) // Get visibility to root.
-   //:      IF ExtensionName = "C"
-   //:         SourceName = MetaName + ".C"
-   //:      ELSE
-   //:         SourceName = MetaName + ".VML"
-   //:      END
-   //:      SourceFileName1 = SourceLPLR.LPLR.PgmSrcDir + "\" + SourceName
-   //:      SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName
-   //:      SysCopyFile( vSubtask, SourceFileName1, SourceFileName2, TRUE )
-   //:      DropView( CurrentLPLR )
-   //:   END
-   //:ELSE
-   //:   // This is an existing Dialog, copy over Operations not flagged to be saved.
-   //:   FOR EACH OldDialog.SourceFile
-   //:      //SET CURSOR FIRST ???
-   //:   END
-   //:END*/
+   //:// KJS 06/23/22 - This code had been commented out. Not sure why but I am going to try adding it back in...
+   //:IF NewDialogFlag = "Y"
+   if ( ZeidonStringCompare( NewDialogFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+      //:// This is a new Dialog, copy over everything.
+      //:FOR EACH OldDialog.SourceFile
+      RESULT = SetCursorFirstEntity( OldDialog, "SourceFile", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //:ExtensionName = OldDialog.SourceFile.Extension
+         GetVariableFromAttribute( ExtensionName, 0, 'S', 10, OldDialog, "SourceFile", "Extension", "", 0 );
+         //:MetaName = OldDialog.SourceFile.Name
+         GetVariableFromAttribute( MetaName, 0, 'S', 33, OldDialog, "SourceFile", "Name", "", 0 );
+         //:/* The operations have already been created in clone action process. We just want to copy the actual files.
+         //:CreateMetaEntity( vSubtask, NewDialog, "SourceFile", zPOS_AFTER )
+         //:SetMatchingAttributesByName( NewDialog, "SourceFile", OldDialog, "SourceFile", zSET_NULL )
+         //:FOR EACH OldDialog.Operation
+         //:   CreateMetaEntity( vSubtask, NewDialog, "Operation", zPOS_AFTER )
+         //:   SetMatchingAttributesByName( NewDialog, "Operation", OldDialog, "Operation", zSET_NULL )
+         //:   FOR EACH OldDialog.Parameter
+         //:      IF OldDialog.Parameter.ShortDesc = ""
+         //:         OldDialog.Parameter.ShortDesc = "Subtask"
+         //:      END
+         //:      CreateMetaEntity( vSubtask, NewDialog, "Parameter", zPOS_AFTER )
+         //:      SetMatchingAttributesByName( NewDialog, "Parameter", OldDialog, "Parameter", zSET_NULL )
+         //:   END
+         //:END
+         //:*/
+         //:// Copy the .C file or the .VML file, if it exists, from the source directory to the
+         //:// target directory.
+         //:// Note that if it isn't there (it wasn't created in the source LPLR), we're going to
+         //:// just ignore it; we're not going to return an error message.
+         //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get a view for directory info.
+         RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zSOURCE_ERD_META );
+         //:ResetViewFromSubobject( CurrentLPLR ) // Get visibility to root.
+         ResetViewFromSubobject( CurrentLPLR );
+         //:IF ExtensionName = "C"
+         if ( ZeidonStringCompare( ExtensionName, 1, 0, "C", 1, 0, 10 ) == 0 )
+         { 
+            //:SourceName = MetaName + ".C"
+            ZeidonStringCopy( SourceName, 1, 0, MetaName, 1, 0, 33 );
+            ZeidonStringConcat( SourceName, 1, 0, ".C", 1, 0, 33 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:IF ExtensionName = "VML"
+            if ( ZeidonStringCompare( ExtensionName, 1, 0, "VML", 1, 0, 10 ) == 0 )
+            { 
+               //:SourceName = MetaName + ".VML"
+               ZeidonStringCopy( SourceName, 1, 0, MetaName, 1, 0, 33 );
+               ZeidonStringConcat( SourceName, 1, 0, ".VML", 1, 0, 33 );
+               //:ELSE
+            } 
+            else
+            { 
+               //:// If java or scala, this should go in a different directory. Not addressing at the moment. 
+               //:IF ExtensionName = "Java"
+               if ( ZeidonStringCompare( ExtensionName, 1, 0, "Java", 1, 0, 10 ) == 0 )
+               { 
+                  //:SourceName = MetaName + ".java"
+                  ZeidonStringCopy( SourceName, 1, 0, MetaName, 1, 0, 33 );
+                  ZeidonStringConcat( SourceName, 1, 0, ".java", 1, 0, 33 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:IF ExtensionName = "Scala"
+                  if ( ZeidonStringCompare( ExtensionName, 1, 0, "Scala", 1, 0, 10 ) == 0 )
+                  { 
+                     //:SourceName = MetaName + ".scala"
+                     ZeidonStringCopy( SourceName, 1, 0, MetaName, 1, 0, 33 );
+                     ZeidonStringConcat( SourceName, 1, 0, ".scala", 1, 0, 33 );
+                     //:ELSE
+                  } 
+                  else
+                  { 
+                     //:// Should never get here...
+                     //:SourceName = MetaName + ".VML"
+                     ZeidonStringCopy( SourceName, 1, 0, MetaName, 1, 0, 33 );
+                     ZeidonStringConcat( SourceName, 1, 0, ".VML", 1, 0, 33 );
+                  } 
+
+                  //:END
+               } 
+
+               //:END
+            } 
+
+            //:END
+         } 
+
+
+         //:END
+         //:SourceFileName1 = SourceLPLR.LPLR.PgmSrcDir + "\" + SourceName
+         GetStringFromAttribute( SourceFileName1, zsizeof( SourceFileName1 ), SourceLPLR, "LPLR", "PgmSrcDir" );
+         ZeidonStringConcat( SourceFileName1, 1, 0, "\\", 1, 0, 514 );
+         ZeidonStringConcat( SourceFileName1, 1, 0, SourceName, 1, 0, 514 );
+         //:SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName
+         GetStringFromAttribute( SourceFileName2, zsizeof( SourceFileName2 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
+         ZeidonStringConcat( SourceFileName2, 1, 0, "\\", 1, 0, 514 );
+         ZeidonStringConcat( SourceFileName2, 1, 0, SourceName, 1, 0, 514 );
+         //:SysCopyFile( vSubtask, SourceFileName1, SourceFileName2, TRUE )
+         SysCopyFile( vSubtask, SourceFileName1, SourceFileName2, TRUE );
+         //:DropView( CurrentLPLR )
+         DropView( CurrentLPLR );
+         RESULT = SetCursorNextEntity( OldDialog, "SourceFile", "" );
+      } 
+
+      //:END
+      //:ELSE
+   } 
+   else
+   { 
+      //:// This is an existing Dialog, copy over Operations not flagged to be saved.
+      //:FOR EACH OldDialog.SourceFile
+      RESULT = SetCursorFirstEntity( OldDialog, "SourceFile", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         RESULT = SetCursorNextEntity( OldDialog, "SourceFile", "" );
+      } 
+
+      //:   //SET CURSOR FIRST ???
+      //:END
+   } 
+
+   //:END
+   //://////////////////////////////////////////////////////////////////////////////////////////////////
 
    //:// Create the subtask name and set cursor at beginning of object, both for the
    //:// correct building of the XWD in CommitMetaOI.

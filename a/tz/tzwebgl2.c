@@ -8847,6 +8847,7 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
 
                         //:END
 
+                        //:// KJS 07/27/22 - Add 
                         //:szWriteBuffer = "         if ( StringUtils.isBlank( " + szControlTag + " ) )"
                         ZeidonStringCopy( szWriteBuffer, 1, 0, "         if ( StringUtils.isBlank( ", 1, 0, 10001 );
                         ZeidonStringConcat( szWriteBuffer, 1, 0, szControlTag, 1, 0, 10001 );
@@ -8883,10 +8884,12 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                         } 
                         else
                         { 
-                           //:szWriteBuffer = "            " + szControlTag + " = ^&nbsp^;"
+                           //:// KJS 07/27/22 - Try taking out the &nbsp and see what happens. Sorting on grid doesn't work when this is set. 
+                           //://szWriteBuffer = "            " + szControlTag + " = ^&nbsp^;"
+                           //:szWriteBuffer = "            " + szControlTag + " = ^^;"
                            ZeidonStringCopy( szWriteBuffer, 1, 0, "            ", 1, 0, 10001 );
                            ZeidonStringConcat( szWriteBuffer, 1, 0, szControlTag, 1, 0, 10001 );
-                           ZeidonStringConcat( szWriteBuffer, 1, 0, " = ^&nbsp^;", 1, 0, 10001 );
+                           ZeidonStringConcat( szWriteBuffer, 1, 0, " = ^^;", 1, 0, 10001 );
                         } 
 
                         //:END
@@ -11056,8 +11059,9 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                                  ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
                                  ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ <%=strDisabled%> ", 1, 0, 10001 );
                                  //://szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
-                                 //:szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "style=^width:80px^ type=^text^", 1, 0, 10001 );
+                                 //:// KJS 05/31/22 - taking out the calendar size (sometimes it's too small). But need to see if this should only be for
+                                 //:szWriteBuffer = szWriteBuffer + "type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "type=^text^", 1, 0, 10001 );
                                  ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
                                  ZeidonStringConcat( szWriteBuffer, 1, 0, " value=^<%=str", 1, 0, 10001 );
                                  ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
@@ -11072,8 +11076,9 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                                  ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ id=^", 1, 0, 10001 );
                                  ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
                                  ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ <%=strDisabled%> ", 1, 0, 10001 );
-                                 //:szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "style=^width:80px^ type=^text^", 1, 0, 10001 );
+                                 //:// KJS 05/31/22 - we might need to take out the size... but I changed from 80 to 85 at the moment. 
+                                 //:szWriteBuffer = szWriteBuffer + "style=^width:85px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
+                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "style=^width:85px^ type=^text^", 1, 0, 10001 );
                                  ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
                                  ZeidonStringConcat( szWriteBuffer, 1, 0, " value=^<%=str", 1, 0, 10001 );
                                  ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
@@ -11101,8 +11106,9 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                            } 
                            else
                            { 
-                              //:IF vDialog.Control.WebCtrlType = "Edit" OR szWCP_Edit = "Y"
-                              if ( CompareAttributeToString( vDialog, "Control", "WebCtrlType", "Edit" ) == 0 || ZeidonStringCompare( szWCP_Edit, 1, 0, "Y", 1, 0, 2 ) == 0 )
+                              //:// Edit field (not MLEdit)
+                              //:IF ( vDialog.Control.WebCtrlType = "Edit" OR szWCP_Edit = "Y" ) AND szCtrlCtrlType != "MLEdit"
+                              if ( ( CompareAttributeToString( vDialog, "Control", "WebCtrlType", "Edit" ) == 0 || ZeidonStringCompare( szWCP_Edit, 1, 0, "Y", 1, 0, 2 ) == 0 ) && ZeidonStringCompare( szCtrlCtrlType, 1, 0, "MLEdit", 1, 0, 51 ) != 0 )
                               { 
                                  //:X_Size = vDialog.Control.SZDLG_X
                                  GetIntegerFromAttribute( &X_Size, vDialog, "Control", "SZDLG_X" );
@@ -11140,43 +11146,79 @@ GenJSPJ_CrteCtrlsRecurs( zVIEW     vDialog,
                                  //:                                             
                                  //://KJS 7/26/07 - Added DISABLED option.
                                  //://KJS 10/19/07 - Added title
-                                 //:szWriteBuffer = "   " + szItemTableHeader + "><input" + szNumber + szPlaceholder + " size=^" + szSize + "^ value=^<%=str" + szListCtrlTag + "%>^<%=str" + szListCtrlTag +
-                                 //:                 "ErrorColor%> name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szTitleHTML + szDisabled + "></td>"
-                                 ZeidonStringCopy( szWriteBuffer, 1, 0, "   ", 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szItemTableHeader, 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "><input", 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szNumber, 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szPlaceholder, 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, " size=^", 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szSize, 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "^ value=^<%=str", 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "%>^<%=str", 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "ErrorColor%> name=^", 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ id=^", 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ <%=strDisabled%> ", 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
-                                 ZeidonStringConcat( szWriteBuffer, 1, 0, "></td>", 1, 0, 10001 );
+                                 //:IF szStyleIsBootstrap = "Y"
+                                 if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 )
+                                 { 
+                                    //:// KJS 06/01/22 - If bootstrap (and maybe for all non position styles?) I am taking out the size=. 
+                                    //:// KJS 06/01/22 - but now per Kindra I am adding sze back. But will keep the "IF" because I have a feeling we will want to make another change.
+                                    //:szWriteBuffer = "   " + szItemTableHeader + "><input" + szNumber + szPlaceholder + " size=^" + szSize + "^ value=^<%=str" + szListCtrlTag + "%>^<%=str" + szListCtrlTag +
+                                    //:                 "ErrorColor%> name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szTitleHTML + szDisabled + "></td>"
+                                    ZeidonStringCopy( szWriteBuffer, 1, 0, "   ", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szItemTableHeader, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "><input", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szNumber, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szPlaceholder, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, " size=^", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szSize, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "^ value=^<%=str", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "%>^<%=str", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "ErrorColor%> name=^", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ id=^", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ <%=strDisabled%> ", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "></td>", 1, 0, 10001 );
+                                    //:ELSE
+                                 } 
+                                 else
+                                 { 
+                                    //:szWriteBuffer = "   " + szItemTableHeader + "><input" + szNumber + szPlaceholder + " size=^" + szSize + "^ value=^<%=str" + szListCtrlTag + "%>^<%=str" + szListCtrlTag +
+                                    //:                 "ErrorColor%> name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szTitleHTML + szDisabled + "></td>"
+                                    ZeidonStringCopy( szWriteBuffer, 1, 0, "   ", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szItemTableHeader, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "><input", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szNumber, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szPlaceholder, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, " size=^", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szSize, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "^ value=^<%=str", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "%>^<%=str", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "ErrorColor%> name=^", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ id=^", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "::<%=strEntityKey%>^ <%=strDisabled%> ", 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
+                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "></td>", 1, 0, 10001 );
+                                 } 
+
+                                 //:END
                                  //:ELSE
                               } 
                               else
                               { 
-                                 //:IF vDialog.Control.WebCtrlType = "Multiline" OR szWCP_Multiline = "Y"
-                                 if ( CompareAttributeToString( vDialog, "Control", "WebCtrlType", "Multiline" ) == 0 || ZeidonStringCompare( szWCP_Multiline, 1, 0, "Y", 1, 0, 2 ) == 0 )
+                                 //:IF vDialog.Control.WebCtrlType = "Multiline" OR szWCP_Multiline = "Y" OR szCtrlCtrlType = "MLEdit"
+                                 if ( CompareAttributeToString( vDialog, "Control", "WebCtrlType", "Multiline" ) == 0 || ZeidonStringCompare( szWCP_Multiline, 1, 0, "Y", 1, 0, 2 ) == 0 ||
+                        ZeidonStringCompare( szCtrlCtrlType, 1, 0, "MLEdit", 1, 0, 51 ) == 0 )
                                  { 
                                     //:// KJS 09/26/2008 - Taking out the <pre> because it makes the grid too large (can't do a "WRAP" on the
                                     //:// <td>.  I don't think in a grid that we would want that.
-                                    //:szWriteBuffer = "   " + szItemTableHeader + "><%=str" + szListCtrlTag + "%></td>"
-                                    ZeidonStringCopy( szWriteBuffer, 1, 0, "   ", 1, 0, 10001 );
-                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szItemTableHeader, 1, 0, 10001 );
-                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "><%=str", 1, 0, 10001 );
-                                    ZeidonStringConcat( szWriteBuffer, 1, 0, szListCtrlTag, 1, 0, 10001 );
-                                    ZeidonStringConcat( szWriteBuffer, 1, 0, "%></td>", 1, 0, 10001 );
+                                    //://szWriteBuffer = "   " + szItemTableHeader + "><%=str" + szListCtrlTag + "%></td>"
                                     //:// szWriteBuffer = "   " + szItemTableHeader + "><pre><%=str" + szListCtrlTag + "%></pre></td>"
+                                    //:// KJS 06/17/22 ///////////////////////////////////////////
+                                    //://szWriteBuffer = "   " + szItemTableHeader + "><textarea "  +
+                                    //://                       "name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szTitleHTML + szDisabled + "><%=str" + szListCtrlTag + "%></textarea></td>"
+
+                                    //:GenJSPJ_CrteMLEditGrd( vDialog, lFile, szWriteBuffer, "   ", szListCtrlTag,
+                                    //:              "", "", szNoPositioning, 0, 0, "::<%=strEntityKey%>" )
+                                    GenJSPJ_CrteMLEditGrd( vDialog, lFile, szWriteBuffer, "   ", szListCtrlTag, "", "", szNoPositioning, 0, 0, "::<%=strEntityKey%>" );
                                     //:ELSE
                                  } 
                                  else

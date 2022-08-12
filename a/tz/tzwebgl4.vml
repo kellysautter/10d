@@ -1191,6 +1191,7 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    szWriteBuffer = "%>"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
+   CreateDisabledString( vDialog, szDisabled )
 
    lSubtype = vDialog.Control.Subtype
    nRC = AreBitsSetInFlag( lSubtype, 61440 ) // 0x0000F000
@@ -1231,7 +1232,6 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
          szKeyPressCode = szKeyPressCode + " onkeypress=^return _OnEnter( event )^"
       END            
 
-      CreateDisabledString( vDialog, szDisabled )
       IF szRepeatGrpKey = ""
          szWriteBuffer = "<select " + szClass + " name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> size=^1^ " +
                          szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" + szCtrlTag + szSelectFunction + "( )^ " + szKeyPressCode + ">"
@@ -1548,7 +1548,7 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
          szSelectFunction = "OnChange"
       END
       
-      szWriteBuffer = "<select " + szClass + " name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> size=^1^" +
+      szWriteBuffer = "<select " + szClass + " name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> size=^1^ " +
                       szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" + szCtrlTag + szSelectFunction + "( )^" + ">"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
@@ -4970,6 +4970,7 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 50 )  szActionName
    STRING ( 500 ) szActionCode
    STRING ( 256 ) szText
+   STRING ( 100 ) szDisabled
    STRING ( 10 )  szMaxStringLth
    STRING ( 1 )   szTinyMCEFlag
    DECIMAL        dDLUnits
@@ -5133,6 +5134,8 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
    END
    END
 
+   CreateDisabledString( vDialog, szDisabled )   
+
    /* 10d code Doug has
    PIX_PER_DU( vDialog, dDLUnits )
    zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
@@ -5192,7 +5195,7 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
          szWriteBuffer = "<div class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ style=^width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
       ELSE
          szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
-                         "^ <%=strDisabled%> class=^" + szClass + "^ " + szTitleHTML + szAbsoluteStyle + szActionCode + ">" +
+                         "^ <%=strDisabled%> class=^" + szClass + "^ " + szDisabled + szTitleHTML + szAbsoluteStyle + szActionCode + ">" +
                       // "^ rows="15" cols="80" style="width: 80%">" +
                          "<%=strErrorMapValue%></textarea>"
       END
@@ -5204,7 +5207,7 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
          szClass = " class=^" + vDialog.Control.CSS_Class + "^"
       END
       CreateTabIndexString( vDialog, szTabIndex )
-      szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szTitleHTML +
+      szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled + szTitleHTML +
                       szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
                       "<%=strErrorMapValue%></textarea>"
 
@@ -5213,6 +5216,174 @@ GenJSPJ_CrteMLEdit( VIEW vDialog BASED ON LOD TZWDLGSO,
 
 END
 
+
+/*************************************************************************************************
+**    
+**    OPERATION: GenJSPJ_CrteMLEdit
+**    JSP Java generation for MLE control
+**    
+*************************************************************************************************/
+GLOBAL OPERATION
+GenJSPJ_CrteMLEditGrd( VIEW vDialog BASED ON LOD TZWDLGSO,
+                       INTEGER          lFile,
+                       STRING ( 10000 ) szWriteBuffer,
+                       STRING ( 50 )    szIndent,
+                       STRING ( 32 )    szCtrlTag,
+                       STRING ( 1 )     szTableRowFlag,
+                       STRING ( 20 )    szJustify,
+                       STRING ( 1 )     szNoPositioning,
+                       INTEGER          lOffsetX,
+                       INTEGER          lOffsetY,
+                       STRING ( 100 )   szRepeatGrpKey )
+
+   VIEW vLPLR       BASED ON LOD TZCMLPLO
+   VIEW vDialogRoot BASED ON LOD TZWDLGSO
+   STRING ( 32 )  szLPLR_Name
+   STRING ( 32 )  szContextName
+   STRING ( 256 ) szClass
+   STRING ( 50 )  szControlType
+   STRING ( 50 )  szSize
+   STRING ( 50 )  szWidth
+   STRING ( 50 )  szHeight
+   STRING ( 300 ) szAbsoluteStyle
+   STRING ( 256 ) szTitleHTML
+   STRING ( 256 ) szTitle
+   STRING ( 50 )  szTabIndex
+   STRING ( 50 )  szActionName
+   STRING ( 500 ) szActionCode
+   STRING ( 256 ) szText
+   STRING ( 10 )  szMaxStringLth
+   STRING ( 1 )   szTinyMCEFlag
+   STRING ( 100 ) szDisabled
+   DECIMAL        dDLUnits
+   INTEGER        X_Size
+   INTEGER        Y_Size
+   INTEGER        Size
+   INTEGER        lMaxStringLth
+   INTEGER        lStyleX
+   INTEGER        lTemp
+   SHORT          nRC
+
+   //TraceLineS("**** GenJSPJ_CrteMLEditGrd **** ", "")
+
+   
+   // If there is an Event for the MLEdit, build code to insert in <textarea statement.
+   szActionCode = ""
+   FOR EACH vDialog.Event
+      IF vDialog.EventAct EXISTS
+         szActionName = vDialog.EventAct.Tag
+         IF vDialog.Event.Type = 32
+            szActionCode = szActionCode + " onfocus=^" + szActionName + "( )^ "
+         ELSE
+         IF vDialog.Event.Type = 64
+            szActionCode = szActionCode + " onblur=^" + szActionName + "( )^ "
+         ELSE
+         IF vDialog.Event.Type = 1024
+            szActionCode = szActionCode + " onchange=^" + szActionName + "( )^ "
+         ELSE
+         IF vDialog.Event.Type = 1
+            szActionCode = szActionCode + " onkeydown=^" + szActionName + "( )^ "
+         END
+         END
+         END
+         END
+      END
+   END
+   
+   // *********************  END NEW ******************
+
+   IF szNoPositioning = "Y"
+      CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" )
+   ELSE
+   IF szNoPositioning = "S" // No style information
+      szAbsoluteStyle = "" 
+   ELSE 
+      CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
+   END
+   END
+
+   /* 10d code Doug has
+   PIX_PER_DU( vDialog, dDLUnits )
+   zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
+   zIntegerToString( szHeight, 10, vDialog.Control.SZDLG_Y * dDLUnits )
+   */
+
+   CreateDisabledString( vDialog, szDisabled )   
+
+   IF vDialog.Control.VisibleBorder = "Y" AND  szNoPositioning != "S"
+      zAppendQuotedString( szAbsoluteStyle, "border:solid;border-width:4px;border-style:groove;", "style=", "^" )
+   // KJS 01/26/17 - Taking out the border, doesn't seem to really be doing anything and it conflicts with css.
+   //ELSE
+   //   zAppendQuotedString( szStyle, "border:solid;border-width:2px;border-style:groove;", "style=", "^" )
+   END
+   
+   szTinyMCEFlag = ""
+   SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "wysiwyg TinyMCE"
+   IF RESULT >= zCURSOR_SET
+      szTinyMCEFlag = "Y"
+   END
+
+   // dks 2016.04.08 - trying placeholder
+   // If we put a title on the control, when the mouse is hovered over the control, this text will display.
+   szTitleHTML = ""
+   szTitle = vDialog.Control.DIL_Text
+   IF szTitle != ""
+      szTitleHTML = " title=^" + szTitle + "^"
+   END
+   szTitle = vDialog.Control.WebPlaceholder
+   IF szTitle != ""
+      szTitleHTML = szTitleHTML + " placeholder=^" + szTitle + "^"
+   END
+   //szTitle = vDialog.Control.Placeholder
+   IF szTitle = "" AND vDialog.Control.Placeholder != ""
+      szTitleHTML = szTitleHTML + " placeholder=^" + szTitle + "^"
+   END
+   
+   szWriteBuffer = szIndent + "<td>"
+
+   IF vDialog.Control.WebCtrlType = "wysiwygEditor" OR szTinyMCEFlag = "Y"
+
+   // CreateTabIndexString( vDialog, szTabIndex )
+   // CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
+   // szAbsoluteStyle = szAbsoluteStyle + szTabIndex
+
+      szClass = vDialog.Control.CSS_Class
+      IF szClass = ""
+         GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
+         szText = vLPLR.LPLR.Name
+         szLPLR_Name = "[App." + szText + "]"
+         SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass )
+         IF szClass = ""
+            szClass = "mceSimple"  // "mceSimple" is TinyMCE default
+         END
+      END
+      
+      nRC = zSearchSubString( szClass, "mceSimpleZeidon", "f", 0 )
+      IF nRC >= 0
+         szWriteBuffer = szWriteBuffer + "<div style=^background-color:#eee;border:1px solid #042;width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;overflow:auto;^>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<div class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ style=^width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+      ELSE
+         szWriteBuffer = szWriteBuffer + "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
+                         "^ <%=strDisabled%> class=^" + szClass + "^ " + szDisabled + szTitleHTML + szAbsoluteStyle + szActionCode + ">" +
+                      // "^ rows="15" cols="80" style="width: 80%">" +
+                         "<%=str" + szCtrlTag + "%></textarea></td>"
+      END
+
+   ELSE
+      szClass = ""
+      IF vDialog.Control.CSS_Class != ""
+         szClass = vDialog.Control.CSS_Class
+         szClass = " class=^" + vDialog.Control.CSS_Class + "^"
+      END
+      CreateTabIndexString( vDialog, szTabIndex )
+      szWriteBuffer = szWriteBuffer + "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled + szTitleHTML +
+                      szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
+                      "<%=str" + szCtrlTag + "%></textarea></td>"
+   END
+   //WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+
+END
 
 
 /////////////////////////////////////////////////////////////////////////////

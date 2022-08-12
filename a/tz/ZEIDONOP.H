@@ -1950,13 +1950,26 @@ CreateTabIndexString( zVIEW vDialog0,
                       zPCHAR pchTabIndex1 );
 
 //end
-//start TZWEBGL4 2021.11.12 13:15:26
+//start TZWEBGL4 2022.06.20 11:53:52
 zOPER_EXPORT zSHORT OPERATION
 BuildSideNavSectionJ( zVIEW vvDialog0,
                       zVIEW vvDialogRoot1,
                       zLONG llFile2,
                       zPCHAR pchReusableMenu3,
                       zVIEW vvDialogMenu4 );
+
+zOPER_EXPORT zSHORT OPERATION
+GenJSPJ_CrteMLEditGrd( zVIEW vvDialog0,
+                       zLONG lFile1,
+                       zPCHAR pchWriteBuffer2,
+                       zPCHAR pchIndent3,
+                       zPCHAR pchCtrlTag4,
+                       zPCHAR pchTableRowFlag5,
+                       zPCHAR pchJustify6,
+                       zPCHAR pchNoPositioning7,
+                       zLONG lOffsetX8,
+                       zLONG lOffsetY9,
+                       zPCHAR pchstrRepeatGrpKey10 );
 
 zOPER_EXPORT zSHORT OPERATION
 GenJSPJ_Action( zVIEW vDialog0,

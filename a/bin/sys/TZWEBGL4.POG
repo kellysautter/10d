@@ -1,7 +1,7 @@
-z1000-Zeidon    TZWEBGL4 TZOGSRCO                         11/12/21   13:15:26 1.0a2   
+z1000-Zeidon    TZWEBGL4 TZOGSRCO                         06/20/22   11:53:52 1.0a2   
 eGlobalOperationGroup 1
 aZKey      4896724
-aNextZKeyToAssign 130070665
+aNextZKeyToAssign 130070679
 aName      TZWEBGL4
 aDesc      JSP Generation operations for zeidon JAVA
 aExtension VML
@@ -48,6 +48,90 @@ aDataType  V
 aPFlag     N
 aUFlag     N
 aZKey      4896730
+
+eOperation 2
+aName      GenJSPJ_CrteMLEditGrd
+aZKey      130070666
+aDesc      JSP Java generation for MLE control
+aType      G
+aReturnDataType N
+
+eParameter 3
+aShortDesc vDialog
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      130070667
+
+eParameter 3
+aShortDesc File
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130070668
+
+eParameter 3
+aShortDesc WriteBuffer
+aDataType  S
+aPFlag     Y
+aUFlag     N
+aZKey      130070669
+
+eParameter 3
+aShortDesc Indent
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070670
+
+eParameter 3
+aShortDesc CtrlTag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070671
+
+eParameter 3
+aShortDesc TableRowFlag
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070672
+
+eParameter 3
+aShortDesc Justify
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070673
+
+eParameter 3
+aShortDesc NoPositioning
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070674
+
+eParameter 3
+aShortDesc OffsetX
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130070675
+
+eParameter 3
+aShortDesc OffsetY
+aDataType  L
+aPFlag     N
+aUFlag     N
+aZKey      130070676
+
+eParameter 3
+aShortDesc strRepeatGrpKey
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      130070677
 
 eOperation 2
 aName      GenJSPJ_Action

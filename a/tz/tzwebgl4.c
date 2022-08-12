@@ -765,6 +765,413 @@ BuildSideNavSectionJ( zVIEW     vDialog,
 
 
 //:GLOBAL OPERATION
+//:GenJSPJ_CrteMLEditGrd( VIEW vDialog BASED ON LOD TZWDLGSO,
+//:                       INTEGER          lFile,
+//:                       STRING ( 10000 ) szWriteBuffer,
+//:                       STRING ( 50 )    szIndent,
+//:                       STRING ( 32 )    szCtrlTag,
+//:                       STRING ( 1 )     szTableRowFlag,
+//:                       STRING ( 20 )    szJustify,
+//:                       STRING ( 1 )     szNoPositioning,
+//:                       INTEGER          lOffsetX,
+//:                       INTEGER          lOffsetY,
+//:                       STRING ( 100 )   szRepeatGrpKey )
+
+//:   VIEW vLPLR       BASED ON LOD TZCMLPLO
+zOPER_EXPORT zSHORT OPERATION
+GenJSPJ_CrteMLEditGrd( zVIEW     vDialog,
+                       zLONG     lFile,
+                       zPCHAR    szWriteBuffer,
+                       zPCHAR    szIndent,
+                       zPCHAR    szCtrlTag,
+                       zPCHAR    szTableRowFlag,
+                       zPCHAR    szJustify,
+                       zPCHAR    szNoPositioning,
+                       zLONG     lOffsetX,
+                       zLONG     lOffsetY,
+                       zPCHAR    szRepeatGrpKey )
+{
+   zVIEW     vLPLR = 0; 
+   //:VIEW vDialogRoot BASED ON LOD TZWDLGSO
+   zVIEW     vDialogRoot = 0; 
+   //:STRING ( 32 )  szLPLR_Name
+   zCHAR     szLPLR_Name[ 33 ] = { 0 }; 
+   //:STRING ( 32 )  szContextName
+   zCHAR     szContextName[ 33 ] = { 0 }; 
+   //:STRING ( 256 ) szClass
+   zCHAR     szClass[ 257 ] = { 0 }; 
+   //:STRING ( 50 )  szControlType
+   zCHAR     szControlType[ 51 ] = { 0 }; 
+   //:STRING ( 50 )  szSize
+   zCHAR     szSize[ 51 ] = { 0 }; 
+   //:STRING ( 50 )  szWidth
+   zCHAR     szWidth[ 51 ] = { 0 }; 
+   //:STRING ( 50 )  szHeight
+   zCHAR     szHeight[ 51 ] = { 0 }; 
+   //:STRING ( 300 ) szAbsoluteStyle
+   zCHAR     szAbsoluteStyle[ 301 ] = { 0 }; 
+   //:STRING ( 256 ) szTitleHTML
+   zCHAR     szTitleHTML[ 257 ] = { 0 }; 
+   //:STRING ( 256 ) szTitle
+   zCHAR     szTitle[ 257 ] = { 0 }; 
+   //:STRING ( 50 )  szTabIndex
+   zCHAR     szTabIndex[ 51 ] = { 0 }; 
+   //:STRING ( 50 )  szActionName
+   zCHAR     szActionName[ 51 ] = { 0 }; 
+   //:STRING ( 500 ) szActionCode
+   zCHAR     szActionCode[ 501 ] = { 0 }; 
+   //:STRING ( 256 ) szText
+   zCHAR     szText[ 257 ] = { 0 }; 
+   //:STRING ( 10 )  szMaxStringLth
+   zCHAR     szMaxStringLth[ 11 ] = { 0 }; 
+   //:STRING ( 1 )   szTinyMCEFlag
+   zCHAR     szTinyMCEFlag[ 2 ] = { 0 }; 
+   //:STRING ( 100 ) szDisabled
+   zCHAR     szDisabled[ 101 ] = { 0 }; 
+   //:DECIMAL        dDLUnits
+   ZDecimal  dDLUnits = 0.0; 
+   //:INTEGER        X_Size
+   zLONG     X_Size = 0; 
+   //:INTEGER        Y_Size
+   zLONG     Y_Size = 0; 
+   //:INTEGER        Size
+   zLONG     Size = 0; 
+   //:INTEGER        lMaxStringLth
+   zLONG     lMaxStringLth = 0; 
+   //:INTEGER        lStyleX
+   zLONG     lStyleX = 0; 
+   //:INTEGER        lTemp
+   zLONG     lTemp = 0; 
+   //:SHORT          nRC
+   zSHORT    nRC = 0; 
+   zSHORT    RESULT; 
+   zSHORT    lTempInteger_0; 
+   zCHAR     szTempString_0[ 255 ]; 
+
+
+   //://TraceLineS("**** GenJSPJ_CrteMLEditGrd **** ", "")
+
+
+   //:// If there is an Event for the MLEdit, build code to insert in <textarea statement.
+   //:szActionCode = ""
+   ZeidonStringCopy( szActionCode, 1, 0, "", 1, 0, 501 );
+   //:FOR EACH vDialog.Event
+   RESULT = SetCursorFirstEntity( vDialog, "Event", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:IF vDialog.EventAct EXISTS
+      lTempInteger_0 = CheckExistenceOfEntity( vDialog, "EventAct" );
+      if ( lTempInteger_0 == 0 )
+      { 
+         //:szActionName = vDialog.EventAct.Tag
+         GetVariableFromAttribute( szActionName, 0, 'S', 51, vDialog, "EventAct", "Tag", "", 0 );
+         //:IF vDialog.Event.Type = 32
+         if ( CompareAttributeToInteger( vDialog, "Event", "Type", 32 ) == 0 )
+         { 
+            //:szActionCode = szActionCode + " onfocus=^" + szActionName + "( )^ "
+            ZeidonStringConcat( szActionCode, 1, 0, " onfocus=^", 1, 0, 501 );
+            ZeidonStringConcat( szActionCode, 1, 0, szActionName, 1, 0, 501 );
+            ZeidonStringConcat( szActionCode, 1, 0, "( )^ ", 1, 0, 501 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:IF vDialog.Event.Type = 64
+            if ( CompareAttributeToInteger( vDialog, "Event", "Type", 64 ) == 0 )
+            { 
+               //:szActionCode = szActionCode + " onblur=^" + szActionName + "( )^ "
+               ZeidonStringConcat( szActionCode, 1, 0, " onblur=^", 1, 0, 501 );
+               ZeidonStringConcat( szActionCode, 1, 0, szActionName, 1, 0, 501 );
+               ZeidonStringConcat( szActionCode, 1, 0, "( )^ ", 1, 0, 501 );
+               //:ELSE
+            } 
+            else
+            { 
+               //:IF vDialog.Event.Type = 1024
+               if ( CompareAttributeToInteger( vDialog, "Event", "Type", 1024 ) == 0 )
+               { 
+                  //:szActionCode = szActionCode + " onchange=^" + szActionName + "( )^ "
+                  ZeidonStringConcat( szActionCode, 1, 0, " onchange=^", 1, 0, 501 );
+                  ZeidonStringConcat( szActionCode, 1, 0, szActionName, 1, 0, 501 );
+                  ZeidonStringConcat( szActionCode, 1, 0, "( )^ ", 1, 0, 501 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:IF vDialog.Event.Type = 1
+                  if ( CompareAttributeToInteger( vDialog, "Event", "Type", 1 ) == 0 )
+                  { 
+                     //:szActionCode = szActionCode + " onkeydown=^" + szActionName + "( )^ "
+                     ZeidonStringConcat( szActionCode, 1, 0, " onkeydown=^", 1, 0, 501 );
+                     ZeidonStringConcat( szActionCode, 1, 0, szActionName, 1, 0, 501 );
+                     ZeidonStringConcat( szActionCode, 1, 0, "( )^ ", 1, 0, 501 );
+                  } 
+
+                  //:END
+               } 
+
+               //:END
+            } 
+
+            //:END
+         } 
+
+         //:END
+      } 
+
+      RESULT = SetCursorNextEntity( vDialog, "Event", "" );
+      //:END
+   } 
+
+   //:END
+
+   //:// *********************  END NEW ******************
+
+   //:IF szNoPositioning = "Y"
+   if ( ZeidonStringCompare( szNoPositioning, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+      //:CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" )
+      CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" );
+      //:ELSE
+   } 
+   else
+   { 
+      //:IF szNoPositioning = "S" // No style information
+      if ( ZeidonStringCompare( szNoPositioning, 1, 0, "S", 1, 0, 2 ) == 0 )
+      { 
+         //:szAbsoluteStyle = "" 
+         ZeidonStringCopy( szAbsoluteStyle, 1, 0, "", 1, 0, 301 );
+         //:ELSE 
+      } 
+      else
+      { 
+         //:CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
+         CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" );
+      } 
+
+      //:END
+   } 
+
+   //:END
+
+   //:/* 10d code Doug has
+   //:PIX_PER_DU( vDialog, dDLUnits )
+   //:zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
+   //:zIntegerToString( szHeight, 10, vDialog.Control.SZDLG_Y * dDLUnits )
+   //:*/
+
+   //:CreateDisabledString( vDialog, szDisabled )   
+   CreateDisabledString( vDialog, szDisabled );
+
+   //:IF vDialog.Control.VisibleBorder = "Y" AND  szNoPositioning != "S"
+   if ( CompareAttributeToString( vDialog, "Control", "VisibleBorder", "Y" ) == 0 && ZeidonStringCompare( szNoPositioning, 1, 0, "S", 1, 0, 2 ) != 0 )
+   { 
+      //:zAppendQuotedString( szAbsoluteStyle, "border:solid;border-width:4px;border-style:groove;", "style=", "^" )
+      zAppendQuotedString( szAbsoluteStyle, "border:solid;border-width:4px;border-style:groove;", "style=", "^" );
+   } 
+
+   //:// KJS 01/26/17 - Taking out the border, doesn't seem to really be doing anything and it conflicts with css.
+   //://ELSE
+   //://   zAppendQuotedString( szStyle, "border:solid;border-width:2px;border-style:groove;", "style=", "^" )
+   //:END
+
+   //:szTinyMCEFlag = ""
+   ZeidonStringCopy( szTinyMCEFlag, 1, 0, "", 1, 0, 2 );
+   //:SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "wysiwyg TinyMCE"
+   RESULT = SetCursorFirstEntityByString( vDialog, "WebControlProperty", "Name", "wysiwyg TinyMCE", "" );
+   //:IF RESULT >= zCURSOR_SET
+   if ( RESULT >= zCURSOR_SET )
+   { 
+      //:szTinyMCEFlag = "Y"
+      ZeidonStringCopy( szTinyMCEFlag, 1, 0, "Y", 1, 0, 2 );
+   } 
+
+   //:END
+
+   //:// dks 2016.04.08 - trying placeholder
+   //:// If we put a title on the control, when the mouse is hovered over the control, this text will display.
+   //:szTitleHTML = ""
+   ZeidonStringCopy( szTitleHTML, 1, 0, "", 1, 0, 257 );
+   //:szTitle = vDialog.Control.DIL_Text
+   GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "DIL_Text", "", 0 );
+   //:IF szTitle != ""
+   if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
+   { 
+      //:szTitleHTML = " title=^" + szTitle + "^"
+      ZeidonStringCopy( szTitleHTML, 1, 0, " title=^", 1, 0, 257 );
+      ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
+      ZeidonStringConcat( szTitleHTML, 1, 0, "^", 1, 0, 257 );
+   } 
+
+   //:END
+   //:szTitle = vDialog.Control.WebPlaceholder
+   GetVariableFromAttribute( szTitle, 0, 'S', 257, vDialog, "Control", "WebPlaceholder", "", 0 );
+   //:IF szTitle != ""
+   if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) != 0 )
+   { 
+      //:szTitleHTML = szTitleHTML + " placeholder=^" + szTitle + "^"
+      ZeidonStringConcat( szTitleHTML, 1, 0, " placeholder=^", 1, 0, 257 );
+      ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
+      ZeidonStringConcat( szTitleHTML, 1, 0, "^", 1, 0, 257 );
+   } 
+
+   //:END
+   //://szTitle = vDialog.Control.Placeholder
+   //:IF szTitle = "" AND vDialog.Control.Placeholder != ""
+   if ( ZeidonStringCompare( szTitle, 1, 0, "", 1, 0, 257 ) == 0 && CompareAttributeToString( vDialog, "Control", "Placeholder", "" ) != 0 )
+   { 
+      //:szTitleHTML = szTitleHTML + " placeholder=^" + szTitle + "^"
+      ZeidonStringConcat( szTitleHTML, 1, 0, " placeholder=^", 1, 0, 257 );
+      ZeidonStringConcat( szTitleHTML, 1, 0, szTitle, 1, 0, 257 );
+      ZeidonStringConcat( szTitleHTML, 1, 0, "^", 1, 0, 257 );
+   } 
+
+   //:END
+
+   //:szWriteBuffer = szIndent + "<td>"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, szIndent, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, "<td>", 1, 0, 10001 );
+
+   //:IF vDialog.Control.WebCtrlType = "wysiwygEditor" OR szTinyMCEFlag = "Y"
+   if ( CompareAttributeToString( vDialog, "Control", "WebCtrlType", "wysiwygEditor" ) == 0 || ZeidonStringCompare( szTinyMCEFlag, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+
+      //:// CreateTabIndexString( vDialog, szTabIndex )
+      //:// CreateAbsolStyleString( vDialog, szAbsoluteStyle, lOffsetX, lOffsetY, "" )
+      //:// szAbsoluteStyle = szAbsoluteStyle + szTabIndex
+
+      //:szClass = vDialog.Control.CSS_Class
+      GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
+      //:IF szClass = ""
+      if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
+      { 
+         //:GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
+         GetViewByName( &vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK );
+         //:szText = vLPLR.LPLR.Name
+         GetVariableFromAttribute( szText, 0, 'S', 257, vLPLR, "LPLR", "Name", "", 0 );
+         //:szLPLR_Name = "[App." + szText + "]"
+         ZeidonStringCopy( szLPLR_Name, 1, 0, "[App.", 1, 0, 33 );
+         ZeidonStringConcat( szLPLR_Name, 1, 0, szText, 1, 0, 33 );
+         ZeidonStringConcat( szLPLR_Name, 1, 0, "]", 1, 0, 33 );
+         //:SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass )
+         SysReadZeidonIni( -1, szLPLR_Name, "TinyMCEClass", szClass, zsizeof( szClass ) );
+         //:IF szClass = ""
+         if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
+         { 
+            //:szClass = "mceSimple"  // "mceSimple" is TinyMCE default
+            ZeidonStringCopy( szClass, 1, 0, "mceSimple", 1, 0, 257 );
+         } 
+
+         //:END
+      } 
+
+      //:END
+
+      //:nRC = zSearchSubString( szClass, "mceSimpleZeidon", "f", 0 )
+      nRC = zSearchSubString( szClass, "mceSimpleZeidon", "f", 0 );
+      //:IF nRC >= 0
+      if ( nRC >= 0 )
+      { 
+         //:szWriteBuffer = szWriteBuffer + "<div style=^background-color:#eee;border:1px solid #042;width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;overflow:auto;^>"
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "<div style=^background-color:#eee;border:1px solid #042;width:", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szWidth, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "px;height:", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szHeight, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "px;position:absolute;left:0px;top:0px;overflow:auto;^>", 1, 0, 10001 );
+         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+         //:szWriteBuffer = "<div class=^" + szClass + "^ name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ style=^width:" + szWidth + "px;height:" + szHeight + "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ name=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ style=^width:", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szWidth, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "px;height:", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szHeight, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "px;position:absolute;left:0px;top:0px;^><%=strErrorMapValue%></div></div>", 1, 0, 10001 );
+         //:ELSE
+      } 
+      else
+      { 
+         //:szWriteBuffer = szWriteBuffer + "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
+         //:                "^ <%=strDisabled%> class=^" + szClass + "^ " + szDisabled + szTitleHTML + szAbsoluteStyle + szActionCode + ">" +
+         //:             // "^ rows="15" cols="80" style="width: 80%">" +
+         //:                "<%=str" + szCtrlTag + "%></textarea></td>"
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strDisabled%> class=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szActionCode, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=str", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "%></textarea></td>", 1, 0, 10001 );
+      } 
+
+      //:END
+
+      //:ELSE
+   } 
+   else
+   { 
+      //:szClass = ""
+      ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
+      //:IF vDialog.Control.CSS_Class != ""
+      if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) != 0 )
+      { 
+         //:szClass = vDialog.Control.CSS_Class
+         GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
+         //:szClass = " class=^" + vDialog.Control.CSS_Class + "^"
+         GetVariableFromAttribute( szTempString_0, 0, 'S', 255, vDialog, "Control", "CSS_Class", "", 0 );
+         ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
+         ZeidonStringConcat( szClass, 1, 0, szTempString_0, 1, 0, 257 );
+         ZeidonStringConcat( szClass, 1, 0, "^", 1, 0, 257 );
+      } 
+
+      //:END
+      //:CreateTabIndexString( vDialog, szTabIndex )
+      CreateTabIndexString( vDialog, szTabIndex );
+      //:szWriteBuffer = szWriteBuffer + "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled + szTitleHTML +
+      //:                szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
+      //:                "<%=str" + szCtrlTag + "%></textarea></td>"
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strDisabled%> ", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szActionCode, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, " wrap=^wrap^>", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "<%=str", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "%></textarea></td>", 1, 0, 10001 );
+   } 
+
+   //:END
+   return( 0 );
+//    //WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+// END
+} 
+
+
+//:GLOBAL OPERATION
 //:GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 //:                VIEW vDialogRoot BASED ON LOD TZWDLGSO,
 //:                INTEGER          lFile,
@@ -8696,6 +9103,8 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
    zCHAR     szActionCode[ 501 ] = { 0 }; 
    //:STRING ( 256 ) szText
    zCHAR     szText[ 257 ] = { 0 }; 
+   //:STRING ( 100 ) szDisabled
+   zCHAR     szDisabled[ 101 ] = { 0 }; 
    //:STRING ( 10 )  szMaxStringLth
    zCHAR     szMaxStringLth[ 11 ] = { 0 }; 
    //:STRING ( 1 )   szTinyMCEFlag
@@ -9113,6 +9522,9 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
 
    //:END
 
+   //:CreateDisabledString( vDialog, szDisabled )   
+   CreateDisabledString( vDialog, szDisabled );
+
    //:/* 10d code Doug has
    //:PIX_PER_DU( vDialog, dDLUnits )
    //:zIntegerToString( szWidth, 10, vDialog.Control.SZDLG_X * dDLUnits )
@@ -9249,7 +9661,7 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
       else
       { 
          //:szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
-         //:                "^ <%=strDisabled%> class=^" + szClass + "^ " + szTitleHTML + szAbsoluteStyle + szActionCode + ">" +
+         //:                "^ <%=strDisabled%> class=^" + szClass + "^ " + szDisabled + szTitleHTML + szAbsoluteStyle + szActionCode + ">" +
          //:             // "^ rows="15" cols="80" style="width: 80%">" +
          //:                "<%=strErrorMapValue%></textarea>"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
@@ -9261,6 +9673,7 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strDisabled%> class=^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szActionCode, 1, 0, 10001 );
@@ -9291,7 +9704,7 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
       //:END
       //:CreateTabIndexString( vDialog, szTabIndex )
       CreateTabIndexString( vDialog, szTabIndex );
-      //:szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szTitleHTML +
+      //:szWriteBuffer = "<textarea name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled + szTitleHTML +
       //:                szAbsoluteStyle + szTabIndex + szClass + szActionCode + " wrap=^wrap^>" +
       //:                "<%=strErrorMapValue%></textarea>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<textarea name=^", 1, 0, 10001 );
@@ -9301,6 +9714,7 @@ GenJSPJ_CrteMLEdit( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strDisabled%> ", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szAbsoluteStyle, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTabIndex, 1, 0, 10001 );
@@ -15442,6 +15856,8 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
    //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
 
+   //:CreateDisabledString( vDialog, szDisabled )
+   CreateDisabledString( vDialog, szDisabled );
 
    //:lSubtype = vDialog.Control.Subtype
    GetIntegerFromAttribute( &lSubtype, vDialog, "Control", "Subtype" );
@@ -15514,8 +15930,6 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
 
       //:END            
 
-      //:CreateDisabledString( vDialog, szDisabled )
-      CreateDisabledString( vDialog, szDisabled );
       //:IF szRepeatGrpKey = ""
       if ( ZeidonStringCompare( szRepeatGrpKey, 1, 0, "", 1, 0, 101 ) == 0 )
       { 
@@ -16174,7 +16588,7 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
 
       //:END
 
-      //:szWriteBuffer = "<select " + szClass + " name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> size=^1^" +
+      //:szWriteBuffer = "<select " + szClass + " name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> size=^1^ " +
       //:                szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" + szCtrlTag + szSelectFunction + "( )^" + ">"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<select ", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
@@ -16184,7 +16598,7 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strDisabled%> size=^1^", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strDisabled%> size=^1^ ", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );

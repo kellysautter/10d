@@ -3535,7 +3535,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            szCtrlCtrlType = "ComboBox" OR szCtrlCtrlType = "GridComboCtl" OR szCtrlCtrlType = "RadioGrp"
                            szWriteBuffer = "            " + szControlTag + " = ^^;"
                         ELSE
-                           szWriteBuffer = "            " + szControlTag + " = ^&nbsp^;"
+                           // KJS 07/27/22 - Try taking out the &nbsp and see what happens. Sorting on grid doesn't work when this is set. 
+                           //szWriteBuffer = "            " + szControlTag + " = ^&nbsp^;"
+                           szWriteBuffer = "            " + szControlTag + " = ^^;"
                         END
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                      END
@@ -4492,17 +4494,20 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               END
                               szWriteBuffer = szWriteBuffer + "<input " + szClass + " name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> "
                               //szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
-                              szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
+                              // KJS 05/31/22 - taking out the calendar size (sometimes it's too small). But need to see if this should only be for
+                              szWriteBuffer = szWriteBuffer + "type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
                            ELSE
                               szWriteBuffer = szWriteBuffer + "<input name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> "
-                              szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
-                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              // KJS 05/31/22 - we might need to take out the size... but I changed from 80 to 85 at the moment. 
+                              szWriteBuffer = szWriteBuffer + "style=^width:85px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
+                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               szWriteBuffer = "              <img src=^images/scw.gif^  name=^" + szListCtrlTag + "Img::<%=strEntityKey%>^ id=^" + szListCtrlTag + "Img::<%=strEntityKey%>^ title=^Select Date^ alt=^Select Date^ " + szDisabled + " "
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               szWriteBuffer = "              onclick=^scwShow( document.getElementById( '" + szListCtrlTag + "::<%=strEntityKey%>' ), this );^ /></td>"
                            END
                         ELSE
-                        IF vDialog.Control.WebCtrlType = "Edit" OR szWCP_Edit = "Y"
+                        // Edit field (not MLEdit)
+                        IF ( vDialog.Control.WebCtrlType = "Edit" OR szWCP_Edit = "Y" ) AND szCtrlCtrlType != "MLEdit"
                            X_Size = vDialog.Control.SZDLG_X
                            Size = X_Size / 3
                            zIntegerToString( szSize, 10, Size )
@@ -4520,14 +4525,27 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                                                                               
                            //KJS 7/26/07 - Added DISABLED option.
                            //KJS 10/19/07 - Added title
-                           szWriteBuffer = "   " + szItemTableHeader + "><input" + szNumber + szPlaceholder + " size=^" + szSize + "^ value=^<%=str" + szListCtrlTag + "%>^<%=str" + szListCtrlTag +
-                                                  "ErrorColor%> name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szTitleHTML + szDisabled + "></td>"
+                           IF szStyleIsBootstrap = "Y"
+                              // KJS 06/01/22 - If bootstrap (and maybe for all non position styles?) I am taking out the size=. 
+                              // KJS 06/01/22 - but now per Kindra I am adding sze back. But will keep the "IF" because I have a feeling we will want to make another change.
+                              szWriteBuffer = "   " + szItemTableHeader + "><input" + szNumber + szPlaceholder + " size=^" + szSize + "^ value=^<%=str" + szListCtrlTag + "%>^<%=str" + szListCtrlTag +
+                                                     "ErrorColor%> name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szTitleHTML + szDisabled + "></td>"
+                           ELSE
+                              szWriteBuffer = "   " + szItemTableHeader + "><input" + szNumber + szPlaceholder + " size=^" + szSize + "^ value=^<%=str" + szListCtrlTag + "%>^<%=str" + szListCtrlTag +
+                                                     "ErrorColor%> name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szTitleHTML + szDisabled + "></td>"
+                           END
                         ELSE
-                        IF vDialog.Control.WebCtrlType = "Multiline" OR szWCP_Multiline = "Y"
+                        IF vDialog.Control.WebCtrlType = "Multiline" OR szWCP_Multiline = "Y" OR szCtrlCtrlType = "MLEdit"
                            // KJS 09/26/2008 - Taking out the <pre> because it makes the grid too large (can't do a "WRAP" on the
                            // <td>.  I don't think in a grid that we would want that.
-                           szWriteBuffer = "   " + szItemTableHeader + "><%=str" + szListCtrlTag + "%></td>"
-                        // szWriteBuffer = "   " + szItemTableHeader + "><pre><%=str" + szListCtrlTag + "%></pre></td>"
+                           //szWriteBuffer = "   " + szItemTableHeader + "><%=str" + szListCtrlTag + "%></td>"
+                           // szWriteBuffer = "   " + szItemTableHeader + "><pre><%=str" + szListCtrlTag + "%></pre></td>"
+                           // KJS 06/17/22 ///////////////////////////////////////////
+                           //szWriteBuffer = "   " + szItemTableHeader + "><textarea "  +
+                           //                       "name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szTitleHTML + szDisabled + "><%=str" + szListCtrlTag + "%></textarea></td>"
+
+                           GenJSPJ_CrteMLEditGrd( vDialog, lFile, szWriteBuffer, "   ", szListCtrlTag,
+                                                  "", "", szNoPositioning, 0, 0, "::<%=strEntityKey%>" )
                         ELSE
                         IF vDialog.Control.WebCtrlType = "EmailAddress" OR szWCP_EmailAddress = "Y"
                            szWriteBuffer = "   " + szItemTableHeader + " class=^Email^><%=str" + szListCtrlTag + "%></td>"

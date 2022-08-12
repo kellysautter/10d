@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZZOXOGO                         04/12/22   16:40:45 1.0a2   
+z1000-Zeidon    ZEIDON   TZZOXOGO                         06/20/22   11:53:52 1.0a2   
 eTZZOXOGO  1
 aNAME      Zeidon
 
@@ -2598,6 +2598,54 @@ aDATATYPE  S
 ePARAMETER 4
 aNAME      vDialogMenu
 aDATATYPE  V
+
+eOPERATION 3
+aNAME      GenJSPJ_CrteMLEditGrd
+aTYPE      G
+
+ePARAMETER 4
+aNAME      vDialog
+aDATATYPE  V
+
+ePARAMETER 4
+aNAME      File
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      WriteBuffer
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      Indent
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      CtrlTag
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      TableRowFlag
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      Justify
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      NoPositioning
+aDATATYPE  S
+
+ePARAMETER 4
+aNAME      OffsetX
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      OffsetY
+aDATATYPE  L
+
+ePARAMETER 4
+aNAME      strRepeatGrpKey
+aDATATYPE  S
 
 eOPERATION 3
 aNAME      GenJSPJ_Action

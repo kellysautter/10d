@@ -1,0 +1,28 @@
+In tzzolodd.pwd window ENTVIEW changed right grid to "domain" (from attributes).
+Added creation of er, when migrating an object (or anything).
+
+DomainGrpMigrate - Add currentlplr
+DomainMigrate - Add currentlplr
+DomainMigrateReus - Add currentlplr
+I took the above out. But now I see the issue is with zkey creation.
+
+
+ZKey issue when creating too close together
+If we are copying over sHost, it copies fields from Address to ER but Address doesn't have 
+ALL of the ER fields. We should copy from the ER shouldn't we. When we get to creating identifier
+in ER, not all fields exist.
+tzcmoprs.c       InitializeNextZKeyForObject
+
+
+Changing LOD_CreateER_Attribute to use OldERD not OldLOD
+
+Added
+LOD_CreateER_AttrFrmER
+
+What to do?????
+                 //:// KJS 05/05/22 - I'm going to take out the next two lines momentarily because I'm not exactly sure what to do...
+                  //:// If I haven't yet added the Entity for this relationship, it's not necessarily an error. Although we would really need to come back and
+                  //:// create it wouldn't we. In case of mTst, I will end up creating the Entity, but what if that wasn't part of migrated object. What to do??
+                  //:// Would we try to create that other Entity? (my example is AdmissionsTrackRequirement has REL AdmissionTrack/AdmissionRequirement.
+                  //://DELETE ENTITY NewRecursiveLOD.LOD_EntityParent NONE
+                  //://RETURN 0

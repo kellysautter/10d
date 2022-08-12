@@ -2322,6 +2322,10 @@ GenJSP_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    szWriteBuffer = "<% strErrorMapValue = ^^;  %>"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   
+
+   CreateDisabledString( vDialog, szDisabled )
+   
 
    lSubtype = vDialog.Control.Subtype
    nRC = AreBitsSetInFlag( lSubtype, 61440 ) // 0x0000F000
@@ -2348,8 +2352,6 @@ GenJSP_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
          szSelectAction   = "onchange"
          szSelectFunction = "OnChange"
       END
-
-      CreateDisabledString( vDialog, szDisabled )
 
       IF szClass = ""
          szWriteBuffer = "<select name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ size=^1^ " + szTitleHTML + szStyle + szDisabled + szSelectAction + "=^" +

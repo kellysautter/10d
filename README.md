@@ -18,6 +18,17 @@ Run MAKEALL.BAT.
 ### 'Access is denied' on an executable like qspawn.exe
 Check the permissions on the executable.  It looks like git might not set the permissions correctly on checkout.  Your local user must have read + execute authority
 
+Changes 08/12/22
+
+* Disable in Common was not working for MLEdit and for "Select Entity" combo box. This has been fixed.
+
+Changes 07/26/22
+* Migration fix - copy over all source files (was not looping through all the source files for a dialog/object.
+* Changed some tools naming to "Information Centric". Not sure this is permanent...
+* JSP Generation - 
+  took out Calendar size in grid
+  MLEdit in grid
+
 Change made 05/25/22
 
 * Merged in DonC changes for LOD attribute derived attribute rule code. This is not complete, but mainly for viewing
