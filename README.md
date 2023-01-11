@@ -3,7 +3,7 @@
 ## Compiling
 
 ### Requires
-* Visual Studio 2015 Community Edition
+* Visual Studio 2017 Community Edition
 
 ### Environment
 Run vcvarsall.bat to set VS environment (Look in "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat")
@@ -17,6 +17,11 @@ Run MAKEALL.BAT.
 ## Compiling issues
 ### 'Access is denied' on an executable like qspawn.exe
 Check the permissions on the executable.  It looks like git might not set the permissions correctly on checkout.  Your local user must have read + execute authority
+
+Changes 10/13/22
+
+* Some bootstrap menu/banner changes.
+* Change in tzwdlg6o.vml // KJS 11/04/22 - If an action changes the language, we want to call getLanguageObject to make sure we are using that.
 
 Changes 08/12/22
 

@@ -4396,6 +4396,11 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    /*****************************  End of JavaScript Functions Section *****************************************************/
 
+   // KJS 11/04/22 - If an action changes the language, we want to call getLanguageObject to make sure we are using that.
+   IF szLangConvFlag = "Y" 
+      szWriteBuffer = "<% LangConv.getLanguageObject( vKZXMLPGO ); %>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   END
 
    /*****************************  Beginning of <body> Section  *****************************************************/
 
