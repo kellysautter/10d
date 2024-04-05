@@ -1749,6 +1749,7 @@ zwTZEREMDD_SaveModel( zVIEW vSubtask )
 
    zwTZEREMDD_CreateNewErrorRoot( vSubtask );
    CreateViewFromViewForTask( &vERD2, vTZEREMDO, 0 );
+   SetNameForView( vERD2, "vERD2", vSubtask, zLEVEL_TASK );
 
    // Delete any dangling ER_FactTypes (FactTypes without children). There
    // seems to be a bug in the system that we can't duplicate where
@@ -2053,6 +2054,60 @@ zwTZEREMDD_ExitModel( zVIEW vSubtask )
 
    if ( GetViewByName( &LPLR_View, "TaskLPLR", vSubtask, zLEVEL_TASK ) > 0 )
       nRC = TerminateLPLR( vSubtask );
+
+   return( 0 );
+}
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// OPERATION: zwTZEREMDD_ExitLPLR_MergeModel
+// PURPOSE:   Leave LPLR Merge ER Dialog with an implied save.
+// TRIGGERED BY:
+//    WINDOW: TZEREMDD
+//    ACTION: OPTION
+//    NAME: File_Exit
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT OPERATION
+zwTZEREMDD_ExitLPLR_MergeModel( zVIEW vSubtask )
+{
+   zVIEW  vTZEREMDO;
+   zVIEW  vTZERSASO;
+   zVIEW  vView;
+   zVIEW  vProfileXFER;
+   zVIEW  LPLR_View;
+   zVIEW  vT;
+   zSHORT nRC;
+   zLONG  lDLG_X;
+   zLONG  lDLG_Y;
+   zSHORT nZoom;
+   
+   // This is similar to zwTZEREMDD_ExitModel above, except that we don't want to drop all the objects since we are not exiting the task.
+
+   nZoom = ZoomDiagram( vSubtask, "ERD", 0, 0 );
+   SetWindowPreferenceInteger( vSubtask, "Zoom", nZoom );
+
+   // Get Access to current Enterprise Model Object and prompt for Save
+   nRC = GetViewByName( &vTZERSASO, "TZERSASO", vSubtask, zLEVEL_TASK );
+   nRC = GetViewByName( &vTZEREMDO, "TZEREMDO", vSubtask, zLEVEL_TASK );
+
+   // Prompt for Subject Area Object Save
+   if ( zwTZEREMDD_SA_AskForSave( vSubtask ) != 0 )
+   {
+      SetWindowActionBehavior( vSubtask, zWAB_ReturnToTopWindow, "TZEREMDD", "TZEREMDD" );
+      return( 0 );
+   }
+
+   // Save the current state to the Profile
+   oTZ__PRFO_GetViewToProfile( &vProfileXFER, "EMD", vSubtask, zCURRENT_OI );
+   if ( CompareAttributeToString( vProfileXFER, "EMD", "StartupLPLR_Option", "L" ) == 0 )   //set Last LPLR
+   {
+      GetViewByName( &vT, "TaskLPLR", vSubtask, zLEVEL_TASK );
+      if ( vT )
+      {
+         SetAttributeFromAttribute( vProfileXFER, "EMD", "StartupLPLR_Name", vT, "LPLR", "Name" );
+      }
+   }
 
    return( 0 );
 }
@@ -11612,6 +11667,141 @@ zwTZEREMDD_CompareER_Entities( zVIEW vSubtask )
 
 /////////////////////////////////////////////////////////////////////////////
 //
+//    OPERATION: zwTZEREMDD_CompareERDsMrg
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEREMDD_CompareERDsMrg( zVIEW vSubtask )
+{
+   zVIEW  vSourceERD;
+   zVIEW  vTargetERD;
+   zVIEW  vSourceLPLR;
+   zVIEW  vTargetLPLR;
+   zCHAR  szFileName[ 500 ];
+   zCHAR  szERD_Name[ 33 ];
+   zCHAR  szSourceLPLR_Name[ 33 ];
+   zSHORT nRC;
+   
+   // Compare the Source and Target ERD's.
+   // This is basically the same operation as zwTZEREMDD_CompareERDs except as follows:
+   //   In the former operation, the Target ERD is loaded and we load the Source ERD from the directory specified.
+   //   In this operation, we need to load both the Source and Target ERD's from their LPLR objects in memory.
+   // The code is also the same as zwTZEREMDD_CompareER_EntitiesMrg except that the oTZEREMDO_ERD_Compare operation passes
+   // an "A" instead of an "E" to indicate that the compare is on attributes as well as entities.
+   
+   // Activate Source ERD based on the directory name in the Source LPLR.
+   // We will use the named view, "OrigLPLR", because it has all the W_MetaType entries including Data Model, which SourceLPLR does not.
+   // We need to position on the meta entity for the ERD first.
+   GetViewByName( &vSourceLPLR, "OrigLPLR", vSubtask, zLEVEL_TASK );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vSourceLPLR, "LPLR", "PgmSrcDir" );   // LPLR Directory Structure
+   SetCursorFirstEntityByInteger( vSourceLPLR, "W_MetaType", "Type", 4, "" );     // 4 is ERD Meta Type
+   GetStringFromAttribute( szERD_Name, zsizeof( szERD_Name ), vSourceLPLR, "W_MetaDef", "Name" );
+   zstrcat( szFileName, "\\" );
+   zstrcat( szFileName, szERD_Name );
+   zstrcat( szFileName, ".PMD" );
+   TraceLineS( "Source File Name: ", szFileName );
+   nRC = ActivateOI_FromFile( &vSourceERD, "TZEREMDO", vSubtask, szFileName, zSINGLE );
+   if ( nRC < 0 )
+   {
+      MessageSend( vSubtask, "", "Compare ERD's", "Invalid File Name", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
+      return( -1 );
+   }
+   SetNameForView( vSourceERD, "SourceERD", vSubtask, zLEVEL_TASK );
+
+   // Activate Target ERD using ActivateMetaOI_ByName operation to get update view. 
+   // We will use named view TaskLPLR because TargetLPLR view does not have all the W_MetaType entries.
+   GetViewByName( &vTargetLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+   SetCursorFirstEntityByInteger( vTargetLPLR, "W_MetaType", "Type", 4, "" );     // 4 is ERD Meta Type
+   GetStringFromAttribute( szERD_Name, zsizeof( szERD_Name ), vTargetLPLR, "W_MetaDef", "Name" );
+   nRC = ActivateMetaOI_ByName( vSubtask, &vTargetERD, 0, zSOURCE_ERD_META, zSINGLE, szERD_Name, 0 );
+   if ( nRC < 0 )
+   {
+      MessageSend( vSubtask, "", "Compare Merge ERD's", "ERD is missing in LPLR.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
+      return( -1 );
+   }
+   SetNameForView( vTargetERD, "TargetERD", vSubtask, zLEVEL_TASK );
+   SetNameForView( vTargetERD, "TZEREMDO", vSubtask, zLEVEL_TASK );   // The list control for displaying differences uses named view TZEREMDO.
+
+   // Call operation to compare ERD's.
+   oTZEREMDO_ERD_Compare( vTargetERD, vSourceERD, "A" );
+
+   return( 0 );
+
+} // zwTZEREMDD_CompareERDsMrg
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//    OPERATION: zwTZEREMDD_CompareER_EntitiesMrg
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEREMDD_CompareER_EntitiesMrg( zVIEW vSubtask )
+{
+   zVIEW  vSourceERD;
+   zVIEW  vTargetERD;
+   zVIEW  vSourceLPLR;
+   zVIEW  vTargetLPLR;
+   zVIEW  vTaskLPLR;
+   zCHAR  szFileName[ 500 ];
+   zCHAR  szERD_Name[ 33 ];
+   zCHAR  szSourceLPLR_Name[ 33 ];
+   zSHORT nRC;
+   
+   // Compare the Source and Target ERD's.
+   // This is basically the same operation as zwTZEREMDD_CompareER_Entities except as follows:
+   //   In the former operation, the Target ERD is loaded and we load the Source ERD from the directory specified.
+   //   In this operation, we need to load both the Source and Target ERD's from their LPLR objects in memory.
+   
+   // Activate Source ERD based on the directory name in the Source LPLR. 
+   // We will use the named view, "OrigLPLR", because it has all the W_MetaType entries including Data Model, which SourceLPLR does not.
+   // We need to position on the meta entity for the ERD first.
+   GetViewByName( &vSourceLPLR, "OrigLPLR", vSubtask, zLEVEL_TASK );
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vSourceLPLR, "LPLR", "PgmSrcDir" );      // LPLR Directory Structure
+   SetCursorFirstEntityByInteger( vSourceLPLR, "W_MetaType", "Type", 4, "" );   // 4 is ERD Meta Type
+   GetStringFromAttribute( szERD_Name, zsizeof( szERD_Name ), vSourceLPLR, "W_MetaDef", "Name" );
+   zstrcat( szFileName, "\\" );
+   zstrcat( szFileName, szERD_Name );
+   zstrcat( szFileName, ".PMD" );
+   TraceLineS( "Source File Name: ", szFileName );
+   nRC = ActivateOI_FromFile( &vSourceERD, "TZEREMDO", vSubtask, szFileName, zSINGLE );
+   if ( nRC < 0 )
+   {
+      MessageSend( vSubtask, "", "Compare ERD's", "Invalid File Name", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
+      return( -1 );
+   }
+   SetNameForView( vSourceERD, "SourceERD", vSubtask, zLEVEL_TASK );
+   
+   // Activate Target ERD using ActivateMetaOI_ByName operation to get update view. 
+   // We will use named view TaskLPLR because TargetLPLR view does not have all the W_MetaType entries.
+   GetViewByName( &vTargetLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+   SetCursorFirstEntityByInteger( vTargetLPLR, "W_MetaType", "Type", 4, "" );     // 4 is ERD Meta Type
+   GetStringFromAttribute( szERD_Name, zsizeof( szERD_Name ), vTargetLPLR, "W_MetaDef", "Name" );
+   nRC = ActivateMetaOI_ByName( vSubtask, &vTargetERD, 0, zSOURCE_ERD_META, zSINGLE, szERD_Name, 0 );
+   if ( nRC < 0 )
+   {
+      MessageSend( vSubtask, "", "Compare Merge ERD's", "ERD is missing in LPLR.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
+      return( -1 );
+   }
+   SetNameForView( vTargetERD, "TargetERD", vSubtask, zLEVEL_TASK );
+   SetNameForView( vTargetERD, "TZEREMDO", vSubtask, zLEVEL_TASK );   // The list control for displaying differences uses named view TZEREMDO.
+
+   // Call operation to compare ERD's.
+   oTZEREMDO_ERD_Compare( vTargetERD, vSourceERD, "E" );
+   
+   // Initialize Merge Attributes flag to null.
+   GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+   SetAttributeFromString( vTaskLPLR, "LPLR", "wMergeAttributesFlag", "Y" );
+
+   return( 0 );
+
+} // zwTZEREMDD_CompareER_EntitiesMrg
+
+/////////////////////////////////////////////////////////////////////////////
+//
 //    OPERATION: zwTZEREMDD_ERD_MergeSelected
 //
 /////////////////////////////////////////////////////////////////////////////
@@ -11620,6 +11810,8 @@ zwTZEREMDD_ERD_MergeSelected( zVIEW vSubtask )
 {
    zVIEW  vSourceERD;
    zVIEW  vTargetERD;
+   zVIEW  vTaskLPLR;
+   zSHORT nRC;
 
    // Go to Merge selected entries.
 
@@ -11627,17 +11819,33 @@ zwTZEREMDD_ERD_MergeSelected( zVIEW vSubtask )
    GetViewByName( &vSourceERD, "SourceERD", vSubtask, zLEVEL_TASK );
    GetViewByName( &vTargetERD, "TargetERD", vSubtask, zLEVEL_TASK );
    oTZEREMDO_ERD_Merge( vTargetERD, vSourceERD, vSubtask, "" );
+   
+   // If the ERD_Merge operation created any error messages, go to the window to display them.
+   GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+   nRC = CheckExistenceOfEntity( vTaskLPLR, "ErrorMessage" );
+   if ( nRC >= 0 )
+   {
+      // Go to display error messages.
+      SetWindowActionBehavior( vSubtask, zWAB_ReplaceWindowWithModalWindow, "TZEREMDD", "LPLR_ERD_MergeErrors" );
+   }
+   else
+   {
+      // Go directly to display ERD after sending OK message to operator.
+      MessageSend( vSubtask, "", "Compare Merge ERD's", "Merge has completed without error.", zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
+      SetWindowActionBehavior( vSubtask, zWAB_ReplaceWindowWithModalWindow, "TZEREMDD", "LPLR_MergeDisplayERD" );
+   }
 
    return( 0 );
+
 } // zwTZEREMDD_LOD_MergeSelected
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//    OPERATION: zwTZEREMDD_ERD_MergeEntities
+//    OPERATION: zwTZEREMDD_ERD_MergeAllEntries
 //
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
-zwTZEREMDD_ERD_MergeEntities( zVIEW vSubtask )
+zwTZEREMDD_ERD_MergeAllEntries( zVIEW vSubtask )
 {
    zVIEW  vSourceERD;
    zVIEW  vTargetERD;
@@ -11650,7 +11858,7 @@ zwTZEREMDD_ERD_MergeEntities( zVIEW vSubtask )
    oTZEREMDO_ERD_Merge( vTargetERD, vSourceERD, vSubtask, "Y" );
 
    return( 0 );
-} // zwTZEREMDD_ERD_MergeEntities
+} // zwTZEREMDD_ERD_MergeAllEntries
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -12103,6 +12311,115 @@ GenerateZKeyDomains( zVIEW vSubtask )
    return( 0 );
 
 } // GenerateZKeyDomains
+
+/*************************************************************************************************
+**    
+**    OPERATION: zwTZEREMDD_WriteERD_ErrorsToCSV
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEREMDD_WriteERD_ErrorsToCSV( zVIEW vSubtask )
+{
+   zVIEW  TaskLPLR;
+   
+   GetViewByName( &TaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+   oTZCMLPLO_WriteErrorMessagesCSV( TaskLPLR );
+   return( 0 );
+   
+} // zwTZEREMDD_WriteERD_ErrorsToCSV
+
+/*************************************************************************************************
+**    
+**    OPERATION: zwTZEREMDD_RebuildMergeTE
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEREMDD_RebuildMergeTE( zVIEW vSubtask )
+{
+   zVIEW  vERD;
+   zVIEW  vDTE;
+   zVIEW  vCM_List;
+   zVIEW  vTaskLPLR;
+   zSHORT nRC;
+   
+
+   // Get view to ERD and activate TE.
+   GetViewByName( &vERD, "TZEREMDO", vSubtask, zLEVEL_TASK );
+   GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+   CreateViewFromView( &vCM_List, vTaskLPLR );
+   SetCursorFirstEntityByInteger( vCM_List, "W_MetaType", "Type", 2006, "" );
+   nRC = ActivateMetaOI( vSubtask, &vDTE, vCM_List, zSOURCE_DTE_META,
+                         zSINGLE | zLEVEL_APPLICATION );
+   SetNameForView( vDTE, "TE_DB_Environ", vSubtask, zLEVEL_TASK );
+   
+   nRC = oTZTENVRO_RebuildDBMS_Tables( vDTE, vERD, vSubtask, "" );
+   TraceLineI( "*** RebuildDBMS_Tables RC: ", nRC );
+
+   nRC = CommitMetaOI( vSubtask, vDTE, zSOURCE_DTE_META );
+   if ( nRC < 0 )
+   {
+      MessageSend( vSubtask, "TE00420", "Physical Data Model",
+                   "Unable to save Physical Environment.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
+      return( -1 );
+   }
+   
+   DropView( vCM_List );
+
+   return( 0 );
+   
+} // zwTZEREMDD_RebuildMergeTE
+
+/*************************************************************************************************
+**    
+**    OPERATION: MERGE_ER_AttributesToLODs
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+MERGE_ER_AttributesToLODs( zVIEW vSubtask )
+{
+   zVIEW vXfer;
+   zVIEW vERD;
+   
+   // Go to merge selected ER Attributes into seleted LOD's.
+   GetViewByName( &vXfer, "TZBRLOVO", vSubtask, zLEVEL_TASK );
+   GetViewByName( &vERD,  "TZEREMDO", vSubtask, zLEVEL_TASK );
+   oTZEREMDO_MergeER_AttrsToLODs( vERD, vXfer );
+
+   return( 0 );
+} // SELECT_ER_AttributeToMerge
+
+/*************************************************************************************************
+**    
+**    OPERATION: GOTO_MergeER_Attributes
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+GOTO_MergeER_Attributes( zVIEW vSubtask )
+{
+   zVIEW vXfer;
+   
+   // Sort the LOD's in Name order
+   GetViewByName( &vXfer, "TZBRLOVO", vSubtask, zLEVEL_TASK );
+   OrderEntityForView( vXfer, "LOD_Entity", "LOD_Name A" );
+   SetCursorFirstEntity( vXfer, "LOD_Entity", "" );
+
+   return( 0 );
+} // GOTO_MergeER_Attributes
+
+/*************************************************************************************************
+**    
+**    OPERATION: REFRESH_LOD_EntityAttributes
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+REFRESH_LOD_EntityAttributes( zVIEW vSubtask )
+{
+   // Refresh the listobx named "LBCurrentAttributes" with the Attributes for the LOD just selected.
+   RefreshCtrl( vSubtask, "LBCurrentAttributes" );
+
+   return( 0 );
+} // REFRESH_LOD_EntityAttributes
 
 
 #ifdef __cplusplus

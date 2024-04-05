@@ -535,6 +535,8 @@ zLONG  lStructSize;
    zCHAR PopupMenuName[ 33 ];
    zCHAR WebJavaScript[ 10001 ];
    zCHAR WebJavaScriptLocation[ 17 ];
+   zCHAR WebHTML_TransferAddress[ 255 ];
+   zCHAR ParentIsGridOrGrp[ 2 ];
 
 unsigned char CheckByte;
 
@@ -812,6 +814,22 @@ unsigned char CheckByte;
 
 } zTZWDLGSO_ListCtrlContext_DEF;
 
+typedef struct tagzTZWDLGSO_ControlSecuritySubSection_DEF
+{
+zLONG  lStructSize;
+
+   zLONG ZKey;
+   zCHAR Name[ 255 ];
+   zCHAR NeedControlAccessPermission[ 2 ];
+   zCHAR NeedControlUpdatePermission[ 2 ];
+   zCHAR NeedsCreatePermission[ 2 ];
+   zCHAR NeedsDeletePermission[ 2 ];
+   zCHAR NeedsUpdateEditSavePermission[ 2 ];
+
+unsigned char CheckByte;
+
+} zTZWDLGSO_ControlSecuritySubSection_DEF;
+
 typedef struct tagzTZWDLGSO_WndEvent_DEF
 {
 zLONG  lStructSize;
@@ -845,6 +863,8 @@ zLONG  lStructSize;
    zLONG SB_ActionDisabling;
    zCHAR PopupMenuName[ 33 ];
    zCHAR WebJavaScriptLocation[ 17 ];
+   zCHAR WebHTML_TransferAddress[ 255 ];
+   zCHAR ParentIsGridOrGrp[ 2 ];
 
 unsigned char CheckByte;
 
@@ -869,9 +889,9 @@ zLONG  lStructSize;
    zLONG SB_DeleteNull;
    zLONG SB_ActionDisabling;
    zCHAR PopupMenuName[ 33 ];
-   zCHAR WebHTML_TransferAddress[ 255 ];
    zCHAR WebJavaScript[ 10001 ];
    zCHAR WebJavaScriptLocation[ 17 ];
+   zCHAR WebHTML_TransferAddress[ 255 ];
    zCHAR ParentIsGridOrGrp[ 2 ];
 
 unsigned char CheckByte;
@@ -1124,6 +1144,47 @@ unsigned char CheckByte;
 
 } zTZWDLGSO_EventList_DEF;
 
+typedef struct tagzTZWDLGSO_ActionSecurityArea_DEF
+{
+zLONG  lStructSize;
+
+   zLONG ZKey;
+   zCHAR Name[ 255 ];
+
+unsigned char CheckByte;
+
+} zTZWDLGSO_ActionSecurityArea_DEF;
+
+typedef struct tagzTZWDLGSO_ActionSecuritySection_DEF
+{
+zLONG  lStructSize;
+
+   zLONG ZKey;
+   zCHAR Name[ 255 ];
+   zCHAR NeedsCreatePermission[ 2 ];
+   zCHAR NeedsDeletePermission[ 2 ];
+   zCHAR NeedsUpdateEditSavePermission[ 2 ];
+
+unsigned char CheckByte;
+
+} zTZWDLGSO_ActionSecuritySection_DEF;
+
+typedef struct tagzTZWDLGSO_ActionSecuritySubSection_DEF
+{
+zLONG  lStructSize;
+
+   zLONG ZKey;
+   zCHAR Name[ 255 ];
+   zCHAR NeedsCreatePermission[ 2 ];
+   zCHAR NeedsDeletePermission[ 2 ];
+   zCHAR NeedsUpdateEditSavePermission[ 2 ];
+   zCHAR NeedControlAccessPermission[ 2 ];
+   zCHAR NeedControlUpdatePermission[ 2 ];
+
+unsigned char CheckByte;
+
+} zTZWDLGSO_ActionSecuritySubSection_DEF;
+
 typedef struct tagzTZWDLGSO_Menu_DEF
 {
 zLONG  lStructSize;
@@ -1210,6 +1271,8 @@ zLONG  lStructSize;
    zLONG SB_ActionDisabling;
    zCHAR PopupMenuName[ 33 ];
    zCHAR WebJavaScriptLocation[ 17 ];
+   zCHAR WebHTML_TransferAddress[ 255 ];
+   zCHAR ParentIsGridOrGrp[ 2 ];
 
 unsigned char CheckByte;
 
@@ -1629,6 +1692,8 @@ zLONG  lStructSize;
    zCHAR WebJavaScript[ 10001 ];
    zCHAR PopupMenuName[ 33 ];
    zCHAR WebJavaScriptLocation[ 17 ];
+   zCHAR WebHTML_TransferAddress[ 255 ];
+   zCHAR ParentIsGridOrGrp[ 2 ];
 
 unsigned char CheckByte;
 
@@ -2097,6 +2162,8 @@ zLONG  lStructSize;
    zCHAR WebJavaScript[ 10001 ];
    zCHAR PopupMenuName[ 33 ];
    zCHAR WebJavaScriptLocation[ 17 ];
+   zCHAR WebHTML_TransferAddress[ 255 ];
+   zCHAR ParentIsGridOrGrp[ 2 ];
 
 unsigned char CheckByte;
 
@@ -2488,6 +2555,8 @@ zLONG  lStructSize;
    zCHAR ControlType[ 255 ];
    zLONG ControlWidth;
    zLONG DataWidth;
+   zCHAR CSS_ClassForPrompt[ 255 ];
+   zCHAR CSS_ClassForControl[ 255 ];
    zCHAR PromptValue[ 255 ];
    zLONG ZKey;
 

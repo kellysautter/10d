@@ -134,6 +134,160 @@ oTZTENVRO_SyncTablRecKey( zVIEW     vDTE,
 } 
 
 
+//:TRANSFORMATION OPERATION
+//:RebuildDBMS_Tables( VIEW vDTE BASED ON LOD TZTENVRO,
+//:                    VIEW vEMD BASED ON LOD TZEREMDO,
+//:                    VIEW vSubtask,
+//:                    STRING ( 32 ) szStartingEntityName )
+
+//:   VIEW vDTE_Old     BASED ON LOD TZTENVRO
+zOPER_EXPORT zSHORT OPERATION
+oTZTENVRO_RebuildDBMS_Tables( zVIEW     vDTE,
+                              zVIEW     vEMD,
+                              zVIEW     vSubtask,
+                              zPCHAR    szStartingEntityName )
+{
+   zVIEW     vDTE_Old = 0; 
+   //://VIEW vDTE_OldTemp BASED ON LOD TZTENVRO
+   //://VIEW vDTE_NewTemp BASED ON LOD TZTENVRO
+   //:INTEGER nRC
+   zLONG     nRC = 0; 
+   zSHORT    RESULT; 
+   zSHORT    lTempInteger_0; 
+   zLONG     lTempInteger_1; 
+   zLONG     lTempInteger_2; 
+
+
+   //:// Drop Error List View (This probably isn't necessary when called from LPLR ERD Merge.
+   //://zwTZTEUPDD_ClearErrorWindow( vSubtask )
+
+   //:// First create a copy of the TE.
+   //:ActivateOI_FromOI_ForTask( vDTE_Old, vDTE, 0, zMULTIPLE )
+   ActivateOI_FromOI_ForTask( &vDTE_Old, vDTE, 0, zMULTIPLE );
+   //:SetCursorFirstEntityByAttr( vDTE_Old, "TE_DBMS_Source", "ZKey",
+   //:                            vDTE,     "TE_DBMS_Source", "ZKey", 0 )
+   SetCursorFirstEntityByAttr( vDTE_Old, "TE_DBMS_Source", "ZKey", vDTE, "TE_DBMS_Source", "ZKey", 0 );
+
+   //://CreateViewFromViewForTask( vDTE_OldTemp, vDTE_Old, 0 )
+   //://CreateViewFromViewForTask( vDTE_NewTemp, vDTE, 0 )
+
+   //:// Run through all the tables and columns and delete them.
+   //:FOR EACH vDTE.TE_TablRec 
+   RESULT = SetCursorFirstEntity( vDTE, "TE_TablRec", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:DELETE ENTITY vDTE.TE_TablRec NONE  
+      RESULT = DeleteEntity( vDTE, "TE_TablRec", zREPOS_NONE );
+      RESULT = SetCursorNextEntity( vDTE, "TE_TablRec", "" );
+   } 
+
+   //:END
+
+   //:// Rebuild the entities
+   //:nRC = oTZTENVRO_BuildTablRecsFromEMD( vSubtask, vDTE, vEMD, szStartingEntityName )
+   nRC = oTZTENVRO_BuildTablRecsFromEMD( vSubtask, vDTE, vEMD, szStartingEntityName );
+   //:IF RESULT < 0
+   if ( RESULT < 0 )
+   { 
+      //:DropView( vDTE_Old )
+      DropView( vDTE_Old );
+      //://DropView( vDTE_OldTemp )
+      //://DropView( vDTE_NewTemp )
+      //:RETURN -1
+      return( -1 );
+   } 
+
+   //:END
+
+   //:// Rebuild the relationships.
+   //:oTZTENVRO_BuildRelationsFromEMD( vSubtask, vDTE, vEMD )
+   oTZTENVRO_BuildRelationsFromEMD( vSubtask, vDTE, vEMD );
+
+   //:// Copy over some of the specific physical information that might have been specified manually in the existing entry.
+   //:// This logic was taken as a conversion to VML of the code in operation TZTEUPDD.fnRebuildTables.
+   //:FOR EACH vDTE_Old.TE_TablRec  
+   RESULT = SetCursorFirstEntity( vDTE_Old, "TE_TablRec", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+
+      //:// If the TablRec in the TE copy source has the KeepPhysCharsFlagForAllColumns flag set and if the ER_Entity
+      //:// or ER_RelType is in the new TE TablRec entry, copy over the physical attributes.
+      //:IF vDTE.TE_TablRec.KeepPhysicalCharacteristicsFlag = "Y"
+      if ( CompareAttributeToString( vDTE, "TE_TablRec", "KeepPhysicalCharacteristicsFlag", "Y" ) == 0 )
+      { 
+         //:IF vDTE_Old.ER_Entity EXISTS
+         lTempInteger_0 = CheckExistenceOfEntity( vDTE_Old, "ER_Entity" );
+         if ( lTempInteger_0 == 0 )
+         { 
+            //:SET CURSOR FIRST vDTE.ER_Entity WITHIN vDTE.TE_DBMS_Source 
+            //:           WHERE vDTE.ER_Entity.ZKey = vDTE_Old.ER_Entity.ZKey 
+            GetIntegerFromAttribute( &lTempInteger_1, vDTE_Old, "ER_Entity", "ZKey" );
+            RESULT = SetCursorFirstEntityByInteger( vDTE, "ER_Entity", "ZKey", lTempInteger_1, "TE_DBMS_Source" );
+            //:ELSE
+         } 
+         else
+         { 
+            //:SET CURSOR FIRST vDTE.ER_RelType WITHIN vDTE.TE_DBMS_Source
+            //:           WHERE vDTE.ER_RelType.ZKey = vDTE_Old.ER_RelType.ZKey 
+            GetIntegerFromAttribute( &lTempInteger_2, vDTE_Old, "ER_RelType", "ZKey" );
+            RESULT = SetCursorFirstEntityByInteger( vDTE, "ER_RelType", "ZKey", lTempInteger_2, "TE_DBMS_Source" );
+         } 
+
+         //:END
+         //:IF RESULT >= zCURSOR_SET 
+         if ( RESULT >= zCURSOR_SET )
+         { 
+            //:// We are positioned on the correct TE_TablRec for either above so opy over physical attributes.
+            //:vDTE.TE_TablRec.KeepPhysicalCharacteristicsFlag = vDTE_Old.TE_TablRec.KeepPhysicalCharacteristicsFlag
+            SetAttributeFromAttribute( vDTE, "TE_TablRec", "KeepPhysicalCharacteristicsFlag", vDTE_Old, "TE_TablRec", "KeepPhysicalCharacteristicsFlag" );
+            //:vDTE.TE_TablRec.Name                            = vDTE_Old.TE_TablRec.Name
+            SetAttributeFromAttribute( vDTE, "TE_TablRec", "Name", vDTE_Old, "TE_TablRec", "Name" );
+            //:vDTE.TE_TablRec.SQL_TableQual                   = vDTE_Old.TE_TablRec.SQL_TableQual
+            SetAttributeFromAttribute( vDTE, "TE_TablRec", "SQL_TableQual", vDTE_Old, "TE_TablRec", "SQL_TableQual" );
+            //:vDTE.TE_TablRec.SQL_TableOwner                  = vDTE_Old.TE_TablRec.SQL_TableOwner
+            SetAttributeFromAttribute( vDTE, "TE_TablRec", "SQL_TableOwner", vDTE_Old, "TE_TablRec", "SQL_TableOwner" );
+            //:vDTE.TE_TablRec.Desc                            = vDTE_Old.TE_TablRec.Desc
+            SetAttributeFromAttribute( vDTE, "TE_TablRec", "Desc", vDTE_Old, "TE_TablRec", "Desc" );
+            //:vDTE.TE_TablRec.KeepPhysCharsFlagForAllColumns  = vDTE_Old.TE_TablRec.KeepPhysCharsFlagForAllColumns
+            SetAttributeFromAttribute( vDTE, "TE_TablRec", "KeepPhysCharsFlagForAllColumns", vDTE_Old, "TE_TablRec", "KeepPhysCharsFlagForAllColumns" );
+         } 
+
+         //:END
+      } 
+
+      RESULT = SetCursorNextEntity( vDTE_Old, "TE_TablRec", "" );
+      //:END
+   } 
+
+   //:      
+   //:   // Copy over physical specifications for TE_TablRec entries that are tied to an ER_Attribute.
+   //:   // DonC comment on 10/17/2022: I am not going to do this because I don't think it will be used in merging LPLR's and the logic in the
+   //:   // TZTEUPDD.fnRebuildTables code and TZTEUPDD.fnFindER_ZKeyForPhysicalKey code are too confusing. In fact it's not clear if the
+   //:   // fnFindER_ZKeyForPhysicalKey code even works correctly.
+   //:   /*FOR EACH vDTE_NewTemp.TE_FieldDataRel 
+   //:      IF vDTE_Old.ER_Attribute EXISTS
+   //:         SET CURSOR FIRST vDTE.ER_Attribute WITHIN vDTE TE_TablRec 
+   //:                    WHERE vDTE.ER_Attribute.ZKey = vDTE_Old.ER_Attribute.ZKey 
+   //:         IF RESULT >= zCURSOR_SET AND vDTE_Old.TE_TablRec.KeepPhysicalCharacteristicsFlag = "Y"
+   //:            
+   //:            
+   //:         END
+   //:      END
+   //:   END*/
+
+
+   //:END
+
+   //:// if field sequence does not exist, set it
+   //:SetFieldSequence( vDTE )
+   oTZTENVRO_SetFieldSequence( vDTE );
+   //:DropView( vDTE_Old )
+   DropView( vDTE_Old );
+   return( 0 );
+// END
+} 
+
+
 //:LOCAL OPERATION
 //:SetCursorNewRelType( VIEW OldERD BASED ON LOD TZEREMDO,
 //:                     VIEW NewERD BASED ON LOD TZEREMDO )

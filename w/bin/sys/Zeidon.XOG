@@ -1,4 +1,4 @@
-z1000-Zeidon    ZEIDON   TZZOXOGO                         06/20/22   11:53:52 1.0a2   
+z1000-Zeidon    ZEIDON   TZZOXOGO                         02/27/23   11:53:00 1.0a2   
 eTZZOXOGO  1
 aNAME      Zeidon
 
@@ -655,6 +655,22 @@ aDATATYPE  S
 ePARAMETER 4
 aNAME      CurrentEntityName
 aDATATYPE  S
+
+eOPERATION 3
+aNAME      RepaintWindowControls
+aTYPE      G
+
+ePARAMETER 4
+aNAME      ViewToWindow
+aDATATYPE  V
+
+eOPERATION 3
+aNAME      SetLODSQL_DBH_X_ToOne
+aTYPE      G
+
+ePARAMETER 4
+aNAME      vLOD
+aDATATYPE  V
 
 eOPERATION 3
 aNAME      ActivateEmptyMetaOI
@@ -2076,7 +2092,7 @@ aNAME      lFile
 aDATATYPE  L
 
 ePARAMETER 4
-aNAME      SideMenuExsitsFlag
+aNAME      SideMenuExistsFlag
 aDATATYPE  S
 
 eOPERATION 3

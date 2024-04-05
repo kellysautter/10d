@@ -70,7 +70,7 @@ oTZWDLGSO_NLS_OptionText( zVIEW     vDialog,
 //:                     VIEW    vLOD_LPLR   BASED ON LOD TZCMLPLO,
 //:                     VIEW    vSubtask )
 
-//:   VIEW vDomain BASED ON LOD  TZDGSRCO
+//:   VIEW vDomain  BASED ON LOD  TZDGSRCO
 zOPER_EXPORT zSHORT OPERATION
 oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                                zVIEW     vControl,
@@ -80,12 +80,14 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                                zVIEW     vSubtask )
 {
    zVIEW     vDomain = 0; 
-   //:VIEW vReport BASED ON LOD  TZRPSRCO
+   //:VIEW vReport  BASED ON LOD  TZRPSRCO
    zVIEW     vReport = 0; 
-   //:VIEW vPE     BASED ON LOD  TZPESRCO
+   //:VIEW vPE      BASED ON LOD  TZPESRCO
    zVIEW     vPE = 0; 
-   //:VIEW PE_List BASED ON LOD  TZCMLPLO
+   //:VIEW PE_List  BASED ON LOD  TZCMLPLO
    zVIEW     PE_List = 0; 
+   //:VIEW vTZERROR BASED ON LOD  TZERROR
+   zVIEW     vTZERROR = 0; 
    //:STRING ( 255 ) szMsg
    zCHAR     szMsg[ 256 ] = { 0 }; 
    //:STRING ( 64 )  szWindowReportName
@@ -162,6 +164,9 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
    } 
 
    //:END
+
+   //:GetViewByName( vTZERROR, "TZERRORDLG", vSubtask, zLEVEL_TASK )    
+   GetViewByName( &vTZERROR, "TZERRORDLG", vSubtask, zLEVEL_TASK );
 
    //:// Process each subcontrol.
    //:FOR EACH vControl.CtrlCtrl
@@ -321,6 +326,7 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                   } 
                   else
                   { 
+                     //://vTZERROR.ErrorMsg.LongError = vTZERROR.ErrorMsg.LongError + NEW_LINE + szMsg
                      //:MessageSend( vSubtask, "WD00506", "Control Relink",
                      //:             szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                      MessageSend( vSubtask, "WD00506", "Control Relink", szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
@@ -513,6 +519,7 @@ oTZWDLGSO_ControlRelinkDelete( zVIEW     vDialog,
                   } 
                   else
                   { 
+                     //://vTZERROR.ErrorMsg.LongError = vTZERROR.ErrorMsg.LongError + NEW_LINE + szMsg
                      //:MessageSend( vSubtask, "WD00508", "Control Relink",
                      //:             szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                      MessageSend( vSubtask, "WD00508", "Control Relink", szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
@@ -1184,6 +1191,8 @@ oTZWDLGSO_DialogRelinkDelete( zVIEW     vDialog,
    zVIEW     vLOD_LPLR = 0; 
    //:VIEW         vRecursive   BASED ON LOD TZWDLGSO
    zVIEW     vRecursive = 0; 
+   //:VIEW         vTZERROR     BASED ON LOD TZERROR
+   zVIEW     vTZERROR = 0; 
    //:INTEGER      LastViewZKey
    zLONG     LastViewZKey = 0; 
    //:STRING (255) szMsg
@@ -1220,6 +1229,14 @@ oTZWDLGSO_DialogRelinkDelete( zVIEW     vDialog,
    LastViewZKey = 0;
    //:NAME VIEW vDialog "vDialog"
    SetNameForView( vDialog, "vDialog", 0, zLEVEL_TASK );
+   //:/*   
+   //:IF GetViewByName( vTZERROR, "TZERRORDLG", vSubtask, zLEVEL_TASK ) < 0
+   //:   ActivateEmptyObjectInstance(vTZERROR, "TZERROR", vSubtask, 0)
+   //:   SetNameForView(vTZERROR, "TZERRORDLG", vSubtask, zLEVEL_TASK)
+   //:   CreateEntity(vTZERROR, "ErrorList", zPOS_AFTER) 
+   //:   CreateEntity(vTZERROR, "ErrorMsg", zPOS_AFTER) 
+   //:END
+   //:*/
 
    //:FOR EACH vDialog.ViewObjRef
    RESULT = SetCursorFirstEntity( vDialog, "ViewObjRef", "" );

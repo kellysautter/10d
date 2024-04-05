@@ -759,6 +759,7 @@ END
 **
 **    OPERATION: DimSetLevelByZKeys
 **
+**
 *************************************************************************************************/
 TRANSFORMATION OPERATION
 DimSetLevelByZKeys( VIEW vTZEREMDOrecurs BASED ON LOD TZEREMDO,
@@ -840,7 +841,10 @@ dParentNames( VIEW vTZEREMDO BASED ON LOD TZEREMDO,
                  + vTZEREMDO.ER_DimensionLevelParent.Name
       END
 
-      StoreStringInRecord( vTZEREMDO, InternalEntityStructure, InternalAttribStructure, szNames )
+      StoreStringInRecord( vTZEREMDO,
+                           InternalEntityStructure,
+                           InternalAttribStructure,
+                           szNames )
 
         /* end zDERIVED_GET */
    OF   zDERIVED_SET:
@@ -927,7 +931,6 @@ ERD_RelationshipCopy(  VIEW NewERD     BASED ON LOD TZEREMDO,
    // Copy the Relationship from the source ERD to the target ERD.
    // At the beginning of this operation, we need to be positioned on the ER_RelLink in the source ERD that
    // we need to copy.
-
 
    SET CURSOR FIRST OldERD.ER_RelType WHERE OldERD.ER_RelType.ZKey = OldERD.ER_RelType_1.ZKey
    IF RESULT < zCURSOR_SET
@@ -1227,7 +1230,6 @@ ERD_Migrate(  VIEW  NewERD     BASED ON LOD TZEREMDO,
                   INCLUDE NewERD.ER_AttributeIdentifier FROM NewERD.ER_Attribute
                END
             END
-
          END
       END
 
@@ -1880,7 +1882,7 @@ IdentifierConstraints( VIEW vERD BASED ON LOD TZEREMDO,
          ELSE
             IF vERD.ER_AttributeIdentifier EXISTS
                // KJS 08/24/15 - Per request of DG, we are taking out this contraint. In the new world, we want to be
-               // able to use db system generated keys, not just zeidon generated keys.
+               // able to use db system generated keys, not just zeidon generated keys. 04/29/22 - this had not been in 10c but I just added from 10d.
                /*
                SET CURSOR FIRST vERD.ER_Attribute WHERE
                      vERD.ER_Attribute.ZKey = vERD.ER_AttributeIdentifier.ZKey
@@ -2522,18 +2524,26 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
            VIEW vSubtask,
            STRING ( 1 ) szWholeLPLRFlag )
 
-   VIEW TargetERD2     BASED ON LOD TZEREMDO
-   VIEW SourceERD2     BASED ON LOD TZEREMDO
-   VIEW CurrentLPLR    BASED ON LOD TZCMLPLO
-   VIEW SourceLPLR     BASED ON LOD TZCMLPLO
+   VIEW TargetERD2     BASED ON LOD  TZEREMDO
+   VIEW SourceERD2     BASED ON LOD  TZEREMDO
+   VIEW CurrentLPLR    BASED ON LOD  TZCMLPLO
+   VIEW TaskLPLR       REGISTERED AS TaskLPLR
+   VIEW SourceLPLR     BASED ON LOD  TZCMLPLO
+   VIEW ERD_LPLR       BASED ON LOD  TZCMLPLO
+   VIEW OpenMetasLPLR  BASED ON LOD  TZCMLPLO
+   VIEW ZeidonCM      
    VIEW NewDomain      BASED ON LOD TZDGSRCO
    STRING ( 200 ) szFileName
    STRING ( 300 ) szMsg
-   STRING ( 32 )  DomainName
+   STRING ( 32 )  szDomainName
+   STRING ( 90 )  szEntityName
+   STRING ( 90 )  szRelationshipName
+   STRING ( 1 )   szErrorFlag
    SHORT          nRC
    INTEGER        MetaID
-   INTEGER        Count
    INTEGER        MaxYPos
+   INTEGER        NewYPos
+   INTEGER        NewXPos
    INTEGER        Entity1PosY
    INTEGER        Entity2PosY
    INTEGER        EntityNewPosX
@@ -2542,25 +2552,44 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
 
    // Merge the SourceERD into the TargetERD based on the selection specified in the
    // CompareEntityResult and CompareOperationResult subobjects in TargetERD.
+   
+   // DonC 09/07/2022 - The operation RetrieveViewForMetaList is being used here to enable the ERD to be commited through CommitMeta. 
+   // Among other things, it creates the necessary OpenCM_Metas entries.
+   RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META )
 
    // If an LPLR Name has been specified, activate the XLP and pass the File Directory structure to any
    // sub-operations so that necessary Domains can be imported.
    // Also activate the Source ERD.
+   
+   // Get SourceLPLR and TaskLPLR.
    GET VIEW CurrentLPLR NAMED "TaskLPLR"
-   IF CurrentLPLR.LPLR.wMergeSourceLPLR_Name != ""
-      szFileName = CurrentLPLR.LPLR.wFullyQualifiedFileName + "\bin\" +
-                   CurrentLPLR.LPLR.wMergeSourceLPLR_Name + ".XLP"
-      nRC = ActivateOI_FromFile( SourceLPLR, "TZCMLPLO", TargetERD, szFileName, zSINGLE )
-      IF nRC >= 0
-         NAME VIEW SourceLPLR "SourceLPLR"
+   GET VIEW SourceLPLR NAMED "SourceLPLR"
+   IF RESULT < 0
+      // Try to activate the SourceLPLR.
+      IF CurrentLPLR.LPLR.wMergeSourceLPLR_Name != ""
+         szFileName = CurrentLPLR.LPLR.wFullyQualifiedFileName + "\bin\" +
+                      CurrentLPLR.LPLR.wMergeSourceLPLR_Name + ".XLP"
+         nRC = ActivateOI_FromFile( SourceLPLR, "TZCMLPLO", TargetERD, szFileName, zSINGLE )
+         IF nRC >= 0
+            NAME VIEW SourceLPLR "SourceLPLR"
+         ELSE
+            MessageSend( TargetERD, "", "ERD Merge",
+                         "The LPLR Name specified does not have an XLP file. No Source ERD will be used.",
+                         zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            SourceLPLR = 0
+         END
       ELSE
-         MessageSend( TargetERD, "", "ERD Merge",
-                      "The LPLR Name specified does not have an XLP file. No Source ERD will be used.",
-                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
          SourceLPLR = 0
       END
-   ELSE
-      SourceLPLR = 0
+   END
+   
+   // Make sure there is a TZCMLPLO view named "TZERMFLO" because it looks like the ERD tool needs it.
+   GET VIEW ERD_LPLR NAMED "TZERMFLO"
+   IF RESULT < 0
+      // CurrentLPLR is "TaskLPLR" which is the view from which TZERMFLO is created.
+      CreateViewFromView( ERD_LPLR, CurrentLPLR )
+      NAME VIEW ERD_LPLR "TZERMFLO"
+      SET CURSOR FIRST ERD_LPLR.W_MetaType WHERE ERD_LPLR.W_MetaType.Type = 2004 
    END
    
    // DonC 04/06/22 - It is the object of this algorithm to create the new Entity icons in the ER diagram as a group underneath the
@@ -2573,9 +2602,16 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
       END 
    END
    MaxYPos = MaxYPos + 15
+   TraceLineI( "**** MaxYPos: ", MaxYPos )
+   
+   // If we're NOT copying ALL entries, Compute first X and Y Positions.
+   IF szWholeLPLRFlag != "Y"
+      NewYPos = MaxYPos
+      NewXPos = 2
+   END
    
       
-   // KJS 04/06/22 - If we are merging the "whole" lplr, lets loop through the display and mark all as "selected".
+   // If we are merging the "whole" lplr, lets loop through the display and mark all as "selected".
    IF szWholeLPLRFlag = "Y"
       FOR EACH TargetERD.DisplayCompareResult
          TargetERD.DisplayCompareResult.SelectedFlag = "Y"
@@ -2584,7 +2620,7 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
 
    // Loop through the selected Display entries and copy over those selected Entities, Attributes and Relationships.
    FOR EACH TargetERD.DisplayCompareResult
-      IF TargetERD.DisplayCompareResult.SelectedFlag = "Y" //OR szWholeLPLRFlag = "Y"
+      IF TargetERD.DisplayCompareResult.SelectedFlag = "Y" 
          // ER_Entity Type.
          IF TargetERD.DisplayCompareResult.CompareResultType = "New Entity" OR
             TargetERD.DisplayCompareResult.CompareResultType = "Old Entity"
@@ -2595,14 +2631,70 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
                // both Source and Target OI's.
                SET CURSOR FIRST SourceERD.ER_Entity WHERE SourceERD.ER_Entity.Name = TargetERD.DisplayCompareResult.SourceEntityName
                SET CURSOR FIRST TargetERD.ER_Entity WHERE TargetERD.ER_Entity.Name = TargetERD.DisplayCompareResult.SourceEntityName
+               
+               // If the flag has been set to merge attributes, do that here.
+               IF TaskLPLR.LPLR.wMergeAttributesFlag = "Y"
+                  FOR EACH SourceERD.ER_Attribute
+                     SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = SourceERD.ER_Attribute.Name 
+                     IF RESULT < zCURSOR_SET
+                        SET CURSOR LAST TargetERD.ER_Attribute 
+                        CreateMetaEntity( vSubtask, TargetERD, "ER_Attribute", zPOS_AFTER )
+                        SetMatchingAttributesByName( TargetERD, "ER_Attribute", SourceERD, "ER_Attribute", zSET_NULL )
+      
+                        // Get Domain or create new Domain.
+                        szDomainName = SourceERD.Domain.Name
+                        nRC = ActivateMetaOI_ByName( vSubtask, NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, szDomainName, 0 )
+                        IF nRC >= 0
+                           // The Domain exists in Current LPLR, so include it here.
+                           INCLUDE TargetERD.Domain FROM NewDomain.Domain
+                           DropMetaOI( vSubtask, NewDomain )
+                        ELSE
+                           // The Domain doesn't exist in Current LPLR, so add it, if there is a Source LPLR.
+                           IF SourceLPLR != 0
+                              DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
+                                                 SourceLPLR.LPLR.MetaSrcDir,    // Source LPLR Directory Structure
+                                                 szDomainName, vSubtask )
+                              INCLUDE TargetERD.Domain FROM NewDomain.Domain
+                           ELSE
+                              szMsg = "Domain, " + szDomainName + ", from the Source ERD does not exist in the current LPLR and " +
+                                      "no Source LPLR was specified. The Merge function is aborted."
+                              MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+                              RETURN -1
+                           END
+                        END
+                     END
+                  END
+                  
+                  
+               END
             ELSE
                // We're adding a new Entity. Position on the ER_Entity in the Source OI and copy to Target OI.
                SET CURSOR FIRST SourceERD.ER_Entity WHERE SourceERD.ER_Entity.Name = TargetERD.DisplayCompareResult.SourceEntityName
                SET CURSOR LAST TargetERD.ER_Entity
                CreateMetaEntity( vSubtask, TargetERD, "ER_Entity", zPOS_AFTER )
                SetMatchingAttributesByName( TargetERD, "ER_Entity", SourceERD, "ER_Entity", zSET_NULL )
-               IF szWholeLPLRFlag = "Y" // DonC - 04/06/22
+               
+               // Compute the X and Y position of the entity depending on whether selected Entities and Relationships are being copied or ALL
+               // Entities and Relationships are being copied.
+               // If ALL are being copied, the X position remains the same but the Y position is determined by adding MaxYPos to current Y pos.
+               // Otherwise, we'll compute the X and Y positions so that they will be aligned below the current entries in rows of 8 entities.
+               IF szWholeLPLRFlag = "Y" 
+                  // Increment PosY for ALL.
                   TargetERD.ER_Entity.ER_DiagramPosY = TargetERD.ER_Entity.ER_DiagramPosY + MaxYPos   // Increment to below current ER
+               ELSE
+                  // Set both PosY and PosX from computed values.
+                  TraceLineI( "**** NewXPos: ", NewXPos )
+                  TraceLineI( "**** NewYPos: ", NewYPos )
+                  TargetERD.ER_Entity.ER_DiagramPosX = NewXPos
+                  TargetERD.ER_Entity.ER_DiagramPosY = NewYPos
+                  NewXPos = NewXPos + 20
+                  IF NewXPos > 322
+                     // Start next row.
+                     NewXPos = 2
+                     NewYPos = NewYPos + 8
+                  END
+               END
+               
                // Need to copy attributes.
                FOR EACH SourceERD.ER_Attribute
                   SET CURSOR LAST TargetERD.ER_Attribute
@@ -2610,8 +2702,8 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
                   SetMatchingAttributesByName( TargetERD, "ER_Attribute", SourceERD, "ER_Attribute", zSET_NULL )
 
                   // Get Domain or create new Domain.
-                  DomainName = SourceERD.Domain.Name
-                  nRC = ActivateMetaOI_ByName( vSubtask, NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, DomainName, 0 )
+                  szDomainName = SourceERD.Domain.Name
+                  nRC = ActivateMetaOI_ByName( vSubtask, NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, szDomainName, 0 )
                   IF nRC >= 0
                      // The Domain exists in Current LPLR, so include it here.
                      INCLUDE TargetERD.Domain FROM NewDomain.Domain
@@ -2620,10 +2712,11 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
                      // The Domain doesn't exist in Current LPLR, so add it, if there is a Source LPLR.
                      IF SourceLPLR != 0
                         DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
-                                           CurrentLPLR.LPLR.wFullyQualifiedFileName,    // Source LPLR Directory Structure
-                                           DomainName, vSubtask )
+                                           SourceLPLR.LPLR.MetaSrcDir,    // Source LPLR Directory Structure
+                                           szDomainName, vSubtask )
+                        INCLUDE TargetERD.Domain FROM NewDomain.Domain
                      ELSE
-                        szMsg = "Domain, " + DomainName + ", from the Source ERD does not exist in the current LPLR and " +
+                        szMsg = "Domain, " + szDomainName + ", from the Source ERD does not exist in the current LPLR and " +
                                 "no Source LPLR was specified. The Merge function is aborted."
                         MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
                         RETURN -1
@@ -2632,23 +2725,17 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
 
                END // FOR EACH SourceERD.ER_Attribute
                
+               // The following code was removed by DonC on 2/28/2023 because he seemed to have no purpose and created duplicate ID's in some cases
                // Copy ID Identifier.
-               SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = "ID"
+               /*SET CURSOR FIRST TargetERD.ER_Attribute WHERE TargetERD.ER_Attribute.Name = "ID"
                IF RESULT >= zCURSOR_SET 
                   CreateMetaEntity( vSubtask, TargetERD, "ER_EntIdentifier", zPOS_AFTER )
                   SetMatchingAttributesByName( TargetERD, "ER_EntIdentifier", SourceERD, "ER_EntIdentifier", zSET_NULL )
                   CreateMetaEntity( vSubtask, TargetERD, "ER_FactType", zPOS_AFTER )
                   SetMatchingAttributesByName( TargetERD, "ER_FactType", SourceERD, "ER_FactType", zSET_NULL )
                   INCLUDE TargetERD.ER_AttributeIdentifier FROM TargetERD.ER_Attribute 
-               END
-               END
+               END*/
             END
-            
-            IF szWholeLPLRFlag = "Y" 
-            END
-
-            // Turn off selected flag so if we execute again, we won't repeat this entry.
-            TargetERD.DisplayCompareResult.SelectedFlag = ""
 
          ELSE
 
@@ -2681,8 +2768,8 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
                SetMatchingAttributesByName( TargetERD, "ER_Attribute", SourceERD, "ER_Attribute", zSET_NULL )
 
                // Get Domain or create new Domain.
-               DomainName = SourceERD.Domain.Name
-               nRC = ActivateMetaOI_ByName( vSubtask, NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, DomainName, 0 )
+               szDomainName = SourceERD.Domain.Name
+               nRC = ActivateMetaOI_ByName( vSubtask, NewDomain, 0, zREFER_DOMAIN_META, zSINGLE, szDomainName, 0 )
                IF nRC >= 0
                   // The Domain exists in Current LPLR, so include it here.
                   INCLUDE TargetERD.Domain FROM NewDomain.Domain
@@ -2691,10 +2778,11 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
                   // The Domain doesn't exist in Current LPLR, so add it, if there is a Source LPLR.
                   IF SourceLPLR != 0
                      DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
-                                        CurrentLPLR.LPLR.wFullyQualifiedFileName,    // Source LPLR Directory Structure
-                                        DomainName, vSubtask )
+                                        SourceLPLR.LPLR.MetaSrcDir,    // Source LPLR Directory Structure
+                                        szDomainName, vSubtask )
+                     INCLUDE TargetERD.Domain FROM NewDomain.Domain
                   ELSE
-                     szMsg = "Domain, " + DomainName + ", from the Source ERD does not exist in the current LPLR and " +
+                     szMsg = "Domain, " + szDomainName + ", from the Source ERD does not exist in the current LPLR and " +
                              "no Source LPLR was specified. The Merge function is aborted."
                      MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
                      RETURN -1
@@ -2710,23 +2798,23 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
       END
    END
 
-   // Remove any duplication Relationship requests, as the User could have selected each side of the Relationship.
+   // Remove any duplicate Relationship requests, as the User could have erroneously selected each side of the Relationship.
    FOR EACH TargetERD.DisplayCompareResult
       IF TargetERD.DisplayCompareResult.SelectedFlag = "Y"
          IF TargetERD.DisplayCompareResult.CompareResultType = "Rel"
             CreateViewFromView( TargetERD2, TargetERD )
-            // DonC 3/10/2010: The following SET CURSOR NEXT statement was keeping position on the same entity. (In other words,
-            // it was starting the search on the current entity not the next entity.) Thus the code following was used instead.
-            //SET CURSOR NEXT TargetERD2.DisplayCompareResult WHERE TargetERD2.DisplayCompareResult.MetaID = TargetERD.DisplayCompareResult.MetaID
-            Count = 0
-            MetaID = TargetERD.DisplayCompareResult.MetaID
-            FOR EACH TargetERD2.DisplayCompareResult
-               IF TargetERD2.DisplayCompareResult.MetaID = MetaID
-                  Count = Count + 1
-                  IF Count > 1
-                     TargetERD2.DisplayCompareResult.SelectedFlag = ""
-                  END
-               END
+            NAME VIEW TargetERD2 "TargetERD2"
+            
+            // Check for another entry for same Relationship (same MetaID) that isn't this one (different Entity & Relationship Name)
+            MetaID             = TargetERD.DisplayCompareResult.MetaID
+            szEntityName       = TargetERD.DisplayCompareResult.SourceEntityName 
+            szRelationshipName = TargetERD.DisplayCompareResult.SourceRelationshipName 
+            SET CURSOR FIRST TargetERD2.DisplayCompareResult WHERE TargetERD2.DisplayCompareResult.MetaID                  = MetaID
+                                                               AND TargetERD2.DisplayCompareResult.SelectedFlag            = "Y"
+                                                               AND TargetERD2.DisplayCompareResult.SourceRelationshipName != szRelationshipName
+            IF RESULT >= zCURSOR_SET
+               // The other side of the Relationship has also been chosen. So, turn it off.
+               TargetERD2.DisplayCompareResult.SelectedFlag = ""
             END
             DropView( TargetERD2 )
          END
@@ -2738,6 +2826,8 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
       IF TargetERD.DisplayCompareResult.SelectedFlag = "Y"
          // Relationship Type.
          IF TargetERD.DisplayCompareResult.CompareResultType = "Rel"
+            szErrorFlag = ""
+TraceLineS( "*** Selected Rel: ", TargetERD.DisplayCompareResult.SourceRelationshipName )
 
             // First position on the Relationship to be copied in the Source ERD.
             SET CURSOR FIRST SourceERD.ER_RelType WHERE SourceERD.ER_RelType.ZKey = TargetERD.DisplayCompareResult.MetaID
@@ -2749,52 +2839,51 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
             // First SourceERD/TargetERD.
             SET CURSOR FIRST TargetERD.ER_Entity WHERE TargetERD.ER_Entity.Name = SourceERD.ER_Entity_2.Name
             IF RESULT < zCURSOR_SET
-               szMsg = "Entity, " + SourceERD.ER_Entity_2.Name + ", of Relationship does not exist. The Copy Relationship function is aborted."
-               MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-               RETURN -1
+               szMsg = "Entity, " + SourceERD.ER_Entity_2.Name + ", of Relationship, '" + TargetERD.DisplayCompareResult.SourceRelationshipName + 
+                       "', does not exist and will not be copied."
+               CreateErrorMessage( TaskLPLR, szMsg )
+               szErrorFlag = "Y"
             END
 
             // Second SourceERD2/TargetERD2.
-            CreateViewFromView( SourceERD2, SourceERD )
-            CreateViewFromView( TargetERD2, TargetERD )
-            NAME VIEW TargetERD2 "TargetERD2"
-            SET CURSOR NEXT SourceERD2.ER_RelLink_2
-            SET CURSOR FIRST TargetERD2.ER_Entity WHERE TargetERD2.ER_Entity.Name = SourceERD2.ER_Entity_2.Name
-            IF RESULT < zCURSOR_SET
-               szMsg = "Entity, " + SourceERD2.ER_Entity_2.Name + ", of Relationship does not exist. The Copy Relationship function is aborted."
-               MessageSend( TargetERD, "", "ERD Merge", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-               RETURN -1
+            IF szErrorFlag = ""
+               CreateViewFromView( SourceERD2, SourceERD )
+               CreateViewFromView( TargetERD2, TargetERD )
+               NAME VIEW TargetERD2 "TargetERD2"
+               SET CURSOR NEXT SourceERD2.ER_RelLink_2
+               SET CURSOR FIRST TargetERD2.ER_Entity WHERE TargetERD2.ER_Entity.Name = SourceERD2.ER_Entity_2.Name
+               IF RESULT < zCURSOR_SET
+                  szMsg = "Entity, " + SourceERD.ER_Entity_2.Name + ", of Relationship, '" + TargetERD.DisplayCompareResult.SourceRelationshipName + 
+                          "', does not exist and will not be copied."
+                  CreateErrorMessage( TaskLPLR, szMsg )
+                  szErrorFlag = "Y"
+               END
             END
-
-            // Create Relationship in Target.
-            CreateMetaEntity( vSubtask, TargetERD, "ER_RelType", zPOS_AFTER )
-            SetMatchingAttributesByName( TargetERD, "ER_RelType", SourceERD, "ER_RelType", zSET_NULL )
-
-            // TargetERD Relationship Side.
-            CreateMetaEntity( vSubtask, TargetERD, "ER_RelLink_2", zPOS_AFTER )
-            SetMatchingAttributesByName( TargetERD, "ER_RelLink_2", SourceERD, "ER_RelLink_2", zSET_NULL )
-            INCLUDE TargetERD.ER_Entity_2 FROM TargetERD.ER_Entity
-
-            SET CURSOR FIRST TargetERD.ER_RelLink WHERE TargetERD.ER_RelLink.ZKey = TargetERD.ER_RelLink_2.ZKey
-
-            // TargetERD Relationship Side.
-            CreateMetaEntity( vSubtask, TargetERD, "ER_RelLink_2", zPOS_AFTER )
-            SetMatchingAttributesByName( TargetERD, "ER_RelLink_2", SourceERD2, "ER_RelLink_2", zSET_NULL )
-            INCLUDE TargetERD.ER_Entity_2 FROM TargetERD2.ER_Entity
             
-            IF szWholeLPLRFlag != "Y" 
-            
-               // Finish relationship processing when NOT merging whole LPLR.
+            IF szErrorFlag = ""
+               
+               // There was no error in either test above, so continue.
+
+               // Create Relationship in Target.
+               CreateMetaEntity( vSubtask, TargetERD, "ER_RelType", zPOS_AFTER )
+               SetMatchingAttributesByName( TargetERD, "ER_RelType", SourceERD, "ER_RelType", zSET_NULL )
+   
+               // First ER_RelLink_2
+               CreateMetaEntity( vSubtask, TargetERD, "ER_RelLink_2", zPOS_AFTER )
+               SetMatchingAttributesByName( TargetERD, "ER_RelLink_2", SourceERD, "ER_RelLink_2", zSET_NULL )
+               INCLUDE TargetERD.ER_Entity_2 FROM TargetERD.ER_Entity
+   
+               SET CURSOR FIRST TargetERD.ER_RelLink WHERE TargetERD.ER_RelLink.ZKey = TargetERD.ER_RelLink_2.ZKey
+               
+               // Second ER_RelLink_2
                SET CURSOR FIRST TargetERD.ER_RelLink WHERE TargetERD.ER_RelLink.ZKey = TargetERD.ER_RelLink_2.ZKey
 
                // TargetERD Relationship Side.
                CreateMetaEntity( vSubtask, TargetERD, "ER_RelLink_2", zPOS_AFTER )
                SetMatchingAttributesByName( TargetERD, "ER_RelLink_2", SourceERD2, "ER_RelLink_2", zSET_NULL )
                INCLUDE TargetERD.ER_Entity_2 FROM TargetERD2.ER_Entity
-            
-            ELSE
-               
-               // RESETTING RELTYPE POSITIONS WHEN MERGING WHOLE LPLR.        
+                  
+               // RESETTING RELTYPE POSITIONS         
                //   DonC changes 4/8/2022
                /*   All ER_RelType positions must be reevaluated because of the new positions of Entities as follows:
                
@@ -2865,121 +2954,119 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
                
                   // Both entities are old, so don'modify RelType positions.
                ELSE
-               IF Entity1PosY > MaxYPos AND Entity2PosY > MaxYPos
-               
-                  // Both entities are new, so just increment Y positions by MaxYPos, except for BendY when it's zero.
-                  TargetERD.ER_RelType.ER_DiagramE1PosY   = TargetERD.ER_RelType.ER_DiagramE1PosY   + MaxYPos
-                  TargetERD.ER_RelType.ER_DiagramE2PosY   = TargetERD.ER_RelType.ER_DiagramE2PosY   + MaxYPos
-                  IF TargetERD.ER_RelType.ER_DiagramBendPosY != 0
-                     TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramBendPosY + MaxYPos
-                  END
+                  IF Entity1PosY > MaxYPos AND Entity2PosY > MaxYPos
                   
-               ELSE
-                  // Entities are a combination and all positions must be reevaluated.
-                  
-                  IF Entity1PosY > MaxYPos
-                     // 1. The first Entity is the New Entity
-                     SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                     EntityNewPosX = TargetERD.ER_Entity_2.ER_DiagramPosX 
-                     SET CURSOR NEXT TargetERD.ER_RelLink_2 
-                     EntityOldPosXleft  = TargetERD.ER_Entity_2.ER_DiagramPosX + 8
-                     EntityOldPosXright = TargetERD.ER_Entity_2.ER_DiagramPosX - 8
-                     
-                     IF EntityOldPosXleft < EntityNewPosX     // + 8 makes sure old entity is at least a box width left
-                        // a. The Old Entity is to left of New Entity. (up then left)
-                        SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                        SET CURSOR NEXT TargetERD.ER_RelLink_2  
-                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 9 // (right side of box)
-                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
-                        TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
-                        TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY 
-                     ELSE
-                     IF EntityOldPosXright > EntityNewPosX     // - 8 makes sure old entity is at least a box width right
-                        // b. The Old Entity is to right of New Entity. (up then right)
-                        SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                        SET CURSOR NEXT TargetERD.ER_RelLink_2  
-                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX - 1 // (left side of box)
-                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
-                        TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
-                        TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY
-                     ELSE
-                        // c. The Old Entity is above New Entity
-                        SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                        SET CURSOR NEXT TargetERD.ER_RelLink_2  
-                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_RelType.ER_DiagramE1PosX    // (old X is same as new X)
-                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 5 // (bottom of box)
-                        TargetERD.ER_RelType.ER_DiagramBendPosX = 0 // No Bend
-                        TargetERD.ER_RelType.ER_DiagramBendPosY = 0 // No Bend
-                     END
+                     // Both entities are new, so just increment Y positions by MaxYPos, except for BendY when it's zero.
+                     TargetERD.ER_RelType.ER_DiagramE1PosY   = TargetERD.ER_RelType.ER_DiagramE1PosY   + MaxYPos
+                     TargetERD.ER_RelType.ER_DiagramE2PosY   = TargetERD.ER_RelType.ER_DiagramE2PosY   + MaxYPos
+                     IF TargetERD.ER_RelType.ER_DiagramBendPosY != 0
+                        TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramBendPosY + MaxYPos
                      END
                      
                   ELSE
-                     // 2. The first Entity is the Old Entity
-                     SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                     EntityOldPosXleft  = TargetERD.ER_Entity_2.ER_DiagramPosX + 8
-                     EntityOldPosXright = TargetERD.ER_Entity_2.ER_DiagramPosX - 8
-                     SET CURSOR NEXT TargetERD.ER_RelLink_2
-                     EntityNewPosX = TargetERD.ER_Entity_2.ER_DiagramPosX
+                     // Entities are a combination and all positions must be reevaluated.
                      
-                     IF EntityOldPosXleft < EntityNewPosX     // + 8 makes sure old entity is at least a box width left
-                        // a. The Old Entity is to left of New Entity.   (up then left)
+                     IF Entity1PosY > MaxYPos
+                        // 1. The first Entity is the New Entity
                         SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 9 // (right side of box)
-                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
-                        SET CURSOR NEXT TargetERD.ER_RelLink_2  
-                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                        TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
-                        TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY 
+                        EntityNewPosX = TargetERD.ER_Entity_2.ER_DiagramPosX 
+                        SET CURSOR NEXT TargetERD.ER_RelLink_2 
+                        EntityOldPosXleft  = TargetERD.ER_Entity_2.ER_DiagramPosX + 8
+                        EntityOldPosXright = TargetERD.ER_Entity_2.ER_DiagramPosX - 8
+                        
+                        IF EntityOldPosXleft < EntityNewPosX     // + 8 makes sure old entity is at least a box width left
+                           // a. The Old Entity is to left of New Entity. (up then left)
+                           SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                           SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 9 // (right side of box)
+                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                           TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
+                           TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY 
+                        ELSE
+                        IF EntityOldPosXright > EntityNewPosX     // - 8 makes sure old entity is at least a box width right
+                           // b. The Old Entity is to right of New Entity. (up then right)
+                           SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                           SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX - 1 // (left side of box)
+                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                           TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
+                           TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY
+                        ELSE
+                           // c. The Old Entity is above New Entity
+                           SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                           SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_RelType.ER_DiagramE1PosX    // (old X is same as new X)
+                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 5 // (bottom of box)
+                           TargetERD.ER_RelType.ER_DiagramBendPosX = 0 // No Bend
+                           TargetERD.ER_RelType.ER_DiagramBendPosY = 0 // No Bend
+                        END
+                        END
+                        
                      ELSE
-                     IF EntityOldPosXright > EntityNewPosX     // - 8 makes sure old entity is at least a box width right
-                        // b. The Old Entity is to right of New Entity.  (up then right)
+                        // 2. The first Entity is the Old Entity
                         SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX - 1 // (left side of box)
-                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
-                        SET CURSOR NEXT TargetERD.ER_RelLink_2  
-                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                        TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE2PosX 
-                        TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE1PosY
-                     ELSE
-                        // c. The Old Entity is above New Entity
-                        SET CURSOR FIRST TargetERD.ER_RelLink_2 
-                        SET CURSOR NEXT TargetERD.ER_RelLink_2    // Position on New Entity
-                        TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                        TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                        SET CURSOR FIRST TargetERD.ER_RelLink_2   // Reposition on Old Entity
-                        TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_RelType.ER_DiagramE2PosX    // (old X is same as new X)
-                        TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 5 // (bottom of box)
-                        TargetERD.ER_RelType.ER_DiagramBendPosX = 0 // No Bend
-                        TargetERD.ER_RelType.ER_DiagramBendPosY = 0 // No Bend
+                        EntityOldPosXleft  = TargetERD.ER_Entity_2.ER_DiagramPosX + 8
+                        EntityOldPosXright = TargetERD.ER_Entity_2.ER_DiagramPosX - 8
+                        SET CURSOR NEXT TargetERD.ER_RelLink_2
+                        EntityNewPosX = TargetERD.ER_Entity_2.ER_DiagramPosX
+                        
+                        IF EntityOldPosXleft < EntityNewPosX     // + 8 makes sure old entity is at least a box width left
+                           // a. The Old Entity is to left of New Entity.   (up then left)
+                           SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 9 // (right side of box)
+                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                           SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                           TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
+                           TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY 
+                        ELSE
+                        IF EntityOldPosXright > EntityNewPosX     // - 8 makes sure old entity is at least a box width right
+                           // b. The Old Entity is to right of New Entity.  (up then right)
+                           SET CURSOR FIRST TargetERD.ER_RelLink_2  
+                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX - 1 // (left side of box)
+                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
+                           SET CURSOR NEXT TargetERD.ER_RelLink_2  
+                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                           TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE2PosX 
+                           TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE1PosY
+                        ELSE
+                           // c. The Old Entity is above New Entity
+                           SET CURSOR FIRST TargetERD.ER_RelLink_2 
+                           SET CURSOR NEXT TargetERD.ER_RelLink_2    // Position on New Entity
+                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
+                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
+                           SET CURSOR FIRST TargetERD.ER_RelLink_2   // Reposition on Old Entity
+                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_RelType.ER_DiagramE2PosX    // (old X is same as new X)
+                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 5 // (bottom of box)
+                           TargetERD.ER_RelType.ER_DiagramBendPosX = 0 // No Bend
+                           TargetERD.ER_RelType.ER_DiagramBendPosY = 0 // No Bend
+                        END
+                        END
+   
                      END
-                     END
-
                   END
-               END
-               END
+               END       
+
+               // Now include the lower level substructures.
+               // We will first have to position TargetERD2 on the new RelType and on the first RelLink for that type.
+               // TargetERD is already positioned on the 2nd RelLink.
+               // We will also have to position TargetERD2 on the correct ER_RelLink for the corresponding ER_RelLink_2
+               // for the 2nd side of the relationship (the TargetERD.ER_RelLink_2 entity).
+               SET CURSOR FIRST TargetERD2.ER_RelType WHERE TargetERD2.ER_RelType.ZKey = TargetERD.ER_RelType.ZKey
+               SET CURSOR FIRST TargetERD2.ER_RelLink WHERE TargetERD2.ER_RelLink.ZKey = TargetERD.ER_RelLink_2.ZKey
+               INCLUDE TargetERD.ER_RelLink_Other  FROM TargetERD2.ER_RelLink
+               INCLUDE TargetERD2.ER_RelLink_Other FROM TargetERD.ER_RelLink
+               DropView( TargetERD2 )
+               DropView( SourceERD2 )
             END
-            
-
-            // Now include the lower level substructures.
-            // We will first have to position TargetERD2 on the new RelType and on the first RelLink for that type.
-            // TargetERD is already positioned on the 2nd RelLink.
-            // We will also have to position TargetERD2 on the correct ER_RelLink for the corresponding ER_RelLink_2
-            // for the 2nd side of the relationship (the TargetERD.ER_RelLink_2 entity).
-            SET CURSOR FIRST TargetERD2.ER_RelType WHERE TargetERD2.ER_RelType.ZKey = TargetERD.ER_RelType.ZKey
-            SET CURSOR FIRST TargetERD2.ER_RelLink WHERE TargetERD2.ER_RelLink.ZKey = TargetERD.ER_RelLink_2.ZKey
-            INCLUDE TargetERD.ER_RelLink_Other  FROM TargetERD2.ER_RelLink
-            INCLUDE TargetERD2.ER_RelLink_Other FROM TargetERD.ER_RelLink
-            DropView( TargetERD2 )
-            DropView( SourceERD2 )
-
          END
       END
    END
@@ -3021,9 +3108,9 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
 END
 
 /*************************************************************************************************
-**
+**    
 **    OPERATION: ConvertZKeyDomains
-**
+**    
 *************************************************************************************************/
 TRANSFORMATION OPERATION
 ConvertZKeyDomains( VIEW vERD BASED ON LOD TZEREMDO )
@@ -3038,12 +3125,12 @@ ConvertZKeyDomains( VIEW vERD BASED ON LOD TZEREMDO )
       RETURN -1
    END
    NAME VIEW vDomain "ZKey_Domain"
-   IssueError( vERD,0,0, "after activate" )
-
-   FOR EACH vERD.ER_Entity
-      SET CURSOR FIRST vERD.ER_Attribute WHERE vERD.ER_Attribute.Name = "ZKey"
+   //IssueError( vERD,0,0, "after activate" )
+   
+   FOR EACH vERD.ER_Entity 
+      SET CURSOR FIRST vERD.ER_Attribute WHERE vERD.ER_Attribute.Name = "ZKey" 
       IF RESULT >= zCURSOR_SET
-         EXCLUDE vERD.Domain
+         EXCLUDE vERD.Domain 
          INCLUDE vERD.Domain FROM vDomain.Domain
       END
    END
@@ -3061,21 +3148,689 @@ GenerateID_Identifiers( VIEW vERD BASED ON LOD TZEREMDO )
    // Generate ID Identifiers for each ER Entity
    // 1. Without any current Identifier
    // 2. With an attribute named ID
-
-   FOR EACH vERD.ER_Entity
+   
+   FOR EACH vERD.ER_Entity 
       IF vERD.ER_EntIdentifier DOES NOT EXIST
          SET CURSOR FIRST vERD.ER_Attribute WHERE vERD.ER_Attribute.Name = "ID"
          IF RESULT >= zCURSOR_SET
             CreateMetaEntity( vERD, vERD, "ER_EntIdentifier", zPOS_AFTER )
-            vERD.ER_EntIdentifier.Name = vERD.ER_Attribute.Name
+            vERD.ER_EntIdentifier.Name = vERD.ER_Attribute.Name 
             vERD.ER_EntIdentifier.SystemMaintained = "Y"
             CreateMetaEntity( vERD, vERD, "ER_FactType", zPOS_AFTER )
             vERD.ER_FactType.Type = "ATR"
-            INCLUDE vERD.ER_AttributeIdentifier FROM vERD.ER_Attribute
-         END
+            INCLUDE vERD.ER_AttributeIdentifier FROM vERD.ER_Attribute 
+         END 
       END
-
    END
-   SET CURSOR FIRST vERD.ER_Entity
+   SET CURSOR FIRST vERD.ER_Entity  
+
 END
 
+/*************************************************************************************************
+**    
+**    OPERATION: MergeER_AttrsToLODs
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+MergeER_AttrsToLODs( VIEW vERD  BASED ON LOD TZEREMDO,
+                     VIEW vXfer BASED ON LOD TZBRLOVO )
+
+   VIEW CurrentLOD BASED ON LOD TZZOLODO
+   VIEW vXferTemp  BASED ON LOD TZBRLOVO
+   STRING ( 50 )  szLOD_Name
+   STRING ( 50 )  szLOD_EntityName
+   STRING ( 50 )  szLastLOD_Name
+   STRING ( 200 ) szMessage
+   INTEGER nRC
+
+   // Copy the selected ER_Attribute entries in vXfer to the corresponding Entities of the selected LOD's in vXfer as needed.
+   
+   // Loop through each selected LOD/Entity entry and activate each unique LOD and each selected entity within it.
+   CreateViewFromView( vXferTemp, vXfer )
+   NAME VIEW vXferTemp "vXferTemp"
+   szLastLOD_Name = ""
+   FOR EACH vXfer.LOD_Entity 
+   
+      szLOD_Name       = vXfer.LOD_Entity.LOD_Name 
+      szLOD_EntityName = vXfer.LOD_Entity.Name 
+      
+      // If the LOD just selected is different from the previous non-null LOD Name, write out the current LOD.
+      IF szLastLOD_Name != "" AND szLastLOD_Name != szLOD_Name
+         CommitMetaOI( vERD, CurrentLOD, zSOURCE_LOD_META )
+         DropObjectInstance( CurrentLOD )
+         szLastLOD_Name = ""
+      END
+   
+      nRC = GetSelectStateOfEntity( vXfer, "LOD_Entity" )
+      IF nRC = 1
+         
+         // If the LOD just selected is different from the previous LOD Name, Activate it.
+         IF szLastLOD_Name != szLOD_Name
+            nRC = ActivateMetaOI_ByName( vERD, CurrentLOD, 0, zSOURCE_LOD_META, zSINGLE, szLOD_Name, 0 )
+            IF nRC < 0
+               szMessage = "LOD, " + szLOD_Name + ", could not be activated. Merge is aborted."
+               IssueError( vERD,0,0, szMessage )
+               RETURN -2
+            END 
+            NAME VIEW CurrentLOD "CurrentMergeLOD"
+            szLastLOD_Name = szLOD_Name
+         END
+         
+         // Process each LOD_EntityParent entity recursively to see if the entity is in the selected list to be processed.
+         // Do the merge processing within that recursive routine.
+         // Position on the correct ER_Entity in the ERD before processing because it's Attributes are used for on include.
+         SET CURSOR FIRST vERD.ER_Entity WHERE vERD.ER_Entity.Name = vXfer.ER_Entity.Name 
+         MergeER_AttrsRecurs( vERD, vXfer, vXferTemp, CurrentLOD, szLOD_Name )  
+      END
+      
+   END
+   
+   // Commit the last LOD if there is one.
+   IF szLastLOD_Name != ""
+      CommitMetaOI( vERD, CurrentLOD, zSOURCE_LOD_META )
+      DropObjectInstance( CurrentLOD )
+   END
+   DropView( vXferTemp )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: MergeER_AttrsRecurs 
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+MergeER_AttrsRecurs( VIEW vERD       BASED ON LOD TZEREMDO,
+                     VIEW vXfer      BASED ON LOD TZBRLOVO,
+                     VIEW vXferTemp  BASED ON LOD TZBRLOVO,
+                     VIEW CurrentLOD BASED ON LOD TZZOLODO,
+                     STRING ( 50 ) szLOD_Name )
+
+   STRING ( 50 ) szAttributeName
+   INTEGER nRC
+
+   // Process each LOD_EntityParent entry recursively and check if it's one of the selected Entities for Merge.
+   // If so, merge each selected ER_Attribute into that Entity 
+   FOR EACH CurrentLOD.LOD_EntityParent 
+      SET CURSOR FIRST vXferTemp.LOD_Entity WHERE vXferTemp.LOD_Entity.LOD_Name = szLOD_Name
+                                              AND vXferTemp.LOD_Entity.Name     = CurrentLOD.LOD_EntityParent.Name 
+      IF RESULT >= zCURSOR_SET
+         nRC = GetSelectStateOfEntity( vXferTemp, "LOD_Entity" )
+         IF nRC = 1
+            // The Entity was selected, so merge in the selected Attributes.
+            SET CURSOR LAST vXferTemp.LOD_AttributeWork  
+            FOR EACH vXfer.ER_Attribute 
+               nRC = GetSelectStateOfEntity( vXfer, "ER_Attribute" )
+               IF nRC = 1
+                  TraceLineS( "*** Selected Attribute: ", vXfer.ER_Attribute.Name )
+                  // The Attribute was selected for Merge. First see if it already exists.
+                  szAttributeName = vXfer.ER_Attribute.Name 
+                  SET CURSOR FIRST CurrentLOD.ER_AttributeRec WITHIN CurrentLOD.LOD_EntityParent 
+                             WHERE CurrentLOD.ER_AttributeRec.Name = szAttributeName
+                  IF RESULT < zCURSOR_SET
+                     SET CURSOR LAST CurrentLOD.LOD_AttributeRec 
+                     CreateMetaEntity( vERD, CurrentLOD, "LOD_AttributeRec", zPOS_AFTER )
+                     SET CURSOR FIRST vERD.ER_Attribute WHERE vERD.ER_Attribute.Name = vXfer.ER_Attribute.Name  
+                     INCLUDE CurrentLOD.ER_AttributeRec FROM vERD.ER_Attribute
+                     CREATE ENTITY vXferTemp.LOD_AttributeWork 
+                     vXferTemp.LOD_AttributeWork.LOD_AttributeZKey = CurrentLOD.LOD_AttributeRec.ZKey 
+                     vXferTemp.LOD_AttributeWork.ER_AttributeZKey  = CurrentLOD.ER_AttributeRec.ZKey 
+                     vXferTemp.LOD_AttributeWork.ER_AttributeName  = CurrentLOD.ER_AttributeRec.Name 
+                  END
+               END
+            END
+         END
+      END
+      IF CurrentLOD.LOD_EntityChild EXISTS
+         SetViewToSubobject( CurrentLOD, "LOD_EntityChild" )
+         MergeER_AttrsRecurs( vERD, vXfer, vXferTemp, CurrentLOD, szLOD_Name )
+         ResetViewFromSubobject( CurrentLOD )
+      END 
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: ImportDTE_DataToERD
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+ImportDTE_DataToERD( VIEW vERD        BASED ON LOD TZEREMDO,
+                     VIEW vCurrentDTE BASED ON LOD TZTENVRO,
+                     VIEW vImportDTE  BASED ON LOD TZTENVRO )
+
+   VIEW vDomainText BASED ON LOD TZDGSRCO
+   VIEW vDomainNote BASED ON LOD TZDGSRCO
+   VIEW vDomainInt  BASED ON LOD TZDGSRCO
+   VIEW vDomainDate BASED ON LOD TZDGSRCO
+   VIEW vDomain     BASED ON LOD TZDGSRCO
+   STRING ( 50 )  szTableName
+   STRING ( 50 )  szColumnName
+   STRING ( 50 )  szImportSourceName
+   STRING ( 50 )  szCurrentDateTime
+   STRING ( 10 )  szCurrentDate
+   STRING ( 10 )  szDataType
+   INTEGER AttributeLength
+   INTEGER MaxYPos
+   INTEGER NewYPos
+   INTEGER NewXPos
+   INTEGER nRC
+
+   // Import the vImportDTE OI into the current ERD and DTE.
+   // In the future, the imported data may create a new TE_DBMS_Source entry in the current DTE.
+   
+   NAME VIEW vCurrentDTE "vCurrentDTE"
+   NAME VIEW vImportDTE "vImportDTE"
+
+   // Position on the CurrentDTE Source that is different from the Import Source.
+   // Note that we are currently positioned on the Source for the external DB being imported.
+   // It is an error if there is only the one Source defining the Import DB.
+   szImportSourceName = vCurrentDTE.TE_DBMS_Source.Name 
+   SET CURSOR FIRST vCurrentDTE.TE_DBMS_Source WHERE vCurrentDTE.TE_DBMS_Source.Name != szImportSourceName
+   IF RESULT < 0
+      MessageSend( vERD, "", "Import DB", "The Import Source must not be the Current Source.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END 
+   
+   // DonC 03/21/2023 - It is the object of this algorithm to create the new Entity icons in the ER diagram as a group underneath the
+   // current Entity icons (same as ERD Merge). Thus, we will search the target ER to get the Entity with the largest vertical position and
+   // add 15 to it as the beginning Y position for the new Entities.
+   MaxYPos = 0
+   FOR vERD.ER_Entity 
+      IF vERD.ER_Entity.ER_DiagramPosY > MaxYPos
+         MaxYPos = vERD.ER_Entity.ER_DiagramPosY 
+      END 
+   END
+   NewYPos = MaxYPos + 15
+   NewXPos = 2
+   
+   SysGetDateTime( szCurrentDateTime )
+   szCurrentDate = szCurrentDateTime
+   
+   // Set up Domain views.
+   // Text
+   nRC = ActivateMetaOI_ByName( vERD, vDomainText, 0, zREFER_DOMAIN_META, zSINGLE, "Text", 0 )
+   IF nRC < 0
+      MessageSend( vERD, "", "Import DTE", "Text Domain doesn't exist in LPLR.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   NAME VIEW vDomainText "ImportTextDomain"
+   
+   // Note
+   nRC = ActivateMetaOI_ByName( vERD, vDomainNote, 0, zREFER_DOMAIN_META, zSINGLE, "Note", 0 )
+   IF nRC < 0
+      MessageSend( vERD, "", "Import DTE", "Note Domain doesn't exist in LPLR.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   NAME VIEW vDomainNote "ImportNoteDomain"
+   
+   // Integer
+   nRC = ActivateMetaOI_ByName( vERD, vDomainInt, 0, zREFER_DOMAIN_META, zSINGLE, "Integer", 0 )
+   IF nRC < 0
+      MessageSend( vERD, "", "Import DTE", "Integer Domain doesn't exist in LPLR.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   NAME VIEW vDomainInt "ImportIntDomain"
+   
+   // Date
+   nRC = ActivateMetaOI_ByName( vERD, vDomainDate, 0, zREFER_DOMAIN_META, zSINGLE, "Date", 0 )
+   IF nRC < 0
+      MessageSend( vERD, "", "Import DTE", "Date Domain doesn't exist in LPLR.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   NAME VIEW vDomainDate "ImportDateDomain"
+
+      
+   // Loop through Import tables and create Entity/Attribute entries for each entry that doesn't already exist in the ERD.
+   // Also add it to the current DTE along with the tie to the corresponding ERD entry.
+   FOR EACH vImportDTE.TE_TablRec 
+      szTableName = vImportDTE.TE_TablRec.Name 
+      SET CURSOR FIRST vERD.ER_Entity WHERE vERD.ER_Entity.Name = szTableName
+      IF RESULT < zCURSOR_SET
+      
+         // Create ERD Entity Entry.
+         CreateMetaEntity( vERD, vERD, "ER_Entity", zPOS_AFTER )
+         vERD.ER_Entity.Name = szTableName
+         IF vImportDTE.TE_TablRec.Desc != ""
+            vERD.ER_Entity.Desc = vImportDTE.TE_TablRec.Desc + NEW_LINE + "Imported on " + szCurrentDate + "."
+         ELSE
+            vERD.ER_Entity.Desc = "Imported on " + szCurrentDate + "."
+         END
+         vERD.ER_Entity.Purpose = "F"
+         vERD.ER_Entity.ER_DiagramPosX = NewXPos
+         vERD.ER_Entity.ER_DiagramPosY = NewYPos
+         NewXPos = NewXPos + 20
+         IF NewXPos > 140
+            // Start next row.
+            NewXPos = 2
+            NewYPos = NewYPos + 8
+         END 
+         
+         // Create DTE Table Entry.
+         CreateMetaEntity( vERD, vCurrentDTE, "TE_TablRec", zPOS_AFTER )
+         vCurrentDTE.TE_TablRec.Name      = szTableName
+         vCurrentDTE.TE_TablRec.DataOrRel = "D"
+         
+         vCurrentDTE.TE_TablRec.Desc      = "Imported on " + szCurrentDate + "."
+         INCLUDE vCurrentDTE.ER_Entity FROM vERD.ER_Entity 
+         
+         // Add Attributes and Columns.
+         FOR EACH vImportDTE.TE_FieldDataRel 
+            szColumnName    = vImportDTE.TE_FieldDataRel.Name 
+            AttributeLength = vImportDTE.TE_FieldDataRel.Length 
+            szDataType      = vImportDTE.TE_FieldDataRel.DataType 
+            
+            // Create ERD Attribute Entry.
+            CreateMetaEntity( vERD, vERD, "ER_Attribute", zPOS_AFTER )
+            vERD.ER_Attribute.Name = szColumnName
+            
+            IF szDataType = "T"
+                INCLUDE vERD.Domain FROM vDomainDate.Domain
+            ELSE
+            IF szDataType = "L"
+               INCLUDE vERD.Domain FROM vDomainInt.Domain
+            ELSE
+               // DataType = "V"
+               IF AttributeLength > 0
+                  // Domain is Text with length from TE.
+                  INCLUDE vERD.Domain FROM vDomainText.Domain
+               ELSE
+                  // Domain is Note with length of 10,000
+                  INCLUDE vERD.Domain FROM vDomainNote.Domain
+               END
+            END
+            END
+            
+            // Create DTE Column Entry.
+            CreateMetaEntity( vERD, vCurrentDTE, "TE_FieldDataRel", zPOS_AFTER )
+            SetMatchingAttributesByName( vCurrentDTE, "TE_FieldDataRel", vImportDTE, "TE_FieldDataRel", zSET_NULL )
+            vCurrentDTE.TE_FieldDataRel.DataOrRelfieldOrSet = "D"
+            vCurrentDTE.TE_FieldDataRel.Key                 = "N"
+            
+            // Modify settings for DataType of V,
+            IF szDataType = "V"
+               IF AttributeLength < 0
+                  // Leave DataType V but change length to 10,000 for Note.
+                  vCurrentDTE.TE_FieldDataRel.Length = 10000
+               ELSE
+                  // Leave Length but set DataType to S.
+                  vCurrentDTE.TE_FieldDataRel.DataType = "S"
+               END
+            END
+            INCLUDE vCurrentDTE.ER_Attribute FROM vERD.ER_Attribute 
+         END
+      END
+   END
+ 
+   nRC = MessagePrompt( vERD, "", "Import Database Data", "OK to Save ERD and DTE with Imported Data?", 0,
+                        zBUTTONS_YESNOCANCEL, 0, zICON_QUESTION )
+   IF nRC = zRESPONSE_YES
+      CommitMetaOI( vERD, vERD, zSOURCE_ERD_META )
+      CommitMetaOI( vERD, vCurrentDTE, zSOURCE_DTE_META )
+   END
+   DropMetaOI( vCurrentDTE, vERD )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: MergeLODsToER
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+MergeLODsToER( VIEW MergeERD    BASED ON LOD TZEREMDO,
+               VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
+               VIEW vSubtask )
+   
+   VIEW MergeERD1    BASED ON LOD TZEREMDO
+   VIEW MergeERD2    BASED ON LOD TZEREMDO
+   VIEW vSourceERD   BASED ON LOD TZEREMDO
+   VIEW vCurrentLPLR BASED ON LOD TZCMLPLO
+   VIEW vDomainLPLR  BASED ON LOD TZCMLPLO
+   VIEW vOrigLPLR    BASED ON LOD TZCMLPLO
+   VIEW vSourceLPLR2 BASED ON LOD TZCMLPLO
+   VIEW vSourceLOD   BASED ON LOD TZZOLODO
+   VIEW NewDomainGrp BASED ON LOD TZDGSRCO
+   VIEW OldDialog    BASED ON LOD TZWDLGSO
+   VIEW MergeDTE     BASED ON LOD TZTENVRO
+   STRING ( 50 )  szLOD_Name
+   STRING ( 200 ) szSourceFileName
+   STRING ( 200 ) MG_ErrorMessage
+   STRING ( 1 )   szAddEntityFlag
+   INTEGER        MaxYPos
+   INTEGER        NewYPos
+   INTEGER        NewXPos
+   SHORT          nRC
+
+   // Merge all the ER Entities and Attributes from ALL LODs in the LPLR.
+   
+   RetrieveViewForMetaList( vSubtask, vCurrentLPLR, zSOURCE_ERD_META )
+   RetrieveViewForMetaList( vSubtask, vDomainLPLR, zREFER_DOMAIN_META )
+   NAME VIEW vDomainLPLR "vDomainLPLR"
+   
+   // Activate the current ER for updating.
+   IF vCurrentLPLR.W_MetaDef EXISTS
+      ActivateMetaOI( vSubtask, MergeERD, vCurrentLPLR, zSOURCE_ERD_META, zSINGLE )
+      NAME VIEW MergeERD "MergeERD"   
+   ELSE
+      IssueError( vSubtask,0,0, "No current ERD exists." )
+      RETURN -2
+   END
+   
+   // It is the object of this algorithm to create the new Entity icons in the ER diagram as a group underneath the
+   // current Entity icons. Thus, we will search the current ER to get the Entity with the largest vertical position and
+   // add 15 to it as the beginning Y position for the new Entities.
+   MaxYPos = 0
+   FOR EACH MergeERD.ER_Entity 
+      IF MergeERD.ER_Entity.ER_DiagramPosY > MaxYPos
+         MaxYPos = MergeERD.ER_Entity.ER_DiagramPosY 
+      END 
+   END
+   MaxYPos = MaxYPos + 15
+   NewYPos = MaxYPos
+   NewXPos = 2
+   TraceLineI( "**** MaxYPos: ", MaxYPos )
+   
+   // Activate the source ER for use in copying Entities and Attributes.
+   szSourceFileName = vSourceLPLR.LPLR.MetaSrcDir + "\" + vSourceLPLR.LPLR.Name + ".PMD"
+   ActivateOI_FromFile( vSourceERD, "TZEREMDO", vSourceLPLR, szSourceFileName, 8192 )
+   NAME VIEW vSourceERD "vSourceERD"
+   
+   // Rebuild the DTE.
+   SET CURSOR FIRST vCurrentLPLR.W_MetaType WHERE vCurrentLPLR.W_MetaType.Type = 6
+   ActivateMetaOI( vSubtask, MergeDTE, vCurrentLPLR, zSOURCE_DTE_META, 0 )
+   NAME VIEW MergeDTE "MergeDTE"
+   
+   // Make sure that the DTE has a DBH_Data value for the current source. If it doesn't, it will create an error
+   // later during the BuildSQL_RelsFromEMD operation call from inside RebuildDBMS_Tables.
+   IF MergeDTE.TE_DBMS_Source.DBH_Data = ""
+      nRC = InitializeDBH_Data( MergeDTE )
+      IF nRC < 0
+         RETURN nRC
+      END
+      CommitMetaOI( vSubtask, MergeDTE, zSOURCE_DTE_META )
+   END
+   DropObjectInstance( MergeDTE )
+   
+   // Make sure that all LODs for selected Dialogs are selected.
+   // Loop through all selected Dialogs and then LODs within each Dialog.
+   CreateViewFromView( vSourceLPLR2, vSourceLPLR )
+   NAME VIEW vSourceLPLR2 "vSourceLPLR2"
+   SET CURSOR FIRST vSourceLPLR2.W_MetaType WHERE vSourceLPLR2.W_MetaType.Type = 2011   // Position on Dialog metas. 
+   SET CURSOR FIRST vSourceLPLR.W_MetaType WHERE vSourceLPLR.W_MetaType.Type = 2007   // Position on LOD metas.
+   nRC = SetCursorFirstSelectedEntity( vSourceLPLR2, "W_MetaDef", "" )   // Loop through Dialog metas
+   LOOP WHILE nRC >= zCURSOR_SET
+      szSourceFileName = vSourceLPLR.LPLR.MetaSrcDir + "\" + vSourceLPLR2.W_MetaDef.Name + ".PWD"
+      ActivateOI_FromFile( OldDialog, "TZWDLGSO", vSourceLPLR2, szSourceFileName, 8192 )  // 8192 is zIGNORE_ATTRIB_ERRORS
+      NAME VIEW OldDialog "OldDialog"
+      FOR EACH OldDialog.ViewObjRef 
+         SET CURSOR FIRST vSourceLPLR.W_MetaDef WHERE vSourceLPLR.W_MetaDef.Name = OldDialog.LOD.Name 
+         IF RESULT >= zCURSOR_SET
+            SetSelectStateOfEntity( vSourceLPLR, "W_MetaDef", 1 )
+         END  
+      END
+      
+      DropObjectInstance( OldDialog )
+      nRC = SetCursorNextSelectedEntity( vSourceLPLR2, "W_MetaDef", "" )
+   END
+   DropView( vSourceLPLR2 )
+   
+   // Create work views of ER.
+   CreateViewFromView( MergeERD1, MergeERD )
+   NAME VIEW MergeERD1 "MergeERD1"
+   CreateViewFromView( MergeERD2, MergeERD )
+   NAME VIEW MergeERD2 "MergeERD2"
+   
+   // Loop through all LODs and add ER Entities, Attributes and Relationships not already in ER.
+   // Note that the source LODs are in the source LPLR that was passes to this operation.
+   SET CURSOR FIRST vSourceLPLR.W_MetaType WHERE vSourceLPLR.W_MetaType.Type = 2007   // Position on LOD metas. 
+   nRC = SetCursorFirstSelectedEntity( vSourceLPLR, "W_MetaDef", "" )
+   LOOP WHILE nRC >= zCURSOR_SET
+   
+      // Activate existing source LOD.
+      szLOD_Name = vSourceLPLR.W_MetaDef.Name
+      szSourceFileName = vSourceLPLR.LPLR.MetaSrcDir + "\" + szLOD_Name + ".LOD"
+      nRC = ActivateOI_FromFile ( vSourceLOD, "TZZOLODO", vCurrentLPLR, szSourceFileName, 8192 )   // 8192 is zIGNORE_ATTRIB_ERRORS
+      NAME VIEW vSourceLOD "vSourceLOD"
+      
+      // Loop through each Entity and Attribute to see if an entry needs to be added to the ERD.
+      FOR EACH vSourceLOD.LOD_Entity 
+         IF vSourceLOD.ER_Entity EXISTS     // Checking to see if this is an ER Entity.
+TraceLineS( "*** vSourceLOD.ER_Entity ", vSourceLOD.ER_Entity.Name )
+            
+            // First position on the Entity in Source ERD.
+            SET CURSOR FIRST vSourceERD.ER_Entity WHERE vSourceERD.ER_Entity.Name = vSourceLOD.ER_Entity.Name  
+            
+            // Create ER_Entity if it is not already in the current ERD.
+            szAddEntityFlag = ""
+            SET CURSOR FIRST MergeERD.ER_Entity WHERE MergeERD.ER_Entity.Name = vSourceERD.ER_Entity.Name  
+            IF RESULT < zCURSOR_SET
+               // We need to add the ER_Entity.
+               SET CURSOR LAST MergeERD.ER_Entity
+               CreateMetaEntity( vSubtask, MergeERD, "ER_Entity", zPOS_AFTER )
+               SetMatchingAttributesByName( MergeERD, "ER_Entity", vSourceERD, "ER_Entity", zSET_NULL )
+               MergeERD.ER_Entity.ER_DiagramPosX = NewXPos
+               MergeERD.ER_Entity.ER_DiagramPosY = NewYPos
+               NewXPos = NewXPos + 20
+               IF NewXPos > 322
+                  // Start next row.
+                  NewXPos = 2
+                  NewYPos = NewYPos + 8
+               END
+               szAddEntityFlag = "Y"
+            END
+            
+            // Loop through all ER Attributes.
+            FOR EACH vSourceLOD.LOD_Attribute WHERE vSourceLOD.LOD_Attribute.Work = ""
+            
+               // Check if this Attribute is already in the ER.
+               SET CURSOR FIRST vSourceERD.ER_Attribute WHERE vSourceERD.ER_Attribute.Name = vSourceLOD.ER_Attribute.Name 
+               SET CURSOR FIRST MergeERD.ER_Attribute WHERE MergeERD.ER_Attribute.Name = vSourceERD.ER_Attribute.Name
+               IF RESULT < zCURSOR_SET
+      
+                  // Add the new Attribute since it doesn't exist.
+                  // However, first make sure the Domain exists and add it if necessary.
+                  SET CURSOR FIRST vDomainLPLR.W_MetaDef WHERE vDomainLPLR.W_MetaDef.Name = vSourceERD.Domain.Name 
+                  IF RESULT < zCURSOR_SET
+                     // Since the Domain doesn't exist in the current ERD, add it to the LPLR, along with the Domain Group as necessary.
+                     // Note that we will create a new DomainGroup rather than copy the whole DomainGroup to this LPLR.
+                     
+                     GET VIEW vOrigLPLR NAMED "OrigLPLR"
+                     MergeDomainToLPLR( MergeERD, vDomainLPLR, vOrigLPLR, vSubtask, vSourceERD.Domain.Name )
+                     // Make sure cursor is set on Domain.
+                     SET CURSOR FIRST vDomainLPLR.W_MetaDef WHERE vDomainLPLR.W_MetaDef.Name = vSourceERD.Domain.Name
+                  
+                     // Since the Domain doesn't exist in the current ERD, create an error message tne skip creating the Attribute.
+                     /*MG_ErrorMessage = "Domain, " + vSourceERD.Domain.Name + ", in Source ERD doesn't exist. LOD Attribute, " +
+                                       vSourceLOD.ER_Attribute.Name + ", will not be copied."
+                     MB_SetMessage( vSubtask, 1, MG_ErrorMessage )*/
+                  END
+                  
+                  // Add the attribute.
+                  SET CURSOR LAST MergeERD.ER_Attribute
+                  CreateMetaEntity( vSubtask, MergeERD, "ER_Attribute", zPOS_AFTER )
+                  SetMatchingAttributesByName( MergeERD, "ER_Attribute", vSourceERD, "ER_Attribute", zSET_NULL )
+                  nRC = ActivateMetaOI( vSubtask, NewDomainGrp, vDomainLPLR, zREFER_DOMAIN_META, 0 )
+                  NAME VIEW NewDomainGrp "NewDomainGrp"
+                  INCLUDE MergeERD.Domain FROM NewDomainGrp.Domain
+                  DropMetaOI( vSubtask, NewDomainGrp )
+               END
+            END
+            
+            // Copy Identifiers if the ER Entity was created above.
+            IF szAddEntityFlag = "Y"
+               FOR EACH vSourceERD.ER_EntIdentifier  
+                  CreateMetaEntity( vSubtask, MergeERD, "ER_EntIdentifier", zPOS_AFTER )
+                  SetMatchingAttributesByName( MergeERD, "ER_EntIdentifier", vSourceERD, "ER_EntIdentifier", zSET_NULL )
+                  FOR EACH vSourceERD.ER_FactType
+                     CreateMetaEntity( vSubtask, MergeERD, "ER_FactType", zPOS_AFTER )
+                     SetMatchingAttributesByName( MergeERD, "ER_FactType", vSourceERD, "ER_FactType", zSET_NULL )
+                     IF vSourceERD.ER_AttributeIdentifier EXISTS
+                        SET CURSOR FIRST MergeERD.ER_Attribute WHERE MergeERD.ER_Attribute.Name = vSourceERD.ER_AttributeIdentifier.Name
+                        INCLUDE MergeERD.ER_AttributeIdentifier FROM MergeERD.ER_Attribute
+                     END
+                  END
+               END
+            END
+         END
+      END
+      
+      // Loop again through each Entity and add any missing relationships to the ER.
+      FOR EACH vSourceLOD.LOD_Entity 
+         IF vSourceLOD.ER_Entity EXISTS     // Checking to see if this is an ER Entity.
+            
+            // If the LOD_Entity has a relationship (ie., RelLink) add it to the ER if it isn't already there.
+            IF vSourceLOD.ER_RelLink EXISTS
+               // First position on the RelLink in Source ERD.
+               SET CURSOR FIRST vSourceERD.ER_RelType_1 WITHIN vSourceERD.EntpER_Model 
+                          WHERE vSourceERD.ER_RelType_1.ZKey = vSourceLOD.ER_RelType.ZKey 
+               IF RESULT < zCURSOR_SET
+                  IssueError( vSubtask,0,0, "Invalid SetCursor for Source RelLink" )
+               END
+               
+               // Check if the LOD Entity relationship to its parent exists in the new ER and add as necessary.
+               SET CURSOR FIRST MergeERD1.ER_Entity WHERE MergeERD1.ER_Entity.Name = vSourceERD.ER_Entity.Name 
+               IF RESULT < zCURSOR_SET
+                  IssueError( vSubtask,0,0, "Entity has not been added for Relationship" )
+               END
+               SET CURSOR FIRST MergeERD1.ER_RelLink WHERE MergeERD1.ER_RelLink.Name      = vSourceERD.ER_RelLink.Name 
+                                                       AND MergeERD1.ER_Entity_Other.Name = vSourceERD.ER_Entity_Other.Name 
+               IF RESULT < zCURSOR_SET
+                  // Copy the ER Relationship
+                  ERD_RelationshipCopy( MergeERD1, vSourceERD, vSubtask )
+               END
+            END
+         END
+      END
+            
+      DropObjectInstance( vSourceLOD )
+      nRC = SetCursorNextSelectedEntity( vSourceLPLR, "W_MetaDef", "" )
+   END
+   DropView( MergeERD1 )
+   DropView( MergeERD2 )
+   
+   // Commit the ERD.
+   nRC = CommitMetaOI( vSubtask, MergeERD, zSOURCE_ERD_META )
+   
+   // Rebuild the DTE.
+   SET CURSOR FIRST vCurrentLPLR.W_MetaType WHERE vCurrentLPLR.W_MetaType.Type = 6
+   ActivateMetaOI( vSubtask, MergeDTE, vCurrentLPLR, zSOURCE_DTE_META, 0 )
+   NAME VIEW MergeDTE "MergeDTE"
+   nRC = RebuildDBMS_Tables( MergeDTE, MergeERD, vSubtask, "" )
+
+   nRC = CommitMetaOI( vSubtask, MergeDTE, zSOURCE_DTE_META )
+   TraceLineI( "*** DTE Commit RC: ", nRC )
+   
+   DropObjectInstance( MergeERD )
+   DropObjectInstance( MergeDTE )
+   DropObjectInstance( vSourceERD )
+   DropView( vCurrentLPLR )
+   DropView( vDomainLPLR )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: MergeDomainToLPLR
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+MergeDomainToLPLR( VIEW MergeER    BASED ON LOD TZEREMDO,
+                   VIEW DomainLPLR BASED ON LOD TZCMLPLO,
+                   VIEW SourceLPLR BASED ON LOD TZCMLPLO,
+                   VIEW vSubtask,
+                   STRING ( 32 ) szDomainName )
+
+   VIEW SrcDomainLPLR  BASED ON LOD TZCMLPLO
+   VIEW SrcDomainGroup BASED ON LOD TZDGSRCO
+   VIEW NewDomainGroup BASED ON LOD TZDGSRCO
+   STRING ( 200 ) szSourceFileName
+   STRING ( 32 )  szDomainGroupName
+   SHORT nRC
+   
+
+   // Merge the Domain identified by szDomainName from the SourceLPLR to the DomainLPLR, creating a new
+   // DomainGroup as necessary.
+   
+   // First add Group Names to Domain Source meta entries as necessary.
+   CreateViewFromView( SrcDomainLPLR, SourceLPLR )
+   NAME VIEW SrcDomainLPLR "SrcDomainLPLR_Main"
+   SET CURSOR FIRST SrcDomainLPLR.W_MetaType WHERE SrcDomainLPLR.W_MetaType.Type = 3    // 3 is Domain 
+   SET CURSOR FIRST SrcDomainLPLR.W_MetaDef WHERE SrcDomainLPLR.W_MetaDef.Name = szDomainName
+   IF SrcDomainLPLR.W_MetaDef.GroupName = ""
+      SetDomainMergeGrpNames( MergeER, SourceLPLR )
+   END
+
+   // Get Domain Group name.
+   SET CURSOR FIRST SrcDomainLPLR.W_MetaDef WHERE SrcDomainLPLR.W_MetaDef.Name = szDomainName
+   szDomainGroupName = SrcDomainLPLR.W_MetaDef.GroupName 
+
+   // Activate the source DomainGroup.
+   szSourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + szDomainGroupName + ".PDG"
+   ActivateOI_FromFile( SrcDomainGroup, "TZDGSRCO", SourceLPLR, szSourceFileName, zSINGLE )
+   NAME VIEW SrcDomainGroup "OldSrcDomainGroup"
+   
+   // Activate the current DomainGrp if it exists or activate an empty DomainGrp object.
+   nRC = ActivateMetaOI_ByName( vSubtask, NewDomainGroup, 0, zSOURCE_DOMAINGRP_META, zSINGLE, szDomainGroupName, 0 )
+   IF nRC < 0
+      ActivateEmptyMetaOI( vSubtask, NewDomainGroup, zSOURCE_DOMAINGRP_META, zSINGLE )
+      CreateMetaEntity( vSubtask, NewDomainGroup, "DomainGroup", zPOS_AFTER )
+      SetMatchingAttributesByName( NewDomainGroup, "DomainGroup", SrcDomainGroup, "DomainGroup", zSET_NULL )
+   END
+   NAME VIEW NewDomainGroup "NewDomainGroup"
+   
+   // Migrate Domain to existing DomainGroup
+   nRC = DomainMigrate( NewDomainGroup,
+                        szDomainName,
+                        szDomainGroupName,
+                        SourceLPLR, vSubtask )
+   IF nRC < 0
+      IssueError( vSubtask,0,0, "Error migratin new Domain." )
+   END
+   
+   DropView( SrcDomainLPLR )
+   DropObjectInstance( SrcDomainGroup )
+   DropObjectInstance( NewDomainGroup )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SetDomainMergeGrpNames
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+SetDomainMergeGrpNames( VIEW TZEREMDO   BASED ON LOD TZEREMDO,
+                        VIEW SourceLPLR BASED ON LOD TZCMLPLO )
+
+   VIEW SrcDomainLPLR    BASED ON LOD TZCMLPLO
+   VIEW SrcDomainGrpLPLR BASED ON LOD TZCMLPLO
+   VIEW SrcDomainGroup   BASED ON LOD TZDGSRCO
+   STRING ( 200 ) SourceFileName
+   
+   // In preparation for merging Domains from the SourceLPLR, we will loop through all the Source Domain Groups
+   // and set the GroupName for each Domain within the Group in the SourceLPLR object.
+   CreateViewFromView( SrcDomainLPLR, SourceLPLR )
+   NAME VIEW SrcDomainLPLR "SrcDomainLPLR"
+   CreateViewFromView( SrcDomainGrpLPLR, SourceLPLR )
+   NAME VIEW SrcDomainGrpLPLR "SrcDomainGrpLPLR"
+   SET CURSOR FIRST SrcDomainLPLR.W_MetaType WHERE SrcDomainLPLR.W_MetaType.Type = 3         // Domain meta
+   SET CURSOR FIRST SrcDomainGrpLPLR.W_MetaType WHERE SrcDomainGrpLPLR.W_MetaType.Type = 13  // DomainGrp meta
+   FOR EACH SrcDomainGrpLPLR.W_MetaDef 
+      SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + SrcDomainGrpLPLR.W_MetaDef.Name + ".PDG"
+      ActivateOI_FromFile( SrcDomainGroup, "TZDGSRCO", SrcDomainGrpLPLR, SourceFileName, zSINGLE )
+      NAME VIEW SrcDomainGroup "OldSrcDomainGroup"
+      FOR EACH SrcDomainGroup.Domain  
+         SET CURSOR FIRST SrcDomainLPLR.W_MetaDef WHERE SrcDomainLPLR.W_MetaDef.Name = SrcDomainGroup.Domain.Name 
+         IF RESULT >= zCURSOR_SET
+            SrcDomainLPLR.W_MetaDef.GroupName = SrcDomainGroup.DomainGroup.Name 
+         END 
+      END
+      DropObjectInstance( SrcDomainGroup )
+   END
+   
+   DropView( SrcDomainLPLR )
+   DropView( SrcDomainGrpLPLR)
+   
+END

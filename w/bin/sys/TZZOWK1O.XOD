@@ -1,9 +1,9 @@
-z1000-Zeidon    TZZOWK1O TZZOXODO                         03/18/20   13:12:55 1.0a2   
+z1000-Zeidon    TZZOWK1O TZZOXODO                         04/04/24   22:59:22 1.0a2   
 eOBJECT    1
 aNAME      TZZOWK1O
 aZKey      11005135
 aOPER_LIBNM TZZOWK1O
-aER_DATE   2020031811480786
+aER_DATE   2023081616194628
 
 eENTITY    2
 aNAME      WorkRoot
@@ -646,7 +646,7 @@ aDELETE    Y
 aPDELETE   D
 aUPDATE    Y
 aINCLSRC   Y
-aMAX_LTH   42074
+aMAX_LTH   132074
 
 eATTRIB    6
 aNAME      ZKey
@@ -746,7 +746,7 @@ aPERSIST   Y
 aAPDM_TOK  1158059
 aDOMAIN    Note
 aTYPE      S
-aLTH       10000
+aLTH       100000
 aHIDDEN    Y
 aXVAATT_TOK 58
 

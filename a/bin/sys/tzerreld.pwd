@@ -1,4 +1,4 @@
-z1000-Zeidon    TZERRELD TZWDLGSO                         11/02/16   16:40:25 1.0b0   
+z1000-Zeidon    TZERRELD TZWDLGSO 04/29/22   13:26:03 1.0b0    
 eDialog    1
 aTag       TZERRELD
 aDLL_Name  TZEREMDD
@@ -23,8 +23,8 @@ aTag       RLLVIEW
 aCaption   Relationship List
 aPSDLG_X   137
 aPSDLG_Y   182
-aSZDLG_X   19792199
-aSZDLG_Y   4456553
+aSZDLG_X   23789955
+aSZDLG_Y   3276887
 aSZMIN_X   200
 aSZMIN_Y   85
 aZKey      1347994
@@ -39,7 +39,7 @@ aSubtype   271712259
 aIdNbr     3
 aPSDLG_X   0
 aPSDLG_Y   0
-aSZDLG_X   297
+aSZDLG_X   370
 aSZDLG_Y   64
 aCtrlBOI   U34
 B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P#````*P!-`%,Q````
@@ -188,14 +188,14 @@ eCtrlMapView 6
 eControlDef 5
 
 eCtrlCtrl  4
-aTag       Cardinality
+aTag       ListBoxCtl1
 aText      Cardinality
 aZKey      98253857
 aSubtype   67108864
 aIdNbr     5
-aPSDLG_X   229
+aPSDLG_X   233
 aPSDLG_Y   0
-aSZDLG_X   64
+aSZDLG_X   109
 aSZDLG_Y   15
 aSyncKey   9999
 aExtendedStyle 0
@@ -204,7 +204,7 @@ eCtrlMap   5
 aZKey      98253858
 
 eCtrlMapLOD_Attribute 6
-aZKey      127046104
+aZKey      127046106
 aWork      Y
 aUpdate    Y
 aSeqOrder  Y
@@ -232,7 +232,7 @@ aDupRelationshipInstance N
 
 eCtrlMapER_Attribute 7
 aName      dCardinality
-aZKey      127046105
+aZKey      127046107
 
 eCtrlMapER_Domain 8
 
@@ -2130,6 +2130,10 @@ aZKey      1347964
 aName      TZERENLO
 
 eLOD       3
+aZKey      1326595
+aName      TZEREMDO
+aDesc      Enterprise Model ER Information
+aDLL_Name  TZLODOPR
 
 eSourceFile 2
 
@@ -2469,11 +2473,11 @@ eOperSourceFile 3
 
 eComboBoxEntry 2
 aName      Displayed Text
-aZKey      92759291
+aZKey      92759361
 
 eComboBoxEntry 2
 aName      Hyperlink URL
-aZKey      92759292
+aZKey      92759362
 
 i18        10
 i19        11
@@ -2664,7 +2668,6 @@ i429       158
 i431       49
 i433       384
 i434       49
-i441       437
 i442       49
 i443       48
 i445       53

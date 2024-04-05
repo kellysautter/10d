@@ -18,6 +18,7 @@ DRIVER_APP     = YES
 CPP_OBJS       = $(Z_OBJ)\$(MODULE).obj \
                  $(Z_OBJ)\tzeremde.obj  \
                  $(Z_OBJ)\tzeremdo.obj  \
+                 $(Z_OBJ)\tzerem2d.obj  \
                  $(Z_OBJ)\tzersapd.obj
 
 # Extra options

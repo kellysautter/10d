@@ -176,6 +176,67 @@ oTZCMLPLO_CompilerMigrate( zVIEW     vCurrentLPLR,
 
 
 //:TRANSFORMATION OPERATION
+//:CreateErrorMessage( VIEW TaskLPLR BASED ON LOD TZCMLPLO,
+//:                    STRING ( 256 ) szMessageText )
+
+//:   INTEGER nMessageNumber
+zOPER_EXPORT zSHORT OPERATION
+oTZCMLPLO_CreateErrorMessage( zVIEW     TaskLPLR,
+                              zPCHAR    szMessageText )
+{
+   zLONG     nMessageNumber = 0; 
+   zSHORT    lTempInteger_0; 
+   zLONG     lTempInteger_1; 
+   zSHORT    RESULT; 
+
+
+   //:// If this operation is execute as part of an LPLR Merge, create a ErrorMessage entity in TaskLPLR.
+   //:// Otherwise, just send a message to the operator.
+   //:IF TaskLPLR.LPLR.MergeType = "L"
+   if ( CompareAttributeToString( TaskLPLR, "LPLR", "MergeType", "L" ) == 0 )
+   { 
+      //:// Create an Error Message with sequence number.
+      //:IF TaskLPLR.ErrorMessage EXISTS
+      lTempInteger_0 = CheckExistenceOfEntity( TaskLPLR, "ErrorMessage" );
+      if ( lTempInteger_0 == 0 )
+      { 
+         //:nMessageNumber = TaskLPLR.ErrorMessage.MessageNumber + 1
+         GetIntegerFromAttribute( &lTempInteger_1, TaskLPLR, "ErrorMessage", "MessageNumber" );
+         nMessageNumber = lTempInteger_1 + 1;
+         //:ELSE
+      } 
+      else
+      { 
+         //:nMessageNumber = 1
+         nMessageNumber = 1;
+      } 
+
+      //:END
+      //:CREATE ENTITY TaskLPLR.ErrorMessage 
+      RESULT = CreateEntity( TaskLPLR, "ErrorMessage", zPOS_AFTER );
+      //:TaskLPLR.ErrorMessage.MessageText   = szMessageText
+      SetAttributeFromString( TaskLPLR, "ErrorMessage", "MessageText", szMessageText );
+      //:TaskLPLR.ErrorMessage.MessageNumber = nMessageNumber
+      SetAttributeFromInteger( TaskLPLR, "ErrorMessage", "MessageNumber", nMessageNumber );
+      //:TaskLPLR.ErrorMessage.MergeMetaType = TaskLPLR.LPLR.wMergeMetaType 
+      SetAttributeFromAttribute( TaskLPLR, "ErrorMessage", "MergeMetaType", TaskLPLR, "LPLR", "wMergeMetaType" );
+      //:TaskLPLR.ErrorMessage.MergeMetaName = TaskLPLR.LPLR.wMergeMetaName 
+      SetAttributeFromAttribute( TaskLPLR, "ErrorMessage", "MergeMetaName", TaskLPLR, "LPLR", "wMergeMetaName" );
+      //:ELSE
+   } 
+   else
+   { 
+      //:MessageSend( TaskLPLR, "", "Compare Meta Error", szMessageText, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      MessageSend( TaskLPLR, "", "Compare Meta Error", szMessageText, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
+   } 
+
+   //:END
+   return( 0 );
+// END
+} 
+
+
+//:TRANSFORMATION OPERATION
 //:HeaderMigrate( VIEW        SourceLPLR BASED ON LOD TZCMLPLO,
 //:               STRING (32) HeaderMetaName,
 //:               VIEW        NewHeader  BASED ON LOD TZOPHDRO,
@@ -564,6 +625,110 @@ oTZCMLPLO_SetCompilerPathes( zVIEW     vSource,
       //:END
       return( 0 );
    } 
+
+
+   //:TRANSFORMATION OPERATION
+   //:WriteErrorMessagesCSV( VIEW TaskLPLR BASED ON LOD TZCMLPLO )
+
+   //:STRING ( 1000 ) OutputLine
+zOPER_EXPORT zSHORT OPERATION
+oTZCMLPLO_WriteErrorMessagesCSV( zVIEW     TaskLPLR )
+{
+   zCHAR     OutputLine[ 1001 ] = { 0 }; 
+   //:STRING ( 20 )   szMessageNumber
+   zCHAR     szMessageNumber[ 21 ] = { 0 }; 
+   //:INTEGER         FileHandle
+   zLONG     FileHandle = 0; 
+   zCHAR     szTempString_0[ 255 ]; 
+   zSHORT    RESULT; 
+   zCHAR     szTempString_1[ 255 ]; 
+   zCHAR     szTempString_2[ 255 ]; 
+   zCHAR     szTempString_3[ 255 ]; 
+
+
+   //:// Write the Merge Error Messages to the specified CSV file.
+
+   //:// Open file and write out header.
+   //:FileHandle = SysOpenFile( TaskLPLR, TaskLPLR.LPLR.wFullyQualifiedFileName, COREFILE_CREATE )
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TaskLPLR, "LPLR", "wFullyQualifiedFileName" );
+   FileHandle = SysOpenFile( TaskLPLR, szTempString_0, COREFILE_CREATE );
+   //:IF FileHandle < 0
+   if ( FileHandle < 0 )
+   { 
+      //:MessageSend( TaskLPLR, "", "Write Message to File",
+      //:             "Can't open output file.",
+      //:             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      MessageSend( TaskLPLR, "", "Write Message to File", "Can't open output file.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      //:RETURN -1
+      return( -1 );
+   } 
+
+   //:END
+   //:OutputLine = QUOTES + "Msg No."  + QUOTES + "," +
+   //:             QUOTES + "Meta Type"  + QUOTES + "," +
+   //:             QUOTES + "Meta Name" + QUOTES + "," +
+   //:             QUOTES + "Merge Error Message" + QUOTES
+   ZeidonStringCopy( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, "Msg No.", 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, ",", 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, "Meta Type", 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, ",", 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, "Meta Name", 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, ",", 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, "Merge Error Message", 1, 0, 1001 );
+   ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+   //:SysWriteLine( TaskLPLR, FileHandle, OutputLine ) 
+   SysWriteLine( TaskLPLR, FileHandle, OutputLine );
+
+   //:FOR EACH TaskLPLR.ErrorMessage 
+   RESULT = SetCursorFirstEntity( TaskLPLR, "ErrorMessage", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:szMessageNumber = TaskLPLR.ErrorMessage.MessageNumber
+      GetVariableFromAttribute( szMessageNumber, 0, 'S', 21, TaskLPLR, "ErrorMessage", "MessageNumber", "", 0 );
+      //:OutputLine = QUOTES + szMessageNumber                     + QUOTES + "," +
+      //:             QUOTES + TaskLPLR.ErrorMessage.MergeMetaType + QUOTES + "," +
+      //:             QUOTES + TaskLPLR.ErrorMessage.MergeMetaName + QUOTES + "," +
+      //:             QUOTES + TaskLPLR.ErrorMessage.MessageText   + QUOTES
+      ZeidonStringCopy( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+      ZeidonStringConcat( OutputLine, 1, 0, szMessageNumber, 1, 0, 1001 );
+      ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+      ZeidonStringConcat( OutputLine, 1, 0, ",", 1, 0, 1001 );
+      ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+      GetVariableFromAttribute( szTempString_1, 0, 'S', 255, TaskLPLR, "ErrorMessage", "MergeMetaType", "", 0 );
+      ZeidonStringConcat( OutputLine, 1, 0, szTempString_1, 1, 0, 1001 );
+      ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+      ZeidonStringConcat( OutputLine, 1, 0, ",", 1, 0, 1001 );
+      ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+      GetVariableFromAttribute( szTempString_2, 0, 'S', 255, TaskLPLR, "ErrorMessage", "MergeMetaName", "", 0 );
+      ZeidonStringConcat( OutputLine, 1, 0, szTempString_2, 1, 0, 1001 );
+      ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+      ZeidonStringConcat( OutputLine, 1, 0, ",", 1, 0, 1001 );
+      ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+      GetVariableFromAttribute( szTempString_3, 0, 'S', 255, TaskLPLR, "ErrorMessage", "MessageText", "", 0 );
+      ZeidonStringConcat( OutputLine, 1, 0, szTempString_3, 1, 0, 1001 );
+      ZeidonStringConcat( OutputLine, 1, 0, QUOTES, 1, 0, 1001 );
+      //:SysWriteLine( TaskLPLR, FileHandle, OutputLine ) 
+      SysWriteLine( TaskLPLR, FileHandle, OutputLine );
+      RESULT = SetCursorNextEntity( TaskLPLR, "ErrorMessage", "" );
+   } 
+
+   //:END
+
+   //:SysCloseFile( TaskLPLR, FileHandle, 0 )
+   SysCloseFile( TaskLPLR, FileHandle, 0 );
+   return( 0 );
+//    //MessageSend( TaskLPLR, "", "Write Message to File",
+//    //             "Messages have been written to specified output file.",
+//    //             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+// END
+} 
 
 
  

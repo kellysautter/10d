@@ -171,6 +171,8 @@ LOD_Migrate( VIEW          NewMainLOD BASED ON LOD TZZOLODO,
    INTEGER        Offset
    SHORT          StringLength
    SHORT          nRC
+   
+   // This operation is called from both TZCMLPMD.MERGE_SelectedLPLR_Metas and TZCMLPMD.MigrateMeta.
 
    ErrorFlag = 0
    RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_ERD_META )
@@ -302,7 +304,7 @@ LOD_Migrate( VIEW          NewMainLOD BASED ON LOD TZZOLODO,
             NewMainLOD.POD.TE_SourceZKey = ReturnedTE.TE_DBMS_Source.ZKey
          END
       END
-
+      
       FOR EACH OldRecursiveLOD.LOD_EntityParent
          nRC = LOD_EntityCopy( NewMainLOD,
                                NewRecursiveLOD,
@@ -405,6 +407,53 @@ LOD_Migrate( VIEW          NewMainLOD BASED ON LOD TZZOLODO,
             INCLUDE NewMainLOD.LOD_ConstraintOper FROM NewMainLOD.Operation
          END
       END
+      
+      CreateViewFromViewForTask( NewRecursiveLOD, NewMainLOD, 0 )
+      CreateViewFromViewForTask( OldRecursiveLOD, OldMainLOD, 0 )
+      NAME VIEW NewRecursiveLOD "NewRecursiveLOD"
+      NAME VIEW OldRecursiveLOD "OldRecursiveLOD"
+TraceLineS( "**** Before LOD_EntityMerge loop", "" )
+      
+      // Merge/copy the Entities/Attributes as necessary.
+      FOR EACH OldRecursiveLOD.LOD_EntityParent
+         SET CURSOR FIRST NewRecursiveLOD.LOD_EntityParent WHERE NewRecursiveLOD.LOD_EntityParent.Name = OldRecursiveLOD.LOD_EntityParent.Name  
+         IF RESULT >= zCURSOR_SET
+            // Entity already exists, so just execute Merge functionality.
+            nRC = LOD_EntityMerge( NewMainLOD,
+                                   NewRecursiveLOD,
+                                   OldMainLOD,
+                                   OldRecursiveLOD,
+                                   SourceLPLR2,
+                                   CurrentLPLR,
+                                   NewERD,
+                                   SourceERD,
+                                   ReturnedTE,
+                                   vSubtask,
+                                   "" )
+            IF nRC != 0  // Pass along any errors
+               ErrorFlag = 1
+            END
+         ELSE
+            // Entity doesn't exist, so go to copy it and it's subentities.
+            nRC = LOD_EntityCopy( NewMainLOD,
+                                  NewRecursiveLOD,
+                                  OldMainLOD,
+                                  OldRecursiveLOD,
+                                  SourceLPLR2,
+                                  CurrentLPLR,
+                                  NewERD,
+                                  SourceERD,
+                                  ReturnedTE,
+                                  vSubtask,
+                                  "",
+                                  "" )
+            IF nRC != 0  // Pass along any errors
+               ErrorFlag = 1
+            END
+         END
+      END
+      DropView( NewRecursiveLOD )
+      DropView( OldRecursiveLOD )
 
    END
 
@@ -470,30 +519,31 @@ LOD_Migrate( VIEW          NewMainLOD BASED ON LOD TZZOLODO,
       RETURN -1
    END
 
-   //CommitMetaOI( vSubtask, NewMainLOD, 7 )
-
    // For every VOR for the original source LOD in the original LPLR, either update or create the
    // corresponding VOR in the new LPLR.
+   // Only execute if the SourceVOR_LPLR exists because the new LPLR Merge code doesn't use SourceVOR_LPLR.
    GET VIEW SourceVOR_LPLR NAMED "SourceVOR_LPLR"
-   GET VIEW TargetVOR_LPLR NAMED "TargetVOR_LPLR"
-   SourceName = NewMainLOD.LOD.Name
-   FOR EACH SourceVOR_LPLR.W_MetaDef
-      IF SourceVOR_LPLR.W_MetaDef.MigrateWorkName = SourceName
-         SET CURSOR FIRST TargetVOR_LPLR.W_MetaDef WHERE TargetVOR_LPLR.W_MetaDef.Name = SourceVOR_LPLR.W_MetaDef.Name
-         IF RESULT >= zCURSOR_SET
-            ActivateMetaOI( vSubtask, NewVOR, TargetVOR_LPLR, zSOURCE_VOR_META, zSINGLE )
-            NAME VIEW NewVOR "NewVOR"
-            EXCLUDE NewVOR.LOD
-            INCLUDE NewVOR.LOD FROM NewMainLOD.LOD
-            CommitMetaOI( vSubtask, NewVOR, 9 )
-         ELSE
-            ActivateEmptyMetaOI( vSubtask, NewVOR, zSOURCE_VOR_META, zSINGLE )
-            CreateMetaEntity( vSubtask, NewVOR, "ViewObjRef", zPOS_AFTER )
-            NewVOR.ViewObjRef.Name = SourceVOR_LPLR.W_MetaDef.Name
-            INCLUDE NewVOR.LOD FROM NewMainLOD.LOD
-            CommitMetaOI( vSubtask, NewVOR, 9 )
+   IF RESULT >= 0
+      GET VIEW TargetVOR_LPLR NAMED "TargetVOR_LPLR"
+      SourceName = NewMainLOD.LOD.Name
+      FOR EACH SourceVOR_LPLR.W_MetaDef
+         IF SourceVOR_LPLR.W_MetaDef.MigrateWorkName = SourceName
+            SET CURSOR FIRST TargetVOR_LPLR.W_MetaDef WHERE TargetVOR_LPLR.W_MetaDef.Name = SourceVOR_LPLR.W_MetaDef.Name
+            IF RESULT >= zCURSOR_SET
+               ActivateMetaOI( vSubtask, NewVOR, TargetVOR_LPLR, zSOURCE_VOR_META, zSINGLE )
+               NAME VIEW NewVOR "NewVOR"
+               EXCLUDE NewVOR.LOD
+               INCLUDE NewVOR.LOD FROM NewMainLOD.LOD
+               CommitMetaOI( vSubtask, NewVOR, 9 )
+            ELSE
+               ActivateEmptyMetaOI( vSubtask, NewVOR, zSOURCE_VOR_META, zSINGLE )
+               CreateMetaEntity( vSubtask, NewVOR, "ViewObjRef", zPOS_AFTER )
+               NewVOR.ViewObjRef.Name = SourceVOR_LPLR.W_MetaDef.Name
+               INCLUDE NewVOR.LOD FROM NewMainLOD.LOD
+               CommitMetaOI( vSubtask, NewVOR, 9 )
+            END
+            DropMetaOI( vSubtask, NewVOR )
          END
-         DropMetaOI( vSubtask, NewVOR )
       END
    END
 
@@ -652,9 +702,9 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
 
 /*  This is actually the main part of LOD Migration that copies the Entity subobject.  */
 
-   VIEW NewERD2   BASED ON LOD TZEREMDO
-   VIEW TempLOD   BASED ON LOD TZZOLODO
-
+   VIEW TaskLPLR  REGISTERED AS TaskLPLR
+   VIEW NewERD2   BASED ON LOD  TZEREMDO
+   VIEW TempLOD   BASED ON LOD  TZZOLODO
    SHORT      ErrorFlag
    SHORT      FoundFlag
    SHORT      CreateIdentifiersFlag
@@ -665,57 +715,92 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
    STRING (32)  RelationshipName
    STRING (32)  EREntityName
    STRING (32)  ERAttributeName
-   STRING (32)  DomainName
+   STRING (32)  DomainName   
 
-   ErrorFlag = 0
-
-   SET CURSOR LAST NewRecursiveLOD.LOD_EntityParent
-   CreateMetaEntity( vSubtask, NewRecursiveLOD, "LOD_EntityParent", zPOS_AFTER )
-   SetMatchingAttributesByName( NewRecursiveLOD, "LOD_EntityParent", OldRecursiveLOD,
-                                "LOD_EntityParent", zSET_NULL )
-
-   INCLUDE NewMainLOD.LOD_Entity FROM NewRecursiveLOD.LOD_EntityParent
-
-   // Copy POD_Entities (Join Definitions), if there is a DTE.
-   IF NewDTE != 0
-      fnCopyPOD_Entity( vSubtask, NewRecursiveLOD, OldRecursiveLOD, NewDTE )
-   END
-
-   // Process ER Entity for LOD, if it exists.
+   // Added 8/2/2022 by DonC for NOT adding an ER Entity if it isn't in the target ER.
    IF OldRecursiveLOD.ER_EntityRec EXISTS
+      EREntityName = OldRecursiveLOD.ER_EntityRec.Name
+      SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name = EREntityName
+      IF RESULT < zCURSOR_SET
+         szMsg = "ER Entity, " + EREntityName + ", does not exist in target ERD and will not be copied." 
+         CreateErrorMessage( TaskLPLR, szMsg )
+         RETURN 
+      END
+   END
+TraceLineS( "***** Entity Copy: ", OldRecursiveLOD.LOD_EntityParent.Name )
+   
+   // If the LOD Entity already exists, merge it. Otherwise copy it.
+   SET CURSOR FIRST NewRecursiveLOD.LOD_EntityParent WHERE NewRecursiveLOD.LOD_EntityParent.Name = OldRecursiveLOD.LOD_EntityParent.Name 
+   IF RESULT >= zCURSOR_SET
+//TraceLineS( "***** Before Merge", "" )  
+      // LOD Entity already exists in target, so just merge it.
+      nRC = LOD_EntityMerge( NewMainLOD,
+                             NewRecursiveLOD,
+                             OldMainLOD,
+                             OldRecursiveLOD,
+                             SourceLPLR,
+                             CurrentLPLR,
+                             NewERD,
+                             SourceERD,
+                             NewDTE,
+                             vSubtask,
+                             OrigParentName )
+    
+   ELSE 
+      
+      // LOD Entity doesn't exist in target, so copy it.
+     
+      ErrorFlag = 0
 
-      // Always position on the ER_Entity in the Source ERD, if it exists. Otherwise skip the code.
-      IF SourceERD != 0
-
-         // Position on entity in Source ERD.
-         EREntityName = OldRecursiveLOD.ER_EntityRec.Name
-         SET CURSOR FIRST SourceERD.ER_Entity WHERE SourceERD.ER_Entity.Name = EREntityName
-         IF RESULT < zCURSOR_SET
-            szMsg = "ER Entity (" + EREntityName +
-                    ") does not exist in source ERD." +
-                    NEW_LINE + "LOD (" + OldMainLOD.LOD.Name +
-                    ") will not be migrated."
-            MessageSend( vSubtask, "ZO00404", "Entity Copy",
-                         szMsg,
-                         zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-            DELETE ENTITY NewRecursiveLOD.LOD_EntityParent NONE
-            RETURN 0
-         END
-
-         // If the source ER_Entity is not in the target, we will add the Entity and Relationship to the ER.
-         // Note that we won't do this if we didn't pass in a source ER.
-         SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name = EREntityName
-         IF RESULT < zCURSOR_SET
-
-            // Create ER Entity from LOD Entity. Create entity in alphabetical order.
-            SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name > EREntityName
-            CreateMetaEntity( vSubtask, NewERD, "ER_Entity", zPOS_BEFORE )
-            SetMatchingAttributesByName ( NewERD,    "ER_Entity",
-                                          SourceERD, "ER_Entity", zSET_NULL )
-            // KJS 05/05/22 - Seems like we should also be looping through the SourceERD so that we add ALL attributes to the new
-            // ER. But I guess we don't want all attributes in the LOD. Looks like there is an operation that copies the LOD Attributes so let's try SourceER here                                          
-            FOR EACH SourceERD.ER_Attribute
-
+//TraceLineS( "***** Before Create LOD_EntityParent", "" ) 
+      SET CURSOR LAST NewRecursiveLOD.LOD_EntityParent
+      CreateMetaEntity( vSubtask, NewRecursiveLOD, "LOD_EntityParent", zPOS_AFTER )
+      SetMatchingAttributesByName( NewRecursiveLOD, "LOD_EntityParent", OldRecursiveLOD,
+                                   "LOD_EntityParent", zSET_NULL )
+   
+      INCLUDE NewMainLOD.LOD_Entity FROM NewRecursiveLOD.LOD_EntityParent
+   
+      // Copy POD_Entities (Join Definitions), if there is a DTE.
+      IF NewDTE != 0
+         fnCopyPOD_Entity( vSubtask, NewRecursiveLOD, OldRecursiveLOD, NewDTE )
+      END
+   
+      // Process ER Entity for LOD, if it exists.
+      IF OldRecursiveLOD.ER_EntityRec EXISTS
+   
+         // Always position on the ER_Entity in the Source ERD, if it exists. Otherwise skip the code.
+         IF SourceERD != 0
+   
+            // Position on entity in Source ERD.
+            EREntityName = OldRecursiveLOD.ER_EntityRec.Name
+            SET CURSOR FIRST SourceERD.ER_Entity WHERE SourceERD.ER_Entity.Name = EREntityName
+            IF RESULT < zCURSOR_SET
+               szMsg = "ER Entity (" + EREntityName + ") does not exist in source ERD. " + "LOD (" + OldMainLOD.LOD.Name + ") will not be migrated."
+               MessageSend( vSubtask, "ZO00404", "Entity Copy",
+                            szMsg,
+                            zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               DELETE ENTITY NewRecursiveLOD.LOD_EntityParent NONE
+               RETURN
+            END
+            
+            // DonC 8/2/2022: I think the following is incorrect for all migration. However, we have tested it for OUR NEW situation above and
+            // wouldn't get here for that situation.
+            // If the source ER_Entity is not in the target, we will add the Entity and Relationship to the ER.
+            // Note that we won't do this if we didn't pass in a source ER.
+            SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name = EREntityName
+            IF RESULT < zCURSOR_SET
+ 
+   //TraceLineS( "***** Before Create 2", "" )   
+               // Create ER Entity from LOD Entity. Create entity in alphabetical order.
+               SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name > EREntityName
+               CreateMetaEntity( vSubtask, NewERD, "ER_Entity", zPOS_BEFORE )
+               SetMatchingAttributesByName ( NewERD,    "ER_Entity",
+                                             SourceERD, "ER_Entity", zSET_NULL )
+               
+               // KJS 05/05/22 - Seems like we should also be looping through the SourceERD so that we add ALL attributes to the new
+               // ER. But I guess we don't want all attributes in the LOD. Looks like there is an operation that copies the LOD Attributes so let's try SourceER here                                          
+               FOR EACH SourceERD.ER_Attribute
+   
                   // This is an ER Attribute so add it to ER.
                   nRC = LOD_CreateER_AttrFrmER( SourceERD,
                                                 SourceLPLR,
@@ -725,253 +810,377 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
                   IF nRC < 0
                      RETURN nRC
                   END
-            END
-
-            // Set flag to create Identifiers.
-            // Since we created the ER Entity, we must also create Identifiers. However, these need to be created AFTER the
-            // ER Relationship is created because an Identifier can reference a relationship. But a Relationship may need to
-            // be added even though the ER Entity is not added, so that code exists further down below. Thus, instead of
-            // creating the Identifiers here, we will only set a flag and process the Identifier code after the
-            // Relationship code.
-            CreateIdentifiersFlag = 1
-
-            CurrentLPLR.LPLR.wMergeER_ModifiedFlag = "Y"    // Indicate that the ER has been modified.
-         ELSE
-            // Since there is no Source ERD and the source ER_Entity is not in the target, we will give an
-            // error message and ignore the Entity.
-            IF RESULT < zCURSOR_SET
-               szMsg = "ER Entity (" + OldRecursiveLOD.ER_EntityRec.Name +
-                       ") does not exist in new ERD." +
-                       NEW_LINE + "LOD (" + OldMainLOD.LOD.Name +
-                       ") will not be migrated."
-               MessageSend( vSubtask, "ZO00404", "Entity Copy",
-                            szMsg,
-                            zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-               DELETE ENTITY NewRecursiveLOD.LOD_EntityParent NONE
-               RETURN 0
-            END
-         END
-      END
-   END
+               END
    
-   // Process ER Relationship for LOD, if it exists.
-   // If the LOD Entity is part of an ER relationship, make sure that relationship is also in the new ER.
-   // We will use the relationship in the LOD to locate the relationship in the ER and then copy the relationship from the ER.
-   // Note that we might also have to create the ER Entity at the other end of the relationship. If we do, we
-   // won't create attributes here, as they will be added when that entity is processed for the LOD.
-   // We will call the ERD_RelationshipCopy operation in TZEREM2O to actually create the relationship, as the
-   // process is very complicated.
-   IF OldRecursiveLOD.ER_RelLinkRec EXISTS AND SourceERD != 0 AND OldRecursiveLOD.LOD_EntityParent.Work != "Y"
-      RelationshipName = OldRecursiveLOD.ER_RelLinkRec.Name
-
-      // To locate a match on the relationship, we will need to find a match on the relationship name and
-      // on both the source and target entity of the relationship.
-      FoundFlag = 0
-      RelationshipName = OldRecursiveLOD.ER_RelLinkRec.Name
-      SET CURSOR FIRST NewERD.ER_RelType
-      LOOP WHILE FoundFlag = 0 AND RESULT >= zCURSOR_SET
-         // Now make sure the entity on the other side of the RelLink is correct.
-         // If not, continue searching.
-
-         // First look for match on relationship name and parent Entity name.
-         SET CURSOR FIRST NewERD.ER_RelLink_2
-                    WHERE NewERD.ER_RelLink_2.Name = RelationshipName AND
-                          NewERD.ER_Entity_2.Name  = ParentName
-         IF RESULT >= zCURSOR_SET
-            // There was a match, so see if the other RelLink is for he entity itself.
-            CreateViewFromViewForTask( NewERD2, NewERD, 0 )
-            SET CURSOR NEXT NewERD2.ER_RelLink_2
-            IF RESULT < zCURSOR_SET
-               SET CURSOR PREVIOUS NewERD2.ER_RelLink_2
-            END
-            IF NewERD2.ER_Entity_2.Name = EREntityName
-               FoundFlag = 1
-            END
-            DropView ( NewERD2 )
-         END
-         IF FoundFlag = 0
-            // Continue to next RelType if we have no yet found a match.
-            SET CURSOR NEXT NewERD.ER_RelType
-         END
-      END
-      IF FoundFlag = 0
-
-         // The relationship is NOT in the ER.
-         // Note that the Entity at the other end of the Relationship is already in the ER, either because
-         // it is not new with this LOD or it was added earlier when the Parent Entity was processed.
-
-         // We need to position on the relationship in the SourceERD that we are to copy. We are already positioned
-         // on the entity.
-         SET CURSOR FIRST SourceERD.ER_RelLink_Other WITHIN SourceERD.ER_Entity
-                    WHERE SourceERD.ER_RelLink_Other.Name = RelationshipName
-                      AND SourceERD.ER_Entity_Other.Name  = ParentName
-
-         // Go to create the relationship.
-         ERD_RelationshipCopy( NewERD, SourceERD, vSubtask )
-
-         // We now need to position on the correct relationship from the Source LOD, which is the "other"
-         // relationship from that in the LOD, which is RelationshipName.
-         SET CURSOR FIRST NewERD.ER_RelLink_2 WHERE NewERD.ER_RelLink_2.Name != RelationshipName
-
-         CurrentLPLR.LPLR.wMergeER_ModifiedFlag = "Y"    // Indicate that the ER has been modified.
-      END
-
-      // Whether we added the RelLink or it was already there, include it in the LOD.
-      SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
-      IF RESULT < zCURSOR_SET
-         IssueError( NewRecursiveLOD,0,0, "Programming Include Error 1" )
-         RETURN -1
-      END
-      INCLUDE NewRecursiveLOD.ER_EntityRec FROM NewERD.ER_Entity
-
-      IF OldRecursiveLOD.ER_RelLinkRec EXISTS
-         // It's complex to position on the correct RelType in the Target ERD, as there is no name.
-         // Thus, we'll first position on the RelType in the Source ERD, and then position on the Target ERD by
-         // RelLink Name and other ER_Entity Name.
-         SET CURSOR FIRST SourceERD.ER_Entity WHERE SourceERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
-         SET CURSOR FIRST SourceERD.ER_RelType_1 WITHIN SourceERD.ER_Entity
-                    WHERE SourceERD.ER_RelType_1.ZKey = OldRecursiveLOD.ER_RelTypeRec.ZKey
-         SET CURSOR FIRST NewERD.ER_Entity_Other WITHIN NewERD.ER_Entity
-                    WHERE NewERD.ER_Entity_Other.Name  = SourceERD.ER_Entity_Other.Name
-                      AND NewERD.ER_RelLink_Other.Name = SourceERD.ER_RelLink_Other.Name
-         IF RESULT < zCURSOR_SET
-            IssueError( NewRecursiveLOD,0,0, "Programming Include Error 2" )
-            RETURN -1
-         END
-         INCLUDE NewRecursiveLOD.ER_RelLinkRec FROM NewERD.ER_RelLink_Other
-         IF NewRecursiveLOD.ER_RelTypeRec DOES NOT EXIST
-            INCLUDE NewRecursiveLOD.ER_RelTypeRec FROM NewERD.ER_RelType_1
-         END
-      END
-
-   END
-
-   // If Identifiers were flagged above to be created, create them here.
-   IF CreateIdentifiersFlag = 1
-      FOR EACH SourceERD.ER_EntIdentifier
-         CreateMetaEntity( vSubtask, NewERD, "ER_EntIdentifier", zPOS_AFTER )
-         SetMatchingAttributesByName( NewERD, "ER_EntIdentifier", SourceERD, "ER_EntIdentifier", zSET_NULL )
-         FOR EACH SourceERD.ER_FactType
-            CreateMetaEntity( vSubtask, NewERD, "ER_FactType", zPOS_AFTER )
-            SetMatchingAttributesByName( NewERD, "ER_FactType", SourceERD, "ER_FactType", zSET_NULL )
-            IF SourceERD.ER_AttributeIdentifier EXISTS
-               SET CURSOR FIRST NewERD.ER_Attribute WHERE NewERD.ER_Attribute.Name = SourceERD.ER_AttributeIdentifier.Name
+               // Set flag to create Identifiers.
+               // Since we created the ER Entity, we must also create Identifiers. However, these need to be created AFTER the
+               // ER Relationship is created because an Identifier can reference a relationship. But a Relationship may need to
+               // be added even though the ER Entity is not added, so that code exists further down below. Thus, instead of
+               // creating the Identifiers here, we will only set a flag and process the Identifier code after the
+               // Relationship code.
+               CreateIdentifiersFlag = 1
+   
+               CurrentLPLR.LPLR.wMergeER_ModifiedFlag = "Y"    // Indicate that the ER has been modified.
+            ELSE
+               // Since there is no Source ERD and the source ER_Entity is not in the target, we will give an
+               // error message and ignore the Entity.
                IF RESULT < zCURSOR_SET
-                  szMsg = "ER Entity (" + EREntityName +
-                          ") Identifier (" + SourceERD.ER_AttributeIdentifier.Name + ") does not exist in new ERD." +
+                  szMsg = "ER Entity (" + OldRecursiveLOD.ER_EntityRec.Name +
+                          ") does not exist in new ERD." +
                           NEW_LINE + "LOD (" + OldMainLOD.LOD.Name +
                           ") will not be migrated."
                   MessageSend( vSubtask, "ZO00404", "Entity Copy",
                                szMsg,
                                zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                   DELETE ENTITY NewRecursiveLOD.LOD_EntityParent NONE
+ //TraceLineS( "***** Before Return", "" ) 
                   RETURN 0
                END
-               INCLUDE NewERD.ER_AttributeIdentifier FROM NewERD.ER_Attribute
             END
-            IF SourceERD.ER_RelLinkIdentifier EXISTS
-               SET CURSOR FIRST NewERD.ER_RelLink_Other WITHIN NewERD.ER_Entity
-                          WHERE NewERD.ER_RelLink_Other.Name = SourceERD.ER_RelLinkIdentifier.Name
-                            AND NewERD.ER_Entity_Other.Name  = SourceERD.ER_Entity_Other_Identifier.Name
+         END
+      END
+      
+      // Process ER Relationship for LOD, if it exists.
+      // If the LOD Entity is part of an ER relationship, make sure that relationship is also in the new ER.
+      // We will use the relationship in the LOD to locate the relationship in the ER and then copy the relationship from the ER.
+      // Note that we might also have to create the ER Entity at the other end of the relationship. If we do, we
+      // won't create attributes here, as they will be added when that entity is processed for the LOD.
+      // We will call the ERD_RelationshipCopy operation in TZEREM2O to actually create the relationship, as the
+      // process is very complicated.
+      IF OldRecursiveLOD.ER_RelLinkRec EXISTS AND SourceERD != 0 AND OldRecursiveLOD.LOD_EntityParent.Work != "Y"
+         RelationshipName = OldRecursiveLOD.ER_RelLinkRec.Name
+ 
+ //TraceLineS( "***** In relationship", "" ) 
+         // To locate a match on the relationship, we will need to find a match on the relationship name and
+         // on both the source and target entity of the relationship.
+         FoundFlag = 0
+         RelationshipName = OldRecursiveLOD.ER_RelLinkRec.Name
+         SET CURSOR FIRST NewERD.ER_RelType
+         LOOP WHILE FoundFlag = 0 AND RESULT >= zCURSOR_SET
+            // Now make sure the entity on the other side of the RelLink is correct.
+            // If not, continue searching.
+   
+            // First look for match on relationship name and parent Entity name.
+            SET CURSOR FIRST NewERD.ER_RelLink_2
+                       WHERE NewERD.ER_RelLink_2.Name = RelationshipName AND
+                             NewERD.ER_Entity_2.Name  = ParentName
+            IF RESULT >= zCURSOR_SET
+               // There was a match, so see if the other RelLink is for he entity itself.
+               CreateViewFromViewForTask( NewERD2, NewERD, 0 )
+               SET CURSOR NEXT NewERD2.ER_RelLink_2
                IF RESULT < zCURSOR_SET
-                  szMsg = "ER Entity (" + EREntityName +
-                          ") Identifier Relationship (" + SourceERD.ER_RelLinkIdentifier.Name + " - " + SourceERD.ER_Entity_Other_Identifier.Name +
-                          ") does not exist in new ERD." +
-                          NEW_LINE + NEW_LINE +
-                          " At the end of migration, you should check that it exists, (if Entity " + SourceERD.ER_Entity_Other_Identifier.Name + " has also been migrated)."
-                  MessageSend( vSubtask, "ZO00404", "Entity Copy",
-                               szMsg,
-                               zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-                  // KJS 05/05/22 - I'm going to take out the next two lines momentarily because I'm not exactly sure what to do...
-                  // If I haven't yet added the Entity for this relationship, it's not necessarily an error. Although we would really need to come back and
-                  // create it wouldn't we. In case of mTst, I will end up creating the Entity, but what if that wasn't part of migrated object. What to do??
-                  // Would we try to create that other Entity? (my example is AdmissionsTrackRequirement has REL AdmissionTrack/AdmissionRequirement.
-                  //DELETE ENTITY NewRecursiveLOD.LOD_EntityParent NONE
-                  //RETURN 0
+                  SET CURSOR PREVIOUS NewERD2.ER_RelLink_2
+               END
+               IF NewERD2.ER_Entity_2.Name = EREntityName
+                  FoundFlag = 1
+               END
+               DropView ( NewERD2 )
+            END
+            IF FoundFlag = 0
+               // Continue to next RelType if we have not yet found a match.
+               SET CURSOR NEXT NewERD.ER_RelType
+            END
+         END
+         IF FoundFlag = 0
+   
+            // The relationship is NOT in the New ER.
+            // On 9/12/2022 DonC changed the following code to NOT copy the relationship if it's not in the New ERD.
+   
+            /*
+            // Note that the Entity at the other end of the Relationship is already in the ER, either because
+            // it is not new with this LOD or it was added earlier when the Parent Entity was processed.
+            // We need to position on the relationship in the SourceERD that we are to copy. We are already positioned
+            // on the entity.
+            SET CURSOR FIRST SourceERD.ER_RelLink_Other WITHIN SourceERD.ER_Entity
+                       WHERE SourceERD.ER_RelLink_Other.Name = RelationshipName
+                         AND SourceERD.ER_Entity_Other.Name  = ParentName
+            // Go to create the relationship.
+            ERD_RelationshipCopy( NewERD, SourceERD, vSubtask )
+            // We now need to position on the correct relationship from the Source LOD, which is the "other"
+            // relationship from that in the LOD, which is RelationshipName.
+            SET CURSOR FIRST NewERD.ER_RelLink_2 WHERE NewERD.ER_RelLink_2.Name != RelationshipName
+            CurrentLPLR.LPLR.wMergeER_ModifiedFlag = "Y"    // Indicate that the ER has been modified.*/
+  //TraceLineS( "***** Rel not in ER", "" ) 
+         ELSE
+   
+            // The relationship was found in New ERD, so include entity.
+            SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
+            IF RESULT < zCURSOR_SET
+               IssueError( NewRecursiveLOD,0,0, "Programming Include Error 1" )
+               RETURN -1
+            END
+            INCLUDE NewRecursiveLOD.ER_EntityRec FROM NewERD.ER_Entity
+      
+            IF OldRecursiveLOD.ER_RelLinkRec EXISTS
+               // It's complex to position on the correct RelType in the Target ERD, as there is no name.
+               // Thus, we'll first position on the RelType in the Source ERD, and then position on the Target ERD by
+               // RelLink Name and other ER_Entity Name.
+               SET CURSOR FIRST SourceERD.ER_Entity WHERE SourceERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
+               SET CURSOR FIRST SourceERD.ER_RelType_1 WITHIN SourceERD.ER_Entity
+                          WHERE SourceERD.ER_RelType_1.ZKey = OldRecursiveLOD.ER_RelTypeRec.ZKey
+               SET CURSOR FIRST NewERD.ER_Entity_Other WITHIN NewERD.ER_Entity
+                          WHERE NewERD.ER_Entity_Other.Name  = SourceERD.ER_Entity_Other.Name
+                            AND NewERD.ER_RelLink_Other.Name = SourceERD.ER_RelLink_Other.Name
+               IF RESULT >= zCURSOR_SET
+                  INCLUDE NewRecursiveLOD.ER_RelLinkRec FROM NewERD.ER_RelLink_Other
+                  IF NewRecursiveLOD.ER_RelTypeRec DOES NOT EXIST
+                     INCLUDE NewRecursiveLOD.ER_RelTypeRec FROM NewERD.ER_RelType_1
+                  END
                ELSE
-                  INCLUDE NewERD.ER_RelLinkIdentifier FROM NewERD.ER_RelLink_Other
+                  szMsg = "No match on Relationship for " + SourceERD.ER_Entity.Name + " " + 
+                                                            SourceERD.ER_RelLink.Name + " / " +
+                                                            SourceERD.ER_RelLink_Other.Name + " " +
+                                                            SourceERD.ER_Entity_Other.Name
+                  CreateErrorMessage( TaskLPLR, szMsg )
+  
+     //TraceLineS( "***** Before DELETE LOD_EntityParent", "" )    
+                  // Delete the LOD Entity since the correct relationship couldn't be found.
+                  DELETE ENTITY NewRecursiveLOD.LOD_EntityParent 
+               END
+            END
+         END
+   
+      END
+   
+      // If Identifiers were flagged above to be created, create them here.
+      IF CreateIdentifiersFlag = 1
+         FOR EACH SourceERD.ER_EntIdentifier
+            CreateMetaEntity( vSubtask, NewERD, "ER_EntIdentifier", zPOS_AFTER )
+            SetMatchingAttributesByName( NewERD, "ER_EntIdentifier", SourceERD, "ER_EntIdentifier", zSET_NULL )
+            FOR EACH SourceERD.ER_FactType
+               CreateMetaEntity( vSubtask, NewERD, "ER_FactType", zPOS_AFTER )
+               SetMatchingAttributesByName( NewERD, "ER_FactType", SourceERD, "ER_FactType", zSET_NULL )
+               IF SourceERD.ER_AttributeIdentifier EXISTS
+                  SET CURSOR FIRST NewERD.ER_Attribute WHERE NewERD.ER_Attribute.Name = SourceERD.ER_AttributeIdentifier.Name
+                  IF RESULT < zCURSOR_SET
+                     szMsg = "ER Entity (" + EREntityName +
+                             ") Identifier (" + SourceERD.ER_AttributeIdentifier.Name + ") does not exist in new ERD." +
+                             NEW_LINE + "LOD (" + OldMainLOD.LOD.Name +
+                             ") will not be migrated."
+                     MessageSend( vSubtask, "ZO00404", "Entity Copy",
+                                  szMsg,
+                                  zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                     DELETE ENTITY NewRecursiveLOD.LOD_EntityParent NONE
+                     RETURN 0
+                  END
+                  INCLUDE NewERD.ER_AttributeIdentifier FROM NewERD.ER_Attribute
+               END
+               IF SourceERD.ER_RelLinkIdentifier EXISTS
+                  SET CURSOR FIRST NewERD.ER_RelLink_Other WITHIN NewERD.ER_Entity
+                             WHERE NewERD.ER_RelLink_Other.Name = SourceERD.ER_RelLinkIdentifier.Name
+                               AND NewERD.ER_Entity_Other.Name  = SourceERD.ER_Entity_Other_Identifier.Name
+                  IF RESULT < zCURSOR_SET
+                     szMsg = "ER Entity (" + EREntityName +
+                             ") Identifier Relationship (" + SourceERD.ER_RelLinkIdentifier.Name + " - " + SourceERD.ER_Entity_Other_Identifier.Name +
+                             ") does not exist in new ERD." +
+                             NEW_LINE + NEW_LINE +
+                             " At the end of migration, you should check that it exists, (if Entity " + SourceERD.ER_Entity_Other_Identifier.Name + " has also been migrated)."
+                     MessageSend( vSubtask, "ZO00404", "Entity Copy",
+                                  szMsg,
+                                  zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+                     // KJS 05/05/22 - I'm going to take out the next two lines momentarily because I'm not exactly sure what to do...
+                     // If I haven't yet added the Entity for this relationship, it's not necessarily an error. Although we would really need to come back and
+                     // create it wouldn't we. In case of mTst, I will end up creating the Entity, but what if that wasn't part of migrated object. What to do??
+                     // Would we try to create that other Entity? (my example is AdmissionsTrackRequirement has REL AdmissionTrack/AdmissionRequirement.
+                     //DELETE ENTITY NewRecursiveLOD.LOD_EntityParent NONE
+                     //RETURN 0
+                  ELSE
+                     INCLUDE NewERD.ER_RelLinkIdentifier FROM NewERD.ER_RelLink_Other
+                  END
                END
             END
          END
       END
-   END
-
-   // Include the ER Entity and ER_RelLink into the new LOD, if it wasn't done above.
-   IF OldRecursiveLOD.ER_EntityRec EXISTS
-      // We will check if we've already included the ER_EntityRec, as it may have been included above when the
-      // RelLink was included.
-      IF NewRecursiveLOD.ER_EntityRec DOES NOT EXIST
-         SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
-         IF RESULT < zCURSOR_SET
-            IssueError( NewRecursiveLOD,0,0, "Programming Include Error 1" )
-            RETURN -1
-         END
-         INCLUDE NewRecursiveLOD.ER_EntityRec FROM NewERD.ER_Entity
-
-         IF OldRecursiveLOD.ER_RelLinkRec EXISTS
-            // It's complex to position on the correct RelType in the Target ERD, as there is no name.
-            // Thus, we'll first position on the RelType in the Source ERD, and then position on the Target ERD by
-            // RelLink Name and other ER_Entity Name.
-            SET CURSOR FIRST SourceERD.ER_Entity WHERE SourceERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
-            SET CURSOR FIRST SourceERD.ER_RelType_1 WITHIN SourceERD.ER_Entity
-                       WHERE SourceERD.ER_RelType_1.ZKey = OldRecursiveLOD.ER_RelTypeRec.ZKey
-            SET CURSOR FIRST NewERD.ER_Entity_Other WITHIN NewERD.ER_Entity
-                       WHERE NewERD.ER_Entity_Other.Name  = SourceERD.ER_Entity_Other.Name
-                         AND NewERD.ER_RelLink_Other.Name = SourceERD.ER_RelLink_Other.Name
+ //TraceLineS( "***** At Trace 2", "" ) 
+   
+      // Include the ER Entity and ER_RelLink into the new LOD, if it wasn't done above.
+      IF OldRecursiveLOD.ER_EntityRec EXISTS
+         // We will check if we've already included the ER_EntityRec, as it may have been included above when the
+         // RelLink was included.
+         IF NewRecursiveLOD.ER_EntityRec DOES NOT EXIST
+            SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
             IF RESULT < zCURSOR_SET
-               IssueError( NewRecursiveLOD,0,0, "Programming Include Error 2" )
+               IssueError( NewRecursiveLOD,0,0, "Programming Include Error 1" )
                RETURN -1
             END
-            INCLUDE NewRecursiveLOD.ER_RelLinkRec FROM NewERD.ER_RelLink_Other
-            IF NewRecursiveLOD.ER_RelTypeRec DOES NOT EXIST
-               INCLUDE NewRecursiveLOD.ER_RelTypeRec FROM NewERD.ER_RelType_1
+            INCLUDE NewRecursiveLOD.ER_EntityRec FROM NewERD.ER_Entity
+   
+            IF OldRecursiveLOD.ER_RelLinkRec EXISTS
+               // It's complex to position on the correct RelType in the Target ERD, as there is no name.
+               // Thus, we'll first position on the RelType in the Source ERD, and then position on the Target ERD by
+               // RelLink Name and other ER_Entity Name.
+               SET CURSOR FIRST SourceERD.ER_Entity WHERE SourceERD.ER_Entity.Name = OldRecursiveLOD.ER_EntityRec.Name
+               SET CURSOR FIRST SourceERD.ER_RelType_1 WITHIN SourceERD.ER_Entity
+                          WHERE SourceERD.ER_RelType_1.ZKey = OldRecursiveLOD.ER_RelTypeRec.ZKey
+               SET CURSOR FIRST NewERD.ER_Entity_Other WITHIN NewERD.ER_Entity
+                          WHERE NewERD.ER_Entity_Other.Name  = SourceERD.ER_Entity_Other.Name
+                            AND NewERD.ER_RelLink_Other.Name = SourceERD.ER_RelLink_Other.Name
+               IF RESULT >= zCURSOR_SET
+                  INCLUDE NewRecursiveLOD.ER_RelLinkRec FROM NewERD.ER_RelLink_Other
+                  IF NewRecursiveLOD.ER_RelTypeRec DOES NOT EXIST
+                     INCLUDE NewRecursiveLOD.ER_RelTypeRec FROM NewERD.ER_RelType_1
+                  END
+               ELSE
+                  szMsg = "No match on Relationship for " + SourceERD.ER_Entity.Name + " " + 
+                                                            SourceERD.ER_RelLink.Name + " / " +
+                                                            SourceERD.ER_RelLink_Other.Name + " " +
+                                                            SourceERD.ER_Entity_Other.Name
+                  CreateErrorMessage( TaskLPLR, szMsg )
+                  
+                  // Delete the LOD Entity since the correct relationship couldn't be found.
+                  DELETE ENTITY NewRecursiveLOD.LOD_EntityParent  
+               END
             END
+         END
+      END
+ //TraceLineS( "***** Before LOD_Attribute Copy", "" ) 
+ 
+      // We want to process subobjects only if the LOD_EntityParent wasn't deleted above. This could happen because
+      // the LOD_EntityParent was deleted because of a missing relationship.
+      // So, we'll add a check here.
+      IF NewRecursiveLOD.LOD_EntityParent EXISTS
+         IF NewRecursiveLOD.LOD_EntityParent.Name = OldRecursiveLOD.LOD_EntityParent.Name 
+       
+            // Create each LOD Attribute.
+            // Modified by DonC on 2/20/2023 so that Attributes copied would be in the order as defined under LOD_Entity instead of LOD_EntityParent.
+            // This is because that is the order Attributes appear on the interface and are controlled from that interface.
+            //FOR EACH OldRecursiveLOD.LOD_AttributeRec
+            SET CURSOR FIRST OldMainLOD.LOD_Entity WHERE OldMainLOD.LOD_Entity.ZKey = OldRecursiveLOD.LOD_EntityParent.ZKey
+            FOR EACH OldMainLOD.LOD_Attribute 
+               SET CURSOR FIRST OldRecursiveLOD.LOD_AttributeRec WHERE OldRecursiveLOD.LOD_AttributeRec.ZKey = OldMainLOD.LOD_Attribute.ZKey  
+               IF RESULT < zCURSOR_SET
+                  INCLUDE OldRecursiveLOD.LOD_AttributeRec FROM OldMainLOD.LOD_Attribute
+               END
+               LOD_AttributeCopy( vSubtask,
+                                  NewMainLOD,
+                                  NewRecursiveLOD,
+                                  OldMainLOD,
+                                  OldRecursiveLOD,
+                                  SourceLPLR,
+                                  CurrentLPLR,
+                                  NewERD,
+                                  "" ) // KJS 05/05/22 - I am changing this to "" (from "Y")because we add attribute to er up above. And I don't want to call CopyERAttribute because passes ERD not LOD.
+            END
+   
+            // Loop again through old LOD_Attribute entities and process DB_ER_AttributeRec entities.
+            FOR EACH OldRecursiveLOD.LOD_AttributeRec
+               // If DB_ER_AttributeRec exists in the old, include it in the new.
+               IF  OldRecursiveLOD.DB_ER_AttributeRec EXISTS
+                  CreateViewFromViewForTask( TempLOD, NewRecursiveLOD, 0 )
+                  SET CURSOR FIRST NewRecursiveLOD.ER_AttributeRec WITHIN NewRecursiveLOD.LOD_EntityParent WHERE
+                                   NewRecursiveLOD.ER_AttributeRec.Name = OldRecursiveLOD.ER_AttributeRec.Name
+                  SET CURSOR FIRST TempLOD.ER_AttributeRec WITHIN TempLOD.LOD_EntityParent WHERE
+                                   TempLOD.ER_AttributeRec.Name = OldRecursiveLOD.DB_ER_AttributeRec.Name
+                  INCLUDE NewRecursiveLOD.DB_ER_AttributeRec FROM TempLOD.ER_AttributeRec
+                  DropView ( TempLOD )
+               END
+            END
+         
+            //  If OldRecursiveLOD.LOD_EntityConstraintOperRec exists, create a relationship to the
+            //  corresponding operation in the new LOD.
+            //  If the operation doesn't exist in the new LOD, ignore the LOD_EntityConstraintOperRec.
+            IF OldRecursiveLOD.LOD_EntityConstraintOperRec EXISTS
+               SET CURSOR FIRST NewMainLOD.Operation WITHIN NewMainLOD.LOD WHERE
+                                NewMainLOD.Operation.Name = OldRecursiveLOD.LOD_EntityConstraintOperRec.Name
+               IF RESULT >= zCURSOR_SET
+                  INCLUDE NewRecursiveLOD.LOD_EntityConstraintOperRec FROM NewMainLOD.Operation
+               END
+            END
+ //TraceLineS( "***** Before Create LOD_EntityChild Copy", "" ) 
+         
+            // Process any LOD_EntityChild entities recursively.
+            // We need to make sure children are processed after parents are completed, because the children may need
+            // the ER Entities processed by the parents.
+            // We also only want to do this
+            IF OldRecursiveLOD.ER_EntityRec EXISTS
+               OrigParentName = OldRecursiveLOD.ER_EntityRec.Name
+            ELSE
+               OrigParentName = ""
+            END
+            SetViewToSubobject( OldRecursiveLOD, "LOD_EntityChild" )
+            SetViewToSubobject( NewRecursiveLOD, "LOD_EntityChild" ) 
+            FOR EACH OldRecursiveLOD.LOD_EntityParent
+               nRC = LOD_EntityCopy( NewMainLOD,
+                                     NewRecursiveLOD,
+                                     OldMainLOD,
+                                     OldRecursiveLOD,
+                                     SourceLPLR,
+                                     CurrentLPLR,
+                                     NewERD,
+                                     SourceERD,
+                                     NewDTE,
+                                     vSubtask,
+                                     OrigParentName,
+                                     szAddER_EntityFlag )
+               
+            END
+            ResetViewFromSubobject( OldRecursiveLOD )
+            ResetViewFromSubobject( NewRecursiveLOD )
          END
       END
    END
 
-   //  Create each LOD Attribute
-   FOR EACH OldRecursiveLOD.LOD_AttributeRec
-      LOD_AttributeCopy( vSubtask,
-                         NewMainLOD,
-                         NewRecursiveLOD,
-                         OldMainLOD,
-                         OldRecursiveLOD,
-                         SourceLPLR,
-                         CurrentLPLR,
-                         NewERD,
-                         "" ) // KJS 05/05/22 - I am changing this to "" (from "Y")because we add attribute to er up above. And I don't want to call CopyERAttribute because passes ERD not LOD.
+END
 
-   END
+/*************************************************************************************************
+**
+**    OPERATION: LOD_EntityMerge
+**
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+LOD_EntityMerge( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
+                 VIEW        NewRecursiveLOD BASED ON LOD TZZOLODO,
+                 VIEW        OldMainLOD      BASED ON LOD TZZOLODO,
+                 VIEW        OldRecursiveLOD BASED ON LOD TZZOLODO,
+                 VIEW        SourceLPLR      BASED ON LOD TZCMLPLO,
+                 VIEW        CurrentLPLR     BASED ON LOD TZCMLPLO,
+                 VIEW        NewERD          BASED ON LOD TZEREMDO,
+                 VIEW        SourceERD       BASED ON LOD TZEREMDO,
+                 VIEW        NewDTE          BASED ON LOD TZTENVRO,
+                 VIEW        vSubtask,
+                 STRING (32) ParentName )
 
-   // Loop again through old LOD_Attribute entities and process DB_ER_AttributeRec entities.
+   VIEW TaskLPLR  REGISTERED AS TaskLPLR
+   VIEW NewERD2   BASED ON LOD  TZEREMDO
+   VIEW TempLOD   BASED ON LOD  TZZOLODO
+   SHORT      ErrorFlag
+   SHORT      nRC
+   STRING (254) szMsg
+   STRING (32)  OrigParentName
+   STRING (32)  LODEntityName
+   STRING (32)  ERAttributeName
+   
+   // This is used by TZCMLPMD.MERGE_SelectedLPLR_Metas for merging LODs.
+   // It merges any Attributes from the Source and then processes the Source Entities recursively to merge or copy other entities.
+   
+   // Merge Attributes.
+   
+   //  Copy each LOD Attribute that is not in the target.
    FOR EACH OldRecursiveLOD.LOD_AttributeRec
-      // If DB_ER_AttributeRec exists in the old, include it in the new.
-      IF  OldRecursiveLOD.DB_ER_AttributeRec EXISTS
-         CreateViewFromViewForTask( TempLOD, NewRecursiveLOD, 0 )
-         SET CURSOR FIRST NewRecursiveLOD.ER_AttributeRec WITHIN NewRecursiveLOD.LOD_EntityParent WHERE
-              NewRecursiveLOD.ER_AttributeRec.Name = OldRecursiveLOD.ER_AttributeRec.Name
-         SET CURSOR FIRST TempLOD.ER_AttributeRec WITHIN TempLOD.LOD_EntityParent WHERE
-              TempLOD.ER_AttributeRec.Name = OldRecursiveLOD.DB_ER_AttributeRec.Name
-         INCLUDE NewRecursiveLOD.DB_ER_AttributeRec FROM TempLOD.ER_AttributeRec
-         DropView ( TempLOD )
+      SET CURSOR FIRST NewRecursiveLOD.ER_AttributeRec WITHIN NewRecursiveLOD.LOD_EntityParent 
+                 WHERE NewRecursiveLOD.ER_AttributeRec.Name = OldRecursiveLOD.ER_AttributeRec.Name 
+      IF RESULT < zCURSOR_SET 
+         nRC = LOD_AttributeCopy( vSubtask,
+                                  NewMainLOD,
+                                  NewRecursiveLOD,
+                                  OldMainLOD,
+                                  OldRecursiveLOD,
+                                  SourceLPLR,
+                                  CurrentLPLR,
+                                  NewERD,
+                                  "" ) 
+         // If the copy was successful, create a message to note it.
+         IF nRC >= 0
+            LODEntityName   = OldRecursiveLOD.LOD_EntityParent.Name 
+            ERAttributeName = OldRecursiveLOD.ER_AttributeRec.Name
+            szMsg = "Attribute, " + LODEntityName + "." + ERAttributeName+ ", was added during Merge processing."
+            CreateErrorMessage( TaskLPLR, szMsg )
+         END
       END
    END
-
-   //  If OldRecursiveLOD.LOD_EntityConstraintOperRec exists, create a relationship to the
-   //  corresponding operation in the new LOD.
-   //  If the operation doesn't exist in the new LOD, ignore the LOD_EntityConstraintOperRec.
-   IF OldRecursiveLOD.LOD_EntityConstraintOperRec EXISTS
-      SET CURSOR FIRST NewMainLOD.Operation WITHIN NewMainLOD.LOD WHERE
-                       NewMainLOD.Operation.Name = OldRecursiveLOD.LOD_EntityConstraintOperRec.Name
-      IF RESULT >= zCURSOR_SET
-         INCLUDE NewRecursiveLOD.LOD_EntityConstraintOperRec FROM NewMainLOD.Operation
-      END
-   END
-
+   
    // Process any LOD_EntityChild entities recursively.
-   // We need to make sure children are processed after parents are completed, because the children may need
-   // the ER Entities processed by the parents.
+   // We will either Merge or Copy each child as necessary.
    FOR EACH OldRecursiveLOD.LOD_EntityChild
       IF OldRecursiveLOD.ER_EntityRec EXISTS
          OrigParentName = OldRecursiveLOD.ER_EntityRec.Name
@@ -980,20 +1189,38 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
       END
       SetViewToSubobject( OldRecursiveLOD, "LOD_EntityChild" )
       SetViewToSubobject( NewRecursiveLOD, "LOD_EntityChild" )
-
-      nRC = LOD_EntityCopy( NewMainLOD,
-                            NewRecursiveLOD,
-                            OldMainLOD,
-                            OldRecursiveLOD,
-                            SourceLPLR,
-                            CurrentLPLR,
-                            NewERD,
-                            SourceERD,
-                            NewDTE,
-                            vSubtask,
-                            OrigParentName,
-                            szAddER_EntityFlag )
-
+      
+      SET CURSOR FIRST NewRecursiveLOD.LOD_EntityParent WHERE NewRecursiveLOD.LOD_EntityParent.Name = OldRecursiveLOD.LOD_EntityParent.Name 
+      IF RESULT >= zCURSOR_SET
+         // LOD Entity already exists in target, so just merge it.
+         nRC = LOD_EntityMerge( NewMainLOD,
+                                NewRecursiveLOD,
+                                OldMainLOD,
+                                OldRecursiveLOD,
+                                SourceLPLR,
+                                CurrentLPLR,
+                                NewERD,
+                                SourceERD,
+                                NewDTE,
+                                vSubtask,
+                                OrigParentName )
+      
+      ELSE
+         // LOD Entity doesn't exist in target, so copy it.
+         nRC = LOD_EntityCopy( NewMainLOD,
+                               NewRecursiveLOD,
+                               OldMainLOD,
+                               OldRecursiveLOD,
+                               SourceLPLR,
+                               CurrentLPLR,
+                               NewERD,
+                               SourceERD,
+                               NewDTE,
+                               vSubtask,
+                               OrigParentName,
+                               "" )
+      END
+      
       IF nRC < 0
          RETURN nRC
       ELSE
@@ -1005,9 +1232,7 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
       ResetViewFromSubobject( OldRecursiveLOD )
       ResetViewFromSubobject( NewRecursiveLOD )
    END
-
-   Return ErrorFlag
-
+   
 END
 
 /*************************************************************************************************
@@ -1144,16 +1369,45 @@ LOD_AttributeCopy( VIEW        vSubtask,
                    VIEW        NewERD          BASED ON LOD TZEREMDO,
                    STRING ( 1 ) szAddER_AttributeFlag )
 
+   VIEW TaskLPLR REGISTERED AS TaskLPLR
    VIEW NewDomain BASED ON LOD TZDGSRCO
-
    SHORT      ErrorFlag
    SHORT      FoundFlag
    SHORT      n
    SHORT      nRC
    STRING ( 254)  szMsg
+   STRING ( 32 )  LODEntityName
    STRING ( 32 )  RelationshipName
    STRING ( 32 )  ERAttributeName
    STRING ( 32 )  DomainName
+   
+   // Added 8/2/2022 by DonC to NOT add an ER Attribute if it isn't in the target ER, but only if Entity is in ER.
+   IF OldRecursiveLOD.LOD_AttributeRec.Work = ""
+      IF OldRecursiveLOD.ER_EntityRec EXISTS AND OldRecursiveLOD.ER_AttributeRec EXISTS
+         LODEntityName   = OldRecursiveLOD.ER_EntityRec.Name
+         ERAttributeName = OldRecursiveLOD.ER_AttributeRec.Name 
+         SET CURSOR FIRST NewERD.ER_Entity    WHERE NewERD.ER_Entity.Name    = LODEntityName
+         SET CURSOR FIRST NewERD.ER_Attribute WHERE NewERD.ER_Attribute.Name = ERAttributeName
+         IF RESULT < zCURSOR_SET
+   IF ERAttributeName = "Name"
+      IssueError( vSubtask,0,0, "LOD_AttributeCopy: At Attribute Name" )
+   END
+            szMsg = "ER Attribute, " + LODEntityName + "." + ERAttributeName + ", does not exist in target ERD and will not be copied." 
+            CreateErrorMessage( TaskLPLR, szMsg )
+            RETURN
+         END
+      END
+   END
+
+   // Added 9/13/2022 by DonC - Check to make sure that a Domain exists for the attribute.
+   IF OldRecursiveLOD.DomainRec DOES NOT EXIST
+      LODEntityName   = OldRecursiveLOD.LOD_EntityParent.Name 
+      ERAttributeName = OldRecursiveLOD.ER_AttributeRec.Name 
+      szMsg = "Domain is not defined for " + LODEntityName + "." + ERAttributeName
+      CreateErrorMessage( TaskLPLR, szMsg )
+      //MessageSend( vSubtask, "", "Entity Copy", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN
+   END
 
    CreateMetaEntity( vSubtask, NewRecursiveLOD, "LOD_AttributeRec", zPOS_AFTER )
        NewRecursiveLOD.LOD_AttributeRec.Work             = OldRecursiveLOD.LOD_AttributeRec.Work
@@ -1196,7 +1450,7 @@ LOD_AttributeCopy( VIEW        vSubtask,
                SET CURSOR FIRST SourceLPLR.W_MetaType
                           WHERE SourceLPLR.W_MetaType.Type = 2003
                SET CURSOR FIRST SourceLPLR.W_MetaDef
-                          WHERE SourceLPLR.W_MetaDef.CPLR_ZKey = OldRecursiveLOD.DomainRec.ZKey // KJS 05/05/22 - should this be by name, not zkey???
+                          WHERE SourceLPLR.W_MetaDef.CPLR_ZKey = OldRecursiveLOD.DomainRec.ZKey // ZKey is used here in case DomainName was changed
                IF RESULT >= zCURSOR_SET
                   DomainName = SourceLPLR.W_MetaDef.Name
                   SET CURSOR FIRST CurrentLPLR.W_MetaDef
@@ -1212,13 +1466,18 @@ LOD_AttributeCopy( VIEW        vSubtask,
                DropMetaOI( vSubtask, NewDomain )
 
             ELSE
-               IF szAddER_AttributeFlag = "Y" AND SourceLPLR != 0
-                  // The request is to add ER entities and Domains as necessary.
+               // Added 8/2/2022 by DonC to migrate a Domain/DomainGroup as necessary for a work Attribute if the Domain isn't currently in the target.
+               // IF was changed 8/30/2022 by DonC because szAddER_AttributeFlag isn't being used and I think we always want to
+               // add a Domain if necessary.
+               //IF szAddER_AttributeFlag = "Y" AND SourceLPLR != 0
+               IF SourceLPLR != 0
                   DomainAddForMerge( NewDomain, SourceLPLR, CurrentLPLR,
-                                     CurrentLPLR.LPLR.MetaSrcDir,
+                                     SourceLPLR.LPLR.MetaSrcDir,    // Source directory for retrieving source Domain Group
                                      DomainName, vSubtask )
-                                    //CurrentLPLR.LPLR.wFullyQualifiedFileName,
+                  INCLUDE NewRecursiveLOD.DomainRec FROM NewDomain.Domain
+                  DropMetaOI( vSubtask, NewDomain )
                ELSE
+                  // This code should not be executed for LPLR Merge since it's only executed when there is no Source LPLR.
                   szMsg = "Domain (" + DomainName + ") does not exist."
                   MessageSend( vSubtask, "ZO00403", "Entity Copy",
                                szMsg,
@@ -1270,6 +1529,10 @@ LOD_AttributeCopy( VIEW        vSubtask,
             INCLUDE NewRecursiveLOD.ER_AttributeRec FROM NewERD.ER_Attribute
          ELSE
             // If the ER AttributeRec in the Source does not exist in the target, drop the LOD_AttributeRec entry.
+            LODEntityName   = OldRecursiveLOD.LOD_EntityParent.Name 
+            ERAttributeName = OldRecursiveLOD.ER_AttributeRec.Name
+            szMsg = "ER Attribute, " + LODEntityName + "." + ERAttributeName + ", does not exist in target ERD and will not be copied." 
+            CreateErrorMessage( TaskLPLR, szMsg )
             DELETE ENTITY NewRecursiveLOD.LOD_AttributeRec NONE
             //szMsg = "The following attribute in the Source E/R was not found in the Target E/R." +
             //  NEW_LINE + NEW_LINE + OldRecursiveLOD.ER_AttributeRec.Name

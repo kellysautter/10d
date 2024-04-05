@@ -308,3 +308,78 @@ SetCompilerPathes( VIEW vSource,                     // Source LPLR
    END
 
 END
+
+/*************************************************************************************************
+**    
+**    OPERATION: CreateErrorMessage
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+CreateErrorMessage( VIEW TaskLPLR BASED ON LOD TZCMLPLO,
+                    STRING ( 256 ) szMessageText )
+
+   INTEGER nMessageNumber
+   
+   // If this operation is execute as part of an LPLR Merge, create a ErrorMessage entity in TaskLPLR.
+   // Otherwise, just send a message to the operator.
+   IF TaskLPLR.LPLR.MergeType = "L"
+      // Create an Error Message with sequence number.
+      IF TaskLPLR.ErrorMessage EXISTS
+         nMessageNumber = TaskLPLR.ErrorMessage.MessageNumber + 1
+      ELSE
+         nMessageNumber = 1
+      END
+      CREATE ENTITY TaskLPLR.ErrorMessage 
+      TaskLPLR.ErrorMessage.MessageText   = szMessageText
+      TaskLPLR.ErrorMessage.MessageNumber = nMessageNumber
+      TaskLPLR.ErrorMessage.MergeMetaType = TaskLPLR.LPLR.wMergeMetaType 
+      TaskLPLR.ErrorMessage.MergeMetaName = TaskLPLR.LPLR.wMergeMetaName 
+   ELSE
+      MessageSend( TaskLPLR, "", "Compare Meta Error", szMessageText, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: WriteErrorMessagesCSV
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+WriteErrorMessagesCSV( VIEW TaskLPLR BASED ON LOD TZCMLPLO )
+
+   STRING ( 1000 ) OutputLine
+   STRING ( 20 )   szMessageNumber
+   INTEGER         FileHandle
+
+   // Write the Merge Error Messages to the specified CSV file.
+   
+   // Open file and write out header.
+   FileHandle = SysOpenFile( TaskLPLR, TaskLPLR.LPLR.wFullyQualifiedFileName, COREFILE_CREATE )
+   IF FileHandle < 0
+      MessageSend( TaskLPLR, "", "Write Message to File",
+                   "Can't open output file.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
+   OutputLine = QUOTES + "Msg No."  + QUOTES + "," +
+                QUOTES + "Meta Type"  + QUOTES + "," +
+                QUOTES + "Meta Name" + QUOTES + "," +
+                QUOTES + "Merge Error Message" + QUOTES
+   SysWriteLine( TaskLPLR, FileHandle, OutputLine ) 
+   
+   FOR EACH TaskLPLR.ErrorMessage 
+      szMessageNumber = TaskLPLR.ErrorMessage.MessageNumber
+      OutputLine = QUOTES + szMessageNumber                     + QUOTES + "," +
+                   QUOTES + TaskLPLR.ErrorMessage.MergeMetaType + QUOTES + "," +
+                   QUOTES + TaskLPLR.ErrorMessage.MergeMetaName + QUOTES + "," +
+                   QUOTES + TaskLPLR.ErrorMessage.MessageText   + QUOTES
+      SysWriteLine( TaskLPLR, FileHandle, OutputLine ) 
+   END
+   
+   SysCloseFile( TaskLPLR, FileHandle, 0 )
+   //MessageSend( TaskLPLR, "", "Write Message to File",
+   //             "Messages have been written to specified output file.",
+   //             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+
+END

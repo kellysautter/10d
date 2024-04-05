@@ -1,9 +1,9 @@
-z1000-Zeidon    TZOPRUSO TZZOXODO                         03/18/20   13:12:47 1.0a2   
+z1000-Zeidon    TZOPRUSO TZZOXODO                         04/04/24   22:59:12 1.0a2   
 eOBJECT    1
 aNAME      TZOPRUSO
 aZKey      1326055
 aOPER_LIBNM TZOPRUSO
-aER_DATE   2020031811480786
+aER_DATE   2023081616194628
 
 eENTITY    2
 aNAME      Root
@@ -644,7 +644,7 @@ aPDELETE   D
 aINCLUDE   Y
 aEXCLUDE   Y
 aDERIVED   Y
-aMAX_LTH   10526
+aMAX_LTH   100783
 
 eATTRIB    5
 aNAME      Tag
@@ -821,7 +821,7 @@ aPERSIST   Y
 aAPDM_TOK  1158059
 aDOMAIN    Note
 aTYPE      S
-aLTH       10000
+aLTH       100000
 aHIDDEN    Y
 aXVAATT_TOK 64
 
@@ -835,6 +835,28 @@ aTYPE      S
 aLTH       16
 aHIDDEN    Y
 aXVAATT_TOK 65
+
+eATTRIB    5
+aNAME      WebHTML_TransferAddress
+aERATT_TOK 130000491
+aPERSIST   Y
+aAPDM_TOK  90000032
+aDOMAIN    Text
+aTYPE      S
+aLTH       254
+aHIDDEN    Y
+aXVAATT_TOK 66
+
+eATTRIB    5
+aNAME      ParentIsGridOrGrp
+aERATT_TOK 130000492
+aPERSIST   Y
+aAPDM_TOK  90000014
+aDOMAIN    Y/N
+aTYPE      S
+aLTH       1
+aHIDDEN    Y
+aXVAATT_TOK 67
 
 eCHILDENTITY 5
 aNAME      OperationActionWindow
@@ -854,7 +876,7 @@ aDOMAIN    Text
 aTYPE      S
 aLTH       32
 aUPDATE    Y
-aXVAATT_TOK 66
+aXVAATT_TOK 68
 
 eATTRIB    6
 aNAME      Subtype
@@ -865,7 +887,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 67
+aXVAATT_TOK 69
 
 eATTRIB    6
 aNAME      Caption
@@ -877,7 +899,7 @@ aTYPE      S
 aLTH       254
 aSEQ_AD    A
 aUPDATE    Y
-aXVAATT_TOK 68
+aXVAATT_TOK 70
 
 eATTRIB    6
 aNAME      PSDLG_X
@@ -888,7 +910,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 69
+aXVAATT_TOK 71
 
 eATTRIB    6
 aNAME      PSDLG_Y
@@ -899,7 +921,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 70
+aXVAATT_TOK 72
 
 eATTRIB    6
 aNAME      SZDLG_X
@@ -910,7 +932,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 71
+aXVAATT_TOK 73
 
 eATTRIB    6
 aNAME      SZDLG_Y
@@ -921,7 +943,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 72
+aXVAATT_TOK 74
 
 eATTRIB    6
 aNAME      DfltButton
@@ -932,7 +954,7 @@ aDOMAIN    Text
 aTYPE      S
 aLTH       32
 aUPDATE    Y
-aXVAATT_TOK 73
+aXVAATT_TOK 75
 
 eATTRIB    6
 aNAME      ZKey
@@ -945,7 +967,7 @@ aLTH       4
 aKEY       Y
 aREQUIRED  Y
 aUPDATE    Y
-aXVAATT_TOK 74
+aXVAATT_TOK 76
 
 eATTRIB    6
 aNAME      ResourceID
@@ -956,7 +978,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 75
+aXVAATT_TOK 77
 
 eATTRIB    6
 aNAME      DIL_Active
@@ -967,7 +989,7 @@ aDOMAIN    Text
 aTYPE      S
 aLTH       1
 aUPDATE    Y
-aXVAATT_TOK 76
+aXVAATT_TOK 78
 
 eATTRIB    6
 aNAME      SZMIN_X
@@ -978,7 +1000,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aHIDDEN    Y
-aXVAATT_TOK 77
+aXVAATT_TOK 79
 
 eATTRIB    6
 aNAME      SZMIN_Y
@@ -989,7 +1011,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aHIDDEN    Y
-aXVAATT_TOK 78
+aXVAATT_TOK 80
 
 eATTRIB    6
 aNAME      SZMAX_X
@@ -1000,7 +1022,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aHIDDEN    Y
-aXVAATT_TOK 79
+aXVAATT_TOK 81
 
 eATTRIB    6
 aNAME      SZMAX_Y
@@ -1011,7 +1033,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aHIDDEN    Y
-aXVAATT_TOK 80
+aXVAATT_TOK 82
 
 eATTRIB    6
 aNAME      ProfileView
@@ -1022,7 +1044,7 @@ aDOMAIN    Text
 aTYPE      S
 aLTH       32
 aHIDDEN    Y
-aXVAATT_TOK 81
+aXVAATT_TOK 83
 
 eATTRIB    6
 aNAME      GeneralFlag
@@ -1033,7 +1055,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aHIDDEN    Y
-aXVAATT_TOK 82
+aXVAATT_TOK 84
 
 eATTRIB    6
 aNAME      WindowBOI
@@ -1044,7 +1066,7 @@ aDOMAIN    Blob
 aTYPE      B
 aLTH       7
 aHIDDEN    Y
-aXVAATT_TOK 83
+aXVAATT_TOK 85
 
 eATTRIB    6
 aNAME      CSS_Class
@@ -1055,7 +1077,7 @@ aDOMAIN    Text
 aTYPE      S
 aLTH       50
 aHIDDEN    Y
-aXVAATT_TOK 84
+aXVAATT_TOK 86
 
 eATTRIB    6
 aNAME      WEB_Timeout
@@ -1066,7 +1088,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aHIDDEN    Y
-aXVAATT_TOK 85
+aXVAATT_TOK 87
 
 eATTRIB    6
 aNAME      WEB_RelativePositionFlag
@@ -1077,5 +1099,5 @@ aDOMAIN    Y/N
 aTYPE      S
 aLTH       1
 aHIDDEN    Y
-aXVAATT_TOK 86
+aXVAATT_TOK 88
 

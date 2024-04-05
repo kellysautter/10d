@@ -1,4 +1,4 @@
-z10000Zeidon    TZEDWDEL TZZOLODO 06/09/01   21:27:48 1.0b0    
+z1000-Zeidon    TZEDWDEL TZZOLODO 02/27/24   13:57:15 1.0b0    
 eLOD       1
 aZKey      98071269
 aName      TZEDWDEL
@@ -69,7 +69,6 @@ aSeqOrder  Y
 eER_AttributeRec 4
 aName      Name
 aZKey      98071273
-aLth       8
 aDesc      source file name
 
 eDomainRec 5
@@ -77,7 +76,7 @@ aZKey      90145848
 aName      MetaName
 aDomainType E
 aDataType  S
-aMaxStringLth 8
+aMaxStringLth 32
 aDesc      Name of a meta object (ie., LOD, Dialog, Report)
 aContextRestriction N
 
@@ -112,7 +111,7 @@ aSeqOrder  Y
 eER_AttributeRec 4
 aName      Extension
 aZKey      98071275
-aLth       3
+aLth       5
 
 eDomainRec 5
 aZKey      90000028
@@ -240,13 +239,12 @@ aSeqOrder  Y
 eER_AttributeRec 4
 aName      CopyFromFile
 aZKey      98166515
-aLth       8
 aDesc      for Copy Dialog Window, source file name from Source Dialog
 
 eDomainRec 5
 
 eLOD_Entity 2
-awkSelectedAttributeForDragSort 10
+awkSelectedAttributeForDragSort 3
 
 eLOD_Attribute 3
 awkSequence 1
@@ -319,7 +317,7 @@ eER_Attribute 4
 eDomain    5
 
 eLOD_Entity 2
-awkSelectedAttributeForDragSort 2
+awkSelectedAttributeForDragSort 1
 
 eLOD_Attribute 3
 awkSequence 1
@@ -340,62 +338,26 @@ aDesc      Local Project Library Release 8C
 aType      P
 
 eTE_DBMS_Source 4
-aName      SQL_Rep
-aZKey      1148367
-aDesc      Last altered April 7, 1998
-aParadigm  R
-aDBMS      SqlServer ODBC TB
-aGenerateExecutable kzhsqlsb
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType N
-aSironDB_Type D
-aDisplayOwner Y
-aSironDB_Subtype 6
-
-eTE_DBMS_Source 4
-aName      Zeidon
-aZKey      90031867
-aDesc      Zeidon repository on DB2 mainframe
-aParadigm  R
-aDBMS      DB2 MVS Ger
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDefaultOwner ZEIDON
-aDisplayOwner Y
-aDisplayDBMS_ID Y
-aSironDB_Subtype 4
-
-eTE_DBMS_Source 4
-aName      ACC_REP
+aName      Repos9JA
 aZKey      91005292
-aDesc      Repository MS-Access
+aDesc      The fact that this is defined as MS Access is immaterial, as the meta data will never be kept in a database, but will only remain as individual meta objects.
 aParadigm  R
-aDBMS      Access ODBC TB
-aGenerateExecutable KZSIACC
-aExecutable KZHSIRON
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
 aGenKeyExecutable KZHGENKY
-aConectionType N
-aSironDB_Type D
 aDisplayOwner Y
 aDisplayDBMS_ID N
-aSironDB_Subtype 6
-
-eTE_DBMS_Source 4
-aName      DB2_Rep
-aZKey      90014023
-aDesc      Repository DB2 NT
-aParadigm  R
-aDBMS      DB2 NT TB
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDisplayOwner Y
+aDBH_Data  U322
+M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BH`*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
+M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
+M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
+M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
+M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
+'92!.#0H-"@``
+`
 
 i29        8
 i32        8

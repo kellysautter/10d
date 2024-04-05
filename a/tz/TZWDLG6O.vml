@@ -65,6 +65,7 @@ FlagUsedViewsGetFocusJ( VIEW vDialog     BASED ON LOD TZWDLGSO,
                         VIEW vDialogRoot BASED ON LOD TZWDLGSO,
                         STRING ( 32 )    szFocusCtrlTag,
                         INTEGER          lTabIndex,
+                        STRING ( 50 )    szParentControlType,
                         STRING ( 32 )    szWysiwygEditor )
 
    STRING ( 50 ) szControlType
@@ -157,7 +158,14 @@ FlagUsedViewsGetFocusJ( VIEW vDialog     BASED ON LOD TZWDLGSO,
          // 3.(above) Except for Grid, ListBox and Text, process for setting Focus.
          IF szControlType != "Grid" AND
             szControlType != "Text" AND
-            szControlType != "ListBox"
+            szControlType != "ListBox" AND 
+            szParentControlType != "Grid" AND
+            szParentControlType != "ListBox" AND
+            szParentControlType != "RepeatingGroup"
+            
+            // KJS 03/01/23 - Added szParentControlType to above if because if the "focus()" control is on
+            // a grid subcontrol, then the code in _AfterPageLoaded causes an error because control name needs to have szEntityKey as
+            // part of the name.
 
             lTempIndex = vDialog.Control.SyncKey
             IF lTempIndex != 0 AND lTempIndex < lTabIndex
@@ -204,17 +212,31 @@ FlagUsedViewsGetFocusJ( VIEW vDialog     BASED ON LOD TZWDLGSO,
          END */
       END
             // Continue processing subobjects.
-         IF vDialog.CtrlCtrl EXISTS
-            SetViewToSubobject( vDialog, "CtrlCtrl" )
-            lTempIndex = FlagUsedViewsGetFocusJ( vDialog, vDialogRoot, szFocusCtrlTag, lTabIndex, szWysiwygEditor )
-            IF lTempIndex != 0
-               lSort = 1
+      IF vDialog.CtrlCtrl EXISTS
+         IF szControlType = "GroupBox" AND szParentControlType != "RepeatingGroup"
+            // KJS 03/01/23 - we also do not want control.focus()" control in _AfterPageLoaded to be a
+            // control withing a repeating group (because the name/id will have a suffix attached).
+            SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Repeating Group"
+            IF RESULT >= zCURSOR_SET
+               szControlType = "RepeatingGroup"
             END
-
-            ResetViewFromSubobject( vDialog )
-
+         ELSE
+            // If we are on a subcontrol where a parent has been "RepeatingGroup", then we still want to pass
+            // repeating group into this operation (no subcontrol of repeating group should be used in _AfterPageLoaded .focus().
+            IF szParentControlType = "RepeatingGroup"
+               szControlType = "RepeatingGroup"
+            END
          END
-END
+         SetViewToSubobject( vDialog, "CtrlCtrl" )
+         lTempIndex = FlagUsedViewsGetFocusJ( vDialog, vDialogRoot, szFocusCtrlTag, lTabIndex, szControlType, szWysiwygEditor )
+         IF lTempIndex != 0
+            lSort = 1
+         END
+
+         ResetViewFromSubobject( vDialog )
+
+      END
+   END  // FOR EACH vDialog.Control
 
    RETURN lSort
 END
@@ -1058,6 +1080,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    INTEGER          lLth
    SHORT            nSystemSort
    SHORT            nRC
+   
 
    // Generate a JSP file for formatting the Window that has current position.
    GET VIEW vWork NAMED "TZPTWRKO"
@@ -1067,7 +1090,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
       CREATE ENTITY vWork.Root
       NAME VIEW vWork "TZPTWRKO"
    END
-   
+  
    NAME VIEW vDialog "GenJSP_Dialog"
    szDialogTag = vDialog.Dialog.Tag
    szWindowTag = vDialog.Window.Tag
@@ -1488,7 +1511,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    szWysiwygEditor = ""  // do not include widgEditor.js file
    szFocusCtrlTag = ""
    lTabIndex = 9999
-   lSort = FlagUsedViewsGetFocusJ( vDialog, vDialogRoot, szFocusCtrlTag, lTabIndex, szWysiwygEditor )
+   lSort = FlagUsedViewsGetFocusJ( vDialog, vDialogRoot, szFocusCtrlTag, lTabIndex, "", szWysiwygEditor )
    //TraceLineS( "Focus on Control: ", szFocusCtrlTag )
 
    /******************************  ReplaceXSSValues  ******************************/
@@ -2249,67 +2272,21 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          IF RESULT >= zCURSOR_SET
             SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
             nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "m" )
-            /*
-            FOR EACH vDialogTemp.Option
-               IF vDialogTemp.OptAct EXISTS
-                  SET CURSOR FIRST vDialogTemp.Action WHERE vDialogTemp.Action.ZKey = vDialogTemp.OptAct.ZKey
-                  IF RESULT >= zCURSOR_SET
-                     IF vDialogTemp.Action.Type != zWAB_ExitDialogTask
-                        //Because the menu actions can be created on separate windows from the control
-                        //actions, we need to make sure these actions are unique.  We will prefix a
-                        //"m" to the main menu actions and prefix a "sm" to the side menu actions.
-                        szAction = "m" + vDialogTemp.Action.Tag
-                        lLth = zstrlen( szAction )
-                        IF lLth > 32
-                           MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
-                                        szAction,
-                                        zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-                        END
-                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-                        IF nRC != 0
-                           nSystemSort = nRC
-                        END
-                     END
-                  END
-               END
-            END */
          END
          DropView( vDialogTemp )
          DropView( vDialogTemp2 )
       ELSE
-         ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
-         CreateViewFromView( vDialogTemp2, vDialogTemp )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
-         IF RESULT >= zCURSOR_SET
-            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
-            nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "m" )
-            /*
-            FOR EACH vDialogTemp.Option
-               IF vDialogTemp.OptAct EXISTS
-                  SET CURSOR FIRST vDialogTemp.Action WHERE vDialogTemp.Action.ZKey = vDialogTemp.OptAct.ZKey
-                  IF RESULT >= zCURSOR_SET
-                     IF vDialogTemp.Action.Type != zWAB_ExitDialogTask
-                        //Because the menu actions can be created on separate windows from the control
-                        //actions, we need to make sure these actions are unique.  We will prefix a
-                        //"m" to the main menu actions and prefix a "sm" to the side menu actions.
-                        szAction = "m" + vDialogTemp.Action.Tag
-                        lLth = zstrlen( szAction )
-                        IF lLth > 32
-                           MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
-                                        szAction,
-                                        zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-                        END
-                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-                        IF nRC != 0
-                           nSystemSort = nRC
-                        END
-                     END
-                  END
-               END
+         IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+            CreateViewFromView( vDialogTemp2, vDialogTemp )
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            IF RESULT >= zCURSOR_SET
+               SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+               nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "m" )
             END
-            */
+            DropObjectInstance( vDialogTemp )
+         ELSE
+            IssueError( vSubtask,0,0, "Dialog for Resuable Main Menu does not exist." )
          END
-         DropObjectInstance( vDialogTemp )
       END
    END
 
@@ -2333,64 +2310,21 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          IF RESULT >= zCURSOR_SET
             SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
             nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "ma" )
-            /* FOR EACH vDialogTemp.Option
-               IF vDialogTemp.OptAct EXISTS
-                  SET CURSOR FIRST vDialogTemp.Action WHERE vDialogTemp.Action.ZKey = vDialogTemp.OptAct.ZKey
-                  IF RESULT >= zCURSOR_SET
-                     IF vDialogTemp.Action.Type != zWAB_ExitDialogTask
-                        //Because the menu actions can be created on separate windows from the control
-                        //actions, we need to make sure these actions are unique.  We will prefix a
-                        //"m" to the main menu actions and prefix a "ma" to the side menu actions.
-                        szAction = "ma" + vDialogTemp.Action.Tag
-                        lLth = zstrlen( szAction )
-                        IF lLth > 32
-                           MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
-                                        szAction,
-                                        zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-                        END
-                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-                        IF nRC != 0
-                           nSystemSort = nRC
-                        END
-                     END
-                  END
-               END
-            END */
          END
          DropView( vDialogTemp )
          DropView( vDialogTemp2 )
       ELSE
-         ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
-         CreateViewFromView( vDialogTemp2, vDialogTemp )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
-         IF RESULT >= zCURSOR_SET
-            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
-            nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "ma" )
-            /* FOR EACH vDialogTemp.Option
-               IF vDialogTemp.OptAct EXISTS
-                  SET CURSOR FIRST vDialogTemp.Action WHERE vDialogTemp.Action.ZKey = vDialogTemp.OptAct.ZKey
-                  IF RESULT >= zCURSOR_SET
-                     IF vDialogTemp.Action.Type != zWAB_ExitDialogTask
-                        //Because the menu actions can be created on separate windows from the control
-                        //actions, we need to make sure these actions are unique.  We will prefix a
-                        //"m" to the main menu actions and prefix a "sm" to the side menu actions.
-                        szAction = "ma" + vDialogTemp.Action.Tag
-                        lLth = zstrlen( szAction )
-                        IF lLth > 32
-                           MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
-                                        szAction,
-                                        zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-                        END
-                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-                        IF nRC != 0
-                           nSystemSort = nRC
-                        END
-                     END
-                  END
-               END
-            END */
+         IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+            CreateViewFromView( vDialogTemp2, vDialogTemp )
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            IF RESULT >= zCURSOR_SET
+               SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+               nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "ma" )
+            END
+            DropObjectInstance( vDialogTemp )
+         ELSE
+            IssueError( vSubtask,0,0, "Dialog for Resuable Actions does not exist." )
          END
-         DropObjectInstance( vDialogTemp )
       END
    END
 
@@ -3399,7 +3333,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    szWriteBuffer = "   var szFocusCtrl = document." + szFormName + ".zFocusCtrl.value;"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   if ( szFocusCtrl != ^^ && szFocusCtrl != ^null^ )"
+   szWriteBuffer = "   if ( szFocusCtrl != ^^ && szFocusCtrl != ^null^ && szFocusCtrl != null )"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      eval( 'document." + szFormName + ".' + szFocusCtrl + '.focus( )' );"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
@@ -4321,15 +4255,18 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          END
          DropView( vDialogTemp )
       ELSE
-         ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
-         IF RESULT >= zCURSOR_SET
-            //Because the menu actions can be created on separate windows from the control
-            //actions, we need to make sure these actions are unique.  We will prefix a
-            //"m" to the main menu actions and prefix a "sm" to the side menu actions.
-            GenJSP_MenuFunctions( vDialogTemp, vDialogRoot, lFileJAVA, szWriteBuffer, szFormName, "m" )
+         IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            IF RESULT >= zCURSOR_SET
+               //Because the menu actions can be created on separate windows from the control
+               //actions, we need to make sure these actions are unique.  We will prefix a
+               //"m" to the main menu actions and prefix a "sm" to the side menu actions.
+               GenJSP_MenuFunctions( vDialogTemp, vDialogRoot, lFileJAVA, szWriteBuffer, szFormName, "m" )
+            END
+            DropObjectInstance( vDialogTemp )
+         ELSE
+            IssueError( vSubtask,0,0, "Dialog for Resuable Main Menu does not exist." )
          END
-         DropObjectInstance( vDialogTemp )
       END
    END
 
@@ -4359,17 +4296,20 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          END
          DropView( vDialogTemp )
       ELSE
-         ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
-         IF RESULT >= zCURSOR_SET
-            // Because the menu actions can be created on separate windows from the control
-            // actions, we need to make sure these actions are unique.  We will prefix a
-            //"m" to the main menu actions and prefix a "sm" to the side menu actions and a
-            // prefix of "ma" for menu actions where the menu will not be either the main menu
-            // or a side menu.
-            GenJSP_MenuFunctions( vDialogTemp, vDialogRoot, lFileJAVA, szWriteBuffer, szFormName, "ma" )
+         IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            IF RESULT >= zCURSOR_SET
+               // Because the menu actions can be created on separate windows from the control
+               // actions, we need to make sure these actions are unique.  We will prefix a
+               //"m" to the main menu actions and prefix a "sm" to the side menu actions and a
+               // prefix of "ma" for menu actions where the menu will not be either the main menu
+               // or a side menu.
+               GenJSP_MenuFunctions( vDialogTemp, vDialogRoot, lFileJAVA, szWriteBuffer, szFormName, "ma" )
+            END
+            DropObjectInstance( vDialogTemp )
+         ELSE
+            IssueError( vSubtask,0,0, "Dialog for Resuable Main Menu does not exist." )
          END
-         DropObjectInstance( vDialogTemp )
       END
    END
 
@@ -4443,8 +4383,9 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    ELSE
    IF szStyleIsjMobile = ""
       // KJS 02/24/16 - Do We need this?
-      szWriteBuffer = "<%@ include file=^./include/pagebackground.inc^ %>  <!-- just temporary until we get the painter dialog updates from Kelly ... 2011.10.08 dks -->"
-      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      // KJS 07/07/23 - No, I don't think so.
+      //szWriteBuffer = "<%@ include file=^./include/pagebackground.inc^ %>  <!-- just temporary until we get the painter dialog updates from Kelly ... 2011.10.08 dks -->"
+      //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    END
    END
 
@@ -4568,14 +4509,17 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
             END
             DropView( vDialogTemp )
          ELSE
-            ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
-         // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
-         //                                         1, plListHandle )
-            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
-            IF RESULT >= zCURSOR_SET
-               BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+            IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+            // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
+            //                                         1, plListHandle )
+               SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+               IF RESULT >= zCURSOR_SET
+                  BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
+               END
+               DropObjectInstance( vDialogTemp )
+            ELSE
+               IssueError( vSubtask,0,0, "Dialog for Resuable Main Menu does not exist." )
             END
-            DropObjectInstance( vDialogTemp )
          END
       END
    END
@@ -4644,13 +4588,16 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          DropView( vDialogTemp )
       ELSE
          //ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META,  zSINGLE, vDialog.ReusableSideDialog.Tag, 0 )
-         ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
-         IF RESULT >= zCURSOR_SET
-            BuildSideNavSectionJ( vDialog, vDialogTemp, lFileJSP, "Y", vDfltMenu )  // dks ... want Reusable + Default
-            szSideMenuExists = "Y"
+         IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            IF RESULT >= zCURSOR_SET
+               BuildSideNavSectionJ( vDialog, vDialogTemp, lFileJSP, "Y", vDfltMenu )  // dks ... want Reusable + Default
+               szSideMenuExists = "Y"
+            END
+            DropObjectInstance( vDialogTemp )
+         ELSE
+            IssueError( vSubtask,0,0, "Dialog for Resuable Side Menu does not exist." )
          END
-         DropObjectInstance( vDialogTemp )
       END
 
    ELSE
@@ -4700,13 +4647,16 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
             END
             DropView( vDialogTemp )
          ELSE
-            ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 )
-            //NAME VIEW vDialogTemp "DialogREUS"
-            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
-            IF RESULT >= zCURSOR_SET
-               BuildMainNavSectionBootstrap( vDialog, vDialogTemp, lFileJSP, szSideMenuExists )
+            IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+               //NAME VIEW vDialogTemp "DialogREUS"
+               SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+               IF RESULT >= zCURSOR_SET
+                  BuildMainNavSectionBootstrap( vDialog, vDialogTemp, lFileJSP, szSideMenuExists )
+               END
+               DropObjectInstance( vDialogTemp )
+            ELSE
+               IssueError( vSubtask,0,0, "Dialog for Resuable Main Menu does not exist." )
             END
-            DropObjectInstance( vDialogTemp )
          END
       ELSE
          // KJS 08/27/21 - Jeff was saying that if you don't have a top menu, the banner include does not generate (that gets generated inside BuildMainNavSectionBootstrap)

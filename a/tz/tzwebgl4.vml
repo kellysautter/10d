@@ -3348,10 +3348,12 @@ GenJSPJ_CrteEditBox( VIEW vDialog BASED ON LOD TZWDLGSO,
                             vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
                             vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^^ );"
          ELSE
+            // KJS 02/14/23 When we are using TimeDomain... we would like to have the default context. So now I am rethinking
+            // as to whether or not we should be using .getString(""); Adding back for a bit...??
             szWriteBuffer = "               strErrorMapValue = " +
                             vDialog.CtrlMapView.Name + ".cursor( ^" +
                             vDialog.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" +
-                            vDialog.CtrlMapER_Attribute.Name + "^ ).getString( );"
+                            vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^^ );"
          END
       ELSE
          szWriteBuffer = "               strErrorMapValue = " +
@@ -6282,6 +6284,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    STRING ( 32 )    szJavaScriptLocation
    STRING ( 64 )    szSystemIniApplName
    STRING ( 200 )   szMsg
+   STRING ( 256 )   szLogout
    STRING ( 100 )   szViewName
    STRING ( 100 )   szEntityName
    STRING ( 100 )   szEntityNameR
@@ -6448,8 +6451,6 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
    END
 
-//***********************************
-
    // Keep position on the Control that triggers the Action, if it exists.
    CreateViewFromView( vDialogCtrl, vDialog )
    NAME VIEW vDialogCtrl "vDialogCtrl"
@@ -6459,8 +6460,13 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       DropView( vDialogCtrl )
       vDialogCtrl = 0
    END
-
+   // We set szWAB to indicate that we need to do "Next Window" processing.
    lActionType = vDialog.Action.Type
+   // KJS 06/02/23 - Adding exit zeidon task in here.
+   IF lActionType = zWAB_ExitDialogTask      
+      szWAB = "zWAB_ExitDialogTask"
+   ELSE
+   
    IF lActionType = zWAB_StayOnWindow OR
       lActionType = zWAB_StayOnWindowWithRefresh OR
       lActionType = zWAB_StayOnWindowWebRefresh OR
@@ -6493,6 +6499,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
          END
       END
    END
+   END // IF lActionType = zWAB_ExitDialogTask
 
    IF lActionType = zWAB_StartBrowserHTML_Page
       // KJS 02/09/2012 - I'm not sure what this is doing... does it even work?
@@ -7206,38 +7213,40 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
                szWriteBuffer = "         task.log( ).info( ^Next Window Redirect to: ^ + strURL );"
                WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             END
-
-            // Handle creation of return page for Function Call StartSubwindow.
-            szWriteBuffer = "         nRC = vKZXMLPGO.cursor( ^NextDialogWindow^ ).checkExistenceOfEntity( ).toInt();"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         if ( nRC >= 0 )"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            strFunctionCall = vKZXMLPGO.cursor( ^NextDialogWindow^ ).getAttribute( ^FunctionCall^ ).getString( ^^ );"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         else"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            strFunctionCall = ^^;"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-
-            szWriteBuffer = "         if ( strFunctionCall != null && StringUtils.equals( strFunctionCall, ^StartSubwindow^ ) )"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         {"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            vKZXMLPGO.cursor( ^PagePath^ ).createEntity( CursorPosition.NEXT );"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            vKZXMLPGO.cursor( ^PagePath^ ).getAttribute( ^LastPageName^ ).setValue( ^" + szFormName + "^, ^^ );"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         }"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-
-            szWriteBuffer = "         nRC = 1;  // do the redirection"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         break;"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+            
+            IF lActionType != zWAB_ExitDialogTask
+               // Handle creation of return page for Function Call StartSubwindow.
+               szWriteBuffer = "         nRC = vKZXMLPGO.cursor( ^NextDialogWindow^ ).checkExistenceOfEntity( ).toInt();"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         if ( nRC >= 0 )"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            strFunctionCall = vKZXMLPGO.cursor( ^NextDialogWindow^ ).getAttribute( ^FunctionCall^ ).getString( ^^ );"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         else"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            strFunctionCall = ^^;"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+   
+               szWriteBuffer = "         if ( strFunctionCall != null && StringUtils.equals( strFunctionCall, ^StartSubwindow^ ) )"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         {"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            vKZXMLPGO.cursor( ^PagePath^ ).createEntity( CursorPosition.NEXT );"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "            vKZXMLPGO.cursor( ^PagePath^ ).getAttribute( ^LastPageName^ ).setValue( ^" + szFormName + "^, ^^ );"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         }"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+   
+               szWriteBuffer = "         nRC = 1;  // do the redirection"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "         break;"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+            END
             szWriteBuffer = "      }"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
 
-         ELSE
+         ELSE  // IF  lActionType != zWAB_StartBrowserHTML_Page...
 
             IF szWAB != ""
 
@@ -7288,11 +7297,8 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
                WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
 
             END
-
          END   // IF  lActionType != zWAB_StartBrowserHTML_Page
-
       END
-
    ELSE
       // No operation code
 
@@ -7551,7 +7557,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
    ELSE
 
-   // Next Window Option
+      // Next Window Option
       IF lActionType = zWAB_StartModelessSubwindow          OR
          lActionType = zWAB_StartModalSubwindow             OR
          lActionType = zWAB_StartModalSubwindowNP           OR
@@ -7562,6 +7568,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
          lActionType = zWAB_StartBrowserHTML_Page           OR
          lActionType = zWAB_StartNewApp                     OR  //reCAPTCHA StartModalSubwindow
          lActionType = zWAB_ReCAPTCHA  //reCAPTCHA ReplaceModalWindow
+         
       IF InsertBlankFlag = "Y"
          szWriteBuffer = ""
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -7589,10 +7596,10 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       END
 
-         IF lActionType = zWAB_StartModelessSubwindow OR
-            lActionType = zWAB_StartModalSubwindow    OR
-            lActionType = zWAB_StartModalSubwindowNP  OR
-            lActionType = zWAB_StartNewApp //reCAPTCHA StartModalSubwindow
+      IF lActionType = zWAB_StartModelessSubwindow OR
+         lActionType = zWAB_StartModalSubwindow    OR
+         lActionType = zWAB_StartModalSubwindowNP  OR
+         lActionType = zWAB_StartNewApp //reCAPTCHA StartModalSubwindow
          // Next Window is subwindow. Set up current window for return.
          szWriteBuffer = "      vKZXMLPGO.cursor( ^PagePath^ ).createEntity( CursorPosition.NEXT );"
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -7637,16 +7644,74 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       szWriteBuffer = "      nRC = 1;  // do the redirection"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
    END
+   
+   // KJS 06/02/23
+   IF lActionType = zWAB_ExitDialogTask
+      IF vDialog.Action.DialogName != "" AND vDialog.Action.WindowName != ""  
+         szWriteBuffer = "      if ( strURL.equals( ^^ ) )"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      {"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "         // Next Window"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+
+         szWriteBuffer = "         strURL = response.encodeRedirectURL( ^" +
+                         vDialog.Action.DialogName + vDialog.Action.WindowName + ".jsp^ );"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      }"
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      END // There was a next window.
+
+      szWriteBuffer = "      if ( task != null )"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      {"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         task.log().info( ^OnUnload UnregisterZeidonApplication: ----->>> ^ + ^" + szFormName + "^ );"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         task.dropTask();"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         task = null;"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         session.setAttribute( ^ZeidonTaskId^, task );"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      }"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+      // KJS 06/12/23
+      szLogout = "logout.jsp"
+      // KJS 03/30/16 - Check if this dialog/window should have a different logout page.
+      IF vDialog.Window.WEB_Logout != ""
+         szLogout = vDialog.Window.WEB_Logout
+      ELSE
+      IF vDialogRoot.Dialog.WEB_Logout != "" 
+         szLogout = vDialogRoot.Dialog.WEB_Logout
+      END
+      END
+      szWriteBuffer = "      if ( strURL.equals( ^^ ) )"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      //szWriteBuffer = "         strURL = response.encodeRedirectURL( ^" + szLogout + "^ );"
+      szWriteBuffer = "         strURL = response.encodeRedirectURL( ^" + szLogout + "^ );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      /*
+      szWriteBuffer = "      response.sendRedirect( strURL );"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      return;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      */ 
+      szWriteBuffer = "      response.sendRedirect( strURL );"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      return;"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   END
 
    // Return From Window Option
-      IF lActionType = zWAB_ReturnToParent OR
-         lActionType = zWAB_ReturnToParentWithRefresh
+   IF lActionType = zWAB_ReturnToParent OR
+      lActionType = zWAB_ReturnToParentWithRefresh
 
       IF InsertBlankFlag = "Y"
          szWriteBuffer = ""
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       END
-
+   
       szWriteBuffer = "      // Return to Last Window"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "      nRC = vKZXMLPGO.cursor( ^PagePath^ ).checkExistenceOfEntity( ).toInt();"
@@ -7667,10 +7732,10 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "         strLastPage = ^" + szFormName + ".jsp^;"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-
+   
       szWriteBuffer = "      strURL = response.encodeRedirectURL( strLastPage );"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-
+   
       //KJS Trace
       IF (lTraceLevel = 1)
          szWriteBuffer = "      task.log( ).info( ^Return Redirect to: ^ + strURL );"
@@ -7680,6 +7745,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       szWriteBuffer = "      nRC = 1;  // do the redirection"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
    END
+   
    END
 
    // Download File option.
@@ -8145,9 +8211,11 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
 
    END
-
-   szWriteBuffer = "      break;"
-   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   
+   IF lActionType != zWAB_ExitDialogTask
+      szWriteBuffer = "      break;"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+   END
    szWriteBuffer = "   }"
    WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
    IF vDialogCtrl > 0

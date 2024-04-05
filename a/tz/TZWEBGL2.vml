@@ -922,13 +922,13 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             vGroupParent = 0
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            //kkkkkkkkk
+            
             szWriteBuffer = "</div>  <!-- " + szCtrlTag + " --> "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             
             // If we are on the most outer group box, put 
             IF lIndexStrLth = 0 AND szStyleIsBootstrap = "Y" AND szBootstrapOuterCard = "Y"
-               //kkkkkkk
+               
                szWriteBuffer = "   </div>  <!-- Close card/card-body for bootstrap -->"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             END         
@@ -1242,13 +1242,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
 //*****************************************  END OF DASHBOARD   ********************************************************
-            //kkkkkkkkkkkk
+            
             szWriteBuffer = "</div>  <!-- " + szCtrlTag + " --> "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             
             // If we are on the most outer group box, put 
             IF lIndexStrLth = 0 AND szStyleIsBootstrap = "Y" AND szBootstrapOuterCard = "Y"
-               //kkkkkkk
                szWriteBuffer = "   </div>  <!-- Close card/card-body for bootstrap -->"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             END         
@@ -1589,7 +1588,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            //kkkkkkkkkkkk
             //szWriteBuffer = "</div>  <!--  " + szCtrlTag + " --> "
             szWriteBuffer = "</" + szGroupBoxType + ">  <!--  " + szCtrlTag + " --> "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1611,7 +1609,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             
             // If we are on the most outer group box, put 
             IF lIndexStrLth = 0 AND szStyleIsBootstrap = "Y" AND szToggleFlag = "" AND szToggleFlag2 = "" AND szBootstrapOuterCard = "Y" 
-               //kkkkkkk
                szWriteBuffer = "</div>  <!-- Close card/card-body for bootstrap -->"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             END         
@@ -2749,15 +2746,15 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                END         
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
-               szWriteBuffer = "<table name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^ cellspacing=0 " + szSort + szColCount + "  >"
+               szWriteBuffer = "<table" + szHTMLCtrlID + " cellspacing=0 " + szSort + szColCount + "  >"
             ELSE  // Not a scrolling table.
                IF szNoPositioning = "S" // No positioning.
-                  szWriteBuffer = "<table " + szjMobileDataRole + szSort + szColCount + szHTML5Attr  + " name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^>"
+                  szWriteBuffer = "<table " + szjMobileDataRole + szSort + szColCount + szHTML5Attr + szHTMLCtrlID + ">"
                ELSE
                   IF szWebCtrlType = "RelativePos" OR szWebCtrlType = "Span"
-                     szWriteBuffer = "<table " + szjMobileDataRole + szSort + szColCount + szHTML5Attr + " style=^position:relative^  name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^>"
+                     szWriteBuffer = "<table " + szjMobileDataRole + szSort + szColCount + szHTML5Attr + " style=^position:relative^" + szHTMLCtrlID + ">"
                   ELSE
-                     szWriteBuffer = "<table " + szjMobileDataRole + szSort + szColCount + szHTML5Attr  + " style=^" + szPosition + "^  name=^" + szCtrlTag + "^ id=^" + szCtrlTag + "^>"
+                     szWriteBuffer = "<table " + szjMobileDataRole + szSort + szColCount + szHTML5Attr  + " style=^" + szPosition + "^"  + szHTMLCtrlID + ">"
                   END
                END
             END
@@ -3412,16 +3409,18 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         
                         // KJS 05/14/21 - Making a change for language translation... if there is no context... I think we should assume then that on an edit field,
                         // that we will get the internal value .getString() not what we were doing .getString(""). Because if we are editting, shouldn't we be looking
-                        // at "internal value"? If this is edit I don't think we should ever hav ea context but I won't change that for now.
-                        IF szContextName = ""
+                        // at "internal value"? If this is edit I don't think we should ever have a context but I won't change that for now.
+             // KJS 02/14/23 When we are using TimeDomain... we would like to have the default context. So now I am rethinking
+            // as to whether or not we should be using .getString(""); Adding back for a bit...??
+                       IF szContextName = ""
                            szWriteBuffer = "               " + szControlTag + " = " + szGridView +
                                         ".cursor( ^" + vDialog.CtrlMapRelatedEntity.Name +
-                                        "^ ).getAttribute( ^" + vDialog.CtrlMapER_Attribute.Name + "^ ).getString( );"                        
+                                        "^ ).getAttribute( ^" + vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^^ );"                        
                         ELSE
                            szWriteBuffer = "               " + szControlTag + " = " + szGridView +
                                         ".cursor( ^" + vDialog.CtrlMapRelatedEntity.Name +
                                         "^ ).getAttribute( ^" + vDialog.CtrlMapER_Attribute.Name + "^ ).getString( ^" + szContextName + "^ );"                        
-                       END
+                        END
 
 
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )

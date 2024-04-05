@@ -1480,7 +1480,7 @@ RemoveTabs( zPCHAR pchWork, zLONG lMaxLth )
       zPCHAR pchSource = qqin;
       zPCHAR pchTarget = pchWork;
       zLONG k, n;
-	  zLONG i = 0;
+      zLONG i = 0;
       while ( (pch = zstrchr( pchSource, '\t' ) ) != 0 )
       {
         k = pch - pchSource;

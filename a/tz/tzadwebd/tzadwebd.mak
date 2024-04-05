@@ -10,7 +10,7 @@
 MODULE         = tzadwebd
 TARGETS        = $(Z_BIN)\$(MODULE).dll
 C_DEPENDENTS   =
-LINKDLLS       = tzlodopr.lib
+LINKDLLS       = tzlodopr.lib tzvmlip.lib tzoprusd.lib
 DRIVER_APP     = YES
 CPP_OBJS       = $(Z_OBJ)\$(MODULE).obj
 

@@ -371,7 +371,7 @@ TZText::TZText( TZPainterWindow *pPainterWindow,
             m_lBorderColor = ld.lBorderColor;
             m_lEscapement = ld.lEscapement;
             m_lTypeText = ld.lType;
-            strcpy_s( m_szFaceName, zsizeof( m_szFaceName ), ld.szFontName );
+			strcpy_s(m_szFaceName, zsizeof(m_szFaceName), ld.szFontName);
 
             while ( m_lEscapement < 0 )
                m_lEscapement += 3600;

@@ -662,11 +662,21 @@ OpenDialogFile( zVIEW vSubtask )
    zVIEW       vIdleView;
    zVIEW       vTZPNTROO;
    zVIEW       vTZZOVEAO;
+   zVIEW       vTZERROR;
    LPVIEWCSR   lpViewCsr;
    LPVIEWOI    lpViewOI;
    zSHORT      nRC;
-
+   zCHAR       szTempString_0[100000];
 // TraceLineS( "In OpenDialogFile", "============== " );
+   // KJS 04/04/24
+   GetViewByName(&vTZERROR, "TZERRORDLG", vSubtask, zLEVEL_TASK);
+   if (vTZERROR)
+	   DropObjectInstance(vTZERROR);
+
+   ActivateEmptyObjectInstance(&vTZERROR, "TZERROR", vSubtask, 0);
+   SetNameForView(vTZERROR, "TZERRORDLG", vSubtask, zLEVEL_TASK);
+   CreateEntity(vTZERROR, "ErrorList", zPOS_AFTER);
+   CreateEntity(vTZERROR, "ErrorMsg", zPOS_AFTER);
 
    // Clear the painter windows.
    fnPainterCall( zMSG_DELETEALLPAINTERWINDOWS, vSubtask, 0, 0, 0 );
@@ -16469,15 +16479,21 @@ FindCtrl( zVIEW vSubtask )
       // RefreshWindowExceptForCtrl( vSubtask, "CtrlList" );
       // fnShowCtrlList( vSubtask );
 
-      // if ( OL_SetCursorByEntityNumber( vTZWINDOW, "Control", lRC ) == 0 )
-         {
+	  // if ( OL_SetCursorByEntityNumber( vTZWINDOW, "Control", lRC ) == 0 )
+		 {
             OL_SelectItemAtPosForEntity( vSubtask, "CtrlList", "Control", 2 + 4 + 16 );
+			// KJS 01/10/24 - For some reason, even when the user clicks on the control in the CtrlList,
+			// if we perform the find a couple of times, when we click on the control, the information changes to 
+			// a different control (I think the control we had previously on). This is even if I uncomment the above "if".
+			// I add ShowCtrlList, user still has to click on the control, but the information stays.
+			// Confused about this...
+			ShowCtrlList(vSubtask);
          }
 
          GetStringFromAttribute( szText, zsizeof( szText ), vTZWINDOW, "Control", "Tag" );
          strcat_s( szText, zsizeof( szText ), " - Control found" );
          SysMessageBox( 0, szText,
-                        "Please click on Ctrl to Show Information Properly", -1 );
+                        "Control found. Please click on this control in the list to Show Information Properly", -1 );
       }
       else
          SetCtrlText( vSubtask, "InvisibleForFind", "" );

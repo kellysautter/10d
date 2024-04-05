@@ -87,7 +87,6 @@ MigrateMeta( VIEW vSubtask )
    GET VIEW SourceLPLR NAMED "SourceLPLR"
    GET VIEW SourceVOR_LPLR NAMED "SourceVOR_LPLR"
    
-   
    // Process the Domain Groups and the Operation Groups first, since they must exist before
    // other metas can be processed, and their numbers put them at the end of the list.
 
@@ -638,6 +637,68 @@ SelectLPLR( VIEW vSubtask )
 
 END
 
+DIALOG OPERATION
+SelectLPLR_ForMerge( VIEW vSubtask )
+
+   VIEW vCM         REGISTERED AS TZCMWKSO
+   VIEW TaskLPLR    REGISTERED AS TaskLPLR
+   VIEW SourceLPLR  BASED ON LOD  TZCMLPLO
+   VIEW TargetLPLR  BASED ON LOD  TZCMLPLO
+   VIEW OrigLPLR    BASED ON LOD  TZCMLPLO
+   INTEGER        TempType
+   STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
+   STRING ( 32 )  TruncatedName
+   
+   TraceLineS( "*********** Trace 6/2 9:11", "" )
+   
+   // Make sure there is currently no TargetLPLR view as that will be created later in postbuild of merge window.
+   GET VIEW TargetLPLR NAMED "TargetLPLR"
+   IF RESULT > 0
+      DropObjectInstance( TargetLPLR )
+   END
+
+   // Activate the selected OI and View to be the base for the Source LPLR, which will be created below.
+   SourceFileName = vCM.LPLR.Name
+   TruncatedName = SourceFileName [1:32]
+   SourceFileName = vCM.LPLR.ExecDir + "\" +
+                    TruncatedName + ".XLP"
+   ActivateOI_FromFile( OrigLPLR, "TZCMLPLO", vSubtask,
+                        SourceFileName, zSINGLE )
+   NAME VIEW OrigLPLR "OrigLPLR"
+   
+   // Reposition work station view on original LPLR so that any ZKeys generated during migration will
+   // be created using the correct next ZKey.
+   SET CURSOR FIRST vCM.LPLR WHERE vCM.LPLR.Name = TaskLPLR.LPLR.Name 
+
+   // Copy the Orig meta entries that can be selected for merge, which are:
+   //    2007 - LODs
+   //    2011 - Dialogs
+   //    2015 - Reports
+   //    2014 - Global Operations
+   
+   ACTIVATE SourceLPLR EMPTY
+   NAME VIEW SourceLPLR "SourceLPLR"
+
+   CREATE ENTITY SourceLPLR.LPLR
+   SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL )
+   FOR EACH OrigLPLR.W_MetaType 
+      IF OrigLPLR.W_MetaType.Type = 2007 OR
+         OrigLPLR.W_MetaType.Type = 2011 OR
+         OrigLPLR.W_MetaType.Type = 2014 OR
+         OrigLPLR.W_MetaType.Type = 2015 
+
+         CREATE ENTITY SourceLPLR.W_MetaType
+         TempType = OrigLPLR.W_MetaType.Type
+         SourceLPLR.W_MetaType.Type = TempType
+         FOR EACH OrigLPLR.W_MetaDef
+            CREATE ENTITY SourceLPLR.W_MetaDef
+            SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL )
+         END
+      END
+   END
+
+END
+
 
 DIALOG OPERATION
 BuildTargetLPLR_List( VIEW vSubtask )
@@ -703,6 +764,95 @@ BuildTargetLPLR_List( VIEW vSubtask )
          SourceLPLR.W_MetaType.SortOrder = SourceLPLR.W_MetaType.Type
       else
          SourceLPLR.W_MetaType.SortOrder = SourceLPLR.W_MetaType.Type + 20
+      END
+   END
+   OrderEntityForView( SourceLPLR, "W_MetaType", "SortOrder A" )
+   FOR EACH SourceLPLR.W_MetaType
+      OrderEntityForView( SourceLPLR, "W_MetaDef", "Name A" )
+   END
+
+   // Now be sure to position at the beginning of both lists.
+   SET CURSOR FIRST TargetLPLR.W_MetaType
+   SET CURSOR FIRST SourceLPLR.W_MetaType
+
+END
+
+DIALOG OPERATION
+BuildTargetLPLR_ListForMerge( VIEW vSubtask )
+
+   // Build the Target LPLR list from the TZCMLPLO list by eliminating metas that are not merged.
+
+   VIEW TargetLPLR BASED ON LOD TZCMLPLO
+   VIEW SourceLPLR REGISTERED AS SourceLPLR
+   VIEW TZCMLPLO   REGISTERED AS TZCMLPLO
+   VIEW TaskLPLR   REGISTERED AS TaskLPLR
+   
+   // Make sure TargetLPLR is empty so that it can be rebuilt from TZCMLPLO below
+   GET VIEW TargetLPLR NAMED "TargetLPLR"
+   IF RESULT > 0
+      DELETE ENTITY TargetLPLR.LPLR
+   ELSE
+      ACTIVATE TargetLPLR EMPTY
+      NAME VIEW TargetLPLR "TargetLPLR"
+   END
+   
+   // Clear wFullyQualifiedFileName attribute for specifying csv file name for writing out Error Messages.
+   TaskLPLR.LPLR.wFullyQualifiedFileName = ""
+   
+   // Copy the same meta entries that can be selected for merge, which are:
+   //    2007 - LODs
+   //    2011 - Dialogs
+   //    2015 - Reports
+   //    2014 - Global Operations
+   CREATE ENTITY TargetLPLR.LPLR
+   SetMatchingAttributesByName( TargetLPLR, "LPLR", TZCMLPLO, "LPLR", zSET_NULL )
+   FOR EACH TZCMLPLO.W_MetaType 
+      IF TZCMLPLO.W_MetaType.Type = 2007 OR
+         TZCMLPLO.W_MetaType.Type = 2011 OR
+         TZCMLPLO.W_MetaType.Type = 2014 OR
+         TZCMLPLO.W_MetaType.Type = 2015
+
+         CREATE ENTITY TargetLPLR.W_MetaType
+         TargetLPLR.W_MetaType.Type = TZCMLPLO.W_MetaType.Type
+         FOR EACH TZCMLPLO.W_MetaDef
+            CREATE ENTITY TargetLPLR.W_MetaDef
+            TargetLPLR.W_MetaDef.Name = TZCMLPLO.W_MetaDef.Name
+         END
+      END
+   END
+   
+   // Make sure that the SourceLPLR only contains the meta types for merge, since the ERD_Merge code adds other metas to
+   // the SourceLPLR, which will still be there if returning from that function.
+   FOR EACH SourceLPLR.W_MetaType 
+      IF SourceLPLR.W_MetaType.Type != 2007 AND
+         SourceLPLR.W_MetaType.Type != 2011 AND
+         SourceLPLR.W_MetaType.Type != 2014 AND
+         SourceLPLR.W_MetaType.Type != 2015
+
+         DropEntity( SourceLPLR, "W_MetaType", zREPOS_NONE )
+      END
+   END
+
+   // Now order both the Source and Target objects.  Do this by creating a sort
+   // order attribute that puts global operation groups at the beginning.
+   // Following this by sorting MetaDefs within each MetaType.
+   FOR EACH TargetLPLR.W_MetaType
+      IF TargetLPLR.W_MetaType.Type = 2015
+         TargetLPLR.W_MetaType.SortOrder = 2000
+      else
+         TargetLPLR.W_MetaType.SortOrder = TargetLPLR.W_MetaType.Type
+      END
+   END
+   OrderEntityForView( TargetLPLR, "W_MetaType", "SortOrder A" )
+   FOR EACH TargetLPLR.W_MetaType
+      OrderEntityForView( TargetLPLR, "W_MetaDef", "Name A" )
+   END
+
+   FOR EACH SourceLPLR.W_MetaType
+      IF SourceLPLR.W_MetaType.Type = 2015
+         SourceLPLR.W_MetaType.SortOrder = 2000
+      else
+         SourceLPLR.W_MetaType.SortOrder = SourceLPLR.W_MetaType.Type
       END
    END
    OrderEntityForView( SourceLPLR, "W_MetaType", "SortOrder A" )
@@ -1534,6 +1684,354 @@ CleanUpVORs( VIEW ViewToWindow )
          END
       END
       DropView( vCurrentLPLRn )
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: MERGE_AllLPLR_Metas
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+MERGE_AllLPLR_Metas( VIEW ViewToWindow )
+
+   VIEW SourceLPLR REGISTERED AS SourceLPLR
+   SHORT nRC
+   
+   // Select all entries in SourceLPLR and call the MERGE_SelectedLMergeoperation.
+   // Note we will not select the AD_Base PWD as its mapping can create errors and we don't want 
+   // copies in the target LPLR's.
+   FOR EACH SourceLPLR.W_MetaDef WITHIN SourceLPLR.LPLR 
+      IF SourceLPLR.W_MetaDef.Name != "AD_Base"
+         SetSelectStateOfEntity( SourceLPLR, "W_MetaDef", 1 )
+      END
+   END
+   nRC = MERGE_SelectedLPLR_Metas( ViewToWindow )
+   IF nRC >= 0
+      MergeAllObjectViews( ViewToWindow )
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: MERGE_SelectedLPLR_Metas
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+MERGE_SelectedLPLR_Metas( VIEW ViewToWindow )
+
+   VIEW SourceLPLR         BASED ON LOD TZCMLPLO
+   VIEW OrigLPLR           BASED ON LOD TZCMLPLO
+   VIEW CurrentLPLR        BASED ON LOD TZCMLPLO
+   VIEW NewERD             BASED ON LOD TZEREMDO
+   VIEW NewLOD             BASED ON LOD TZZOLODO
+   VIEW NewDialog          BASED ON LOD TZWDLGSO
+   VIEW ReturnedReport     BASED ON LOD TZRPSRCO
+   VIEW NewOperationGroup  BASED ON LOD TZOGSRCO
+   STRING (32)  MetaName
+   STRING (250) MG_ErrorMessage
+   SHORT        nRC
+   
+   // Merge the selected meta objects, which can be of 4 types.
+   //    2007 - LODs
+   //    2011 - Dialogs
+   //    2015 - Reports
+   //    2014 - Global Operations
+   
+   // Note that named views TaskLPLR and TargetLPLR are both for the target LPLR, but are slightly different.
+   // TargetLPLR holds a subset of TaskLPLR and identifies the current state of the LPLR at the beginning Merge.
+   // TaskLPLR holds the full target LPLR object and is the target used for actually copying.
+   // Below, CurrentLPLR is the view used for TaskLPLR.
+
+   GET VIEW SourceLPLR  NAMED "SourceLPLR"
+   GET VIEW CurrentLPLR NAMED "TaskLPLR"
+   
+   // Indicate on the TaskLPLR that the function is the new LPLR Merge by setting the flag to "L".
+   CurrentLPLR.LPLR.MergeType = "L"
+   
+   // Delete any existing error messages in TaskLPLR.
+   FOR CurrentLPLR.ErrorMessage 
+      DELETE ENTITY CurrentLPLR.ErrorMessage NONE  
+   END
+   
+   // Because some migration operations need an LPLR view with Domain metas in it, we will pass the OrigLPLR view to merge operations
+   // instead of the  SourceLPLR view. This is because the SourceLPLR contains a subset of the metas from the OrigLPLR, from which the
+   // SourceLPLR was created.
+   GET VIEW OrigLPLR NAMED "OrigLPLR"
+
+   nRC = SetCursorFirstSelectedEntity( SourceLPLR, "W_MetaDef", "LPLR" )
+   LOOP WHILE nRC >= zCURSOR_SET
+
+      MetaName = SourceLPLR.W_MetaDef.Name
+
+      // Global Operation Group: W_MetaType.Type = 2014 for global operation group meta
+      IF SourceLPLR.W_MetaType.Type = 2014
+         // If the Global Operation Group doesn't already exist, create it.
+         // Otherwise pass the activated GlobalOperationGroup to the migrate routine so
+         // that Global Operations can be merged.
+         nRC = ActivateMetaOI_ByName( ViewToWindow, NewOperationGroup, 0, zSOURCE_GOPGRP_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            ActivateEmptyMetaOI( ViewToWindow, NewOperationGroup, zSOURCE_GOPGRP_META, zSINGLE )
+         END
+         
+         // Set up Error Message object data.
+         CurrentLPLR.LPLR.wMergeMetaType = "Global Op"
+         CurrentLPLR.LPLR.wMergeMetaName = MetaName
+
+         MG_ErrorMessage = "Migrating Global Operation Group: " + MetaName
+         MB_SetMessage( ViewToWindow, 1, MG_ErrorMessage )
+         nRC = GlobalOperGrpMigrate( NewOperationGroup, MetaName, SourceLPLR, ViewToWindow )
+         IF nRC < 0
+            MG_ErrorMessage = "Global Operation Group(" + MetaName + ") aborted."
+            MessageSend( ViewToWindow, "CM01001", "Configuration Management",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         END
+
+         IF NewOperationGroup != 0
+            DropMetaOI( ViewToWindow, NewOperationGroup )
+         END
+         // Turn off the selected state flag
+         SetSelectStateOfEntity( SourceLPLR, "W_MetaDef", 0 )
+
+      END
+      
+      // LOD: W_MetaType.Type = 2007 for LOD meta
+      IF SourceLPLR.W_MetaType.Type = 2007
+      
+         // Set up Error Message object data.
+         CurrentLPLR.LPLR.wMergeMetaType = "LOD"
+         CurrentLPLR.LPLR.wMergeMetaName = MetaName
+
+         GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+         
+         // If replace flag is set, delete the current entry before continuing with the merge function.
+         SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 2007
+         SET CURSOR FIRST CurrentLPLR.W_MetaDef  WHERE CurrentLPLR.W_MetaDef.Name  = MetaName
+         IF RESULT < zCURSOR_SET 
+            // Current entry does not exist, so create it anew.
+            ActivateEmptyMetaOI( ViewToWindow, NewLOD, zSOURCE_LOD_META, zSINGLE )
+         ELSE
+            // Current entry exists
+            IF CurrentLPLR.LPLR.wReplaceMetaFlag = "Y"
+               // Replace flag is set so delete current entry and create it anew.
+               DeleteMetaOI( ViewToWindow, CurrentLPLR, zSOURCE_LOD_META )
+               ActivateEmptyMetaOI( ViewToWindow, NewLOD, zSOURCE_LOD_META, zSINGLE )
+            ELSE
+               // Replace flag is NOT set so merge into existing entry.
+               nRC = ActivateMetaOI_ByName( ViewToWindow, NewLOD, 0, zSOURCE_LOD_META, zSINGLE, MetaName, 0 )
+            END
+         END
+         NAME VIEW NewLOD "NewLOD"
+   
+         // Migrate LOD.
+         MG_ErrorMessage = "Migrating LOD: " + MetaName
+         MB_SetMessage( ViewToWindow, 1, MG_ErrorMessage )
+         nRC = LOD_Migrate( NewLOD, MetaName, OrigLPLR, ViewToWindow )
+         IF nRC < 0
+            MG_ErrorMessage = "LOD (" + MetaName + ") aborted."
+            MessageSend( ViewToWindow, "CM01013", "Configuration Management",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         END
+
+         DropMetaOI( ViewToWindow, NewLOD )
+      END
+      
+      // Dialog: W_MetaType.Type = 2011 for Dialog meta
+      IF SourceLPLR.W_MetaType.Type = 2011
+      
+         // Set up Error Message object data.
+         CurrentLPLR.LPLR.wMergeMetaType = "Dialog"
+         CurrentLPLR.LPLR.wMergeMetaName = MetaName
+         
+         // If the Replace flag is set, delete any current copy of the Dialog.
+         GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+         IF CurrentLPLR.LPLR.wReplaceMetaFlag = "Y"
+            SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 2011
+            SET CURSOR FIRST CurrentLPLR.W_MetaDef  WHERE CurrentLPLR.W_MetaDef.Name  = MetaName
+            IF RESULT >= zCURSOR_SET
+               DeleteMetaOI( ViewToWindow, CurrentLPLR, zSOURCE_LOD_META )
+               MG_ErrorMessage = "Dialog (" + MetaName + ") is being replaced."
+               MessageSend( ViewToWindow, "CM01013", "Configuration Management",
+                            MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            END
+         END
+         
+         // If the Dialog doesn't already exist, create it.
+         // Otherwise return error message, unless the replace flag was set.
+         nRC = ActivateMetaOI_ByName( ViewToWindow, NewDialog, 0, zSOURCE_DIALOG_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            MG_ErrorMessage = "Migrating Dialog: " + MetaName
+            MB_SetMessage( ViewToWindow, 1, MG_ErrorMessage )
+            ActivateEmptyMetaOI( ViewToWindow, NewDialog, zSOURCE_DIALOG_META, zSINGLE )
+            NAME VIEW NewDialog "NewDialog"
+            nRC = DialogMigrate( NewDialog, MetaName, OrigLPLR, ViewToWindow )
+            IF nRC < 0
+               MG_ErrorMessage = "Dialog (" + MetaName + ") aborted."
+               MessageSend( ViewToWindow, "CM01016",
+                            "Configuration Management",
+                            MG_ErrorMessage,
+                            zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            END
+         ELSE
+            MG_ErrorMessage = "Migrating Dialog: " + MetaName
+            MB_SetMessage( ViewToWindow, 1, MG_ErrorMessage )
+            nRC = DialogMigrate( NewDialog, MetaName, OrigLPLR, ViewToWindow )
+            IF nRC < 0
+               MG_ErrorMessage = "Dialog (" + MetaName + ") aborted."
+               MessageSend( ViewToWindow, "CM01016",
+                            "Configuration Management",
+                            MG_ErrorMessage,
+                            zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            END
+         END
+         DropMetaOI( ViewToWindow, NewDialog )
+      END
+      
+      // Report: W_MetaType.Type = 2015 for Report Definition meta
+      IF SourceLPLR.W_MetaType.Type = 2015
+      
+         // Set up Error Message object data.
+         CurrentLPLR.LPLR.wMergeMetaType = "Report"
+         CurrentLPLR.LPLR.wMergeMetaName = MetaName
+
+         // If the ReportDef doesn't already exist, create it.
+         // Otherwise return error message.
+         nRC = ActivateMetaOI_ByName( ViewToWindow, ReturnedReport, 0, zREFER_REPORT_META, zSINGLE, MetaName, 0 )
+         IF nRC < 0
+            MG_ErrorMessage = "Migrating Report Definition: " + MetaName
+            MB_SetMessage( ViewToWindow, 1, MG_ErrorMessage )
+            nRC = ReportMigrate( ReturnedReport, MetaName, OrigLPLR, ViewToWindow )
+            IF ReturnedReport != 0
+               DropMetaOI( ViewToWindow, ReturnedReport )
+            END
+            IF nRC < 0
+               IF  nRC = -16  //PPE does not exists
+                  RETURN nRC
+               ELSE
+                  MG_ErrorMessage = "Report Definition (" + MetaName + ") aborted."
+                  MessageSend( ViewToWindow, "CM01023",
+                               "Configuration Management",
+                               MG_ErrorMessage,
+                               zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+               END
+            END
+         ELSE
+            MG_ErrorMessage = "Report Definition (" + MetaName + ") already exists."
+            MessageSend( ViewToWindow, "CM01024", "Configuration Management",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            DropMetaOI( ViewToWindow, ReturnedReport )
+         END
+      END
+
+      nRC = SetCursorNextSelectedEntity( SourceLPLR, "W_MetaDef", "LPLR" )
+
+   END
+   
+   // If there are any error messages, transfer to the window to display them.
+   // Otherwise, send a message to the user that the merge function completed without error.
+   IF CurrentLPLR.ErrorMessage EXISTS 
+      SetWindowActionBehavior( ViewToWindow, ZWAB_StartModalSubwindow, "TZCMLPMD", "MetaLPLR_MergeErrors" )
+   ELSE
+      MessageSend( ViewToWindow, "", 
+                   "Configuration Management",
+                   "LPLR Merge has completed without error.",
+                   zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GOTO_MergeERDs
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+GOTO_MergeERDs( VIEW vSubtask )
+
+   VIEW vTaskLPLR REGISTERED AS TaskLPLR
+
+   // Initialize the TaskLPLR ErrorMessage subobject before executing ERD_Merge.
+   FOR EACH vTaskLPLR.ErrorMessage 
+      DELETE ENTITY vTaskLPLR.ErrorMessage NONE  
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: WRITE_MergeMessagesToFile
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+WRITE_MergeMessagesToFile( VIEW ViewToWindow )
+
+   VIEW TaskLPLR REGISTERED AS TaskLPLR  
+   
+   WriteErrorMessagesCSV ( TaskLPLR )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: MergeAllObjectViews
+**    
+*************************************************************************************************/
+LOCAL OPERATION
+MergeAllObjectViews( VIEW ViewToWindow )
+
+   VIEW TaskLPLR   REGISTERED AS TaskLPLR
+   VIEW SourceLPLR BASED ON LOD  TZCMLPLO
+   VIEW TZWDVOROS  BASED ON LOD TZWDVORO
+   VIEW TZWDVOROT  BASED ON LOD TZWDVORO
+   VIEW TZZOLODO   BASED ON LOD TZZOLODO
+   STRING ( 50 )  szLOD_Name
+   STRING ( 50 )  szMetaName
+   STRING ( 200 ) szSourceDirectoryName
+   STRING ( 200 ) szSourceFileName
+   STRING ( 200 ) szMsg
+   INTEGER nRC
+   INTEGER lZKey
+   
+   // Make sure that an ObjectView exists in the TaskLPLR (the current LPLR) for every ObjectView in the Source LPLR.
+   
+   GET VIEW SourceLPLR NAMED "OrigLPLR"
+   
+   // Note that update Registered View is W_MetaType 2009.  
+   SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2009
+   SET CURSOR FIRST TaskLPLR.W_MetaType WHERE TaskLPLR.W_MetaType.Type = 2009 
+   
+   szSourceDirectoryName = SourceLPLR.LPLR.MetaSrcDir 
+   FOR EACH SourceLPLR.W_MetaDef 
+      szMetaName = SourceLPLR.W_MetaDef.Name
+      SET CURSOR FIRST TaskLPLR.W_MetaDef WHERE TaskLPLR.W_MetaDef.Name = szMetaName
+      IF RESULT < zCURSOR_SET
+         // Activate existing source meta VOR
+         lZKey = SourceLPLR.W_MetaDef.CPLR_ZKey
+         zltoxa( lZKey, szMetaName )
+         szSourceFileName = szSourceDirectoryName + "\" + szMetaName + ".PVR"
+         ActivateOI_FromFile ( TZWDVOROS, "TZWDVORO", SourceLPLR, szSourceFileName, 8192 ) // 8192 is zIGNORE_ATTRIB_ERRORS
+         NAME VIEW TZWDVOROS "TZWDVORO_Source"
+         // Make sure LOD exists.
+         szLOD_Name = TZWDVOROS.LOD.Name 
+         nRC = ActivateMetaOI_ByName( ViewToWindow, TZZOLODO, 0, zREFER_LOD_META, zSINGLE, szLOD_Name, 0 )
+         IF nRC >= 0
+            // Create the ViewObjRef.
+            ActivateEmptyMetaOI( ViewToWindow, TZWDVOROT, zSOURCE_VOR_META, zSINGLE )
+            NAME VIEW TZWDVOROT "TZWDVORO_New"
+            CreateMetaEntity( ViewToWindow, TZWDVOROT, "ViewObjRef", zPOS_AFTER )
+            TZWDVOROT.ViewObjRef.Name = TZWDVOROS.ViewObjRef.Name 
+            TZWDVOROT.ViewObjRef.Desc = "Created during CRM Build"
+            INCLUDE TZWDVOROT.LOD FROM TZZOLODO.LOD 
+            CommitMetaOI( ViewToWindow, TZWDVOROT, zSOURCE_VOR_META )
+            DropObjectInstance( TZWDVOROT )
+            DropObjectInstance( TZZOLODO )
+            szMsg = "Registered View, " + TZWDVOROS.ViewObjRef.Name + ", copied."
+            CreateErrorMessage( TaskLPLR, szMsg )
+         END
+         DropObjectInstance( TZWDVOROS )
+      END 
    END
 
 END

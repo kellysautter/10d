@@ -7,6 +7,9 @@
 /*
 CHANGE LOG
 
+2023.03.23  KJS
+   Added BuildSchema to import a TZTENVRO from an existing database.
+
 2003.01.28  DGC
    Fixed bug.  Datetime lengths were accidentally being set to 4.
 
@@ -4446,6 +4449,86 @@ EndOfFunction:
    return( nReturn );
 
 } // BuildSyncDDL
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  This routine a TZTENVRO object (and names it "TZRetrieveSchema") from
+//  the database for the selected Source Name.  
+//  This assumes the current user can connect to the DB.
+//
+//  The following describes the standard arguments for DDL generation:
+//
+//     vDTE - View to Technical Environment we want to build DDL for.
+//     vEMD - View to E/R diagram.  Not used but kept for now because this was
+//            copied from BuildSyncDDL.
+//     pchFileName - Not used but kept for now because this was
+//             copied from BuildSyncDDL.
+//     vSubtask - View to window, to send a DIL-message or an error message
+//
+//  Returns: 0           - Everything OK.
+//           zCALL_ERROR - DDL not generated.
+//
+/////////////////////////////////////////////////////////////////////////////
+zSHORT OPERATION
+BuildSchema(  zVIEW  vDTE,
+              zVIEW  vEMD,
+              zVIEW  vTZTEDBLO,
+              zPCHAR pchFileName,
+              zVIEW  vSubtask )
+{
+   LPLIBRARY hLibrary;
+   zLONG     f = -1;
+   zSHORT    (POPERATION pfn)( zVIEW, zPVIEW );
+   zVIEW     vDB = 0;
+   zVIEW     vBoth[ 2 ];
+   zCHAR     szDLL[ zMAX_FILENAME_LTH + 1 ];
+   zCHAR     szTableName[ MAX_TABLENAME_LTH + 1 ];
+   zCHAR     szColumnName[ MAX_TABLENAME_LTH + 1 ];
+   zCHAR     szOwner[ MAX_TABLENAME_LTH + 1 ];
+   zCHAR     szLine[ 500 ];
+   zPCHAR    pchDefaultOwner;
+   zPCHAR    pchDBName;
+   zPCHAR    pchDBDesc;
+   zSHORT    k, nRC;
+   zSHORT    nLth;
+   zSHORT    nReturn = zCALL_ERROR;
+   zBOOL     bTableDropped;
+
+
+   // Make copies of the views so we can safely change the cursors.
+   CreateViewFromViewForTask( &vDTE, vDTE, 0 );
+   CreateViewFromViewForTask( &vEMD, vEMD, 0 );
+
+   // First thing we have to do is call the SQL DBH to load the current
+   // DB schema.
+   GetStringFromAttribute( szDLL,
+                           vDTE, "TE_DBMS_Source", "Executable" );
+   hLibrary = SysLoadLibrary( vSubtask, szDLL );
+   if ( hLibrary )
+   {
+      pfn = SysGetProc( hLibrary, "RetrieveSchema" );
+      if ( pfn )
+      {
+         (*pfn)( vDTE, &vDB );
+      }
+      else
+      {
+         MessageSend( vSubtask, "TE00422", "Physical Data Model",
+                      "Couldn't find 'BuildSyncDDL' in Generater Executable",
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      }
+
+      SysFreeLibrary( vSubtask, hLibrary );
+   }
+
+   if ( vDB == 0 )
+      return( -1 );
+
+   SetNameForView( vDB, "TZRetrieveSchema", vSubtask, zLEVEL_TASK );
+   return( nReturn );
+
+} // BuildSchema
 
 zSHORT OPERATION
 LoadDataTypes( zVIEW vType )

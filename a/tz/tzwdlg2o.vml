@@ -57,6 +57,7 @@ DialogRelinkDelete( VIEW vDialog BASED ON LOD TZWDLGSO, VIEW vSubtask )
    VIEW         vVOR         BASED ON LOD TZWDVORO
    VIEW         vLOD_LPLR    BASED ON LOD TZCMLPLO
    VIEW         vRecursive   BASED ON LOD TZWDLGSO
+   VIEW         vTZERROR     BASED ON LOD TZERROR
    INTEGER      LastViewZKey
    STRING (255) szMsg
    STRING ( 1 ) szContinueParseGen
@@ -65,6 +66,14 @@ DialogRelinkDelete( VIEW vDialog BASED ON LOD TZWDLGSO, VIEW vSubtask )
    RetrieveViewForMetaList( vSubtask, vLOD_LPLR, zREFER_LOD_META )
    LastViewZKey = 0
    NAME VIEW vDialog "vDialog"
+   /*   
+   IF GetViewByName( vTZERROR, "TZERRORDLG", vSubtask, zLEVEL_TASK ) < 0
+      ActivateEmptyObjectInstance(vTZERROR, "TZERROR", vSubtask, 0)
+      SetNameForView(vTZERROR, "TZERRORDLG", vSubtask, zLEVEL_TASK)
+      CreateEntity(vTZERROR, "ErrorList", zPOS_AFTER) 
+      CreateEntity(vTZERROR, "ErrorMsg", zPOS_AFTER) 
+   END
+   */
 
    FOR EACH vDialog.ViewObjRef
       IF LastViewZKey != 0
@@ -265,10 +274,11 @@ ControlRelinkDelete( VIEW    vDialog     BASED ON LOD TZWDLGSO,
                      VIEW    vLOD_LPLR   BASED ON LOD TZCMLPLO,
                      VIEW    vSubtask )
 
-   VIEW vDomain BASED ON LOD  TZDGSRCO
-   VIEW vReport BASED ON LOD  TZRPSRCO
-   VIEW vPE     BASED ON LOD  TZPESRCO
-   VIEW PE_List BASED ON LOD  TZCMLPLO
+   VIEW vDomain  BASED ON LOD  TZDGSRCO
+   VIEW vReport  BASED ON LOD  TZRPSRCO
+   VIEW vPE      BASED ON LOD  TZPESRCO
+   VIEW PE_List  BASED ON LOD  TZCMLPLO
+   VIEW vTZERROR BASED ON LOD  TZERROR
    STRING ( 255 ) szMsg
    STRING ( 64 )  szWindowReportName
    STRING ( 1 )   szContinueParseGen
@@ -287,7 +297,9 @@ ControlRelinkDelete( VIEW    vDialog     BASED ON LOD TZWDLGSO,
 
       SetNameForView( vPE, "TZPESRCO", vSubtask, zLEVEL_TASK )
    END
-
+   
+   GetViewByName( vTZERROR, "TZERRORDLG", vSubtask, zLEVEL_TASK )    
+   
    // Process each subcontrol.
    FOR EACH vControl.CtrlCtrl
       SetViewToSubobject( vControl, "CtrlCtrl" )
@@ -354,6 +366,7 @@ ControlRelinkDelete( VIEW    vDialog     BASED ON LOD TZWDLGSO,
                   IF szContinueParseGen = "N"
                      TraceLineS( szMsg, "" )
                   ELSE
+                     //vTZERROR.ErrorMsg.LongError = vTZERROR.ErrorMsg.LongError + NEW_LINE + szMsg
                      MessageSend( vSubtask, "WD00506", "Control Relink",
                                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                   END
@@ -432,6 +445,7 @@ ControlRelinkDelete( VIEW    vDialog     BASED ON LOD TZWDLGSO,
                   IF szContinueParseGen = "N"
                      TraceLineS( szMsg, "" )
                   ELSE
+                     //vTZERROR.ErrorMsg.LongError = vTZERROR.ErrorMsg.LongError + NEW_LINE + szMsg
                      MessageSend( vSubtask, "WD00508", "Control Relink",
                                   szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
                   END

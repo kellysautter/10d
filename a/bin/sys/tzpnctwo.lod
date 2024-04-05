@@ -1,6 +1,7 @@
-z1000-Zeidon    TZPNCTWO TZZOLODO 07/10/12   15:21:05 1.0b0    
+z1000-Zeidon    TZPNCTWO TZZOLODO 06/09/23   14:44:25 1.0a2    
 eLOD       1
 aZKey      1328561
+aNextZKeyToAssign 127024310
 aName      TZPNCTWO
 aDesc      Work object for standard Windows Controls
 aReLinked  Y
@@ -792,7 +793,7 @@ aZKey      90005392
 aLth       1
 aDesc      77
 Y - Entity selected for display in outliner control
-N - Entity not selected0
+N - Entity not selected 
 
 eDomainRec 9
 aZKey      90000028
@@ -922,7 +923,7 @@ aZKey      90005356
 aLth       1
 aDesc      77
 Y - Entity selected for display in outliner control
-N - Entity not selected0
+N - Entity not selected 
 
 eDomainRec 8
 
@@ -983,7 +984,7 @@ aZKey      90005864
 aLth       1
 aDesc      111
 1 - Entity has the potential of being selected as recursive
-0 - Entity can not be selected as being recursive0
+0 - Entity can not be selected as being recursive 
 
 eDomainRec 8
 
@@ -1000,7 +1001,7 @@ aLth       1
 aDesc      171
 1 - Entity has been selected as recursive for outliner control.
       For this to happen, RecursivePossible must also = Y
-0 - Entity has not been selected as recursive.0
+0 - Entity has not been selected as recursive. 
 
 eDomainRec 8
 
@@ -1225,7 +1226,7 @@ aName      TopSelectedLevel
 aZKey      90005890
 aDesc      106
 Records the level of the top most selected entity. If no entity is currently selected this is set to 0.
-0
+ 
 
 eDomainRec 7
 
@@ -1379,7 +1380,7 @@ Y - Ignore information in the pwd about the outliner. The view
      has been reselected by the user.
 
 This is set to N by OL_ObjectPrebuild and set to Y by
-OL_DetailChangeView. It is referenced by OL_DetailPreBuild0
+OL_DetailChangeView. It is referenced by OL_DetailPreBuild 
 
 eDomainRec 6
 
@@ -1721,6 +1722,21 @@ aDesc      Flag to indicate whether function is clone or merge
 eDomainRec 5
 
 eLOD_AttributeRec 3
+aZKey      127024309
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      CloneWindowSourceFileFlag
+aZKey      127024310
+aDesc      162
+If null, Operations are copied to SourceFile with same name as target Dialog.
+If not null, Operations are copied to a SourceFile with same name as Source Dialog 
+
+eDomainRec 5
+
+eLOD_AttributeRec 3
 aZKey      1328656
 aWork      Y
 aUpdate    Y
@@ -1735,7 +1751,7 @@ Flag that identifies the window calling the UPD_ACT window.
 N - Action List
 O - Menu Option
 W - Window Event
-C or null - Control0
+C or null - Control 
 
 eDomainRec 5
 
@@ -1767,7 +1783,7 @@ aDesc      D - Dialog, R - Report, X - XSLT
 eDomainRec 5
 
 eLOD_Entity 2
-awkSelectedAttributeForDragSort 10
+awkSelectedAttributeForDragSort 8
 
 eLOD_Attribute 3
 awkSequence 1
@@ -1834,6 +1850,13 @@ eDomain    5
 
 eLOD_Attribute 3
 awkSequence 10
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 11
 
 eER_Attribute 4
 
@@ -2602,47 +2625,9 @@ aDesc      Local Project Library Release 8C
 aType      P
 
 eTE_DBMS_Source 4
-aName      SQL_Rep
-aZKey      1148367
-aDesc      Last altered April 7, 1998
-aParadigm  R
-aDBMS      SQLServer via ODBC
-aGenerateExecutable kzhsqlsb
-aExecutable KZHSQLOA
-aGenKeyExecutable KZHGENKY
-aDisplayOwner Y
-aDisplayDBMS_ID N
-aDBH_Data  U322
-M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
-M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
-M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
-M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
-'92!9#0H-"@``
-`
-
-eTE_DBMS_Source 4
-aName      Zeidon
-aZKey      90031867
-aDesc      Zeidon repository on DB2 mainframe
-aParadigm  R
-aDBMS      MVS: DB2 deutsch
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDefaultOwner ZEIDON
-aDisplayOwner Y
-aDisplayDBMS_ID Y
-aSironDB_Subtype 4
-
-eTE_DBMS_Source 4
-aName      Repos9JA
+aName      PCMBase
 aZKey      91005292
-aDesc      Repository MS-Access
+aDesc      The fact that this is defined as MS Access is immaterial, as the meta data will never be kept in a database, but will only remain as individual meta objects.
 aParadigm  R
 aDBMS      MS Access via ODBC
 aGenerateExecutable KZHSQLAB
@@ -2650,16 +2635,16 @@ aExecutable KZHSQLOA
 aGenKeyExecutable KZHGENKY
 aDisplayOwner Y
 aDisplayDBMS_ID N
-aDBH_Data  U322
-M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BH`*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
-M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
-M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
-M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
-'92!.#0H-"@``
-`
+aDBH_Data  322
+TZDBHODO *********************** ********************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 03/01/00   14:26:23 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString Y
+aBlobsLast N
+aDropTables Y
+aAddTableNameToFK_Override N
+
+
 
 eZ_MetaDef 2
 aName      TZPNCTWO
@@ -2774,356 +2759,360 @@ i340       5
 i343       5
 i346       5
 i349       5
-i352       134
-i353       1
-i354       323
-i355       324
-i356       5
-i357       326
-i358       327
+i352       5
+i355       134
+i356       1
+i357       323
+i358       324
 i359       5
-i360       329
-i361       330
-i362       31
-i363       332
-i364       333
-i365       28
-i366       335
-i367       336
+i360       326
+i361       327
+i362       5
+i363       329
+i364       330
+i365       31
+i366       332
+i367       333
 i368       28
-i369       338
-i370       339
-i371       5
-i372       341
-i373       342
+i369       335
+i370       336
+i371       28
+i372       338
+i373       339
 i374       5
-i375       344
-i376       345
+i375       341
+i376       342
 i377       5
-i378       347
-i379       348
+i378       344
+i379       345
 i380       5
-i381       350
-i382       351
-i383       134
-i384       2
-i385       3
-i386       4
-i387       5
-i388       6
-i389       7
-i390       5
-i391       9
-i392       10
-i393       11
-i394       12
-i395       13
+i381       347
+i382       348
+i383       5
+i384       350
+i385       351
+i386       5
+i387       353
+i388       354
+i389       134
+i390       2
+i391       3
+i392       4
+i393       5
+i394       6
+i395       7
 i396       5
-i397       15
-i398       16
-i399       17
-i400       18
-i401       19
-i402       20
-i403       21
-i404       22
-i405       23
-i406       11
-i407       25
-i408       26
-i409       27
-i410       28
-i411       29
-i412       30
-i413       31
-i414       32
-i415       33
-i416       34
-i417       11
-i418       36
-i419       37
-i420       38
-i421       5
-i422       40
-i423       41
-i424       5
-i425       43
-i426       57
-i427       58
-i428       5
-i429       44
-i430       45
-i431       46
-i432       5
-i433       48
-i434       49
-i435       5
-i436       51
-i437       52
+i397       9
+i398       10
+i399       11
+i400       12
+i401       13
+i402       5
+i403       15
+i404       16
+i405       17
+i406       18
+i407       19
+i408       20
+i409       21
+i410       22
+i411       23
+i412       11
+i413       25
+i414       26
+i415       27
+i416       28
+i417       29
+i418       30
+i419       31
+i420       32
+i421       33
+i422       34
+i423       11
+i424       36
+i425       37
+i426       38
+i427       5
+i428       40
+i429       41
+i430       5
+i431       43
+i432       57
+i433       58
+i434       5
+i435       44
+i436       45
+i437       46
 i438       5
-i439       54
-i440       55
+i439       48
+i440       49
 i441       5
-i442       60
-i443       61
-i444       62
-i445       5
-i446       64
-i447       65
-i448       5
-i449       67
-i450       68
+i442       51
+i443       52
+i444       5
+i445       54
+i446       55
+i447       5
+i448       60
+i449       61
+i450       62
 i451       5
-i452       70
-i453       71
+i452       64
+i453       65
 i454       5
-i455       73
-i456       74
+i455       67
+i456       68
 i457       5
-i458       76
-i459       244
-i460       245
-i461       31
-i462       268
-i463       269
-i464       5
-i465       271
-i466       272
-i467       5
-i468       274
-i469       275
+i458       70
+i459       71
+i460       5
+i461       73
+i462       74
+i463       5
+i464       76
+i465       244
+i466       245
+i467       31
+i468       268
+i469       269
 i470       5
-i471       277
-i472       278
+i471       271
+i472       272
 i473       5
-i474       280
-i475       281
+i474       274
+i475       275
 i476       5
-i477       283
-i478       284
+i477       277
+i478       278
 i479       5
-i480       286
-i481       287
+i480       280
+i481       281
 i482       5
-i483       289
-i484       290
-i485       134
-i486       292
-i487       293
+i483       283
+i484       284
+i485       5
+i486       286
+i487       287
 i488       5
-i489       295
-i490       296
-i491       5
-i492       298
-i493       299
+i489       289
+i490       290
+i491       134
+i492       292
+i493       293
 i494       5
-i495       301
-i496       302
+i495       295
+i496       296
 i497       5
-i498       304
-i499       305
+i498       298
+i499       299
 i500       5
-i501       307
-i502       308
+i501       301
+i502       302
 i503       5
-i504       310
-i505       311
+i504       304
+i505       305
 i506       5
-i507       313
-i508       314
+i507       307
+i508       308
 i509       5
-i510       265
-i511       266
+i510       310
+i511       311
 i512       5
-i513       262
-i514       263
+i513       313
+i514       314
 i515       5
-i516       259
-i517       260
+i516       265
+i517       266
 i518       5
-i519       256
-i520       257
+i519       262
+i520       263
 i521       5
-i522       247
-i523       248
+i522       259
+i523       260
 i524       5
-i525       250
-i526       251
-i527       31
-i528       253
-i529       254
-i530       31
-i531       77
-i532       207
-i533       208
-i534       31
-i535       213
-i536       214
-i537       31
-i538       216
-i539       217
-i540       218
-i541       210
-i542       211
-i543       212
-i544       219
-i545       220
-i546       31
-i547       222
-i548       223
-i549       5
-i550       225
-i551       226
-i552       5
-i553       228
-i554       229
+i525       256
+i526       257
+i527       5
+i528       247
+i529       248
+i530       5
+i531       250
+i532       251
+i533       31
+i534       253
+i535       254
+i536       31
+i537       77
+i538       207
+i539       208
+i540       31
+i541       213
+i542       214
+i543       31
+i544       216
+i545       217
+i546       218
+i547       210
+i548       211
+i549       212
+i550       219
+i551       220
+i552       31
+i553       222
+i554       223
 i555       5
-i556       231
-i557       232
+i556       225
+i557       226
 i558       5
-i559       234
-i560       235
-i561       31
-i562       237
-i563       238
+i559       228
+i560       229
+i561       5
+i562       231
+i563       232
 i564       5
-i565       240
-i566       241
-i567       5
-i568       243
-i569       78
-i570       159
-i571       130
-i572       5
-i573       162
-i574       163
-i575       134
-i576       165
-i577       136
-i578       31
-i579       168
-i580       139
-i581       31
-i582       171
-i583       142
-i584       5
-i585       174
-i586       145
+i565       234
+i566       235
+i567       31
+i568       237
+i569       238
+i570       5
+i571       240
+i572       241
+i573       5
+i574       243
+i575       78
+i576       159
+i577       130
+i578       5
+i579       162
+i580       163
+i581       134
+i582       165
+i583       136
+i584       31
+i585       168
+i586       139
 i587       31
-i588       177
-i589       148
-i590       31
-i591       180
-i592       181
-i593       5
-i594       183
-i595       184
-i596       5
-i597       186
-i598       187
+i588       171
+i589       142
+i590       5
+i591       174
+i592       145
+i593       31
+i594       177
+i595       148
+i596       31
+i597       180
+i598       181
 i599       5
-i600       189
-i601       190
-i602       191
-i603       192
-i604       193
-i605       31
-i606       195
-i607       196
-i608       31
-i609       198
-i610       199
-i611       5
-i612       201
-i613       202
-i614       5
-i615       156
-i616       205
-i617       206
-i618       79
-i619       80
-i620       81
-i621       5
-i622       83
-i623       84
-i624       5
-i625       86
-i626       87
+i600       183
+i601       184
+i602       5
+i603       186
+i604       187
+i605       5
+i606       189
+i607       190
+i608       191
+i609       192
+i610       193
+i611       31
+i612       195
+i613       196
+i614       31
+i615       198
+i616       199
+i617       5
+i618       201
+i619       202
+i620       5
+i621       156
+i622       205
+i623       206
+i624       79
+i625       80
+i626       81
 i627       5
-i628       89
-i629       90
-i630       18
-i631       92
-i632       93
-i633       18
-i634       95
-i635       96
-i636       5
-i637       98
-i638       99
-i639       5
-i640       101
-i641       102
+i628       83
+i629       84
+i630       5
+i631       86
+i632       87
+i633       5
+i634       89
+i635       90
+i636       18
+i637       92
+i638       93
+i639       18
+i640       95
+i641       96
 i642       5
-i643       104
-i644       105
-i645       31
-i646       107
-i647       108
-i648       31
-i649       110
-i650       111
+i643       98
+i644       99
+i645       5
+i646       101
+i647       102
+i648       5
+i649       104
+i650       105
 i651       31
-i652       113
-i653       114
+i652       107
+i653       108
 i654       31
-i655       116
-i656       117
+i655       110
+i656       111
 i657       31
-i658       119
-i659       120
-i660       5
-i661       122
-i662       123
-i663       5
-i664       125
-i665       126
-i666       127
-i667       128
-i668       129
-i669       130
-i670       5
-i671       132
-i672       133
-i673       134
-i674       135
-i675       136
-i676       31
-i677       138
-i678       139
-i679       31
-i680       141
-i681       142
-i682       5
-i683       144
-i684       145
+i658       113
+i659       114
+i660       31
+i661       116
+i662       117
+i663       31
+i664       119
+i665       120
+i666       5
+i667       122
+i668       123
+i669       5
+i670       125
+i671       126
+i672       127
+i673       128
+i674       129
+i675       130
+i676       5
+i677       132
+i678       133
+i679       134
+i680       135
+i681       136
+i682       31
+i683       138
+i684       139
 i685       31
-i686       147
-i687       148
-i688       31
-i689       150
-i690       151
-i691       5
-i692       153
-i693       154
-i694       5
-i695       156
-i696       157
-i697       158
-i698       316
-i699       317
-i700       318
-i701       5
-i702       320
-i703       321
-i704       11
+i686       141
+i687       142
+i688       5
+i689       144
+i690       145
+i691       31
+i692       147
+i693       148
+i694       31
+i695       150
+i696       151
+i697       5
+i698       153
+i699       154
+i700       5
+i701       156
+i702       157
+i703       158
+i704       316
+i705       317
+i706       318
+i707       5
+i708       320
+i709       321
+i710       11

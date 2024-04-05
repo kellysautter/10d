@@ -45,6 +45,8 @@ public class DialogImpl implements Dialog
    protected String  WEB_NoAutoLogOut;
    protected String  WEB_ImportInclude;
    protected String  WEB_Logout;
+   protected String  BuildJSPAsProd;
+   protected String  Converted;
    protected String  LastSyncDate;
    protected String  wOriginalViewName;
    protected String  wNewViewName;
@@ -55,6 +57,11 @@ public class DialogImpl implements Dialog
    protected String  wWebEditControlProperties;
    protected String  wWebPushControlProperties;
    protected String  wWebTextControlProperties;
+   protected String  wWebTabControlProperties;
+   protected String  wWebBitmapControlProperties;
+   protected String  wWebUsesLanguageConversion;
+   protected String  wWebUsesControlActions;
+   protected String  wWebUsesControlActionsView;
    protected String  wMapTypeGridColumnControl;
    protected String  wMapTypeTextControl;
    protected String  wOriginalClassName;
@@ -357,6 +364,38 @@ public class DialogImpl implements Dialog
    }
 
    /**
+    * @return the BuildJSPAsProd
+    */
+   public String getBuildJSPAsProd( )
+   {
+      return BuildJSPAsProd;
+   }
+
+   /**
+    * @param BuildJSPAsProd to set 
+    */
+   public void setBuildJSPAsProd( String BuildJSPAsProd )
+   {
+      this.BuildJSPAsProd = BuildJSPAsProd;
+   }
+
+   /**
+    * @return the Converted
+    */
+   public String getConverted( )
+   {
+      return Converted;
+   }
+
+   /**
+    * @param Converted to set 
+    */
+   public void setConverted( String Converted )
+   {
+      this.Converted = Converted;
+   }
+
+   /**
     * @return the LastSyncDate
     */
    public String getLastSyncDate( )
@@ -517,6 +556,86 @@ public class DialogImpl implements Dialog
    }
 
    /**
+    * @return the wWebTabControlProperties
+    */
+   public String getwWebTabControlProperties( )
+   {
+      return wWebTabControlProperties;
+   }
+
+   /**
+    * @param wWebTabControlProperties to set 
+    */
+   public void setwWebTabControlProperties( String wWebTabControlProperties )
+   {
+      this.wWebTabControlProperties = wWebTabControlProperties;
+   }
+
+   /**
+    * @return the wWebBitmapControlProperties
+    */
+   public String getwWebBitmapControlProperties( )
+   {
+      return wWebBitmapControlProperties;
+   }
+
+   /**
+    * @param wWebBitmapControlProperties to set 
+    */
+   public void setwWebBitmapControlProperties( String wWebBitmapControlProperties )
+   {
+      this.wWebBitmapControlProperties = wWebBitmapControlProperties;
+   }
+
+   /**
+    * @return the wWebUsesLanguageConversion
+    */
+   public String getwWebUsesLanguageConversion( )
+   {
+      return wWebUsesLanguageConversion;
+   }
+
+   /**
+    * @param wWebUsesLanguageConversion to set 
+    */
+   public void setwWebUsesLanguageConversion( String wWebUsesLanguageConversion )
+   {
+      this.wWebUsesLanguageConversion = wWebUsesLanguageConversion;
+   }
+
+   /**
+    * @return the wWebUsesControlActions
+    */
+   public String getwWebUsesControlActions( )
+   {
+      return wWebUsesControlActions;
+   }
+
+   /**
+    * @param wWebUsesControlActions to set 
+    */
+   public void setwWebUsesControlActions( String wWebUsesControlActions )
+   {
+      this.wWebUsesControlActions = wWebUsesControlActions;
+   }
+
+   /**
+    * @return the wWebUsesControlActionsView
+    */
+   public String getwWebUsesControlActionsView( )
+   {
+      return wWebUsesControlActionsView;
+   }
+
+   /**
+    * @param wWebUsesControlActionsView to set 
+    */
+   public void setwWebUsesControlActionsView( String wWebUsesControlActionsView )
+   {
+      this.wWebUsesControlActionsView = wWebUsesControlActionsView;
+   }
+
+   /**
     * @return the wMapTypeGridColumnControl
     */
    public String getwMapTypeGridColumnControl( )
@@ -616,6 +735,8 @@ public class DialogImpl implements Dialog
       WEB_NoAutoLogOut = cursor.getStringFromAttribute( "WEB_NoAutoLogOut" );  if ( WEB_NoAutoLogOut == null ) WEB_NoAutoLogOut = "";
       WEB_ImportInclude = cursor.getStringFromAttribute( "WEB_ImportInclude" );  if ( WEB_ImportInclude == null ) WEB_ImportInclude = "";
       WEB_Logout = cursor.getStringFromAttribute( "WEB_Logout" );  if ( WEB_Logout == null ) WEB_Logout = "";
+      BuildJSPAsProd = cursor.getStringFromAttribute( "BuildJSPAsProd" );  if ( BuildJSPAsProd == null ) BuildJSPAsProd = "";
+      Converted = cursor.getStringFromAttribute( "Converted" );  if ( Converted == null ) Converted = "";
       LastSyncDate = cursor.getStringFromAttribute( "LastSyncDate" );  if ( LastSyncDate == null ) LastSyncDate = "";
       wOriginalViewName = cursor.getStringFromAttribute( "wOriginalViewName" );  if ( wOriginalViewName == null ) wOriginalViewName = "";
       wNewViewName = cursor.getStringFromAttribute( "wNewViewName" );  if ( wNewViewName == null ) wNewViewName = "";
@@ -626,6 +747,11 @@ public class DialogImpl implements Dialog
       wWebEditControlProperties = cursor.getStringFromAttribute( "wWebEditControlProperties" );  if ( wWebEditControlProperties == null ) wWebEditControlProperties = "";
       wWebPushControlProperties = cursor.getStringFromAttribute( "wWebPushControlProperties" );  if ( wWebPushControlProperties == null ) wWebPushControlProperties = "";
       wWebTextControlProperties = cursor.getStringFromAttribute( "wWebTextControlProperties" );  if ( wWebTextControlProperties == null ) wWebTextControlProperties = "";
+      wWebTabControlProperties = cursor.getStringFromAttribute( "wWebTabControlProperties" );  if ( wWebTabControlProperties == null ) wWebTabControlProperties = "";
+      wWebBitmapControlProperties = cursor.getStringFromAttribute( "wWebBitmapControlProperties" );  if ( wWebBitmapControlProperties == null ) wWebBitmapControlProperties = "";
+      wWebUsesLanguageConversion = cursor.getStringFromAttribute( "wWebUsesLanguageConversion" );  if ( wWebUsesLanguageConversion == null ) wWebUsesLanguageConversion = "";
+      wWebUsesControlActions = cursor.getStringFromAttribute( "wWebUsesControlActions" );  if ( wWebUsesControlActions == null ) wWebUsesControlActions = "";
+      wWebUsesControlActionsView = cursor.getStringFromAttribute( "wWebUsesControlActionsView" );  if ( wWebUsesControlActionsView == null ) wWebUsesControlActionsView = "";
       wMapTypeGridColumnControl = cursor.getStringFromAttribute( "wMapTypeGridColumnControl" );  if ( wMapTypeGridColumnControl == null ) wMapTypeGridColumnControl = "";
       wMapTypeTextControl = cursor.getStringFromAttribute( "wMapTypeTextControl" );  if ( wMapTypeTextControl == null ) wMapTypeTextControl = "";
       wOriginalClassName = cursor.getStringFromAttribute( "wOriginalClassName" );  if ( wOriginalClassName == null ) wOriginalClassName = "";
@@ -1109,7 +1235,8 @@ public class WindowImpl implements Window
    protected String  CSS_Class;
    protected Integer WEB_Timeout;
    protected String  WEB_PageHeadInclude;
-   protected String  WEB_TopMenuInclude;
+   protected String  WEB_TopBannerName;
+   protected String  WEB_FooterInclude;
    protected String  WEB_ReusableMenuWindow;
    protected String  WEB_NoBannerFlag;
    protected String  WEB_NoTopMenuFlag;
@@ -1117,6 +1244,7 @@ public class WindowImpl implements Window
    protected String  WEB_JSPGenerationPositioning;
    protected String  WEB_RegisterZeidonWindow;
    protected String  WEB_UnregisterZeidonWindow;
+   protected String  WEB_ImportInclude;
    protected String  WEB_Logout;
    protected Integer BarID;
    protected String  CaptionNLS_Text;
@@ -1483,19 +1611,35 @@ public class WindowImpl implements Window
    }
 
    /**
-    * @return the WEB_TopMenuInclude
+    * @return the WEB_TopBannerName
     */
-   public String getWEB_TopMenuInclude( )
+   public String getWEB_TopBannerName( )
    {
-      return WEB_TopMenuInclude;
+      return WEB_TopBannerName;
    }
 
    /**
-    * @param WEB_TopMenuInclude to set 
+    * @param WEB_TopBannerName to set 
     */
-   public void setWEB_TopMenuInclude( String WEB_TopMenuInclude )
+   public void setWEB_TopBannerName( String WEB_TopBannerName )
    {
-      this.WEB_TopMenuInclude = WEB_TopMenuInclude;
+      this.WEB_TopBannerName = WEB_TopBannerName;
+   }
+
+   /**
+    * @return the WEB_FooterInclude
+    */
+   public String getWEB_FooterInclude( )
+   {
+      return WEB_FooterInclude;
+   }
+
+   /**
+    * @param WEB_FooterInclude to set 
+    */
+   public void setWEB_FooterInclude( String WEB_FooterInclude )
+   {
+      this.WEB_FooterInclude = WEB_FooterInclude;
    }
 
    /**
@@ -1611,6 +1755,22 @@ public class WindowImpl implements Window
    }
 
    /**
+    * @return the WEB_ImportInclude
+    */
+   public String getWEB_ImportInclude( )
+   {
+      return WEB_ImportInclude;
+   }
+
+   /**
+    * @param WEB_ImportInclude to set 
+    */
+   public void setWEB_ImportInclude( String WEB_ImportInclude )
+   {
+      this.WEB_ImportInclude = WEB_ImportInclude;
+   }
+
+   /**
     * @return the WEB_Logout
     */
    public String getWEB_Logout( )
@@ -1714,7 +1874,8 @@ public class WindowImpl implements Window
       CSS_Class = cursor.getStringFromAttribute( "CSS_Class" );  if ( CSS_Class == null ) CSS_Class = "";
       WEB_Timeout = cursor.getIntegerFromAttribute( "WEB_Timeout" );  if ( WEB_Timeout == null ) WEB_Timeout = 0;
       WEB_PageHeadInclude = cursor.getStringFromAttribute( "WEB_PageHeadInclude" );  if ( WEB_PageHeadInclude == null ) WEB_PageHeadInclude = "";
-      WEB_TopMenuInclude = cursor.getStringFromAttribute( "WEB_TopMenuInclude" );  if ( WEB_TopMenuInclude == null ) WEB_TopMenuInclude = "";
+      WEB_TopBannerName = cursor.getStringFromAttribute( "WEB_TopBannerName" );  if ( WEB_TopBannerName == null ) WEB_TopBannerName = "";
+      WEB_FooterInclude = cursor.getStringFromAttribute( "WEB_FooterInclude" );  if ( WEB_FooterInclude == null ) WEB_FooterInclude = "";
       WEB_ReusableMenuWindow = cursor.getStringFromAttribute( "WEB_ReusableMenuWindow" );  if ( WEB_ReusableMenuWindow == null ) WEB_ReusableMenuWindow = "";
       WEB_NoBannerFlag = cursor.getStringFromAttribute( "WEB_NoBannerFlag" );  if ( WEB_NoBannerFlag == null ) WEB_NoBannerFlag = "";
       WEB_NoTopMenuFlag = cursor.getStringFromAttribute( "WEB_NoTopMenuFlag" );  if ( WEB_NoTopMenuFlag == null ) WEB_NoTopMenuFlag = "";
@@ -1722,6 +1883,7 @@ public class WindowImpl implements Window
       WEB_JSPGenerationPositioning = cursor.getStringFromAttribute( "WEB_JSPGenerationPositioning" );  if ( WEB_JSPGenerationPositioning == null ) WEB_JSPGenerationPositioning = "";
       WEB_RegisterZeidonWindow = cursor.getStringFromAttribute( "WEB_RegisterZeidonWindow" );  if ( WEB_RegisterZeidonWindow == null ) WEB_RegisterZeidonWindow = "";
       WEB_UnregisterZeidonWindow = cursor.getStringFromAttribute( "WEB_UnregisterZeidonWindow" );  if ( WEB_UnregisterZeidonWindow == null ) WEB_UnregisterZeidonWindow = "";
+      WEB_ImportInclude = cursor.getStringFromAttribute( "WEB_ImportInclude" );  if ( WEB_ImportInclude == null ) WEB_ImportInclude = "";
       WEB_Logout = cursor.getStringFromAttribute( "WEB_Logout" );  if ( WEB_Logout == null ) WEB_Logout = "";
       BarID = cursor.getIntegerFromAttribute( "BarID" );  if ( BarID == null ) BarID = 0;
       CaptionNLS_Text = cursor.getStringFromAttribute( "CaptionNLS_Text" );  if ( CaptionNLS_Text == null ) CaptionNLS_Text = "";
@@ -1820,6 +1982,8 @@ public class ControlImpl implements Control
    protected String  DIL_Inherited;
    protected String  NLS_Text;
    protected String  NLS_DIL_Text;
+   protected String  LangID;
+   protected String  CtrlListDisplayValue;
    protected Integer FontSize;
    protected String  TextBold;
    protected String  TextItalic;
@@ -2777,6 +2941,38 @@ public class ControlImpl implements Control
    }
 
    /**
+    * @return the LangID
+    */
+   public String getLangID( )
+   {
+      return LangID;
+   }
+
+   /**
+    * @param LangID to set 
+    */
+   public void setLangID( String LangID )
+   {
+      this.LangID = LangID;
+   }
+
+   /**
+    * @return the CtrlListDisplayValue
+    */
+   public String getCtrlListDisplayValue( )
+   {
+      return CtrlListDisplayValue;
+   }
+
+   /**
+    * @param CtrlListDisplayValue to set 
+    */
+   public void setCtrlListDisplayValue( String CtrlListDisplayValue )
+   {
+      this.CtrlListDisplayValue = CtrlListDisplayValue;
+   }
+
+   /**
     * @return the FontSize
     */
    public Integer getFontSize( )
@@ -2901,6 +3097,8 @@ public class ControlImpl implements Control
       DIL_Inherited = cursor.getStringFromAttribute( "DIL_Inherited" );  if ( DIL_Inherited == null ) DIL_Inherited = "";
       NLS_Text = cursor.getStringFromAttribute( "NLS_Text" );  if ( NLS_Text == null ) NLS_Text = "";
       NLS_DIL_Text = cursor.getStringFromAttribute( "NLS_DIL_Text" );  if ( NLS_DIL_Text == null ) NLS_DIL_Text = "";
+      LangID = cursor.getStringFromAttribute( "LangID" );  if ( LangID == null ) LangID = "";
+      CtrlListDisplayValue = cursor.getStringFromAttribute( "CtrlListDisplayValue" );  if ( CtrlListDisplayValue == null ) CtrlListDisplayValue = "";
       FontSize = cursor.getIntegerFromAttribute( "FontSize" );  if ( FontSize == null ) FontSize = 0;
       TextBold = cursor.getStringFromAttribute( "TextBold" );  if ( TextBold == null ) TextBold = "";
       TextItalic = cursor.getStringFromAttribute( "TextItalic" );  if ( TextItalic == null ) TextItalic = "";
@@ -2964,6 +3162,13 @@ public class CtrlCtrlImpl implements CtrlCtrl
    protected String  GUID;
    protected Blob    Properties;
    protected Blob    LKey;
+   protected Integer BorderWidth;
+   protected Integer BorderStyle;
+   protected Integer BorderTop;
+   protected Integer BorderBottom;
+   protected Integer BorderLeft;
+   protected Integer BorderRight;
+   protected String  TextAlignHorizontal;
    protected String  VisibleBorder;
    protected String  CenterJustify;
    protected String  RightJustify;
@@ -2976,6 +3181,8 @@ public class CtrlCtrlImpl implements CtrlCtrl
    protected String  JavaScript;
    protected String  RadioOrCheckboxValue;
    protected String  WebFileName;
+   protected String  WebCtrlLabelLink;
+   protected String  WebSelectSetName;
    protected String  WebCtrlType;
    protected String  WebColumnSpan;
    protected String  WebWrap;
@@ -2983,25 +3190,18 @@ public class CtrlCtrlImpl implements CtrlCtrl
    protected String  WebNoGridDataMsgClass;
    protected String  WebreCAPTCHAPublicKey;
    protected String  WebreCAPTCHAPrivateKey;
+   protected String  WebHTML5Attribute;
+   protected String  WebPlaceholder;
+   protected String  MenuName;
    protected String  DIL_Inherited;
    protected String  NLS_Text;
    protected String  NLS_DIL_Text;
-   protected Integer BorderWidth;
-   protected Integer BorderStyle;
-   protected Integer BorderTop;
-   protected Integer BorderBottom;
-   protected Integer BorderLeft;
-   protected Integer BorderRight;
-   protected String  TextAlignHorizontal;
+   protected String  LangID;
+   protected String  CtrlListDisplayValue;
    protected Integer FontSize;
    protected String  TextBold;
    protected String  TextItalic;
    protected String  TextUnderline;
-   protected String  WebCtrlLabelLink;
-   protected String  WebSelectSetName;
-   protected String  WebHTML5Attribute;
-   protected String  WebPlaceholder;
-   protected String  MenuName;
 
 
    // ctor
@@ -3411,6 +3611,118 @@ public class CtrlCtrlImpl implements CtrlCtrl
    }
 
    /**
+    * @return the BorderWidth
+    */
+   public Integer getBorderWidth( )
+   {
+      return BorderWidth;
+   }
+
+   /**
+    * @param BorderWidth to set 
+    */
+   public void setBorderWidth( Integer BorderWidth )
+   {
+      this.BorderWidth = BorderWidth;
+   }
+
+   /**
+    * @return the BorderStyle
+    */
+   public Integer getBorderStyle( )
+   {
+      return BorderStyle;
+   }
+
+   /**
+    * @param BorderStyle to set 
+    */
+   public void setBorderStyle( Integer BorderStyle )
+   {
+      this.BorderStyle = BorderStyle;
+   }
+
+   /**
+    * @return the BorderTop
+    */
+   public Integer getBorderTop( )
+   {
+      return BorderTop;
+   }
+
+   /**
+    * @param BorderTop to set 
+    */
+   public void setBorderTop( Integer BorderTop )
+   {
+      this.BorderTop = BorderTop;
+   }
+
+   /**
+    * @return the BorderBottom
+    */
+   public Integer getBorderBottom( )
+   {
+      return BorderBottom;
+   }
+
+   /**
+    * @param BorderBottom to set 
+    */
+   public void setBorderBottom( Integer BorderBottom )
+   {
+      this.BorderBottom = BorderBottom;
+   }
+
+   /**
+    * @return the BorderLeft
+    */
+   public Integer getBorderLeft( )
+   {
+      return BorderLeft;
+   }
+
+   /**
+    * @param BorderLeft to set 
+    */
+   public void setBorderLeft( Integer BorderLeft )
+   {
+      this.BorderLeft = BorderLeft;
+   }
+
+   /**
+    * @return the BorderRight
+    */
+   public Integer getBorderRight( )
+   {
+      return BorderRight;
+   }
+
+   /**
+    * @param BorderRight to set 
+    */
+   public void setBorderRight( Integer BorderRight )
+   {
+      this.BorderRight = BorderRight;
+   }
+
+   /**
+    * @return the TextAlignHorizontal
+    */
+   public String getTextAlignHorizontal( )
+   {
+      return TextAlignHorizontal;
+   }
+
+   /**
+    * @param TextAlignHorizontal to set 
+    */
+   public void setTextAlignHorizontal( String TextAlignHorizontal )
+   {
+      this.TextAlignHorizontal = TextAlignHorizontal;
+   }
+
+   /**
     * @return the VisibleBorder
     */
    public String getVisibleBorder( )
@@ -3603,6 +3915,38 @@ public class CtrlCtrlImpl implements CtrlCtrl
    }
 
    /**
+    * @return the WebCtrlLabelLink
+    */
+   public String getWebCtrlLabelLink( )
+   {
+      return WebCtrlLabelLink;
+   }
+
+   /**
+    * @param WebCtrlLabelLink to set 
+    */
+   public void setWebCtrlLabelLink( String WebCtrlLabelLink )
+   {
+      this.WebCtrlLabelLink = WebCtrlLabelLink;
+   }
+
+   /**
+    * @return the WebSelectSetName
+    */
+   public String getWebSelectSetName( )
+   {
+      return WebSelectSetName;
+   }
+
+   /**
+    * @param WebSelectSetName to set 
+    */
+   public void setWebSelectSetName( String WebSelectSetName )
+   {
+      this.WebSelectSetName = WebSelectSetName;
+   }
+
+   /**
     * @return the WebCtrlType
     */
    public String getWebCtrlType( )
@@ -3715,6 +4059,54 @@ public class CtrlCtrlImpl implements CtrlCtrl
    }
 
    /**
+    * @return the WebHTML5Attribute
+    */
+   public String getWebHTML5Attribute( )
+   {
+      return WebHTML5Attribute;
+   }
+
+   /**
+    * @param WebHTML5Attribute to set 
+    */
+   public void setWebHTML5Attribute( String WebHTML5Attribute )
+   {
+      this.WebHTML5Attribute = WebHTML5Attribute;
+   }
+
+   /**
+    * @return the WebPlaceholder
+    */
+   public String getWebPlaceholder( )
+   {
+      return WebPlaceholder;
+   }
+
+   /**
+    * @param WebPlaceholder to set 
+    */
+   public void setWebPlaceholder( String WebPlaceholder )
+   {
+      this.WebPlaceholder = WebPlaceholder;
+   }
+
+   /**
+    * @return the MenuName
+    */
+   public String getMenuName( )
+   {
+      return MenuName;
+   }
+
+   /**
+    * @param MenuName to set 
+    */
+   public void setMenuName( String MenuName )
+   {
+      this.MenuName = MenuName;
+   }
+
+   /**
     * @return the DIL_Inherited
     */
    public String getDIL_Inherited( )
@@ -3763,115 +4155,35 @@ public class CtrlCtrlImpl implements CtrlCtrl
    }
 
    /**
-    * @return the BorderWidth
+    * @return the LangID
     */
-   public Integer getBorderWidth( )
+   public String getLangID( )
    {
-      return BorderWidth;
+      return LangID;
    }
 
    /**
-    * @param BorderWidth to set 
+    * @param LangID to set 
     */
-   public void setBorderWidth( Integer BorderWidth )
+   public void setLangID( String LangID )
    {
-      this.BorderWidth = BorderWidth;
+      this.LangID = LangID;
    }
 
    /**
-    * @return the BorderStyle
+    * @return the CtrlListDisplayValue
     */
-   public Integer getBorderStyle( )
+   public String getCtrlListDisplayValue( )
    {
-      return BorderStyle;
+      return CtrlListDisplayValue;
    }
 
    /**
-    * @param BorderStyle to set 
+    * @param CtrlListDisplayValue to set 
     */
-   public void setBorderStyle( Integer BorderStyle )
+   public void setCtrlListDisplayValue( String CtrlListDisplayValue )
    {
-      this.BorderStyle = BorderStyle;
-   }
-
-   /**
-    * @return the BorderTop
-    */
-   public Integer getBorderTop( )
-   {
-      return BorderTop;
-   }
-
-   /**
-    * @param BorderTop to set 
-    */
-   public void setBorderTop( Integer BorderTop )
-   {
-      this.BorderTop = BorderTop;
-   }
-
-   /**
-    * @return the BorderBottom
-    */
-   public Integer getBorderBottom( )
-   {
-      return BorderBottom;
-   }
-
-   /**
-    * @param BorderBottom to set 
-    */
-   public void setBorderBottom( Integer BorderBottom )
-   {
-      this.BorderBottom = BorderBottom;
-   }
-
-   /**
-    * @return the BorderLeft
-    */
-   public Integer getBorderLeft( )
-   {
-      return BorderLeft;
-   }
-
-   /**
-    * @param BorderLeft to set 
-    */
-   public void setBorderLeft( Integer BorderLeft )
-   {
-      this.BorderLeft = BorderLeft;
-   }
-
-   /**
-    * @return the BorderRight
-    */
-   public Integer getBorderRight( )
-   {
-      return BorderRight;
-   }
-
-   /**
-    * @param BorderRight to set 
-    */
-   public void setBorderRight( Integer BorderRight )
-   {
-      this.BorderRight = BorderRight;
-   }
-
-   /**
-    * @return the TextAlignHorizontal
-    */
-   public String getTextAlignHorizontal( )
-   {
-      return TextAlignHorizontal;
-   }
-
-   /**
-    * @param TextAlignHorizontal to set 
-    */
-   public void setTextAlignHorizontal( String TextAlignHorizontal )
-   {
-      this.TextAlignHorizontal = TextAlignHorizontal;
+      this.CtrlListDisplayValue = CtrlListDisplayValue;
    }
 
    /**
@@ -3938,86 +4250,6 @@ public class CtrlCtrlImpl implements CtrlCtrl
       this.TextUnderline = TextUnderline;
    }
 
-   /**
-    * @return the WebCtrlLabelLink
-    */
-   public String getWebCtrlLabelLink( )
-   {
-      return WebCtrlLabelLink;
-   }
-
-   /**
-    * @param WebCtrlLabelLink to set 
-    */
-   public void setWebCtrlLabelLink( String WebCtrlLabelLink )
-   {
-      this.WebCtrlLabelLink = WebCtrlLabelLink;
-   }
-
-   /**
-    * @return the WebSelectSetName
-    */
-   public String getWebSelectSetName( )
-   {
-      return WebSelectSetName;
-   }
-
-   /**
-    * @param WebSelectSetName to set 
-    */
-   public void setWebSelectSetName( String WebSelectSetName )
-   {
-      this.WebSelectSetName = WebSelectSetName;
-   }
-
-   /**
-    * @return the WebHTML5Attribute
-    */
-   public String getWebHTML5Attribute( )
-   {
-      return WebHTML5Attribute;
-   }
-
-   /**
-    * @param WebHTML5Attribute to set 
-    */
-   public void setWebHTML5Attribute( String WebHTML5Attribute )
-   {
-      this.WebHTML5Attribute = WebHTML5Attribute;
-   }
-
-   /**
-    * @return the WebPlaceholder
-    */
-   public String getWebPlaceholder( )
-   {
-      return WebPlaceholder;
-   }
-
-   /**
-    * @param WebPlaceholder to set 
-    */
-   public void setWebPlaceholder( String WebPlaceholder )
-   {
-      this.WebPlaceholder = WebPlaceholder;
-   }
-
-   /**
-    * @return the MenuName
-    */
-   public String getMenuName( )
-   {
-      return MenuName;
-   }
-
-   /**
-    * @param MenuName to set 
-    */
-   public void setMenuName( String MenuName )
-   {
-      this.MenuName = MenuName;
-   }
-
    public int loadCtrlCtrlEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -4045,6 +4277,13 @@ public class CtrlCtrlImpl implements CtrlCtrl
       GUID = cursor.getStringFromAttribute( "GUID" );  if ( GUID == null ) GUID = "";
       Properties = cursor.getBlobFromAttribute( "Properties" );
       LKey = cursor.getBlobFromAttribute( "LKey" );
+      BorderWidth = cursor.getIntegerFromAttribute( "BorderWidth" );  if ( BorderWidth == null ) BorderWidth = 0;
+      BorderStyle = cursor.getIntegerFromAttribute( "BorderStyle" );  if ( BorderStyle == null ) BorderStyle = 0;
+      BorderTop = cursor.getIntegerFromAttribute( "BorderTop" );  if ( BorderTop == null ) BorderTop = 0;
+      BorderBottom = cursor.getIntegerFromAttribute( "BorderBottom" );  if ( BorderBottom == null ) BorderBottom = 0;
+      BorderLeft = cursor.getIntegerFromAttribute( "BorderLeft" );  if ( BorderLeft == null ) BorderLeft = 0;
+      BorderRight = cursor.getIntegerFromAttribute( "BorderRight" );  if ( BorderRight == null ) BorderRight = 0;
+      TextAlignHorizontal = cursor.getStringFromAttribute( "TextAlignHorizontal" );  if ( TextAlignHorizontal == null ) TextAlignHorizontal = "";
       VisibleBorder = cursor.getStringFromAttribute( "VisibleBorder" );  if ( VisibleBorder == null ) VisibleBorder = "";
       CenterJustify = cursor.getStringFromAttribute( "CenterJustify" );  if ( CenterJustify == null ) CenterJustify = "";
       RightJustify = cursor.getStringFromAttribute( "RightJustify" );  if ( RightJustify == null ) RightJustify = "";
@@ -4057,6 +4296,8 @@ public class CtrlCtrlImpl implements CtrlCtrl
       JavaScript = cursor.getStringFromAttribute( "JavaScript" );  if ( JavaScript == null ) JavaScript = "";
       RadioOrCheckboxValue = cursor.getStringFromAttribute( "RadioOrCheckboxValue" );  if ( RadioOrCheckboxValue == null ) RadioOrCheckboxValue = "";
       WebFileName = cursor.getStringFromAttribute( "WebFileName" );  if ( WebFileName == null ) WebFileName = "";
+      WebCtrlLabelLink = cursor.getStringFromAttribute( "WebCtrlLabelLink" );  if ( WebCtrlLabelLink == null ) WebCtrlLabelLink = "";
+      WebSelectSetName = cursor.getStringFromAttribute( "WebSelectSetName" );  if ( WebSelectSetName == null ) WebSelectSetName = "";
       WebCtrlType = cursor.getStringFromAttribute( "WebCtrlType" );  if ( WebCtrlType == null ) WebCtrlType = "";
       WebColumnSpan = cursor.getStringFromAttribute( "WebColumnSpan" );  if ( WebColumnSpan == null ) WebColumnSpan = "";
       WebWrap = cursor.getStringFromAttribute( "WebWrap" );  if ( WebWrap == null ) WebWrap = "";
@@ -4064,25 +4305,18 @@ public class CtrlCtrlImpl implements CtrlCtrl
       WebNoGridDataMsgClass = cursor.getStringFromAttribute( "WebNoGridDataMsgClass" );  if ( WebNoGridDataMsgClass == null ) WebNoGridDataMsgClass = "";
       WebreCAPTCHAPublicKey = cursor.getStringFromAttribute( "WebreCAPTCHAPublicKey" );  if ( WebreCAPTCHAPublicKey == null ) WebreCAPTCHAPublicKey = "";
       WebreCAPTCHAPrivateKey = cursor.getStringFromAttribute( "WebreCAPTCHAPrivateKey" );  if ( WebreCAPTCHAPrivateKey == null ) WebreCAPTCHAPrivateKey = "";
+      WebHTML5Attribute = cursor.getStringFromAttribute( "WebHTML5Attribute" );  if ( WebHTML5Attribute == null ) WebHTML5Attribute = "";
+      WebPlaceholder = cursor.getStringFromAttribute( "WebPlaceholder" );  if ( WebPlaceholder == null ) WebPlaceholder = "";
+      MenuName = cursor.getStringFromAttribute( "MenuName" );  if ( MenuName == null ) MenuName = "";
       DIL_Inherited = cursor.getStringFromAttribute( "DIL_Inherited" );  if ( DIL_Inherited == null ) DIL_Inherited = "";
       NLS_Text = cursor.getStringFromAttribute( "NLS_Text" );  if ( NLS_Text == null ) NLS_Text = "";
       NLS_DIL_Text = cursor.getStringFromAttribute( "NLS_DIL_Text" );  if ( NLS_DIL_Text == null ) NLS_DIL_Text = "";
-      BorderWidth = cursor.getIntegerFromAttribute( "BorderWidth" );  if ( BorderWidth == null ) BorderWidth = 0;
-      BorderStyle = cursor.getIntegerFromAttribute( "BorderStyle" );  if ( BorderStyle == null ) BorderStyle = 0;
-      BorderTop = cursor.getIntegerFromAttribute( "BorderTop" );  if ( BorderTop == null ) BorderTop = 0;
-      BorderBottom = cursor.getIntegerFromAttribute( "BorderBottom" );  if ( BorderBottom == null ) BorderBottom = 0;
-      BorderLeft = cursor.getIntegerFromAttribute( "BorderLeft" );  if ( BorderLeft == null ) BorderLeft = 0;
-      BorderRight = cursor.getIntegerFromAttribute( "BorderRight" );  if ( BorderRight == null ) BorderRight = 0;
-      TextAlignHorizontal = cursor.getStringFromAttribute( "TextAlignHorizontal" );  if ( TextAlignHorizontal == null ) TextAlignHorizontal = "";
+      LangID = cursor.getStringFromAttribute( "LangID" );  if ( LangID == null ) LangID = "";
+      CtrlListDisplayValue = cursor.getStringFromAttribute( "CtrlListDisplayValue" );  if ( CtrlListDisplayValue == null ) CtrlListDisplayValue = "";
       FontSize = cursor.getIntegerFromAttribute( "FontSize" );  if ( FontSize == null ) FontSize = 0;
       TextBold = cursor.getStringFromAttribute( "TextBold" );  if ( TextBold == null ) TextBold = "";
       TextItalic = cursor.getStringFromAttribute( "TextItalic" );  if ( TextItalic == null ) TextItalic = "";
       TextUnderline = cursor.getStringFromAttribute( "TextUnderline" );  if ( TextUnderline == null ) TextUnderline = "";
-      WebCtrlLabelLink = cursor.getStringFromAttribute( "WebCtrlLabelLink" );  if ( WebCtrlLabelLink == null ) WebCtrlLabelLink = "";
-      WebSelectSetName = cursor.getStringFromAttribute( "WebSelectSetName" );  if ( WebSelectSetName == null ) WebSelectSetName = "";
-      WebHTML5Attribute = cursor.getStringFromAttribute( "WebHTML5Attribute" );  if ( WebHTML5Attribute == null ) WebHTML5Attribute = "";
-      WebPlaceholder = cursor.getStringFromAttribute( "WebPlaceholder" );  if ( WebPlaceholder == null ) WebPlaceholder = "";
-      MenuName = cursor.getStringFromAttribute( "MenuName" );  if ( MenuName == null ) MenuName = "";
 
       return 0;
    }
@@ -7238,6 +7472,8 @@ public class EventActImpl implements EventAct
    protected String  PopupMenuName;
    protected String  WebJavaScript;
    protected String  WebJavaScriptLocation;
+   protected String  WebHTML_TransferAddress;
+   protected String  ParentIsGridOrGrp;
 
 
    // ctor
@@ -7518,6 +7754,38 @@ public class EventActImpl implements EventAct
       this.WebJavaScriptLocation = WebJavaScriptLocation;
    }
 
+   /**
+    * @return the WebHTML_TransferAddress
+    */
+   public String getWebHTML_TransferAddress( )
+   {
+      return WebHTML_TransferAddress;
+   }
+
+   /**
+    * @param WebHTML_TransferAddress to set 
+    */
+   public void setWebHTML_TransferAddress( String WebHTML_TransferAddress )
+   {
+      this.WebHTML_TransferAddress = WebHTML_TransferAddress;
+   }
+
+   /**
+    * @return the ParentIsGridOrGrp
+    */
+   public String getParentIsGridOrGrp( )
+   {
+      return ParentIsGridOrGrp;
+   }
+
+   /**
+    * @param ParentIsGridOrGrp to set 
+    */
+   public void setParentIsGridOrGrp( String ParentIsGridOrGrp )
+   {
+      this.ParentIsGridOrGrp = ParentIsGridOrGrp;
+   }
+
    public int loadEventActEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -7537,6 +7805,8 @@ public class EventActImpl implements EventAct
       PopupMenuName = cursor.getStringFromAttribute( "PopupMenuName" );  if ( PopupMenuName == null ) PopupMenuName = "";
       WebJavaScript = cursor.getStringFromAttribute( "WebJavaScript" );  if ( WebJavaScript == null ) WebJavaScript = "";
       WebJavaScriptLocation = cursor.getStringFromAttribute( "WebJavaScriptLocation" );  if ( WebJavaScriptLocation == null ) WebJavaScriptLocation = "";
+      WebHTML_TransferAddress = cursor.getStringFromAttribute( "WebHTML_TransferAddress" );  if ( WebHTML_TransferAddress == null ) WebHTML_TransferAddress = "";
+      ParentIsGridOrGrp = cursor.getStringFromAttribute( "ParentIsGridOrGrp" );  if ( ParentIsGridOrGrp == null ) ParentIsGridOrGrp = "";
 
       return 0;
    }
@@ -10931,6 +11201,176 @@ import com.quinsoft.zeidon.View;
 import com.quinsoft.zeidon.EntityCursor;
 import com.quinsoft.zeidon.Blob;
 
+public class ControlSecuritySubSectionImpl implements ControlSecuritySubSection
+{
+   protected Integer ZKey;
+   protected String  Name;
+   protected String  NeedControlAccessPermission;
+   protected String  NeedControlUpdatePermission;
+   protected String  NeedsCreatePermission;
+   protected String  NeedsDeletePermission;
+   protected String  NeedsUpdateEditSavePermission;
+
+
+   // ctor
+   protected ControlSecuritySubSectionImpl( EntityCursor cursor )
+   {
+      loadControlSecuritySubSectionEntityStructure( cursor );
+   }
+
+   /**
+    * @return the ZKey
+    */
+   public Integer getZKey( )
+   {
+      return ZKey;
+   }
+
+   /**
+    * @param ZKey to set 
+    */
+   public void setZKey( Integer ZKey )
+   {
+      this.ZKey = ZKey;
+   }
+
+   /**
+    * @return the Name
+    */
+   public String getName( )
+   {
+      return Name;
+   }
+
+   /**
+    * @param Name to set 
+    */
+   public void setName( String Name )
+   {
+      this.Name = Name;
+   }
+
+   /**
+    * @return the NeedControlAccessPermission
+    */
+   public String getNeedControlAccessPermission( )
+   {
+      return NeedControlAccessPermission;
+   }
+
+   /**
+    * @param NeedControlAccessPermission to set 
+    */
+   public void setNeedControlAccessPermission( String NeedControlAccessPermission )
+   {
+      this.NeedControlAccessPermission = NeedControlAccessPermission;
+   }
+
+   /**
+    * @return the NeedControlUpdatePermission
+    */
+   public String getNeedControlUpdatePermission( )
+   {
+      return NeedControlUpdatePermission;
+   }
+
+   /**
+    * @param NeedControlUpdatePermission to set 
+    */
+   public void setNeedControlUpdatePermission( String NeedControlUpdatePermission )
+   {
+      this.NeedControlUpdatePermission = NeedControlUpdatePermission;
+   }
+
+   /**
+    * @return the NeedsCreatePermission
+    */
+   public String getNeedsCreatePermission( )
+   {
+      return NeedsCreatePermission;
+   }
+
+   /**
+    * @param NeedsCreatePermission to set 
+    */
+   public void setNeedsCreatePermission( String NeedsCreatePermission )
+   {
+      this.NeedsCreatePermission = NeedsCreatePermission;
+   }
+
+   /**
+    * @return the NeedsDeletePermission
+    */
+   public String getNeedsDeletePermission( )
+   {
+      return NeedsDeletePermission;
+   }
+
+   /**
+    * @param NeedsDeletePermission to set 
+    */
+   public void setNeedsDeletePermission( String NeedsDeletePermission )
+   {
+      this.NeedsDeletePermission = NeedsDeletePermission;
+   }
+
+   /**
+    * @return the NeedsUpdateEditSavePermission
+    */
+   public String getNeedsUpdateEditSavePermission( )
+   {
+      return NeedsUpdateEditSavePermission;
+   }
+
+   /**
+    * @param NeedsUpdateEditSavePermission to set 
+    */
+   public void setNeedsUpdateEditSavePermission( String NeedsUpdateEditSavePermission )
+   {
+      this.NeedsUpdateEditSavePermission = NeedsUpdateEditSavePermission;
+   }
+
+   public int loadControlSecuritySubSectionEntityStructure( EntityCursor cursor )
+   {
+      ZKey = cursor.getIntegerFromAttribute( "ZKey" );  if ( ZKey == null ) ZKey = 0;
+      Name = cursor.getStringFromAttribute( "Name" );  if ( Name == null ) Name = "";
+      NeedControlAccessPermission = cursor.getStringFromAttribute( "NeedControlAccessPermission" );  if ( NeedControlAccessPermission == null ) NeedControlAccessPermission = "";
+      NeedControlUpdatePermission = cursor.getStringFromAttribute( "NeedControlUpdatePermission" );  if ( NeedControlUpdatePermission == null ) NeedControlUpdatePermission = "";
+      NeedsCreatePermission = cursor.getStringFromAttribute( "NeedsCreatePermission" );  if ( NeedsCreatePermission == null ) NeedsCreatePermission = "";
+      NeedsDeletePermission = cursor.getStringFromAttribute( "NeedsDeletePermission" );  if ( NeedsDeletePermission == null ) NeedsDeletePermission = "";
+      NeedsUpdateEditSavePermission = cursor.getStringFromAttribute( "NeedsUpdateEditSavePermission" );  if ( NeedsUpdateEditSavePermission == null ) NeedsUpdateEditSavePermission = "";
+
+      return 0;
+   }
+
+}
+
+
+/**
+This file is part of the Zeidon Gui Dynamic Rendering Engine (Zeidon Dr).
+
+Zeidon Dr is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Zeidon Dr is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with Zeidon Dr.  If not, see <http://www.gnu.org/licenses/>.
+
+Copyright 2011-2012 Arksoft
+*/
+
+package com.quinsoft.zeidon.gui;
+
+import com.quinsoft.zeidon.View;
+import com.quinsoft.zeidon.EntityCursor;
+import com.quinsoft.zeidon.Blob;
+
 public class WndEventImpl implements WndEvent
 {
    protected Integer Type;
@@ -11048,6 +11488,8 @@ public class WndActImpl implements WndAct
    protected Integer SB_ActionDisabling;
    protected String  PopupMenuName;
    protected String  WebJavaScriptLocation;
+   protected String  WebHTML_TransferAddress;
+   protected String  ParentIsGridOrGrp;
 
 
    // ctor
@@ -11328,6 +11770,38 @@ public class WndActImpl implements WndAct
       this.WebJavaScriptLocation = WebJavaScriptLocation;
    }
 
+   /**
+    * @return the WebHTML_TransferAddress
+    */
+   public String getWebHTML_TransferAddress( )
+   {
+      return WebHTML_TransferAddress;
+   }
+
+   /**
+    * @param WebHTML_TransferAddress to set 
+    */
+   public void setWebHTML_TransferAddress( String WebHTML_TransferAddress )
+   {
+      this.WebHTML_TransferAddress = WebHTML_TransferAddress;
+   }
+
+   /**
+    * @return the ParentIsGridOrGrp
+    */
+   public String getParentIsGridOrGrp( )
+   {
+      return ParentIsGridOrGrp;
+   }
+
+   /**
+    * @param ParentIsGridOrGrp to set 
+    */
+   public void setParentIsGridOrGrp( String ParentIsGridOrGrp )
+   {
+      this.ParentIsGridOrGrp = ParentIsGridOrGrp;
+   }
+
    public int loadWndActEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -11347,6 +11821,8 @@ public class WndActImpl implements WndAct
       SB_ActionDisabling = cursor.getIntegerFromAttribute( "SB_ActionDisabling" );  if ( SB_ActionDisabling == null ) SB_ActionDisabling = 0;
       PopupMenuName = cursor.getStringFromAttribute( "PopupMenuName" );  if ( PopupMenuName == null ) PopupMenuName = "";
       WebJavaScriptLocation = cursor.getStringFromAttribute( "WebJavaScriptLocation" );  if ( WebJavaScriptLocation == null ) WebJavaScriptLocation = "";
+      WebHTML_TransferAddress = cursor.getStringFromAttribute( "WebHTML_TransferAddress" );  if ( WebHTML_TransferAddress == null ) WebHTML_TransferAddress = "";
+      ParentIsGridOrGrp = cursor.getStringFromAttribute( "ParentIsGridOrGrp" );  if ( ParentIsGridOrGrp == null ) ParentIsGridOrGrp = "";
 
       return 0;
    }
@@ -11396,9 +11872,9 @@ public class ActionImpl implements Action
    protected Integer SB_DeleteNull;
    protected Integer SB_ActionDisabling;
    protected String  PopupMenuName;
-   protected String  WebHTML_TransferAddress;
    protected String  WebJavaScript;
    protected String  WebJavaScriptLocation;
+   protected String  WebHTML_TransferAddress;
    protected String  ParentIsGridOrGrp;
 
 
@@ -11649,22 +12125,6 @@ public class ActionImpl implements Action
    }
 
    /**
-    * @return the WebHTML_TransferAddress
-    */
-   public String getWebHTML_TransferAddress( )
-   {
-      return WebHTML_TransferAddress;
-   }
-
-   /**
-    * @param WebHTML_TransferAddress to set 
-    */
-   public void setWebHTML_TransferAddress( String WebHTML_TransferAddress )
-   {
-      this.WebHTML_TransferAddress = WebHTML_TransferAddress;
-   }
-
-   /**
     * @return the WebJavaScript
     */
    public String getWebJavaScript( )
@@ -11694,6 +12154,22 @@ public class ActionImpl implements Action
    public void setWebJavaScriptLocation( String WebJavaScriptLocation )
    {
       this.WebJavaScriptLocation = WebJavaScriptLocation;
+   }
+
+   /**
+    * @return the WebHTML_TransferAddress
+    */
+   public String getWebHTML_TransferAddress( )
+   {
+      return WebHTML_TransferAddress;
+   }
+
+   /**
+    * @param WebHTML_TransferAddress to set 
+    */
+   public void setWebHTML_TransferAddress( String WebHTML_TransferAddress )
+   {
+      this.WebHTML_TransferAddress = WebHTML_TransferAddress;
    }
 
    /**
@@ -11729,9 +12205,9 @@ public class ActionImpl implements Action
       SB_DeleteNull = cursor.getIntegerFromAttribute( "SB_DeleteNull" );  if ( SB_DeleteNull == null ) SB_DeleteNull = 0;
       SB_ActionDisabling = cursor.getIntegerFromAttribute( "SB_ActionDisabling" );  if ( SB_ActionDisabling == null ) SB_ActionDisabling = 0;
       PopupMenuName = cursor.getStringFromAttribute( "PopupMenuName" );  if ( PopupMenuName == null ) PopupMenuName = "";
-      WebHTML_TransferAddress = cursor.getStringFromAttribute( "WebHTML_TransferAddress" );  if ( WebHTML_TransferAddress == null ) WebHTML_TransferAddress = "";
       WebJavaScript = cursor.getStringFromAttribute( "WebJavaScript" );  if ( WebJavaScript == null ) WebJavaScript = "";
       WebJavaScriptLocation = cursor.getStringFromAttribute( "WebJavaScriptLocation" );  if ( WebJavaScriptLocation == null ) WebJavaScriptLocation = "";
+      WebHTML_TransferAddress = cursor.getStringFromAttribute( "WebHTML_TransferAddress" );  if ( WebHTML_TransferAddress == null ) WebHTML_TransferAddress = "";
       ParentIsGridOrGrp = cursor.getStringFromAttribute( "ParentIsGridOrGrp" );  if ( ParentIsGridOrGrp == null ) ParentIsGridOrGrp = "";
 
       return 0;
@@ -12957,6 +13433,7 @@ public class ActCtrlImpl implements ActCtrl
    protected String  TextBold;
    protected String  TextItalic;
    protected String  TextUnderline;
+   protected String  LangID;
 
 
    // ctor
@@ -13797,6 +14274,22 @@ public class ActCtrlImpl implements ActCtrl
       this.TextUnderline = TextUnderline;
    }
 
+   /**
+    * @return the LangID
+    */
+   public String getLangID( )
+   {
+      return LangID;
+   }
+
+   /**
+    * @param LangID to set 
+    */
+   public void setLangID( String LangID )
+   {
+      this.LangID = LangID;
+   }
+
    public int loadActCtrlEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -13851,6 +14344,7 @@ public class ActCtrlImpl implements ActCtrl
       TextBold = cursor.getStringFromAttribute( "TextBold" );  if ( TextBold == null ) TextBold = "";
       TextItalic = cursor.getStringFromAttribute( "TextItalic" );  if ( TextItalic == null ) TextItalic = "";
       TextUnderline = cursor.getStringFromAttribute( "TextUnderline" );  if ( TextUnderline == null ) TextUnderline = "";
+      LangID = cursor.getStringFromAttribute( "LangID" );  if ( LangID == null ) LangID = "";
 
       return 0;
    }
@@ -13893,6 +14387,7 @@ public class ActOptImpl implements ActOpt
    protected String  Separator;
    protected Integer ZKey;
    protected Integer Underline;
+   protected String  LangID;
    protected String  DIL_Text;
    protected Integer SeqNo_Menu;
    protected Integer SeqNo_Option;
@@ -14033,6 +14528,22 @@ public class ActOptImpl implements ActOpt
    }
 
    /**
+    * @return the LangID
+    */
+   public String getLangID( )
+   {
+      return LangID;
+   }
+
+   /**
+    * @param LangID to set 
+    */
+   public void setLangID( String LangID )
+   {
+      this.LangID = LangID;
+   }
+
+   /**
     * @return the DIL_Text
     */
    public String getDIL_Text( )
@@ -14090,6 +14601,7 @@ public class ActOptImpl implements ActOpt
       Separator = cursor.getStringFromAttribute( "Separator" );  if ( Separator == null ) Separator = "";
       ZKey = cursor.getIntegerFromAttribute( "ZKey" );  if ( ZKey == null ) ZKey = 0;
       Underline = cursor.getIntegerFromAttribute( "Underline" );  if ( Underline == null ) Underline = 0;
+      LangID = cursor.getStringFromAttribute( "LangID" );  if ( LangID == null ) LangID = "";
       DIL_Text = cursor.getStringFromAttribute( "DIL_Text" );  if ( DIL_Text == null ) DIL_Text = "";
       SeqNo_Menu = cursor.getIntegerFromAttribute( "SeqNo_Menu" );  if ( SeqNo_Menu == null ) SeqNo_Menu = 0;
       SeqNo_Option = cursor.getIntegerFromAttribute( "SeqNo_Option" );  if ( SeqNo_Option == null ) SeqNo_Option = 0;
@@ -14859,6 +15371,390 @@ import com.quinsoft.zeidon.View;
 import com.quinsoft.zeidon.EntityCursor;
 import com.quinsoft.zeidon.Blob;
 
+public class ActionSecurityAreaImpl implements ActionSecurityArea
+{
+   protected Integer ZKey;
+   protected String  Name;
+
+
+   // ctor
+   protected ActionSecurityAreaImpl( EntityCursor cursor )
+   {
+      loadActionSecurityAreaEntityStructure( cursor );
+   }
+
+   /**
+    * @return the ZKey
+    */
+   public Integer getZKey( )
+   {
+      return ZKey;
+   }
+
+   /**
+    * @param ZKey to set 
+    */
+   public void setZKey( Integer ZKey )
+   {
+      this.ZKey = ZKey;
+   }
+
+   /**
+    * @return the Name
+    */
+   public String getName( )
+   {
+      return Name;
+   }
+
+   /**
+    * @param Name to set 
+    */
+   public void setName( String Name )
+   {
+      this.Name = Name;
+   }
+
+   public int loadActionSecurityAreaEntityStructure( EntityCursor cursor )
+   {
+      ZKey = cursor.getIntegerFromAttribute( "ZKey" );  if ( ZKey == null ) ZKey = 0;
+      Name = cursor.getStringFromAttribute( "Name" );  if ( Name == null ) Name = "";
+
+      return 0;
+   }
+
+}
+
+
+/**
+This file is part of the Zeidon Gui Dynamic Rendering Engine (Zeidon Dr).
+
+Zeidon Dr is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Zeidon Dr is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with Zeidon Dr.  If not, see <http://www.gnu.org/licenses/>.
+
+Copyright 2011-2012 Arksoft
+*/
+
+package com.quinsoft.zeidon.gui;
+
+import com.quinsoft.zeidon.View;
+import com.quinsoft.zeidon.EntityCursor;
+import com.quinsoft.zeidon.Blob;
+
+public class ActionSecuritySectionImpl implements ActionSecuritySection
+{
+   protected Integer ZKey;
+   protected String  Name;
+   protected String  NeedsCreatePermission;
+   protected String  NeedsDeletePermission;
+   protected String  NeedsUpdateEditSavePermission;
+
+
+   // ctor
+   protected ActionSecuritySectionImpl( EntityCursor cursor )
+   {
+      loadActionSecuritySectionEntityStructure( cursor );
+   }
+
+   /**
+    * @return the ZKey
+    */
+   public Integer getZKey( )
+   {
+      return ZKey;
+   }
+
+   /**
+    * @param ZKey to set 
+    */
+   public void setZKey( Integer ZKey )
+   {
+      this.ZKey = ZKey;
+   }
+
+   /**
+    * @return the Name
+    */
+   public String getName( )
+   {
+      return Name;
+   }
+
+   /**
+    * @param Name to set 
+    */
+   public void setName( String Name )
+   {
+      this.Name = Name;
+   }
+
+   /**
+    * @return the NeedsCreatePermission
+    */
+   public String getNeedsCreatePermission( )
+   {
+      return NeedsCreatePermission;
+   }
+
+   /**
+    * @param NeedsCreatePermission to set 
+    */
+   public void setNeedsCreatePermission( String NeedsCreatePermission )
+   {
+      this.NeedsCreatePermission = NeedsCreatePermission;
+   }
+
+   /**
+    * @return the NeedsDeletePermission
+    */
+   public String getNeedsDeletePermission( )
+   {
+      return NeedsDeletePermission;
+   }
+
+   /**
+    * @param NeedsDeletePermission to set 
+    */
+   public void setNeedsDeletePermission( String NeedsDeletePermission )
+   {
+      this.NeedsDeletePermission = NeedsDeletePermission;
+   }
+
+   /**
+    * @return the NeedsUpdateEditSavePermission
+    */
+   public String getNeedsUpdateEditSavePermission( )
+   {
+      return NeedsUpdateEditSavePermission;
+   }
+
+   /**
+    * @param NeedsUpdateEditSavePermission to set 
+    */
+   public void setNeedsUpdateEditSavePermission( String NeedsUpdateEditSavePermission )
+   {
+      this.NeedsUpdateEditSavePermission = NeedsUpdateEditSavePermission;
+   }
+
+   public int loadActionSecuritySectionEntityStructure( EntityCursor cursor )
+   {
+      ZKey = cursor.getIntegerFromAttribute( "ZKey" );  if ( ZKey == null ) ZKey = 0;
+      Name = cursor.getStringFromAttribute( "Name" );  if ( Name == null ) Name = "";
+      NeedsCreatePermission = cursor.getStringFromAttribute( "NeedsCreatePermission" );  if ( NeedsCreatePermission == null ) NeedsCreatePermission = "";
+      NeedsDeletePermission = cursor.getStringFromAttribute( "NeedsDeletePermission" );  if ( NeedsDeletePermission == null ) NeedsDeletePermission = "";
+      NeedsUpdateEditSavePermission = cursor.getStringFromAttribute( "NeedsUpdateEditSavePermission" );  if ( NeedsUpdateEditSavePermission == null ) NeedsUpdateEditSavePermission = "";
+
+      return 0;
+   }
+
+}
+
+
+/**
+This file is part of the Zeidon Gui Dynamic Rendering Engine (Zeidon Dr).
+
+Zeidon Dr is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Zeidon Dr is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with Zeidon Dr.  If not, see <http://www.gnu.org/licenses/>.
+
+Copyright 2011-2012 Arksoft
+*/
+
+package com.quinsoft.zeidon.gui;
+
+import com.quinsoft.zeidon.View;
+import com.quinsoft.zeidon.EntityCursor;
+import com.quinsoft.zeidon.Blob;
+
+public class ActionSecuritySubSectionImpl implements ActionSecuritySubSection
+{
+   protected Integer ZKey;
+   protected String  Name;
+   protected String  NeedsCreatePermission;
+   protected String  NeedsDeletePermission;
+   protected String  NeedsUpdateEditSavePermission;
+   protected String  NeedControlAccessPermission;
+   protected String  NeedControlUpdatePermission;
+
+
+   // ctor
+   protected ActionSecuritySubSectionImpl( EntityCursor cursor )
+   {
+      loadActionSecuritySubSectionEntityStructure( cursor );
+   }
+
+   /**
+    * @return the ZKey
+    */
+   public Integer getZKey( )
+   {
+      return ZKey;
+   }
+
+   /**
+    * @param ZKey to set 
+    */
+   public void setZKey( Integer ZKey )
+   {
+      this.ZKey = ZKey;
+   }
+
+   /**
+    * @return the Name
+    */
+   public String getName( )
+   {
+      return Name;
+   }
+
+   /**
+    * @param Name to set 
+    */
+   public void setName( String Name )
+   {
+      this.Name = Name;
+   }
+
+   /**
+    * @return the NeedsCreatePermission
+    */
+   public String getNeedsCreatePermission( )
+   {
+      return NeedsCreatePermission;
+   }
+
+   /**
+    * @param NeedsCreatePermission to set 
+    */
+   public void setNeedsCreatePermission( String NeedsCreatePermission )
+   {
+      this.NeedsCreatePermission = NeedsCreatePermission;
+   }
+
+   /**
+    * @return the NeedsDeletePermission
+    */
+   public String getNeedsDeletePermission( )
+   {
+      return NeedsDeletePermission;
+   }
+
+   /**
+    * @param NeedsDeletePermission to set 
+    */
+   public void setNeedsDeletePermission( String NeedsDeletePermission )
+   {
+      this.NeedsDeletePermission = NeedsDeletePermission;
+   }
+
+   /**
+    * @return the NeedsUpdateEditSavePermission
+    */
+   public String getNeedsUpdateEditSavePermission( )
+   {
+      return NeedsUpdateEditSavePermission;
+   }
+
+   /**
+    * @param NeedsUpdateEditSavePermission to set 
+    */
+   public void setNeedsUpdateEditSavePermission( String NeedsUpdateEditSavePermission )
+   {
+      this.NeedsUpdateEditSavePermission = NeedsUpdateEditSavePermission;
+   }
+
+   /**
+    * @return the NeedControlAccessPermission
+    */
+   public String getNeedControlAccessPermission( )
+   {
+      return NeedControlAccessPermission;
+   }
+
+   /**
+    * @param NeedControlAccessPermission to set 
+    */
+   public void setNeedControlAccessPermission( String NeedControlAccessPermission )
+   {
+      this.NeedControlAccessPermission = NeedControlAccessPermission;
+   }
+
+   /**
+    * @return the NeedControlUpdatePermission
+    */
+   public String getNeedControlUpdatePermission( )
+   {
+      return NeedControlUpdatePermission;
+   }
+
+   /**
+    * @param NeedControlUpdatePermission to set 
+    */
+   public void setNeedControlUpdatePermission( String NeedControlUpdatePermission )
+   {
+      this.NeedControlUpdatePermission = NeedControlUpdatePermission;
+   }
+
+   public int loadActionSecuritySubSectionEntityStructure( EntityCursor cursor )
+   {
+      ZKey = cursor.getIntegerFromAttribute( "ZKey" );  if ( ZKey == null ) ZKey = 0;
+      Name = cursor.getStringFromAttribute( "Name" );  if ( Name == null ) Name = "";
+      NeedsCreatePermission = cursor.getStringFromAttribute( "NeedsCreatePermission" );  if ( NeedsCreatePermission == null ) NeedsCreatePermission = "";
+      NeedsDeletePermission = cursor.getStringFromAttribute( "NeedsDeletePermission" );  if ( NeedsDeletePermission == null ) NeedsDeletePermission = "";
+      NeedsUpdateEditSavePermission = cursor.getStringFromAttribute( "NeedsUpdateEditSavePermission" );  if ( NeedsUpdateEditSavePermission == null ) NeedsUpdateEditSavePermission = "";
+      NeedControlAccessPermission = cursor.getStringFromAttribute( "NeedControlAccessPermission" );  if ( NeedControlAccessPermission == null ) NeedControlAccessPermission = "";
+      NeedControlUpdatePermission = cursor.getStringFromAttribute( "NeedControlUpdatePermission" );  if ( NeedControlUpdatePermission == null ) NeedControlUpdatePermission = "";
+
+      return 0;
+   }
+
+}
+
+
+/**
+This file is part of the Zeidon Gui Dynamic Rendering Engine (Zeidon Dr).
+
+Zeidon Dr is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Zeidon Dr is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with Zeidon Dr.  If not, see <http://www.gnu.org/licenses/>.
+
+Copyright 2011-2012 Arksoft
+*/
+
+package com.quinsoft.zeidon.gui;
+
+import com.quinsoft.zeidon.View;
+import com.quinsoft.zeidon.EntityCursor;
+import com.quinsoft.zeidon.Blob;
+
 public class MenuImpl implements Menu
 {
    protected String  Tag;
@@ -14993,6 +15889,7 @@ public class OptionImpl implements Option
    protected String  NLS_Text;
    protected String  CSS_Class;
    protected String  WebHTML5Attribute;
+   protected String  LangID;
 
 
    // ctor
@@ -15257,6 +16154,22 @@ public class OptionImpl implements Option
       this.WebHTML5Attribute = WebHTML5Attribute;
    }
 
+   /**
+    * @return the LangID
+    */
+   public String getLangID( )
+   {
+      return LangID;
+   }
+
+   /**
+    * @param LangID to set 
+    */
+   public void setLangID( String LangID )
+   {
+      this.LangID = LangID;
+   }
+
    public int loadOptionEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -15275,6 +16188,7 @@ public class OptionImpl implements Option
       NLS_Text = cursor.getStringFromAttribute( "NLS_Text" );  if ( NLS_Text == null ) NLS_Text = "";
       CSS_Class = cursor.getStringFromAttribute( "CSS_Class" );  if ( CSS_Class == null ) CSS_Class = "";
       WebHTML5Attribute = cursor.getStringFromAttribute( "WebHTML5Attribute" );  if ( WebHTML5Attribute == null ) WebHTML5Attribute = "";
+      LangID = cursor.getStringFromAttribute( "LangID" );  if ( LangID == null ) LangID = "";
 
       return 0;
    }
@@ -15325,6 +16239,7 @@ public class OptOptImpl implements OptOpt
    protected String  NLS_Text;
    protected String  CSS_Class;
    protected String  WebHTML5Attribute;
+   protected String  LangID;
 
 
    // ctor
@@ -15589,6 +16504,22 @@ public class OptOptImpl implements OptOpt
       this.WebHTML5Attribute = WebHTML5Attribute;
    }
 
+   /**
+    * @return the LangID
+    */
+   public String getLangID( )
+   {
+      return LangID;
+   }
+
+   /**
+    * @param LangID to set 
+    */
+   public void setLangID( String LangID )
+   {
+      this.LangID = LangID;
+   }
+
    public int loadOptOptEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -15607,6 +16538,7 @@ public class OptOptImpl implements OptOpt
       NLS_Text = cursor.getStringFromAttribute( "NLS_Text" );  if ( NLS_Text == null ) NLS_Text = "";
       CSS_Class = cursor.getStringFromAttribute( "CSS_Class" );  if ( CSS_Class == null ) CSS_Class = "";
       WebHTML5Attribute = cursor.getStringFromAttribute( "WebHTML5Attribute" );  if ( WebHTML5Attribute == null ) WebHTML5Attribute = "";
+      LangID = cursor.getStringFromAttribute( "LangID" );  if ( LangID == null ) LangID = "";
 
       return 0;
    }
@@ -15658,6 +16590,8 @@ public class OptActImpl implements OptAct
    protected Integer SB_ActionDisabling;
    protected String  PopupMenuName;
    protected String  WebJavaScriptLocation;
+   protected String  WebHTML_TransferAddress;
+   protected String  ParentIsGridOrGrp;
 
 
    // ctor
@@ -15938,6 +16872,38 @@ public class OptActImpl implements OptAct
       this.WebJavaScriptLocation = WebJavaScriptLocation;
    }
 
+   /**
+    * @return the WebHTML_TransferAddress
+    */
+   public String getWebHTML_TransferAddress( )
+   {
+      return WebHTML_TransferAddress;
+   }
+
+   /**
+    * @param WebHTML_TransferAddress to set 
+    */
+   public void setWebHTML_TransferAddress( String WebHTML_TransferAddress )
+   {
+      this.WebHTML_TransferAddress = WebHTML_TransferAddress;
+   }
+
+   /**
+    * @return the ParentIsGridOrGrp
+    */
+   public String getParentIsGridOrGrp( )
+   {
+      return ParentIsGridOrGrp;
+   }
+
+   /**
+    * @param ParentIsGridOrGrp to set 
+    */
+   public void setParentIsGridOrGrp( String ParentIsGridOrGrp )
+   {
+      this.ParentIsGridOrGrp = ParentIsGridOrGrp;
+   }
+
    public int loadOptActEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -15957,6 +16923,8 @@ public class OptActImpl implements OptAct
       SB_ActionDisabling = cursor.getIntegerFromAttribute( "SB_ActionDisabling" );  if ( SB_ActionDisabling == null ) SB_ActionDisabling = 0;
       PopupMenuName = cursor.getStringFromAttribute( "PopupMenuName" );  if ( PopupMenuName == null ) PopupMenuName = "";
       WebJavaScriptLocation = cursor.getStringFromAttribute( "WebJavaScriptLocation" );  if ( WebJavaScriptLocation == null ) WebJavaScriptLocation = "";
+      WebHTML_TransferAddress = cursor.getStringFromAttribute( "WebHTML_TransferAddress" );  if ( WebHTML_TransferAddress == null ) WebHTML_TransferAddress = "";
+      ParentIsGridOrGrp = cursor.getStringFromAttribute( "ParentIsGridOrGrp" );  if ( ParentIsGridOrGrp == null ) ParentIsGridOrGrp = "";
 
       return 0;
    }
@@ -20840,6 +21808,8 @@ public class HotActImpl implements HotAct
    protected String  WebJavaScript;
    protected String  PopupMenuName;
    protected String  WebJavaScriptLocation;
+   protected String  WebHTML_TransferAddress;
+   protected String  ParentIsGridOrGrp;
 
 
    // ctor
@@ -21120,6 +22090,38 @@ public class HotActImpl implements HotAct
       this.WebJavaScriptLocation = WebJavaScriptLocation;
    }
 
+   /**
+    * @return the WebHTML_TransferAddress
+    */
+   public String getWebHTML_TransferAddress( )
+   {
+      return WebHTML_TransferAddress;
+   }
+
+   /**
+    * @param WebHTML_TransferAddress to set 
+    */
+   public void setWebHTML_TransferAddress( String WebHTML_TransferAddress )
+   {
+      this.WebHTML_TransferAddress = WebHTML_TransferAddress;
+   }
+
+   /**
+    * @return the ParentIsGridOrGrp
+    */
+   public String getParentIsGridOrGrp( )
+   {
+      return ParentIsGridOrGrp;
+   }
+
+   /**
+    * @param ParentIsGridOrGrp to set 
+    */
+   public void setParentIsGridOrGrp( String ParentIsGridOrGrp )
+   {
+      this.ParentIsGridOrGrp = ParentIsGridOrGrp;
+   }
+
    public int loadHotActEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -21139,6 +22141,8 @@ public class HotActImpl implements HotAct
       WebJavaScript = cursor.getStringFromAttribute( "WebJavaScript" );  if ( WebJavaScript == null ) WebJavaScript = "";
       PopupMenuName = cursor.getStringFromAttribute( "PopupMenuName" );  if ( PopupMenuName == null ) PopupMenuName = "";
       WebJavaScriptLocation = cursor.getStringFromAttribute( "WebJavaScriptLocation" );  if ( WebJavaScriptLocation == null ) WebJavaScriptLocation = "";
+      WebHTML_TransferAddress = cursor.getStringFromAttribute( "WebHTML_TransferAddress" );  if ( WebHTML_TransferAddress == null ) WebHTML_TransferAddress = "";
+      ParentIsGridOrGrp = cursor.getStringFromAttribute( "ParentIsGridOrGrp" );  if ( ParentIsGridOrGrp == null ) ParentIsGridOrGrp = "";
 
       return 0;
    }
@@ -23108,7 +24112,6 @@ public class ViewObjRefImpl implements ViewObjRef
    protected Integer Level;
    protected String  IsDrivingViewForReportFlag;
    protected String  wWindowUseFlag;
-   protected String  IsDrivingViewForReportFlag;
 
 
    // ctor
@@ -23229,22 +24232,6 @@ public class ViewObjRefImpl implements ViewObjRef
       this.wWindowUseFlag = wWindowUseFlag;
    }
 
-   /**
-    * @return the IsDrivingViewForReportFlag
-    */
-   public String getIsDrivingViewForReportFlag( )
-   {
-      return IsDrivingViewForReportFlag;
-   }
-
-   /**
-    * @param IsDrivingViewForReportFlag to set 
-    */
-   public void setIsDrivingViewForReportFlag( String IsDrivingViewForReportFlag )
-   {
-      this.IsDrivingViewForReportFlag = IsDrivingViewForReportFlag;
-   }
-
    public int loadViewObjRefEntityStructure( EntityCursor cursor )
    {
       ZKey = cursor.getIntegerFromAttribute( "ZKey" );  if ( ZKey == null ) ZKey = 0;
@@ -23254,7 +24241,6 @@ public class ViewObjRefImpl implements ViewObjRef
       Level = cursor.getIntegerFromAttribute( "Level" );  if ( Level == null ) Level = 0;
       IsDrivingViewForReportFlag = cursor.getStringFromAttribute( "IsDrivingViewForReportFlag" );  if ( IsDrivingViewForReportFlag == null ) IsDrivingViewForReportFlag = "";
       wWindowUseFlag = cursor.getStringFromAttribute( "wWindowUseFlag" );  if ( wWindowUseFlag == null ) wWindowUseFlag = "";
-      IsDrivingViewForReportFlag = cursor.getStringFromAttribute( "IsDrivingViewForReportFlag" );  if ( IsDrivingViewForReportFlag == null ) IsDrivingViewForReportFlag = "";
 
       return 0;
    }
@@ -24829,6 +25815,616 @@ import com.quinsoft.zeidon.View;
 import com.quinsoft.zeidon.EntityCursor;
 import com.quinsoft.zeidon.Blob;
 
+public class DefaultReusableSideWindowImpl implements DefaultReusableSideWindow
+{
+   protected String  Tag;
+   protected Integer ZKey;
+   protected Integer Subtype;
+   protected String  Caption;
+   protected Integer PSDLG_X;
+   protected Integer PSDLG_Y;
+   protected Integer SZDLG_X;
+   protected Integer SZDLG_Y;
+   protected Integer SZMIN_X;
+   protected Integer SZMIN_Y;
+   protected Integer SZMAX_X;
+   protected Integer SZMAX_Y;
+   protected String  DfltButton;
+   protected Integer ResourceID;
+   protected String  DIL_Active;
+   protected String  ProfileView;
+   protected Integer GeneralFlag;
+   protected Blob    WindowBOI;
+   protected String  CSS_Class;
+   protected Integer WEB_Timeout;
+   protected String  WEB_RelativePositionFlag;
+
+
+   // ctor
+   protected DefaultReusableSideWindowImpl( EntityCursor cursor )
+   {
+      loadDefaultReusableSideWindowEntityStructure( cursor );
+   }
+
+   /**
+    * @return the Tag
+    */
+   public String getTag( )
+   {
+      return Tag;
+   }
+
+   /**
+    * @param Tag to set 
+    */
+   public void setTag( String Tag )
+   {
+      this.Tag = Tag;
+   }
+
+   /**
+    * @return the ZKey
+    */
+   public Integer getZKey( )
+   {
+      return ZKey;
+   }
+
+   /**
+    * @param ZKey to set 
+    */
+   public void setZKey( Integer ZKey )
+   {
+      this.ZKey = ZKey;
+   }
+
+   /**
+    * @return the Subtype
+    */
+   public Integer getSubtype( )
+   {
+      return Subtype;
+   }
+
+   /**
+    * @param Subtype to set 
+    */
+   public void setSubtype( Integer Subtype )
+   {
+      this.Subtype = Subtype;
+   }
+
+   /**
+    * @return the Caption
+    */
+   public String getCaption( )
+   {
+      return Caption;
+   }
+
+   /**
+    * @param Caption to set 
+    */
+   public void setCaption( String Caption )
+   {
+      this.Caption = Caption;
+   }
+
+   /**
+    * @return the PSDLG_X
+    */
+   public Integer getPSDLG_X( )
+   {
+      return PSDLG_X;
+   }
+
+   /**
+    * @param PSDLG_X to set 
+    */
+   public void setPSDLG_X( Integer PSDLG_X )
+   {
+      this.PSDLG_X = PSDLG_X;
+   }
+
+   /**
+    * @return the PSDLG_Y
+    */
+   public Integer getPSDLG_Y( )
+   {
+      return PSDLG_Y;
+   }
+
+   /**
+    * @param PSDLG_Y to set 
+    */
+   public void setPSDLG_Y( Integer PSDLG_Y )
+   {
+      this.PSDLG_Y = PSDLG_Y;
+   }
+
+   /**
+    * @return the SZDLG_X
+    */
+   public Integer getSZDLG_X( )
+   {
+      return SZDLG_X;
+   }
+
+   /**
+    * @param SZDLG_X to set 
+    */
+   public void setSZDLG_X( Integer SZDLG_X )
+   {
+      this.SZDLG_X = SZDLG_X;
+   }
+
+   /**
+    * @return the SZDLG_Y
+    */
+   public Integer getSZDLG_Y( )
+   {
+      return SZDLG_Y;
+   }
+
+   /**
+    * @param SZDLG_Y to set 
+    */
+   public void setSZDLG_Y( Integer SZDLG_Y )
+   {
+      this.SZDLG_Y = SZDLG_Y;
+   }
+
+   /**
+    * @return the SZMIN_X
+    */
+   public Integer getSZMIN_X( )
+   {
+      return SZMIN_X;
+   }
+
+   /**
+    * @param SZMIN_X to set 
+    */
+   public void setSZMIN_X( Integer SZMIN_X )
+   {
+      this.SZMIN_X = SZMIN_X;
+   }
+
+   /**
+    * @return the SZMIN_Y
+    */
+   public Integer getSZMIN_Y( )
+   {
+      return SZMIN_Y;
+   }
+
+   /**
+    * @param SZMIN_Y to set 
+    */
+   public void setSZMIN_Y( Integer SZMIN_Y )
+   {
+      this.SZMIN_Y = SZMIN_Y;
+   }
+
+   /**
+    * @return the SZMAX_X
+    */
+   public Integer getSZMAX_X( )
+   {
+      return SZMAX_X;
+   }
+
+   /**
+    * @param SZMAX_X to set 
+    */
+   public void setSZMAX_X( Integer SZMAX_X )
+   {
+      this.SZMAX_X = SZMAX_X;
+   }
+
+   /**
+    * @return the SZMAX_Y
+    */
+   public Integer getSZMAX_Y( )
+   {
+      return SZMAX_Y;
+   }
+
+   /**
+    * @param SZMAX_Y to set 
+    */
+   public void setSZMAX_Y( Integer SZMAX_Y )
+   {
+      this.SZMAX_Y = SZMAX_Y;
+   }
+
+   /**
+    * @return the DfltButton
+    */
+   public String getDfltButton( )
+   {
+      return DfltButton;
+   }
+
+   /**
+    * @param DfltButton to set 
+    */
+   public void setDfltButton( String DfltButton )
+   {
+      this.DfltButton = DfltButton;
+   }
+
+   /**
+    * @return the ResourceID
+    */
+   public Integer getResourceID( )
+   {
+      return ResourceID;
+   }
+
+   /**
+    * @param ResourceID to set 
+    */
+   public void setResourceID( Integer ResourceID )
+   {
+      this.ResourceID = ResourceID;
+   }
+
+   /**
+    * @return the DIL_Active
+    */
+   public String getDIL_Active( )
+   {
+      return DIL_Active;
+   }
+
+   /**
+    * @param DIL_Active to set 
+    */
+   public void setDIL_Active( String DIL_Active )
+   {
+      this.DIL_Active = DIL_Active;
+   }
+
+   /**
+    * @return the ProfileView
+    */
+   public String getProfileView( )
+   {
+      return ProfileView;
+   }
+
+   /**
+    * @param ProfileView to set 
+    */
+   public void setProfileView( String ProfileView )
+   {
+      this.ProfileView = ProfileView;
+   }
+
+   /**
+    * @return the GeneralFlag
+    */
+   public Integer getGeneralFlag( )
+   {
+      return GeneralFlag;
+   }
+
+   /**
+    * @param GeneralFlag to set 
+    */
+   public void setGeneralFlag( Integer GeneralFlag )
+   {
+      this.GeneralFlag = GeneralFlag;
+   }
+
+   /**
+    * @return the WindowBOI
+    */
+   public Blob getWindowBOI( )
+   {
+      return WindowBOI;
+   }
+
+   /**
+    * @param WindowBOI to set 
+    */
+   public void setWindowBOI( Blob WindowBOI )
+   {
+      this.WindowBOI = WindowBOI;
+   }
+
+   /**
+    * @return the CSS_Class
+    */
+   public String getCSS_Class( )
+   {
+      return CSS_Class;
+   }
+
+   /**
+    * @param CSS_Class to set 
+    */
+   public void setCSS_Class( String CSS_Class )
+   {
+      this.CSS_Class = CSS_Class;
+   }
+
+   /**
+    * @return the WEB_Timeout
+    */
+   public Integer getWEB_Timeout( )
+   {
+      return WEB_Timeout;
+   }
+
+   /**
+    * @param WEB_Timeout to set 
+    */
+   public void setWEB_Timeout( Integer WEB_Timeout )
+   {
+      this.WEB_Timeout = WEB_Timeout;
+   }
+
+   /**
+    * @return the WEB_RelativePositionFlag
+    */
+   public String getWEB_RelativePositionFlag( )
+   {
+      return WEB_RelativePositionFlag;
+   }
+
+   /**
+    * @param WEB_RelativePositionFlag to set 
+    */
+   public void setWEB_RelativePositionFlag( String WEB_RelativePositionFlag )
+   {
+      this.WEB_RelativePositionFlag = WEB_RelativePositionFlag;
+   }
+
+   public int loadDefaultReusableSideWindowEntityStructure( EntityCursor cursor )
+   {
+      Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
+      ZKey = cursor.getIntegerFromAttribute( "ZKey" );  if ( ZKey == null ) ZKey = 0;
+      Subtype = cursor.getIntegerFromAttribute( "Subtype" );  if ( Subtype == null ) Subtype = 0;
+      Caption = cursor.getStringFromAttribute( "Caption" );  if ( Caption == null ) Caption = "";
+      PSDLG_X = cursor.getIntegerFromAttribute( "PSDLG_X" );  if ( PSDLG_X == null ) PSDLG_X = 0;
+      PSDLG_Y = cursor.getIntegerFromAttribute( "PSDLG_Y" );  if ( PSDLG_Y == null ) PSDLG_Y = 0;
+      SZDLG_X = cursor.getIntegerFromAttribute( "SZDLG_X" );  if ( SZDLG_X == null ) SZDLG_X = 0;
+      SZDLG_Y = cursor.getIntegerFromAttribute( "SZDLG_Y" );  if ( SZDLG_Y == null ) SZDLG_Y = 0;
+      SZMIN_X = cursor.getIntegerFromAttribute( "SZMIN_X" );  if ( SZMIN_X == null ) SZMIN_X = 0;
+      SZMIN_Y = cursor.getIntegerFromAttribute( "SZMIN_Y" );  if ( SZMIN_Y == null ) SZMIN_Y = 0;
+      SZMAX_X = cursor.getIntegerFromAttribute( "SZMAX_X" );  if ( SZMAX_X == null ) SZMAX_X = 0;
+      SZMAX_Y = cursor.getIntegerFromAttribute( "SZMAX_Y" );  if ( SZMAX_Y == null ) SZMAX_Y = 0;
+      DfltButton = cursor.getStringFromAttribute( "DfltButton" );  if ( DfltButton == null ) DfltButton = "";
+      ResourceID = cursor.getIntegerFromAttribute( "ResourceID" );  if ( ResourceID == null ) ResourceID = 0;
+      DIL_Active = cursor.getStringFromAttribute( "DIL_Active" );  if ( DIL_Active == null ) DIL_Active = "";
+      ProfileView = cursor.getStringFromAttribute( "ProfileView" );  if ( ProfileView == null ) ProfileView = "";
+      GeneralFlag = cursor.getIntegerFromAttribute( "GeneralFlag" );  if ( GeneralFlag == null ) GeneralFlag = 0;
+      WindowBOI = cursor.getBlobFromAttribute( "WindowBOI" );
+      CSS_Class = cursor.getStringFromAttribute( "CSS_Class" );  if ( CSS_Class == null ) CSS_Class = "";
+      WEB_Timeout = cursor.getIntegerFromAttribute( "WEB_Timeout" );  if ( WEB_Timeout == null ) WEB_Timeout = 0;
+      WEB_RelativePositionFlag = cursor.getStringFromAttribute( "WEB_RelativePositionFlag" );  if ( WEB_RelativePositionFlag == null ) WEB_RelativePositionFlag = "";
+
+      return 0;
+   }
+
+}
+
+
+/**
+This file is part of the Zeidon Gui Dynamic Rendering Engine (Zeidon Dr).
+
+Zeidon Dr is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Zeidon Dr is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with Zeidon Dr.  If not, see <http://www.gnu.org/licenses/>.
+
+Copyright 2011-2012 Arksoft
+*/
+
+package com.quinsoft.zeidon.gui;
+
+import com.quinsoft.zeidon.View;
+import com.quinsoft.zeidon.EntityCursor;
+import com.quinsoft.zeidon.Blob;
+
+public class DefaultReusableSideDialogImpl implements DefaultReusableSideDialog
+{
+   protected String  Tag;
+   protected Integer ZKey;
+   protected String  DLL_Name;
+   protected String  Desc;
+   protected String  CSS_Class;
+   protected Integer WEB_Timeout;
+   protected String  WEB_RelativePositionFlag;
+   protected String  LastSyncDate;
+
+
+   // ctor
+   protected DefaultReusableSideDialogImpl( EntityCursor cursor )
+   {
+      loadDefaultReusableSideDialogEntityStructure( cursor );
+   }
+
+   /**
+    * @return the Tag
+    */
+   public String getTag( )
+   {
+      return Tag;
+   }
+
+   /**
+    * @param Tag to set 
+    */
+   public void setTag( String Tag )
+   {
+      this.Tag = Tag;
+   }
+
+   /**
+    * @return the ZKey
+    */
+   public Integer getZKey( )
+   {
+      return ZKey;
+   }
+
+   /**
+    * @param ZKey to set 
+    */
+   public void setZKey( Integer ZKey )
+   {
+      this.ZKey = ZKey;
+   }
+
+   /**
+    * @return the DLL_Name
+    */
+   public String getDLL_Name( )
+   {
+      return DLL_Name;
+   }
+
+   /**
+    * @param DLL_Name to set 
+    */
+   public void setDLL_Name( String DLL_Name )
+   {
+      this.DLL_Name = DLL_Name;
+   }
+
+   /**
+    * @return the Desc
+    */
+   public String getDesc( )
+   {
+      return Desc;
+   }
+
+   /**
+    * @param Desc to set 
+    */
+   public void setDesc( String Desc )
+   {
+      this.Desc = Desc;
+   }
+
+   /**
+    * @return the CSS_Class
+    */
+   public String getCSS_Class( )
+   {
+      return CSS_Class;
+   }
+
+   /**
+    * @param CSS_Class to set 
+    */
+   public void setCSS_Class( String CSS_Class )
+   {
+      this.CSS_Class = CSS_Class;
+   }
+
+   /**
+    * @return the WEB_Timeout
+    */
+   public Integer getWEB_Timeout( )
+   {
+      return WEB_Timeout;
+   }
+
+   /**
+    * @param WEB_Timeout to set 
+    */
+   public void setWEB_Timeout( Integer WEB_Timeout )
+   {
+      this.WEB_Timeout = WEB_Timeout;
+   }
+
+   /**
+    * @return the WEB_RelativePositionFlag
+    */
+   public String getWEB_RelativePositionFlag( )
+   {
+      return WEB_RelativePositionFlag;
+   }
+
+   /**
+    * @param WEB_RelativePositionFlag to set 
+    */
+   public void setWEB_RelativePositionFlag( String WEB_RelativePositionFlag )
+   {
+      this.WEB_RelativePositionFlag = WEB_RelativePositionFlag;
+   }
+
+   /**
+    * @return the LastSyncDate
+    */
+   public String getLastSyncDate( )
+   {
+      return LastSyncDate;
+   }
+
+   /**
+    * @param LastSyncDate to set 
+    */
+   public void setLastSyncDate( String LastSyncDate )
+   {
+      this.LastSyncDate = LastSyncDate;
+   }
+
+   public int loadDefaultReusableSideDialogEntityStructure( EntityCursor cursor )
+   {
+      Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
+      ZKey = cursor.getIntegerFromAttribute( "ZKey" );  if ( ZKey == null ) ZKey = 0;
+      DLL_Name = cursor.getStringFromAttribute( "DLL_Name" );  if ( DLL_Name == null ) DLL_Name = "";
+      Desc = cursor.getStringFromAttribute( "Desc" );  if ( Desc == null ) Desc = "";
+      CSS_Class = cursor.getStringFromAttribute( "CSS_Class" );  if ( CSS_Class == null ) CSS_Class = "";
+      WEB_Timeout = cursor.getIntegerFromAttribute( "WEB_Timeout" );  if ( WEB_Timeout == null ) WEB_Timeout = 0;
+      WEB_RelativePositionFlag = cursor.getStringFromAttribute( "WEB_RelativePositionFlag" );  if ( WEB_RelativePositionFlag == null ) WEB_RelativePositionFlag = "";
+      LastSyncDate = cursor.getStringFromAttribute( "LastSyncDate" );  if ( LastSyncDate == null ) LastSyncDate = "";
+
+      return 0;
+   }
+
+}
+
+
+/**
+This file is part of the Zeidon Gui Dynamic Rendering Engine (Zeidon Dr).
+
+Zeidon Dr is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Zeidon Dr is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with Zeidon Dr.  If not, see <http://www.gnu.org/licenses/>.
+
+Copyright 2011-2012 Arksoft
+*/
+
+package com.quinsoft.zeidon.gui;
+
+import com.quinsoft.zeidon.View;
+import com.quinsoft.zeidon.EntityCursor;
+import com.quinsoft.zeidon.Blob;
+
 public class DefaultReusableActionWindowImpl implements DefaultReusableActionWindow
 {
    protected String  Tag;
@@ -26076,6 +27672,8 @@ public class OperationActionImpl implements OperationAction
    protected String  WebJavaScript;
    protected String  PopupMenuName;
    protected String  WebJavaScriptLocation;
+   protected String  WebHTML_TransferAddress;
+   protected String  ParentIsGridOrGrp;
 
 
    // ctor
@@ -26356,6 +27954,38 @@ public class OperationActionImpl implements OperationAction
       this.WebJavaScriptLocation = WebJavaScriptLocation;
    }
 
+   /**
+    * @return the WebHTML_TransferAddress
+    */
+   public String getWebHTML_TransferAddress( )
+   {
+      return WebHTML_TransferAddress;
+   }
+
+   /**
+    * @param WebHTML_TransferAddress to set 
+    */
+   public void setWebHTML_TransferAddress( String WebHTML_TransferAddress )
+   {
+      this.WebHTML_TransferAddress = WebHTML_TransferAddress;
+   }
+
+   /**
+    * @return the ParentIsGridOrGrp
+    */
+   public String getParentIsGridOrGrp( )
+   {
+      return ParentIsGridOrGrp;
+   }
+
+   /**
+    * @param ParentIsGridOrGrp to set 
+    */
+   public void setParentIsGridOrGrp( String ParentIsGridOrGrp )
+   {
+      this.ParentIsGridOrGrp = ParentIsGridOrGrp;
+   }
+
    public int loadOperationActionEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -26375,6 +28005,8 @@ public class OperationActionImpl implements OperationAction
       WebJavaScript = cursor.getStringFromAttribute( "WebJavaScript" );  if ( WebJavaScript == null ) WebJavaScript = "";
       PopupMenuName = cursor.getStringFromAttribute( "PopupMenuName" );  if ( PopupMenuName == null ) PopupMenuName = "";
       WebJavaScriptLocation = cursor.getStringFromAttribute( "WebJavaScriptLocation" );  if ( WebJavaScriptLocation == null ) WebJavaScriptLocation = "";
+      WebHTML_TransferAddress = cursor.getStringFromAttribute( "WebHTML_TransferAddress" );  if ( WebHTML_TransferAddress == null ) WebHTML_TransferAddress = "";
+      ParentIsGridOrGrp = cursor.getStringFromAttribute( "ParentIsGridOrGrp" );  if ( ParentIsGridOrGrp == null ) ParentIsGridOrGrp = "";
 
       return 0;
    }
@@ -26881,6 +28513,7 @@ public class NLS_ControlImpl implements NLS_Control
    protected String  TextBold;
    protected String  TextItalic;
    protected String  TextUnderline;
+   protected String  LangID;
 
 
    // ctor
@@ -27689,6 +29322,22 @@ public class NLS_ControlImpl implements NLS_Control
       this.TextUnderline = TextUnderline;
    }
 
+   /**
+    * @return the LangID
+    */
+   public String getLangID( )
+   {
+      return LangID;
+   }
+
+   /**
+    * @param LangID to set 
+    */
+   public void setLangID( String LangID )
+   {
+      this.LangID = LangID;
+   }
+
    public int loadNLS_ControlEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -27741,6 +29390,7 @@ public class NLS_ControlImpl implements NLS_Control
       TextBold = cursor.getStringFromAttribute( "TextBold" );  if ( TextBold == null ) TextBold = "";
       TextItalic = cursor.getStringFromAttribute( "TextItalic" );  if ( TextItalic == null ) TextItalic = "";
       TextUnderline = cursor.getStringFromAttribute( "TextUnderline" );  if ( TextUnderline == null ) TextUnderline = "";
+      LangID = cursor.getStringFromAttribute( "LangID" );  if ( LangID == null ) LangID = "";
 
       return 0;
    }
@@ -27884,6 +29534,7 @@ public class NLS_OptionImpl implements NLS_Option
    protected String  DIL_Text;
    protected Integer SeqNo_Menu;
    protected Integer SeqNo_Option;
+   protected String  LangID;
 
 
    // ctor
@@ -28068,6 +29719,22 @@ public class NLS_OptionImpl implements NLS_Option
       this.SeqNo_Option = SeqNo_Option;
    }
 
+   /**
+    * @return the LangID
+    */
+   public String getLangID( )
+   {
+      return LangID;
+   }
+
+   /**
+    * @param LangID to set 
+    */
+   public void setLangID( String LangID )
+   {
+      this.LangID = LangID;
+   }
+
    public int loadNLS_OptionEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -28081,6 +29748,7 @@ public class NLS_OptionImpl implements NLS_Option
       DIL_Text = cursor.getStringFromAttribute( "DIL_Text" );  if ( DIL_Text == null ) DIL_Text = "";
       SeqNo_Menu = cursor.getIntegerFromAttribute( "SeqNo_Menu" );  if ( SeqNo_Menu == null ) SeqNo_Menu = 0;
       SeqNo_Option = cursor.getIntegerFromAttribute( "SeqNo_Option" );  if ( SeqNo_Option == null ) SeqNo_Option = 0;
+      LangID = cursor.getStringFromAttribute( "LangID" );  if ( LangID == null ) LangID = "";
 
       return 0;
    }
@@ -28263,6 +29931,7 @@ public class NLS_DIL_ControlImpl implements NLS_DIL_Control
    protected String  TextBold;
    protected String  TextItalic;
    protected String  TextUnderline;
+   protected String  LangID;
 
 
    // ctor
@@ -29071,6 +30740,22 @@ public class NLS_DIL_ControlImpl implements NLS_DIL_Control
       this.TextUnderline = TextUnderline;
    }
 
+   /**
+    * @return the LangID
+    */
+   public String getLangID( )
+   {
+      return LangID;
+   }
+
+   /**
+    * @param LangID to set 
+    */
+   public void setLangID( String LangID )
+   {
+      this.LangID = LangID;
+   }
+
    public int loadNLS_DIL_ControlEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -29123,6 +30808,7 @@ public class NLS_DIL_ControlImpl implements NLS_DIL_Control
       TextBold = cursor.getStringFromAttribute( "TextBold" );  if ( TextBold == null ) TextBold = "";
       TextItalic = cursor.getStringFromAttribute( "TextItalic" );  if ( TextItalic == null ) TextItalic = "";
       TextUnderline = cursor.getStringFromAttribute( "TextUnderline" );  if ( TextUnderline == null ) TextUnderline = "";
+      LangID = cursor.getStringFromAttribute( "LangID" );  if ( LangID == null ) LangID = "";
 
       return 0;
    }
@@ -29266,6 +30952,7 @@ public class NLS_DIL_OptionImpl implements NLS_DIL_Option
    protected String  DIL_Text;
    protected Integer SeqNo_Menu;
    protected Integer SeqNo_Option;
+   protected String  LangID;
 
 
    // ctor
@@ -29450,6 +31137,22 @@ public class NLS_DIL_OptionImpl implements NLS_DIL_Option
       this.SeqNo_Option = SeqNo_Option;
    }
 
+   /**
+    * @return the LangID
+    */
+   public String getLangID( )
+   {
+      return LangID;
+   }
+
+   /**
+    * @param LangID to set 
+    */
+   public void setLangID( String LangID )
+   {
+      this.LangID = LangID;
+   }
+
    public int loadNLS_DIL_OptionEntityStructure( EntityCursor cursor )
    {
       Tag = cursor.getStringFromAttribute( "Tag" );  if ( Tag == null ) Tag = "";
@@ -29463,6 +31166,7 @@ public class NLS_DIL_OptionImpl implements NLS_DIL_Option
       DIL_Text = cursor.getStringFromAttribute( "DIL_Text" );  if ( DIL_Text == null ) DIL_Text = "";
       SeqNo_Menu = cursor.getIntegerFromAttribute( "SeqNo_Menu" );  if ( SeqNo_Menu == null ) SeqNo_Menu = 0;
       SeqNo_Option = cursor.getIntegerFromAttribute( "SeqNo_Option" );  if ( SeqNo_Option == null ) SeqNo_Option = 0;
+      LangID = cursor.getStringFromAttribute( "LangID" );  if ( LangID == null ) LangID = "";
 
       return 0;
    }
@@ -31105,6 +32809,8 @@ public class AD_MappingAttributeImpl implements AD_MappingAttribute
    protected String  ControlType;
    protected Integer ControlWidth;
    protected Integer DataWidth;
+   protected String  CSS_ClassForPrompt;
+   protected String  CSS_ClassForControl;
    protected String  PromptValue;
    protected Integer ZKey;
 
@@ -31212,6 +32918,38 @@ public class AD_MappingAttributeImpl implements AD_MappingAttribute
    }
 
    /**
+    * @return the CSS_ClassForPrompt
+    */
+   public String getCSS_ClassForPrompt( )
+   {
+      return CSS_ClassForPrompt;
+   }
+
+   /**
+    * @param CSS_ClassForPrompt to set 
+    */
+   public void setCSS_ClassForPrompt( String CSS_ClassForPrompt )
+   {
+      this.CSS_ClassForPrompt = CSS_ClassForPrompt;
+   }
+
+   /**
+    * @return the CSS_ClassForControl
+    */
+   public String getCSS_ClassForControl( )
+   {
+      return CSS_ClassForControl;
+   }
+
+   /**
+    * @param CSS_ClassForControl to set 
+    */
+   public void setCSS_ClassForControl( String CSS_ClassForControl )
+   {
+      this.CSS_ClassForControl = CSS_ClassForControl;
+   }
+
+   /**
     * @return the PromptValue
     */
    public String getPromptValue( )
@@ -31251,6 +32989,8 @@ public class AD_MappingAttributeImpl implements AD_MappingAttribute
       ControlType = cursor.getStringFromAttribute( "ControlType" );  if ( ControlType == null ) ControlType = "";
       ControlWidth = cursor.getIntegerFromAttribute( "ControlWidth" );  if ( ControlWidth == null ) ControlWidth = 0;
       DataWidth = cursor.getIntegerFromAttribute( "DataWidth" );  if ( DataWidth == null ) DataWidth = 0;
+      CSS_ClassForPrompt = cursor.getStringFromAttribute( "CSS_ClassForPrompt" );  if ( CSS_ClassForPrompt == null ) CSS_ClassForPrompt = "";
+      CSS_ClassForControl = cursor.getStringFromAttribute( "CSS_ClassForControl" );  if ( CSS_ClassForControl == null ) CSS_ClassForControl = "";
       PromptValue = cursor.getStringFromAttribute( "PromptValue" );  if ( PromptValue == null ) PromptValue = "";
       ZKey = cursor.getIntegerFromAttribute( "ZKey" );  if ( ZKey == null ) ZKey = 0;
 

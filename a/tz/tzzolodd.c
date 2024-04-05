@@ -4529,6 +4529,7 @@ zwTZZOLODD_PostBuildATTMAINT( zVIEW vSubtask )
    zVIEW  vTZZOLODO;
    zSHORT nEnable = 0;
    zSHORT IsCheckedOut = 0;
+   zSHORT nRC = 0;
    zCHAR  szEntityName[ 33 ];
 
    //  Set the select set for the derived attribute combo box
@@ -4566,6 +4567,15 @@ zwTZZOLODD_PostBuildATTMAINT( zVIEW vSubtask )
    //  Set Entity Name on caption
    GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vTZZOLODO, "LOD_Entity", "Name" );
    SetWindowCaptionTitle( vSubtask, 0, szEntityName );
+   
+   // KJS 03/02/23 - When we try to select a derived operation for the attribute, the list is not in alphabetical order.
+   // Order even if it's not exactly correct because it's by SourceFile not "all" operations.
+   for ( nRC = SetCursorFirstEntity( vTZZOLODO, "LOD_EntityChild", "" );
+         nRC >= zCURSOR_SET;
+         nRC = SetCursorNextEntity( vTZZOLODO, "LOD_EntityChild", "" ) )
+   {
+      OrderEntityForView( vTZZOLODO, "Operation", "Name A" );
+   }
 
    return( 0 );
 }

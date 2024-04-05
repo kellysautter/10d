@@ -1,0 +1,175 @@
+
+/*************************************************************************************************
+**    
+**    OPERATION: GOTO_TieRelationshipToTE_Field
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+GOTO_TieRelationshipToTE_Field( VIEW vSubtask )
+
+   VIEW vEMD      REGISTERED AS TZEREMDO 
+   VIEW vDTE      BASED ON LOD  TZTENVRO
+   VIEW vLPLR     BASED ON LOD  TZCMLPLO
+   VIEW vTaskLPLR REGISTERED AS TaskLPLR
+   STRING ( 2 )  szMaxCard
+   STRING ( 50 ) szTargetEntity
+   STRING ( 90 ) szMsg
+   INTEGER nRC
+   INTEGER n1Count
+   INTEGER nmCount
+   
+   // Make sure that we can activate the DTE for update.
+   CreateViewFromView( vLPLR, vTaskLPLR )
+   SET CURSOR FIRST vLPLR.W_MetaType WHERE vLPLR.W_MetaType.Type = 2006 
+   nRC = ActivateMetaOI( vSubtask, vDTE, vLPLR, zSOURCE_DTE_META, 0 )
+   IF nRC < 0
+      MessageSend( vSubtask, "", "Tie Relationship to Field",
+                   "The DTE is already open for Update.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      RETURN -2
+   END
+   NAME VIEW vDTE "TE_DB_Environ"
+   
+   // Make sure that the relationship is 1-to-m or 0-to-m by checking that there is one side with
+   // Max Card 1 and the other with Max Card m.
+   
+   nmCount = 0
+   n1Count = 0
+   FOR EACH vEMD.ER_RelLink_2 
+      szMaxCard = vEMD.ER_RelLink_2.CardMax
+      IF szMaxCard = "m"
+         nmCount = nmCount + 1
+      ELSE
+         n1Count = n1Count + 1
+      END
+   END
+   IF n1Count != 1 OR nmCount != 1
+      MessageSend( vSubtask, "", "Tie Relationship to Field",
+                   "The Relationship cardinality must be 1-to-m or 0-to-m.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      RETURN -2
+   END
+   
+   // Make sure neither side of the Relationship is a work Entity.
+   SET CURSOR FIRST vEMD.ER_Entity_2 WITHIN vEMD.ER_RelType WHERE vEMD.ER_Entity_2.Purpose = "W"
+   IF RESULT >= zCURSOR_SET
+      MessageSend( vSubtask, "", "Tie Relationship to Field",
+                   "Neither Entity within the Relationship can be a Work Entity.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      RETURN -2
+   END
+   
+   // Position on the side the of Relationship with Max Card of "1" to get Entity/Table with the necessary foreign key.
+   SET CURSOR FIRST vEMD.ER_RelLink_2 WHERE vEMD.ER_RelLink_2.CardMax = "1" 
+   
+   // Position on corresponding ER_Entity and sub relationship.
+   SetCursorFirstEntityByEntityCsr( vEMD, "ER_Entity",
+                                    vEMD, "ER_Entity_2", "" )
+   SetCursorFirstEntityByEntityCsr( vEMD, "ER_RelLink",
+                                    vEMD, "ER_RelLink_2", "" )
+   
+   // Position on Table in TE for the ER_Entity on which we just set position.
+   SET CURSOR FIRST vDTE.ER_Entity WITHIN vDTE.TE_DB_Environ 
+              WHERE vDTE.ER_Entity.ZKey = vEMD.ER_Entity.ZKey 
+   IF RESULT < zCURSOR_SET
+      szMsg = "The ER_Entity, " + vEMD.ER_Entity.Name + ", for the Relationship does not exist in the DTE."
+      MessageSend( vSubtask, "", "Tie Relationship to Field", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      RETURN -2
+   END
+   
+   // Build ER work attribute containing Relation and Entity text.
+   szTargetEntity = vEMD.ER_Entity_2.Name 
+   SET CURSOR FIRST vEMD.ER_RelLink_2 WHERE vEMD.ER_RelLink_2.CardMax = "m"
+   vEMD.ER_RelType.wRelationshipEntityText = vEMD.ER_Entity_2.Name + "  " + vEMD.ER_RelLink_2.Name + "  " + szTargetEntity
+   SET CURSOR FIRST vEMD.ER_RelLink_2 WHERE vEMD.ER_RelLink_2.CardMax = "1"
+   
+   // Build TE work attribute containing Relation and Entity text.
+   FOR EACH vDTE.TE_FieldDataRel 
+      IF vDTE.ER_RelLink EXISTS
+         vDTE.ER_RelLink.wRelationshipEntityText = vDTE.ER_EntityRelLink.Name + "  " + vDTE.ER_RelLink.Name + "  " + vDTE.ER_Entity.Name 
+      END 
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: EXEC_TieFieldsToRelationship
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+EXEC_TieFieldsToRelationship( VIEW vSubtask )
+
+   VIEW vEMD      REGISTERED AS TZEREMDO 
+   VIEW vDTE      REGISTERED AS TE_DB_Environ
+   STRING ( 1 )  szSelectFlag
+   STRING ( 90 ) szMsg
+   INTEGER nRC
+   
+   // Make sure that at least one entry was selected and that each entry selected is not already tied
+   // to a relationship.
+   szSelectFlag = ""
+   FOR EACH vDTE.TE_FieldDataRel 
+      nRC = GetSelectStateOfEntity( vDTE, "TE_FieldDataRel" )
+      IF nRC = 1
+         szSelectFlag = "Y"
+         IF vDTE.ER_RelLink EXISTS
+            szMsg = "DTE Field, " + vDTE.TE_TablRec.Name + ", is already tied to a Relationship."
+            MessageSend( vSubtask, "", "Tie Relationship to Field", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      RETURN -2
+         END
+      END
+   END
+   IF szSelectFlag = ""
+      MessageSend( vSubtask, "", "Tie Relationship to Field",
+                   "No Column entry was selected.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )
+      RETURN -2
+   END
+   
+   // Prompt operator that both DTE and ERD will be saved to DB.
+   nRC = MessagePrompt( vSubtask, "", "Tie Relationship to Field",
+                        "Note that both ER and TE will be saved with this function. Do you want to continue?",
+                        0, zBUTTONS_YESNOCANCEL, 0, zICON_QUESTION )
+   IF nRC = zRESPONSE_YES
+      FOR EACH vDTE.TE_FieldDataRel 
+         nRC = GetSelectStateOfEntity( vDTE, "TE_FieldDataRel" )
+         IF nRC = 1
+            // Add the Relationship under the DTE Field and delete the ERD Attribute.
+            // Position on ER RelLink_2 entry with CardMax of m and on ER_Attribute that matches the ER_Attribute in TE.
+            SET CURSOR FIRST vEMD.ER_RelLink_2 WHERE vEMD.ER_RelLink_2.CardMax = "m"
+            SET CURSOR FIRST vEMD.ER_Attribute WHERE vEMD.ER_Attribute.Name = vDTE.ER_Attribute.Name  
+            RelinkInstanceToInstance( vDTE, "ER_Attribute", vEMD, "ER_Attribute" ) 
+            vDTE.TE_FieldDataRel.DataOrRelfieldOrSet = "R"    // Switch designation to Relationship/Foreign Key
+            INCLUDE vDTE.ER_RelLink FROM vEMD.ER_RelLink_2 
+            DELETE ENTITY vEMD.ER_Attribute 
+            CommitMetaOI( vSubtask, vDTE, zSOURCE_DTE_META )
+            CommitMetaOI( vSubtask, vEMD, zSOURCE_ERD_META )
+         END
+      END
+   END
+   
+   DropObjectInstance( vDTE )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: CANCEL_TieFieldsToRelationship
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+CANCEL_TieFieldsToRelationship( VIEW ViewToWindow )
+
+   VIEW vEMD REGISTERED AS TZEREMDO 
+   VIEW vDTE REGISTERED AS TE_DB_Environ
+   
+   DropObjectInstance( vDTE )
+
+END

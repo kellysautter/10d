@@ -1,7 +1,7 @@
-z1000-Zeidon    ZEIDON   TZEREMXO                         05/25/22   11:53:17 1.0a2   
+z1000-Zeidon    ZEIDON   TZEREMXO                         04/04/24   22:45:57 1.0a2   
 eMODEL     1
-aNumEnts   173
-aNumRels   316
+aNumEnts   181
+aNumRels   330
 
 eENTITY    2
 aZKEY      1320652
@@ -20,20 +20,45 @@ aAPDM_TOK  1319720
 aLTH       4
 
 eATTRIB    3
-aZKEY      620563
+aZKEY      1248625
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
 
 eATTRIB    3
-aZKEY      620564
+aZKEY      1248626
 aNAME      FK_ZKEY02
 aAPDM_TOK  110003499
 aLTH       4
 
 eENTITY    2
+aZKEY      130000435
+aNumAtts   4
+
+eATTRIB    3
+aZKEY      130000460
+aNAME      ZKey
+aAPDM_TOK  110003499
+aLTH       4
+
+eATTRIB    3
+aZKEY      130000461
+aNAME      Name
+aAPDM_TOK  90000032
+
+eATTRIB    3
+aZKEY      130000489
+aNAME      NeedsAccessPermission
+aAPDM_TOK  90000014
+
+eATTRIB    3
+aZKEY      130000490
+aNAME      NoPermissionRemovesControlsFlag
+aAPDM_TOK  90000014
+
+eENTITY    2
 aZKEY      1320657
-aNumAtts   17
+aNumAtts   19
 
 eATTRIB    3
 aZKEY      1320658
@@ -131,6 +156,16 @@ aZKEY      4899741
 aNAME      WebJavaScriptLocation
 aAPDM_TOK  4899546
 
+eATTRIB    3
+aZKEY      130000491
+aNAME      WebHTML_TransferAddress
+aAPDM_TOK  90000032
+
+eATTRIB    3
+aZKEY      130000492
+aNAME      ParentIsGridOrGrp
+aAPDM_TOK  90000014
+
 eENTITY    2
 aZKEY      1320672
 aNumAtts   7
@@ -223,31 +258,31 @@ aNAME      Desc
 aAPDM_TOK  90000030
 
 eATTRIB    3
-aZKEY      620553
+aZKEY      1248615
 aNAME      FK_TYPE
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      620577
+aZKEY      1248639
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
 
 eATTRIB    3
-aZKEY      620579
+aZKEY      1248641
 aNAME      FK_SUBTYPE
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      620580
+aZKEY      1248642
 aNAME      FK_TYPE02
 aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      620585
+aZKEY      1248647
 aNAME      FK_ZKEY02
 aAPDM_TOK  110003499
 aLTH       4
@@ -273,19 +308,19 @@ aNAME      MetaDefType
 aAPDM_TOK  1319755
 
 eATTRIB    3
-aZKEY      620552
+aZKEY      1248614
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
 
 eATTRIB    3
-aZKEY      620586
+aZKEY      1248648
 aNAME      FK_TIMESTAMP
 aAPDM_TOK  90000089
 aLTH       25
 
 eATTRIB    3
-aZKEY      620587
+aZKEY      1248649
 aNAME      FK_ZKEY02
 aAPDM_TOK  90000044
 aLTH       4
@@ -306,7 +341,7 @@ aNAME      Seqno
 aAPDM_TOK  90000044
 
 eATTRIB    3
-aZKEY      620550
+aZKEY      1248612
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
@@ -802,13 +837,13 @@ aNAME      Desc
 aAPDM_TOK  90000030
 
 eATTRIB    3
-aZKEY      620565
+aZKEY      1248627
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
 
 eATTRIB    3
-aZKEY      620572
+aZKEY      1248634
 aNAME      FK_ZKEY02
 aAPDM_TOK  110003499
 aLTH       4
@@ -873,7 +908,7 @@ aNAME      DB_Mode
 aAPDM_TOK  1319735
 
 eATTRIB    3
-aZKEY      620573
+aZKEY      1248635
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
@@ -904,13 +939,13 @@ aNAME      UserDesc
 aAPDM_TOK  90000030
 
 eATTRIB    3
-aZKEY      620556
+aZKEY      1248618
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
 
 eATTRIB    3
-aZKEY      620557
+aZKEY      1248619
 aNAME      FK_ZKEY02
 aAPDM_TOK  110003499
 aLTH       4
@@ -964,7 +999,7 @@ aNAME      ZKey
 aAPDM_TOK  110003499
 
 eATTRIB    3
-aZKEY      620549
+aZKEY      1248611
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
@@ -1645,7 +1680,7 @@ aAPDM_TOK  90000028
 aLTH       3
 
 eATTRIB    3
-aZKEY      620551
+aZKEY      1248613
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
@@ -2607,13 +2642,13 @@ aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      620575
+aZKEY      1248637
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
 
 eATTRIB    3
-aZKEY      620576
+aZKEY      1248638
 aNAME      FK_ZKEY02
 aAPDM_TOK  110003499
 aLTH       4
@@ -2716,6 +2751,41 @@ eATTRIB    3
 aZKEY      90013164
 aNAME      ZKey
 aAPDM_TOK  110003499
+
+eENTITY    2
+aZKEY      130000442
+aNumAtts   2
+
+eATTRIB    3
+aZKEY      130000462
+aNAME      ZKey
+aAPDM_TOK  110003499
+aLTH       4
+
+eATTRIB    3
+aZKEY      130000463
+aNAME      Name
+aAPDM_TOK  90000032
+
+eENTITY    2
+aZKEY      130000452
+aNumAtts   1
+
+eATTRIB    3
+aZKEY      130000464
+aNAME      ZKey
+aAPDM_TOK  110003499
+aLTH       4
+
+eENTITY    2
+aZKEY      130000453
+aNumAtts   1
+
+eATTRIB    3
+aZKEY      130000465
+aNAME      ZKey
+aAPDM_TOK  110003499
+aLTH       4
 
 eENTITY    2
 aZKEY      1321068
@@ -3064,7 +3134,7 @@ aAPDM_TOK  90000032
 aLTH       50
 
 eATTRIB    3
-aZKEY      620548
+aZKEY      1248610
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
@@ -3697,7 +3767,7 @@ aAPDM_TOK  90000044
 aLTH       4
 
 eATTRIB    3
-aZKEY      620554
+aZKEY      1248616
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
@@ -3738,7 +3808,7 @@ aNAME      necessary
 aAPDM_TOK  90000014
 
 eATTRIB    3
-aZKEY      620578
+aZKEY      1248640
 aNAME      FK_TYPE
 aAPDM_TOK  90000044
 aLTH       4
@@ -3807,6 +3877,101 @@ eATTRIB    3
 aZKEY      1321267
 aNAME      ER_DiagramE2PosY
 aAPDM_TOK  90000044
+
+eENTITY    2
+aZKEY      130000373
+aNumAtts   2
+
+eATTRIB    3
+aZKEY      130000377
+aNAME      ZKey
+aAPDM_TOK  110003499
+aLTH       4
+
+eATTRIB    3
+aZKEY      130000400
+aNAME      Name
+aAPDM_TOK  90000032
+
+eENTITY    2
+aZKEY      130000374
+aNumAtts   5
+
+eATTRIB    3
+aZKEY      130000378
+aNAME      ZKey
+aAPDM_TOK  110003499
+aLTH       4
+
+eATTRIB    3
+aZKEY      130000401
+aNAME      Name
+aAPDM_TOK  90000032
+
+eATTRIB    3
+aZKEY      130000421
+aNAME      NeedsCreatePermission
+aAPDM_TOK  90000014
+
+eATTRIB    3
+aZKEY      130000422
+aNAME      NeedsDeletePermission
+aAPDM_TOK  90000014
+
+eATTRIB    3
+aZKEY      130000423
+aNAME      NeedsUpdateEditSavePermission
+aAPDM_TOK  90000014
+
+eENTITY    2
+aZKEY      130000372
+aNumAtts   1
+
+eATTRIB    3
+aZKEY      130000376
+aNAME      ZKey
+aAPDM_TOK  110003499
+aLTH       4
+
+eENTITY    2
+aZKEY      130000375
+aNumAtts   7
+
+eATTRIB    3
+aZKEY      130000381
+aNAME      ZKey
+aAPDM_TOK  110003499
+aLTH       4
+
+eATTRIB    3
+aZKEY      130000402
+aNAME      Name
+aAPDM_TOK  90000032
+
+eATTRIB    3
+aZKEY      130000424
+aNAME      NeedsCreatePermission
+aAPDM_TOK  90000014
+
+eATTRIB    3
+aZKEY      130000425
+aNAME      NeedsDeletePermission
+aAPDM_TOK  90000014
+
+eATTRIB    3
+aZKEY      130000426
+aNAME      NeedsUpdateEditSavePermission
+aAPDM_TOK  90000014
+
+eATTRIB    3
+aZKEY      130000433
+aNAME      NeedControlAccessPermission
+aAPDM_TOK  90000014
+
+eATTRIB    3
+aZKEY      130000434
+aNAME      NeedControlUpdatePermission
+aAPDM_TOK  90000014
 
 eENTITY    2
 aZKEY      1321270
@@ -4788,25 +4953,25 @@ aAPDM_TOK  90000032
 aLTH       254
 
 eATTRIB    3
-aZKEY      620555
+aZKEY      1248617
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
 
 eATTRIB    3
-aZKEY      620558
+aZKEY      1248620
 aNAME      FK_ZKEY02
 aAPDM_TOK  110003499
 aLTH       4
 
 eATTRIB    3
-aZKEY      620566
+aZKEY      1248628
 aNAME      FK_ZKEY03
 aAPDM_TOK  110003499
 aLTH       4
 
 eATTRIB    3
-aZKEY      620567
+aZKEY      1248629
 aNAME      FK_ZKEY04
 aAPDM_TOK  110003499
 aLTH       4
@@ -7432,7 +7597,7 @@ aNAME      MarginRight
 aAPDM_TOK  90000044
 
 eATTRIB    3
-aZKEY      620547
+aZKEY      1248609
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
@@ -7484,7 +7649,7 @@ aNAME      Desc
 aAPDM_TOK  90000030
 
 eATTRIB    3
-aZKEY      620574
+aZKEY      1248636
 aNAME      FK_ZKEY
 aAPDM_TOK  110003499
 aLTH       4
@@ -7830,6 +7995,48 @@ aZKEY      89357001
 
 eREL       2
 aZKEY      1321868
+
+eREL       2
+aZKEY      130000436
+
+eREL       2
+aZKEY      130000439
+
+eREL       2
+aZKEY      130000443
+
+eREL       2
+aZKEY      130000454
+
+eREL       2
+aZKEY      130000457
+
+eREL       2
+aZKEY      130000477
+
+eREL       2
+aZKEY      130000486
+
+eREL       2
+aZKEY      130000406
+
+eREL       2
+aZKEY      130000409
+
+eREL       2
+aZKEY      130000412
+
+eREL       2
+aZKEY      130000430
+
+eREL       2
+aZKEY      130000382
+
+eREL       2
+aZKEY      130000385
+
+eREL       2
+aZKEY      130000388
 
 eREL       2
 aZKEY      4895667

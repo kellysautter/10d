@@ -409,8 +409,6 @@ oTZDGSRCO_DomainAddForMerge( zPVIEW    NewDomainGroup,
       ZeidonStringConcat( szMsg, 1, 0, ") was not found in Source LPLR.", 1, 0, 201 );
       //:MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
       MessageSend( vSubtask, "", "Add/Merge Domain", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
-      //://MessageSend( vSubtask, "CM01001", "Configuration Management",
-      //://             MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
       //:RETURN -1   
       return( -1 );
    } 
@@ -599,8 +597,8 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
                             zVIEW     vSubtask )
 {
    zVIEW     OldDomainGroup = 0; 
-   //:VIEW CurrentLPLRO  BASED ON LOD TZCMLPLO
-   zVIEW     CurrentLPLRO = 0; 
+   //:VIEW CurrentLPLR  BASED ON LOD TZCMLPLO
+   zVIEW     CurrentLPLR = 0; 
 
    //:STRING ( 513 ) SourceFileName                 // size according to zMAX_FILESPEC_LTH+1
    zCHAR     SourceFileName[ 514 ] = { 0 }; 
@@ -623,6 +621,7 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
    zSHORT    lTempInteger_1; 
    zSHORT    lTempInteger_2; 
 
+
    //:// Activate existing source meta OldDomain Group
    //:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DomainGroupMetaName + ".PDG"
    GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "MetaSrcDir" );
@@ -633,9 +632,6 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
    //:                      SourceFileName, 8192 )
    ActivateOI_FromFile( &OldDomainGroup, "TZDGSRCO", SourceLPLR, SourceFileName, 8192 );
    //:// 8192 IS zIGNORE_ATTRIB_ERRORS
-
-   //int i;
-   //for (i = 1; i < 1000; i++);
 
    //:NAME VIEW OldDomainGroup "OldDomainGroup"
    SetNameForView( OldDomainGroup, "OldDomainGroup", 0, zLEVEL_TASK );
@@ -660,11 +656,10 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
       //:IF OldDomainGroup.DomainGroup.Extension != ""
       if ( CompareAttributeToString( OldDomainGroup, "DomainGroup", "Extension", "" ) != 0 )
       { 
-         //:// KJS 05/03/22 - Commenting out the next two lines because I am passing in CurrentLPLR... and commenting out DropMetaOI.
-         //:RetrieveViewForMetaList( vSubtask, CurrentLPLRO, zSOURCE_ERD_META ) // Get view for directory info.
-         RetrieveViewForMetaList( vSubtask, &CurrentLPLRO, zSOURCE_ERD_META );
-         //:ResetViewFromSubobject( CurrentLPLRO )
-         ResetViewFromSubobject( CurrentLPLRO );
+         //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get view for directory info.
+         RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zSOURCE_ERD_META );
+         //:ResetViewFromSubobject( CurrentLPLR )
+         ResetViewFromSubobject( CurrentLPLR );
          //:SourceMetaName = NewDomainGroup.DomainGroup.Name
          GetVariableFromAttribute( SourceMetaName, 0, 'S', 33, NewDomainGroup, "DomainGroup", "Name", "", 0 );
          //:IF OldDomainGroup.DomainGroup.Extension = "C"
@@ -687,16 +682,15 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
          GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), SourceLPLR, "LPLR", "PgmSrcDir" );
          ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
          ZeidonStringConcat( SourceFileName, 1, 0, SourceName, 1, 0, 514 );
-         //:SourceFileName2 = CurrentLPLRO.LPLR.PgmSrcDir + "\" + SourceName
-         GetStringFromAttribute( SourceFileName2, zsizeof( SourceFileName2 ), CurrentLPLRO, "LPLR", "PgmSrcDir" );
+         //:SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName
+         GetStringFromAttribute( SourceFileName2, zsizeof( SourceFileName2 ), CurrentLPLR, "LPLR", "PgmSrcDir" );
          ZeidonStringConcat( SourceFileName2, 1, 0, "\\", 1, 0, 514 );
          ZeidonStringConcat( SourceFileName2, 1, 0, SourceName, 1, 0, 514 );
          //:SysCopyFile( vSubtask, SourceFileName, SourceFileName2, TRUE )
          SysCopyFile( vSubtask, SourceFileName, SourceFileName2, TRUE );
-         //:DropMetaOI( vSubtask, CurrentLPLRO )
-         DropMetaOI( vSubtask, CurrentLPLRO );
       } 
 
+      //:   //DropMetaOI( vSubtask, CurrentLPLR )
       //:END
    } 
 
@@ -730,17 +724,16 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
 
    //:// Migrate each Domain/Context not in the target LPLR.
    //:// KJS 05/03/22 - We should look to see if the domain already exists (could exist in a separate domain group).
-   //:// Passing in now...RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_DOMAIN_META ) // Get view for domain info.
-   //:RetrieveViewForMetaList( vSubtask, CurrentLPLRO, zREFER_DOMAIN_META ) // Try this again because it points to DOMAIN as opposed to DomainGrp
-   RetrieveViewForMetaList( vSubtask, &CurrentLPLRO, zREFER_DOMAIN_META );
+   //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_DOMAIN_META ) // Try this again because it points to DOMAIN as opposed to DomainGrp
+   RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zREFER_DOMAIN_META );
    //:FOR EACH OldDomainGroup.Domain
    RESULT = SetCursorFirstEntity( OldDomainGroup, "Domain", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
    { 
       //:// Add any Domains and/or Contexts in the Source LPLR not in the Target LPLR.
-      //:SET CURSOR FIRST CurrentLPLRO.W_MetaDef WHERE CurrentLPLRO.W_MetaDef.Name = OldDomainGroup.Domain.Name
+      //:SET CURSOR FIRST CurrentLPLR.W_MetaDef WHERE CurrentLPLR.W_MetaDef.Name = OldDomainGroup.Domain.Name
       GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldDomainGroup, "Domain", "Name" );
-      RESULT = SetCursorFirstEntityByString( CurrentLPLRO, "W_MetaDef", "Name", szTempString_0, "" );
+      RESULT = SetCursorFirstEntityByString( CurrentLPLR, "W_MetaDef", "Name", szTempString_0, "" );
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
       { 
@@ -829,7 +822,6 @@ oTZDGSRCO_DomainGrpMigrate( zVIEW     NewDomainGroup,
 
    //:END
 
-   //://DropMetaOI( vSubtask, CurrentLPLRO )
    //:DropObjectInstance( OldDomainGroup )
    DropObjectInstance( OldDomainGroup );
    //:CommitMetaOI( vSubtask, NewDomainGroup, 13 )  // 13 is zSOURCE_DOMAINGRP_META

@@ -1242,6 +1242,60 @@ zwTZTEUPDD_ImportDB_Data( zVIEW vSubtask )
    zFARPROC_VV pfn;
 // zSHORT    (POPERATION pfn)( zVIEW, zVIEW );
    zCHAR     szFileName[  zMAX_FILENAME_LTH + 1 ];
+   zCHAR     szTempFileName[ zMAX_FILESPEC_LTH + 1 ];
+
+   GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_ANY );
+   // vTZTEDBLO not currently used but some day it should be.
+   GetViewByName( &vTZTEDBLO, "TZTEDBLO", vSubtask, zLEVEL_TASK );
+   oTZEREMDO_GetRefViewForER( vSubtask, &vEMD, zCURRENT_OI );
+
+   if ( !vEMD || !vDTE || !vTZTEDBLO )
+      return( 0 );
+
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ),
+                           vDTE, "TE_DBMS_Source", "GenerateExecutable" );
+   hLibrary = SysLoadLibrary( vSubtask, szFileName );
+   if ( hLibrary )
+   {
+      pfn = (zFARPROC_VV) SysGetProc( hLibrary, "BuildSchema" );
+      if ( pfn )
+      {
+         zVIEW vTaskLPLR;
+
+         GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+         GetStringFromAttribute( szTempFileName, zsizeof(szTempFileName), vTaskLPLR, "LPLR", "MetaSrcDir" );
+         SysConvertEnvironmentString( szFileName, zsizeof(szFileName), szTempFileName );
+         SysAppendcDirSep( szFileName );
+         (*pfn)( vDTE, vEMD, vTZTEDBLO, szFileName, vSubtask );
+      }
+      else
+         MessageSend( vSubtask, "TE00422", "Physical Data Model",
+                      "Couldn't find 'BuildSchema' in Generater Executable",
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
+
+      SysFreeLibrary( vSubtask, hLibrary );
+   }
+   else
+      MessageSend( vSubtask, "TE00421", "Physical Data Model",
+                   "Couldn't load Generater Executable",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
+
+   return( 0 );
+
+} // zwTZTEUPDD_ImportDB_Data
+
+/*
+
+zOPER_EXPORT zSHORT OPERATION
+zwTZTEUPDD_ImportDB_Data( zVIEW vSubtask )
+{
+   zVIEW     vTZTEDBLO;
+   zVIEW     vDTE;
+   zVIEW     vEMD;
+   LPLIBRARY hLibrary;
+   zFARPROC_VV pfn;
+// zSHORT    (POPERATION pfn)( zVIEW, zVIEW );
+   zCHAR     szFileName[  zMAX_FILENAME_LTH + 1 ];
 
    GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_ANY );
 
@@ -1285,6 +1339,7 @@ zwTZTEUPDD_ImportDB_Data( zVIEW vSubtask )
    return( 0 );
 
 } // zwTZTEUPDD_ImportDB_Data
+*/
 
 zOPER_EXPORT zSHORT OPERATION
 zwTZTEUPDD_SortDBs( zVIEW    vSubtask )

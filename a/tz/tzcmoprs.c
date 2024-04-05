@@ -213,6 +213,7 @@ CHANGE LOG
 #include "tzlodopr.h"
 #include "tz__oprs.h"
 #include "tzcm_opr.hg"
+#include "tzctlopr.h"
 
 #define ZDRAPP_CLASS AFX_EXT_CLASS
 #include "..\zdr\Zdr.h"
@@ -4345,7 +4346,6 @@ CreateTemporalMetaEntity( zVIEW  vSubtask,
 //./ END + 4
 zOPER_EXPORT zSHORT OPERATION
 CreateFileNameFromZKey( zPCHAR pchFileName,
-                        zLONG  lMaxLth,
                         zVIEW  lpView,
                         zPCHAR pchEntity )
 {
@@ -5911,7 +5911,21 @@ RebuildXDM( zVIEW vSubtask )
    return( nRC );
 }
 
+/*************************************************************************************************
+**    
+**    OPERATION: RepaintWindowControls
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+RepaintWindowControls( zVIEW vSubtask )
+{
 
+   fnPainterCall( zMSG_REPAINTZEIDONWINDOW, vSubtask, 0, 0, 0 );
+   SetWindowActionBehavior( vSubtask, zWAB_ReturnToParentWithRefresh |
+                                      zWAB_ProcessImmediateReturn, 0, 0 );
+   return( 0 );
+   
+} // RepaintWindowControls
 
 #ifdef __cplusplus
 }

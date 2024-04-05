@@ -5200,6 +5200,23 @@ fnRecursiveXrefLOD_Entity( zVIEW   vMeta,
             SetAttributeFromString( vXfer, "LOD_Entity", "RootFlag", "X" );
          }
 
+         // Add the LOD_Attribute work entries under LOD_Entity.
+         for ( nRC = SetCursorFirstEntity( vMeta, "LOD_AttributeRec", 0 );
+               nRC >= zCURSOR_SET;
+               nRC = SetCursorNextEntity( vMeta, "LOD_AttributeRec", 0 ) )
+         {
+         if ( CompareAttributeToString( vMeta, "LOD_AttributeRec", "Work", "" ) == 0 )
+            {
+               CreateEntity( vXfer, "LOD_AttributeWork", zPOS_AFTER );
+               SetAttributeFromAttribute( vXfer, "LOD_AttributeWork", "LOD_AttributeZKey",
+                                          vMeta, "LOD_AttributeRec",  "ZKey" );
+               SetAttributeFromAttribute( vXfer, "LOD_AttributeWork", "ER_AttributeName",
+                                          vMeta, "ER_AttributeRec",   "Name" );
+               SetAttributeFromAttribute( vXfer, "LOD_AttributeWork", "ER_AttributeZKey",
+                                          vMeta, "ER_AttributeRec",   "ZKey" );
+            }
+         }
+
          fnXrefLOD_CreateRelationship( vMeta, vXfer, vERD, lpLOD_Name );
       }
 
@@ -5244,6 +5261,9 @@ fnLOD_DialogList_AddMeta( zVIEW  vSubtask,
          strcpy_s( szWorkFlag, zsizeof( szWorkFlag ), "" );
 
       fnRecursiveXrefLOD_Entity( vMeta, vXfer, vERD, pchMetaName, szWorkFlag, "Y" );
+
+      OrderEntityForView( vXfer, "ER_Entity", "Name A" );
+      SetCursorFirstEntity( vXfer, "ER_Entity", "" );
    }
    else
    if ( zstrcmp( pchSuffix, "PVR" ) == 0 )
@@ -6373,6 +6393,5 @@ InsertSpacesInPrompt( zPCHAR lpReturnString,
    }
 
    lpReturnString[ k ] = 0;
-   strcpy_s( lpOriginalString, lMaxLength, lpReturnString );
    return( 0 );
 }

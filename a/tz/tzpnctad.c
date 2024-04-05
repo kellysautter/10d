@@ -5465,12 +5465,24 @@ UPD_ACT_CheckAction( zVIEW vSubtask )
       if ( CheckExistenceOfEntity( vDialogW, "ActWndEvent" ) >= zCURSOR_SET )
       {
          MessageSend( vSubtask, "PN00116", "Dialog Maintenance",
-   "Same Window / Refresh is invalid if the action is tied to a window event.",
-                     zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
+                      "Same Window / Refresh is invalid if the action is tied to a window event.",
+                      zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
          SetFocusToCtrl( vSubtask, "Type" );
          SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
          return( -1 );
       }
+   }
+
+   // KJS 04/24/23 - If the Action Termination is StayOnWindowWebRefresh, check if there is java script code.
+   // It appears that DKS created zWAB_StayOnWindowWebRefresh to add JSP code to the action. Not javascript.
+   // Give a warning to the user.
+   if ( CompareAttributeToInteger( vDialogW, "Action", "Type",
+                                   zWAB_StayOnWindowWebRefresh ) == 0 && 
+        CompareAttributeToString( vDialogW, "Action", "WebJavaScript", "" ) != 0)
+   {
+         MessageSend( vSubtask, "PN00116", "Dialog Maintenance",
+                      "'Same Window / Web Refresh' will add this javascript code into the JSP action. This code needs to be JSP code or you will get errors. Switch termination to 'Same Window/ Refresh'.",
+                      zMSGQ_OBJECT_CONSTRAINT_WARNING, zBEEP );
    }
 
    return( 0 );
