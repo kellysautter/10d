@@ -63,7 +63,6 @@ BuildMainNavSection( zVIEW     vDialog,
    zSHORT    lTempInteger_1; 
    zCHAR     szTempString_6[ 33 ]; 
    zSHORT    lTempInteger_2; 
-   zLONG     lTempInteger_3; 
    zCHAR     szTempString_7[ 255 ]; 
 
 
@@ -394,11 +393,11 @@ BuildMainNavSection( zVIEW     vDialog,
          lTempInteger_2 = CheckExistenceOfEntity( vDialogRoot, "OptAct" );
          if ( lTempInteger_2 == 0 )
          { 
-            //:SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialogRoot.OptAct.ZKey
-            GetIntegerFromAttribute( &lTempInteger_3, vDialogRoot, "OptAct", "ZKey" );
-            RESULT = SetCursorFirstEntityByInteger( vDialogRoot, "Action", "ZKey", lTempInteger_3, "" );
-            //:szHTML_Address = vDialogRoot.Action.WebHTML_TransferAddress
-            GetVariableFromAttribute( szHTML_Address, 0, 'S', 257, vDialogRoot, "Action", "WebHTML_TransferAddress", "", 0 );
+            //://SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialogRoot.OptAct.ZKey
+            //:// KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
+            //://szHTML_Address = vDialogRoot.OptAct.WebHTML_TransferAddress
+            //:szHTML_Address = ""
+            ZeidonStringCopy( szHTML_Address, 1, 0, "", 1, 0, 257 );
          } 
 
          //:END
@@ -923,7 +922,6 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
             } 
 
             //:END
-
             //:   // KJS 10/28/10 - Testing this to see how using an hourglass would work while
             //:   // the user is waiting for something to happen.
             //:   //szWriteBuffer = "      document.body.style.cursor = ^wait^;"
@@ -977,6 +975,12 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
             } 
             else
             { 
+               //:szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionName + "^;"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "      document.", 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, ".zAction.value = ^", 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, "^;", 1, 0, 10001 );
             } 
 
             //:END
@@ -1098,7 +1102,6 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
    zSHORT    lTempInteger_4; 
    zCHAR     szTempString_13[ 33 ]; 
    zSHORT    lTempInteger_5; 
-   zLONG     lTempInteger_6; 
 
 
    //:// KJS 12/16/16 - I switched "WL_QC( vDialogMenu" to "WL_QC( vDialog".
@@ -1665,11 +1668,11 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
          lTempInteger_5 = CheckExistenceOfEntity( vDialogMenu, "OptAct" );
          if ( lTempInteger_5 == 0 )
          { 
-            //:SET CURSOR FIRST vDialogMenu.Action WHERE vDialogMenu.Action.ZKey = vDialogMenu.OptAct.ZKey
-            GetIntegerFromAttribute( &lTempInteger_6, vDialogMenu, "OptAct", "ZKey" );
-            RESULT = SetCursorFirstEntityByInteger( vDialogMenu, "Action", "ZKey", lTempInteger_6, "" );
-            //:szHTML_Address = vDialogMenu.Action.WebHTML_TransferAddress
-            GetVariableFromAttribute( szHTML_Address, 0, 'S', 257, vDialogMenu, "Action", "WebHTML_TransferAddress", "", 0 );
+            //://SET CURSOR FIRST vDialogMenu.Action WHERE vDialogMenu.Action.ZKey = vDialogMenu.OptAct.ZKey
+            //:// KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
+            //://szHTML_Address = vDialogMenu.OptAct.WebHTML_TransferAddress
+            //:szHTML_Address = ""
+            ZeidonStringCopy( szHTML_Address, 1, 0, "", 1, 0, 257 );
          } 
 
          //:END
@@ -2013,6 +2016,8 @@ GenJSPJ_CrteSideMenuRecurs( zVIEW     vDialog,
    //://STRING ( 34 )    szActionName
    //:STRING ( 100 )   szActionName
    zCHAR     szActionName[ 101 ] = { 0 }; 
+   //:STRING ( 256 )   szLinkName
+   zCHAR     szLinkName[ 257 ] = { 0 }; 
    //:STRING ( 1 )     szStyleIsjMobile
    zCHAR     szStyleIsjMobile[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szStyleIsBootstrap
@@ -2161,43 +2166,61 @@ GenJSPJ_CrteSideMenuRecurs( zVIEW     vDialog,
 
       //:END
 
+      //:szLinkName = "#"
+      ZeidonStringCopy( szLinkName, 1, 0, "#", 1, 0, 257 );
       //:// szHTML_Name = szDialogName + vDialogMenu.OptAct.WindowName + ".jsp"
       //:IF vDialogMenu.OptAct EXISTS
       lTempInteger_1 = CheckExistenceOfEntity( vDialogMenu, "OptAct" );
       if ( lTempInteger_1 == 0 )
       { 
-
-         //:// Because the menu actions can be created on separate windows from the control
-         //:// actions, we need to make sure these actions are unique.  We will prefix a
-         //:// "m" to the main menu actions and prefix a "sm" to the side menu actions.
-         //:IF szReusableMenu = "Y"
-         if ( ZeidonStringCompare( szReusableMenu, 1, 0, "Y", 1, 0, 33 ) == 0 )
+         //:IF vDialogMenu.OptAct.Type = 45    // Type 45 is Hyperlink Action.
+         if ( CompareAttributeToInteger( vDialogMenu, "OptAct", "Type", 45 ) == 0 )
          { 
-            //:szActionName = "onclick=^" + "sm" + vDialogMenu.OptAct.Tag + "()^"
-            ZeidonStringCopy( szActionName, 1, 0, "onclick=^", 1, 0, 101 );
-            ZeidonStringConcat( szActionName, 1, 0, "sm", 1, 0, 101 );
-            GetVariableFromAttribute( szTempString_1, 0, 'S', 1026, vDialogMenu, "OptAct", "Tag", "", 0 );
-            ZeidonStringConcat( szActionName, 1, 0, szTempString_1, 1, 0, 101 );
-            ZeidonStringConcat( szActionName, 1, 0, "()^", 1, 0, 101 );
-            //://szActionName = "sm" + vDialogMenu.OptAct.Tag
-            //:// lLth = zstrlen( szActionName )
-            //:// IF lLth > 32
-            //://    MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
-            //://                 szActionName,
-            //://                 zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-            //:// END
+            //:// KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
+            //://szLinkName = vDialogMenu.OptAct.WebHTML_TransferAddress
+            //://szActionName = "target=^_blank^"
+            //:szLinkName = ""
+            ZeidonStringCopy( szLinkName, 1, 0, "", 1, 0, 257 );
+            //:szActionName = ""
+            ZeidonStringCopy( szActionName, 1, 0, "", 1, 0, 101 );
             //:ELSE
          } 
          else
          { 
-            //:szActionName = "onclick=^" + vDialogMenu.OptAct.Tag + "()^"
-            GetVariableFromAttribute( szTempString_2, 0, 'S', 1026, vDialogMenu, "OptAct", "Tag", "", 0 );
-            ZeidonStringCopy( szActionName, 1, 0, "onclick=^", 1, 0, 101 );
-            ZeidonStringConcat( szActionName, 1, 0, szTempString_2, 1, 0, 101 );
-            ZeidonStringConcat( szActionName, 1, 0, "()^", 1, 0, 101 );
+            //:// Because the menu actions can be created on separate windows from the control
+            //:// actions, we need to make sure these actions are unique.  We will prefix a
+            //:// "m" to the main menu actions and prefix a "sm" to the side menu actions.
+            //:IF szReusableMenu = "Y"
+            if ( ZeidonStringCompare( szReusableMenu, 1, 0, "Y", 1, 0, 33 ) == 0 )
+            { 
+               //:szActionName = "onclick=^" + "sm" + vDialogMenu.OptAct.Tag + "()^"
+               ZeidonStringCopy( szActionName, 1, 0, "onclick=^", 1, 0, 101 );
+               ZeidonStringConcat( szActionName, 1, 0, "sm", 1, 0, 101 );
+               GetVariableFromAttribute( szTempString_1, 0, 'S', 1026, vDialogMenu, "OptAct", "Tag", "", 0 );
+               ZeidonStringConcat( szActionName, 1, 0, szTempString_1, 1, 0, 101 );
+               ZeidonStringConcat( szActionName, 1, 0, "()^", 1, 0, 101 );
+               //://szActionName = "sm" + vDialogMenu.OptAct.Tag
+               //:// lLth = zstrlen( szActionName )
+               //:// IF lLth > 32
+               //://    MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
+               //://                 szActionName,
+               //://                 zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               //:// END
+               //:ELSE
+            } 
+            else
+            { 
+               //:szActionName = "onclick=^" + vDialogMenu.OptAct.Tag + "()^"
+               GetVariableFromAttribute( szTempString_2, 0, 'S', 1026, vDialogMenu, "OptAct", "Tag", "", 0 );
+               ZeidonStringCopy( szActionName, 1, 0, "onclick=^", 1, 0, 101 );
+               ZeidonStringConcat( szActionName, 1, 0, szTempString_2, 1, 0, 101 );
+               ZeidonStringConcat( szActionName, 1, 0, "()^", 1, 0, 101 );
+            } 
+
+            //:   //szActionName = vDialogMenu.OptAct.Tag
+            //:END
          } 
 
-         //:   //szActionName = vDialogMenu.OptAct.Tag
          //:END
          //:ActionType = vDialogMenu.OptAct.Type
          GetIntegerFromAttribute( &ActionType, vDialogMenu, "OptAct", "Type" );
@@ -2296,14 +2319,16 @@ GenJSPJ_CrteSideMenuRecurs( zVIEW     vDialog,
       if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 ) == 0 )
       { 
          //://szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
-         //:szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " " + szActionName + ">" + szNavigationTitle + "</a></li>"
+         //:szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^" + szLinkName + "^ " + szClass2 + " " + szActionName + ">" + szNavigationTitle + "</a></li>"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "       <li id=^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szMenuName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^ name=^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szMenuName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "><a href=^#^ ", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "><a href=^", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szLinkName, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szClass2, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, " ", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
@@ -2353,8 +2378,9 @@ GenJSPJ_CrteSideMenuRecurs( zVIEW     vDialog,
          //:IF szOptOptTag = ""
          if ( ZeidonStringCompare( szOptOptTag, 1, 0, "", 1, 0, 51 ) == 0 )
          { 
-            //:szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#" + szOptOptTag + "^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "<a class=^sidebar-link^ href=^#", 1, 0, 10001 );
+            //:szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^" + szLinkName + szOptOptTag + "^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "<a class=^sidebar-link^ href=^", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szLinkName, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szOptOptTag, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, " ", 1, 0, 10001 );
@@ -2368,9 +2394,11 @@ GenJSPJ_CrteSideMenuRecurs( zVIEW     vDialog,
          } 
          else
          { 
-            //:szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ data-toggle=^collapse^ aria-expanded=^true^ href=^#" + szOptOptTag + "^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
-            ZeidonStringConcat( szWriteBuffer, 1, 0, "<a class=^sidebar-link^ data-toggle=^collapse^ aria-expanded=^true^ href=^#", 1, 0, 10001 );
+            //:szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ data-toggle=^collapse^ aria-expanded=^true^ href=^" + szLinkName + szOptOptTag
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "<a class=^sidebar-link^ data-toggle=^collapse^ aria-expanded=^true^ href=^", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szLinkName, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szOptOptTag, 1, 0, 10001 );
+            //:szWriteBuffer = szWriteBuffer + "^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
             ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, " ", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
@@ -2381,6 +2409,7 @@ GenJSPJ_CrteSideMenuRecurs( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, "</span></a></li>", 1, 0, 10001 );
          } 
 
+         //:   //szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ data-toggle=^collapse^ aria-expanded=^true^ href=^" + szLinkName + szOptOptTag + "^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</sp
          //:END
          //: //szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " onclick=^" + szActionName + "()^><i class=^align-middle mr-2 fas fa-fw " + szText  + "^></i> <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
          //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )

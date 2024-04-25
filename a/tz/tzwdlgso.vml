@@ -199,6 +199,7 @@ MergeWindowComponents( VIEW vNewW  BASED ON LOD TZWDLGSO,
    CreateViewFromViewForTask( vOrigWC, vOrigW, 0 )
    CreateViewFromViewForTask( vTempNewW, vNewW, 0 )
    CreateViewFromViewForTask( vTempOrigW, vOrigW, 0 )
+   NAME VIEW vTempOrigW "vTempOrigW"
    NAME VIEW vNewWC "NewDialogWC"
    NAME VIEW vOrigWC "OldDialogWC"
 
@@ -296,7 +297,7 @@ MergeWebMenus( VIEW vNewW  BASED ON LOD TZWDLGSO,
    VIEW TaskLPLR   REGISTERED AS TaskLPLR
    VIEW TZDLG_List BASED ON LOD  TZCMLPLO
    VIEW TZWND_List BASED ON LOD  TZWDLGSO
-   STRING (200) szMsg
+   STRING ( 200 ) szMsg
    INTEGER nRC
 
    // Merge the following Web Menus only if they don't already exist.
@@ -362,7 +363,8 @@ MergeWebMenus( VIEW vNewW  BASED ON LOD TZWDLGSO,
                IF RESULT >= zCURSOR_SET
                   INCLUDE vNewW.ReusableSideWindow FROM TZWND_List.Window
                END
-               DropView( TZWND_List )
+               // On 6/9/2023 DonC and KellyS determined that the following drop should be deleted.
+               //DropView( TZWND_List )
             END
          END
       END
@@ -924,6 +926,7 @@ CloneAction( VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
              VIEW vNewW  BASED ON LOD TZWDLGSO,
              VIEW vSubtask )
 
+   VIEW TZPNCTWO BASED ON LOD TZPNCTWO
    INTEGER   nRC
    INTEGER   nLength
    STRING(1) szLanguageType
@@ -956,13 +959,27 @@ CloneAction( VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
       SET CURSOR FIRST vNewW.Operation WITHIN vNewW.Dialog WHERE
                        vNewW.Operation.Name = vOrigW.ActOper.Name
       IF RESULT < zCURSOR_SET
-         // Add the Operation under the SourceFile entity.  Look at the SourceFile of
+         // Add the Operation under the correct SourceFile entity.  Look at the SourceFile of
          // the original Dialog to determine if type is C or VML and add the operation
          // to the correct SourceFile entry.  If one doesn't exist, create it.
-         SET CURSOR FIRST vOrigW.Operation WITHIN vOrigW.Dialog WHERE
-             vOrigW.Operation.Name = vOrigW.ActOper.Name
+         // Modified by DonC on 6/9/2023.
+         // The correct SourceFile Name to use is determied as follows:
+         // 1. If the TZPNCTWO CloneWindowSourceFileFlag is "T", use a SourceFile by the same name as the target Dialog.
+         // 1. Otherwise, use the SourceFile Name from the Source Operation
+         GET VIEW TZPNCTWO NAMED "TZPNCTWO"
+         IF RESULT >= 0
+            IF TZPNCTWO.TZPNCTWO.CloneWindowSourceFileFlag = "T"
+               szSourceName = vNewW.Dialog.Tag 
+            ELSE
+               szSourceName = vOrigW.SourceFileForOper.Name 
+            END
+         ELSE
+            szSourceName = vOrigW.SourceFileForOper.Name
+         END
+         SET CURSOR FIRST vOrigW.Operation WITHIN vOrigW.Dialog 
+                    WHERE vOrigW.Operation.Name = vOrigW.ActOper.Name
          szLanguageType = vOrigW.SourceFile.LanguageType
-         szSourceName = vOrigW.SourceFile.Name
+         //szSourceName = vOrigW.SourceFile.Name
          // KJS 06/23/22 - When migrating a dialog, we are not copying all of the SourceFile(s). I am not sure
          // why this set cursor was only looking at LanguageType. I am adding SourceFile.Name.
          SET CURSOR FIRST vNewW.SourceFile WHERE

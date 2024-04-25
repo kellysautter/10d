@@ -195,6 +195,7 @@ GenDetailGrpBootstrpR( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
       zIntegerToString( szCurrentPair, 10, DetailPairCount )
       szPromptControlName = "P_" + TZADWWKO.EntitySubGroup.GroupAreaName + szCurrentRow + szCurrentPair
       szDataControlName   = "M_" + TZADWWKO.EntitySubGroup.GroupAreaName + szCurrentRow + szCurrentPair
+TraceLineS( "*** Prompt Group: ", TZADWWKO.EntitySubGroup.GroupAreaName )
       
       // Create Prompt 
       CreateMetaEntity( TZADWWKO, TZCONTROL, "Control", zPOS_AFTER )
@@ -216,14 +217,7 @@ GenDetailGrpBootstrpR( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
       // Also, in Bootstrap a Calendar is treated as an EditBox with special CSS_Class & HTML5 values.
       szControlType = TZADWWKO.DetailMappingLOD_Attribute.ControlType 
       SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = szControlType
-      // DonC 6/2/2023: We're going with the Calendar control for the moment but could change later.
-      /*IF szControlType = "Calendar"
-         SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = "EditBox"
-         TZCONTROL.Control.CSS_Class = "form-control datefield"
-         TZCONTROL.Control.WebHTML5Attribute = "autocomplete=" + QUOTES + "off" + QUOTES
-      ELSE
-         SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = szControlType
-      END*/
+
       INCLUDE TZCONTROL.ControlDef FROM TZPESRCO.ControlDef 
       TZCONTROL.Control.Tag     = szDataControlName
       TZCONTROL.Control.PSDLG_X = 65
@@ -245,7 +239,7 @@ GenDetailGrpBootstrpR( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
          DropView( TZCONTROL2 )
       END
       
-      // If the Control is a CheckBox, set the CtrlBOI value from the AD_Base template.
+      // If the Control is a CheckBox, use parameters from the Checkbox definition from  AD_Base ControlTemplates.
       IF szControlType = "CheckBox"
          GET VIEW AD_Base NAMED "AD_Base"
          SET CURSOR FIRST AD_Base.Window WHERE AD_Base.Window.Tag = "ControlTemplates"
@@ -262,6 +256,30 @@ GenDetailGrpBootstrpR( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
          TZCONTROL.Control.Subtype              = AD_Base.CtrlCtrl.Subtype 
          TZCONTROL.Control.ExtendedStyle        = AD_Base.CtrlCtrl.ExtendedStyle 
          TZCONTROL.Control.RadioOrCheckboxValue = AD_Base.CtrlCtrl.RadioOrCheckboxValue 
+      END
+      
+      // If the Control is a Calendar, use parameters from the Calendar definition, "CurrentCalendar", from  AD_Base ControlTemplates.
+      IF szControlType = "Calendar"
+         GET VIEW AD_Base NAMED "AD_Base"
+         SET CURSOR FIRST AD_Base.Window WHERE AD_Base.Window.Tag = "ControlTemplates"
+         IF RESULT < zCURSOR_SET
+            IssueError( TZADWWKO,0,0, "AD_Base Window 'ControlTemplates' is missing." )
+            RETURN 2
+         END
+         SET CURSOR FIRST AD_Base.CtrlCtrl WHERE AD_Base.CtrlCtrl.Tag = "CurrentCalendar"
+         IF RESULT < zCURSOR_SET
+            IssueError( TZADWWKO,0,0, "AD_Base 'CurrentCalendar' template is missing." )
+            RETURN 2
+         END
+         SetViewToSubobject( AD_Base, "CtrlCtrl" )
+         IF TZCONTROL.ControlDef.Tag != AD_Base.ControlDef.Tag
+            EXCLUDE TZCONTROL.ControlDef NONE
+            INCLUDE TZCONTROL.ControlDef FROM AD_Base.ControlDef
+         END
+         TZCONTROL.Control.ExtendedStyle     = AD_Base.Control.ExtendedStyle 
+         TZCONTROL.Control.CSS_Class         = AD_Base.Control.CSS_Class 
+         TZCONTROL.Control.WebHTML5Attribute = AD_Base.Control.WebHTML5Attribute 
+         ResetViewFromSubobject( AD_Base )
       END
       
       // Create Mapping Values.
@@ -427,14 +445,6 @@ GenDetailGrpBootstrpG( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
             szControlType = TZADWWKO.DetailMappingLOD_Attribute.ControlType 
             SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = szControlType
 
-            // DonC 6/2/2023: We're going with the Calendar control for the moment but could change later.
-            /*IF szControlType = "Calendar"
-               SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = "EditBox"
-               TZCONTROL.Control.CSS_Class = "form-control datefield"
-               TZCONTROL.Control.WebHTML5Attribute = "autocomplete=" + QUOTES + "off" + QUOTES
-            ELSE
-               SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = szControlType
-            END*/
             INCLUDE TZCONTROL.ControlDef FROM TZPESRCO.ControlDef 
             TZCONTROL.Control.Tag     = szDataControlName
             TZCONTROL.Control.PSDLG_X = DataPosX
@@ -466,6 +476,30 @@ GenDetailGrpBootstrpG( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
                TZCONTROL.Control.Subtype              = AD_Base.CtrlCtrl.Subtype 
                TZCONTROL.Control.ExtendedStyle        = AD_Base.CtrlCtrl.ExtendedStyle 
                TZCONTROL.Control.RadioOrCheckboxValue = AD_Base.CtrlCtrl.RadioOrCheckboxValue 
+            END
+            
+            // If the Control is a Calendar, use parameters from the Calendar definition, "CurrentCalendar", from  AD_Base ControlTemplates.
+            IF szControlType = "Calendar"
+               GET VIEW AD_Base NAMED "AD_Base"
+               SET CURSOR FIRST AD_Base.Window WHERE AD_Base.Window.Tag = "ControlTemplates"
+               IF RESULT < zCURSOR_SET
+                  IssueError( TZADWWKO,0,0, "AD_Base Window 'ControlTemplates' is missing." )
+                  RETURN 2
+               END
+               SET CURSOR FIRST AD_Base.CtrlCtrl WHERE AD_Base.CtrlCtrl.Tag = "CurrentCalendar"
+               IF RESULT < zCURSOR_SET
+                  IssueError( TZADWWKO,0,0, "AD_Base 'CurrentCalendar' template is missing." )
+                  RETURN 2
+               END
+               SetViewToSubobject( AD_Base, "CtrlCtrl" )
+               IF TZCONTROL.ControlDef.Tag != AD_Base.ControlDef.Tag
+                  EXCLUDE TZCONTROL.ControlDef NONE
+                  INCLUDE TZCONTROL.ControlDef FROM AD_Base.ControlDef
+               END
+               TZCONTROL.Control.ExtendedStyle     = AD_Base.Control.ExtendedStyle 
+               TZCONTROL.Control.CSS_Class         = AD_Base.Control.CSS_Class 
+               TZCONTROL.Control.WebHTML5Attribute = AD_Base.Control.WebHTML5Attribute 
+               ResetViewFromSubobject( AD_Base )
             END
             
             // Create Mapping Values.
@@ -644,10 +678,24 @@ ResizeReposRecurs( VIEW vGroup BASED ON LOD TZWDLGSO,
       ResetViewFromSubobject( vGroup )
    END
    
+   szClass = vGroup.Control.CSS_Class 
+   
+   // Set X position consistently for selected Classes.
+   IF szClass = "card"
+      vGroup.Control.PSDLG_X = 10
+   ELSE
+      IF szClass = "collapse show" OR 
+         szClass = "card-body" OR 
+         szClass = "card-body row" OR 
+         szClass = "card-header"
+         
+         vGroup.Control.PSDLG_X = 5
+      END
+   END
+   
    // Next reposition subgroups for selected groups based on the size of each subgroup.
    // The position of the first is considered correct and won't be recomputed.
-   // We will also skip any control of CSS_Class
-   szClass = vGroup.Control.CSS_Class 
+   // We will also process only the controls selected below.
    IF szClass = "container-fluid" OR 
       szClass = "accordion" OR
       szClass = "card" OR
@@ -676,7 +724,12 @@ ResizeReposRecurs( VIEW vGroup BASED ON LOD TZWDLGSO,
             // We skip any repositioning logic for the first control.
             IF Count > 1
                // The position of this control will be the position of the previous control plus that previous control's size + margin.
-               CurrentPositionY = LastPositionY + LastControlSizeY + 10
+               // The gap at the beginning for Accordion is a little larger than the others.
+               IF szClass = "accordion"
+                  CurrentPositionY = LastPositionY + LastControlSizeY + 20
+               ELSE
+                  CurrentPositionY = LastPositionY + LastControlSizeY + 10
+               END
                vGroup.CtrlCtrl.PSDLG_Y = CurrentPositionY 
             END
    
@@ -687,7 +740,12 @@ ResizeReposRecurs( VIEW vGroup BASED ON LOD TZWDLGSO,
       END
       
       // The size of this Control is the position of the last subcontrol plus its size plus a small area between Controls.
-      vGroup.Control.SZDLG_Y = vGroup.CtrlCtrl.PSDLG_Y + vGroup.CtrlCtrl.SZDLG_Y + 10
+      // The gap at the end for Accordion is a little larger than the others.
+      IF szClass = "card"
+         vGroup.Control.SZDLG_Y = vGroup.CtrlCtrl.PSDLG_Y + vGroup.CtrlCtrl.SZDLG_Y + 30
+      ELSE
+         vGroup.Control.SZDLG_Y = vGroup.CtrlCtrl.PSDLG_Y + vGroup.CtrlCtrl.SZDLG_Y + 10
+      END
 
    END
    
@@ -1525,6 +1583,8 @@ AutodesignFindPages( VIEW TZADWWKO BASED ON LOD TZADWWKO,
       szAD_UpdR = TZADWWKO.LOD_EntityUpdateObjectRoot.Name 
       szAD_CLTP = TZADWWKO.ContactListTypeDomain.InternalType 
       szAD_EMRA = TZADWWKO.AutoDesignWork.RecipientEmailAddressMapping 
+      SET CURSOR FIRST TZADWWKO.FlatSelectedListAttribute 
+      szAD_RetA = TZADWWKO.FlatSelectedListAttribute.AttributeName  
       // Returned object view name is different for CRM, where it is the Search Object plus "R"
       IF szFindType = "CRM"
          szAD_RetN = szAD_SchN + "R"
@@ -1532,7 +1592,7 @@ AutodesignFindPages( VIEW TZADWWKO BASED ON LOD TZADWWKO,
          szAD_RetN = TZADWWKO.W_MetaDefReturnedObject.Name 
       END
          
-      //    Make sure a ViewObjRef entry exists for the szAD_RetN view unless this is CRM..)
+      // Make sure a ViewObjRef entry exists for the szAD_RetN view unless this is CRM..)
       IF szFindType != "CRM"
          SET CURSOR FIRST TZWINDOW.ViewObjRef WHERE TZWINDOW.ViewObjRef.Name = szAD_RetN
          IF RESULT < zCURSOR_SET
@@ -1559,6 +1619,7 @@ AutodesignFindPages( VIEW TZADWWKO BASED ON LOD TZADWWKO,
             zSearchAndReplace( szVML_Statement, 256, "_AD_SchN", szAD_SchN )    // Search object name such as fPerson
             zSearchAndReplace( szVML_Statement, 256, "_AD_RetN", szAD_RetN )    // Returned object name, same as szAD_RetN
             zSearchAndReplace( szVML_Statement, 256, "_AD_RetE", szAD_RetE )    // Returned object include entity name such as Person
+            zSearchAndReplace( szVML_Statement, 256, "_AD_RetA", szAD_RetA )    // Returned object first Attribute Name
             zSearchAndReplace( szVML_Statement, 256, "_AD_UpdO", szAD_UpdO )    // Update object name such as mPerson
             zSearchAndReplace( szVML_Statement, 256, "_AD_UpdR", szAD_UpdR )    // Update object root entity name such as Person
             zSearchAndReplace( szVML_Statement, 256, "_AD_CLTP", szAD_CLTP )    // Update Contact List Type value.
@@ -2073,6 +2134,8 @@ GenListDetailPage( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
    VIEW TZWINDOWL2 BASED ON LOD TZWDLGSO
    STRING ( 50 ) szWindowName
    STRING ( 50 ) szGroupType
+   STRING ( 50 ) szAD_Area
+   STRING ( 50 ) szActionName
    INTEGER nRC
    INTEGER nLevel
 
@@ -2082,7 +2145,7 @@ GenListDetailPage( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
    NAME VIEW TZWINDOWL2 "TZWINDOWL2"
       
    // First clone the GroupListUpdate or GroupListDetail Window at the end of the Dialog.
-   // The difference between the two is that the Update has Entity versioning and Accept.
+   // The difference between the two is that the Update has Entity operations.
    szGroupType = TZADWWKO.EntitySubGroup.GroupType 
    IF szGroupType = "ListGroupWUpdatePage"
       SET CURSOR FIRST AD_Base.Window WHERE AD_Base.Window.Tag = "GroupListUpdate"
@@ -2091,10 +2154,14 @@ GenListDetailPage( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
    END
    SET CURSOR LAST TZWINDOWL2.Window  
    nRC = CloneWindow( TZWINDOWL2, AD_Base, TaskLPLR, ViewToWindow )
-   szWindowName = TZADWWKO.ESG_LOD_Entity.Name + "Detail"
+   szWindowName = TZADWWKO.EntitySubGroup.GroupAreaName + "Detail"
    TZWINDOWL2.Window.Tag     = szWindowName
    TZWINDOWL2.Window.Caption = szWindowName
    SET CURSOR FIRST TZWINDOWL.Window WHERE TZWINDOWL.Window.ZKey = TZWINDOWL2.Window.ZKey  
+   
+   // Delete the SourceFile entry just cloned because the Operations for this page were created during
+   // generation of the parent List Group.
+   DELETE ENTITY TZWINDOWL2.SourceFile  
    
    // Build the Detail control Group set.assuming the format is Bootstrap.
    // Because the GenDetailGrpBootstrap routine uses the DetailMapping suboject, we will copy the ESG_Detail subobject
@@ -2127,27 +2194,27 @@ GenListDetailPage( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
    // This is a little more complex for Bootstrap, so we will call a sub operation for that case.
    ResizeReposGroupBoxes( TZADWWKO, TZWINDOWL2 )
    
-   // Go to name each of the Group Controls using main Attribute.
-   /*nLevel = 1
-   GenAD_GroupNames( TZADWWKO,
-                     TZWINDOWL2, 
-                     TZADWWKO.EntitySubGroup.GroupAreaName, 
-                     TZADWWKO.ESG_LOD_Entity.Name, 
-                     nLevel ) */
-
-   // Change mapping for ACCEPT_Subobject and CANCEL_Subobject Actions to include the ActMapLOD_Entity and ActMapView entities.
-   // This is determined by existence of attribute, Action.SB_SubAction.
-   SET CURSOR FIRST TZWINDOWL2.ViewObjRef WHERE TZWINDOWL2.ViewObjRef.Name = TZADWWKO.W_MetaDefUpdateObject.Name 
-   FOR EACH TZWINDOWL2.Action 
-      IF TZWINDOWL2.Action.SB_SubAction != ""
-         IF TZWINDOWL2.ActMap EXISTS
-            DELETE ENTITY TZWINDOWL2.ActMap  
-         END
-         CREATE ENTITY TZWINDOWL2.ActMap
-         INCLUDE TZWINDOWL2.ActMapLOD_Entity FROM TZADWWKO.ESG_LOD_Entity 
-         INCLUDE TZWINDOWL2.ActMapView FROM TZWINDOWL.ViewObjRef  
+   // Process Actions depending on page type.
+   szAD_Area = TZADWWKO.EntitySubGroup.GroupAreaName 
+   IF szGroupType = "ListGroupWUpdatePage"
+      // Accept and Cancel Actions.
+      // Convert Action Names and tie to Operations of the same name.
+      // The Operations were created when the initial List Group was built.
+      FOR EACH TZWINDOWL2.Action 
+         szActionName = TZWINDOWL2.Action.Tag 
+         zSearchAndReplace( szActionName, 256, "_AD_Area",  szAD_Area )        // Area Name
+         TZWINDOWL2.Action.Tag = szActionName
+         SET CURSOR FIRST TZWINDOWL.Operation WHERE TZWINDOWL.Operation.Name = szActionName
+         IF RESULT >= zCURSOR_SET
+            INCLUDE TZWINDOWL2.ActOper FROM TZWINDOWL.Operation 
+         END 
       END
-   END 
+   ELSE
+      // Return Action
+      // Simply modify Action to include Area Name.
+      TZWINDOWL2.Action.Tag = "RETURN_" + szAD_Area
+   END
+   
    DropView( TZWINDOWL2 )
 
 END
@@ -2432,12 +2499,8 @@ GenIncludePage( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
    SET CURSOR LAST TZWINDOW.Operation  
    CreateViewFromView( TZWINDOW3, TZWINDOW )
    NAME VIEW TZWINDOW3 "TZWINDOW3"
-   // The name of the SourceFile depends on whether or not the szGroupType if for Find.
-   IF szGroupType = "ListGroupwFindInclude"
-      SET CURSOR FIRST TZWINDOW3.SourceFile WHERE TZWINDOW3.SourceFile.Name = "ObjIncl"
-   ELSE
-      SET CURSOR FIRST TZWINDOW3.SourceFile WHERE TZWINDOW3.SourceFile.Name = "ObjIncl2"
-   END
+   // Position on the SourceFile for the new Operations.
+   SET CURSOR LAST TZWINDOW3.SourceFile
    FOR EACH TZWINDOW3.Operation 
       szOperationName = TZWINDOW3.Operation.Name 
       zSearchAndReplace( szOperationName, 50, "_InclSuff", szInclSuff )
@@ -2463,6 +2526,7 @@ GenIncludePage( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
    ELSE
       szCheckForOperation = "SELECT_Include" + szInclSuff
    END
+TraceLineS( "*** szCheckForOperation: ", szCheckForOperation )
    nLength = zGetStringLen( szCheckForOperation )
    szSourceDirectory = TaskLPLR.LPLR.PgmSrcDir 
    szFindVML = szSourceDirectory + "\" + TZWINDOW.Dialog.Tag + ".VML"
@@ -2475,6 +2539,7 @@ GenIncludePage( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
       nRC = zSysReadLine( TZWINDOW, szVML_Statement, nFileIn, 256 )
    END
    SysCloseFile( TZWINDOW, nFileIn, 0 )
+TraceLineI( "*** nRC2: ", nRC2 )
    IF nRC2 != 0     // Operation was not found.
       // Copy the VML from ObjIncl.VML or ObjIncl.VML and append it to the current Find VML
       // Which VML code version to use depends on whether or not this is a Find subpage.
@@ -2875,12 +2940,16 @@ GenEntitySubGroup( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
       TZCONTROL.Control.Tag  = "Group" + szGroupName + "List"    // Used for debugging.
       TZCONTROL.Control.Text = ""
       
+      // Set Control Start Y Position to 10. That will be the correct position if this is the first Group on
+      // the page. If it's not the first Group, the position will be reset later.
+      TZCONTROL.Control.PSDLG_Y = 10
+      
       IF szGroupType = "ListGroupwMGP"
          // Process the GOTO__AreaMGP Action and Operation for MGP.
          AddAD_ListMGP_Actions( TZADWWKO, TZCONTROL, TZWINDOWL, AD_BaseCtl, AD_Base )
       ELSE
-         // Process the 3 Actions tied to the New, Update and Delete buttons.
-         AddAD_ListUpdActions( TZADWWKO, TZCONTROL, TZWINDOWL, AD_BaseCtl, AD_Base )
+         // Process the Actions and Operations tied to the List Detail or Update Groups.
+         AddAD_ListUpdActions( TZADWWKO, TZWINDOWL, AD_Base, szGroupType )
       END
       
       // If this is Bootstrap, go down 3 levels to Group holding Grid.
@@ -2944,6 +3013,10 @@ GenEntitySubGroup( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
       szGroupName = TZADWWKO.EntitySubGroup.GroupAreaName
       TZCONTROL.Control.Tag  = "Group" + szGroupName + "Detail"    // Used for debugging.
       TZCONTROL.Control.Text = ""
+      
+      // Set Control Start Y Position to 10. That will be the correct position if this is the first Group on
+      // the page. If it's not the first Group, the position will be reset later.
+      TZCONTROL.Control.PSDLG_Y = 10
 
       // After the Clone, we need to also step past the header from the Control copied and down 2 levels.
       nRC = SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
@@ -2956,17 +3029,10 @@ GenEntitySubGroup( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
       // If this is GroupDetailwInclude, alter the Select Action, GOTO_SelectDetail, with Area Name & current Dialog plus include Window name 
       // for the Include Window that will be generated later.
       IF szGroupType = "DetailGroupwInclude" OR szGroupType = "DetailGroupwFindInclude"
-         SET CURSOR FIRST TZWINDOWL.Action WHERE TZWINDOWL.Action.Tag = "GOTO_SelectDetail"
-         IF RESULT < zCURSOR_SET
-            MessageSend( TZADWWKO, "", "Autodesign Subdialog",
-                         "GOTO_SelectDetail Action doesn't exist in template.",
-                         zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-            SetWindowActionBehavior( TZADWWKO, zWAB_StayOnWindow, 0,0 )
-            RETURN -2
-         END
-         TZWINDOWL.Action.Tag = "GOTO_SelectDetail" + szAD_Area
-         TZWINDOWL.Action.DialogName = TZWINDOWL.Dialog.Tag 
-         TZWINDOWL.Action.WindowName = TZADWWKO.ESG_LOD_Entity.Name + "Include"
+      
+         // Go to process GOTO and EXCLUDE Actions and Operations.
+         AddAD_GoExclActions( TZADWWKO, TZWINDOWL, AD_Base )
+
       END
    END
    
@@ -2992,6 +3058,10 @@ GenEntitySubGroup( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
       TZCONTROL.Control.Tag  = "Group" + szGroupName + "Incl"     // Used for debugging.
       TZCONTROL.Control.Text = ""
       
+      // Set Control Start Y Position to 10. That will be the correct position if this is the first Group on
+      // the page. If it's not the first Group, the position will be reset later.
+      TZCONTROL.Control.PSDLG_Y = 10
+      
       // Process the 2 Actions tied to the New and Delete/Remove buttons.
       AddAD_ListInclActions( TZADWWKO, TZCONTROL, TZWINDOWL, AD_BaseCtl, AD_Base )
       
@@ -3010,7 +3080,7 @@ GenEntitySubGroup( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
       END
 
    END
-   
+
    DropView( AD_BaseCtl )
 
 END
@@ -3086,60 +3156,172 @@ END
 *************************************************************************************************/
 TRANSFORMATION OPERATION
 AddAD_ListUpdActions( VIEW TZADWWKO   BASED ON LOD  TZADWWKO,
-                      VIEW TZCONTROL  BASED ON LOD  TZWDLGSO,
                       VIEW TZWINDOWL  BASED ON LOD  TZWDLGSO,
-                      VIEW AD_BaseCtl BASED ON LOD  TZWDLGSO,
-                      VIEW AD_Base    BASED ON LOD  TZWDLGSO )
+                      VIEW AD_Base    BASED ON LOD  TZWDLGSO,
+                      STRING ( 50 ) szGroupType )
 
-   // Process CtrlCtrl entries recursively and building Actions for AD New, Update and Delete entries.
-   SetViewToSubobject( AD_BaseCtl, "CtrlCtrl" )
-   SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
-   SET CURSOR FIRST TZCONTROL.Control  
-   FOR EACH AD_BaseCtl.Control
-      IF AD_BaseCtl.Control.Text = "New" OR 
-         AD_BaseCtl.Control.Text = "Update" OR 
-         AD_BaseCtl.Control.Text = "Delete" OR
-         AD_BaseCtl.Control.Text = "Detail"
-         
-         // The Actions and related Events were created during the CloneControl for the whole update group.
-         // So we only need to correct the subdialog/window names for New and Update and the mapping for Delete.
-         SET CURSOR FIRST TZWINDOWL.Action WHERE TZWINDOWL.Action.Tag = AD_BaseCtl.EventAct.Tag 
-         IF RESULT < zCURSOR_SET
-            IssueError( TZWINDOWL,0,0, "Programming Error: No Action match for Update Actions." )
-            RETURN 
-         END
-         
-         // New, Detail and Update need subdialog/window name changes.
-         // If the Action is New, Detail or Update, set the Dialog and Window names to the correct update Window.
-         IF AD_BaseCtl.Control.Text = "New" OR AD_BaseCtl.Control.Text = "Update" OR AD_BaseCtl.Control.Text = "Detail"
-            TZWINDOWL.Action.DialogName = TZWINDOWL.Dialog.Tag 
-            TZWINDOWL.Action.WindowName = TZADWWKO.ESG_LOD_Entity.Name + "Detail"
-         END
-         
-         // All 3 Update Controls need mapping change.
-         // This is determined by existence of the attribute, Action.SB_SubAction 
-         IF TZWINDOWL.Action.SB_SubAction != ""
-            IF TZWINDOWL.ActMap EXISTS
-               DELETE ENTITY TZWINDOWL.ActMap
-            END
-            CREATE ENTITY TZWINDOWL.ActMap 
-            INCLUDE TZWINDOWL.ActMapLOD_Entity FROM TZADWWKO.ESG_LOD_Entity 
-            SET CURSOR FIRST TZWINDOWL.ViewObjRef WHERE TZWINDOWL.ViewObjRef.Name = TZADWWKO.W_MetaDefUpdateObject.Name 
-            INCLUDE TZWINDOWL.ActMapView FROM TZWINDOWL.ViewObjRef 
-         END
-         
-         // Add Suffix to Action Name.
-         TZWINDOWL.Action.Tag = TZWINDOWL.Action.Tag + TZADWWKO.EntitySubGroup.IncludeOperationSuffix 
+   VIEW TaskLPLR REGISTERED AS TaskLPLR
+   STRING ( 256 ) szVML_Statement
+   STRING ( 50 )  szSourceOperationName
+   STRING ( 50 )  szTargetOperationName
+   STRING ( 50 )  szAD_Area
+   STRING ( 50 )  szAD_UpdObj
+   STRING ( 50 )  szEntityName
+   STRING ( 50 )  szEntityName2  
+   STRING ( 50 )  szOperationName
+   STRING ( 50 )  szActionName
+   STRING ( 6 )   szCompareOption
+   STRING ( 256 ) szCompare
+   STRING ( 256 ) szSourceFileDirectory
+   STRING ( 256 ) szTargetFileDirectory
+   INTEGER nRC
+   INTEGER nRC2
+   INTEGER nFileIn
+   INTEGER nFileOut
+   INTEGER nLength 
+   
+   // Process Actions and Operations for List Detail and List Update Groups.
+   // For szGroupType = ListGroupWDetailPage, simply modify the corresponding Action Name. for ListGroupWUpdatePage, add operations as necessary.
+   
+   // Process ListGroupWDetailPage first.
+   IF szGroupType = "ListGroupWDetailPage"
+      // Simply modify the Return Action name to add AD Area at end.
+      SET CURSOR FIRST TZWINDOWL.Action WHERE TZWINDOWL.Action.Tag = "GOTO_DTL_" 
+      IF RESULT >= zCURSOR_SET
+         szAD_Area = TZADWWKO.EntitySubGroup.GroupAreaName
+         TZWINDOWL.Action.Tag = "GOTO_DTL_" + szAD_Area
+         TZWINDOWL.Action.DialogName = TZWINDOWL.Dialog.Tag 
+         TZWINDOWL.Action.WindowName = szAD_Area + "Detail"
+      END
+      RETURN 
+   END
+   
+   // The rest is for ListGroupWUpdatePage Group.
+   
+   // Process Operations first because they will later be used by Actions.
+   
+   // If the List New/Update/Delete operations aren't already in the VML File for the TZWINDOWL SourceFile directory, copy the
+   // source file operations from AD_Base SubObjUpdat file, converting the variable data in the process.
+   // Note that we will be copying 5 operations, the New/Update/Delete operations for the Listbox and the OK/Cancel for the
+   // related Update page.
+   
+   // Source Directory is from AD_Base
+   szSourceFileDirectory = "C:\LPLR\AD_Base\SubObjUpdat.VML"
+   
+   // Target Directory is current LPLR.
+   szTargetFileDirectory = TaskLPLR.LPLR.PgmSrcDir 
+   szTargetFileDirectory = szTargetFileDirectory + "\" + TZWINDOWL.SourceFile.Name + ".VML"
+   
+   // Check if GOTO_UPD_AD_Area operation is already in target VML file.
+   szAD_Area = TZADWWKO.EntitySubGroup.GroupAreaName 
+   szTargetOperationName = "GOTO_UPD_" + szAD_Area
+   nLength = zGetStringLen( szTargetOperationName )
+   nFileIn = SysOpenFile( TZWINDOWL, szTargetFileDirectory, COREFILE_READ )
+   nRC2    = -1
+   IF nFileIn > 0 
+      nRC = zSysReadLine( TZWINDOWL, szVML_Statement, nFileIn, 256 )
+      LOOP WHILE nRC = 1 AND nRC2 != 0
+         zstrncpy( szCompare, szVML_Statement, nLength )
+         nRC2 = zstrcmp( szCompare, szTargetOperationName )
+         nRC = zSysReadLine( TZWINDOWL, szVML_Statement, nFileIn, 256 )
+      END
+      SysCloseFile( TZWINDOWL, nFileIn, 0 )
+   ELSE 
+      IssueError( TZADWWKO,0,0, "Target VML doesn't exist yet." )
+      RETURN   // Don't continue if the VML hasn't been created yet
+   END
+   
+   IF nRC2 != 0     // Operation was not found.
+   
+      // The GOTO_UPD_AD_Area Operation was not found in the target Source File, so copy source VML to end of target VML,
+      // converting the variable characters in the process.
+      szEntityName = TZADWWKO.ESG_LOD_Entity.Name 
+      szAD_UpdObj  = TZADWWKO.W_MetaDefUpdateObject.Name
+      IF TZADWWKO.ESG_LOD_Entity2 EXISTS
+         szEntityName2 = TZADWWKO.ESG_LOD_Entity2.Name
       ELSE
-         IF AD_BaseCtl.CtrlCtrl EXISTS
-            AddAD_ListUpdActions( TZADWWKO, TZCONTROL, TZWINDOWL, AD_BaseCtl, AD_Base )
+         szEntityName2 = ""
+      END
+      nFileIn   = SysOpenFile( TZWINDOWL, szSourceFileDirectory, COREFILE_READ ) 
+      nFileOut  = SysOpenFile( TZWINDOWL, szTargetFileDirectory, COREFILE_APPEND )
+      nRC = zSysReadLine( TZWINDOWL, szVML_Statement, nFileIn, 256 )
+      LOOP WHILE nRC = 1 
+         // Loop through source vml and convert variable data before copying to target.
+         // There could be optional statements in the Delete operation to check for existence of the ESG_LOD_Entity2.
+         // If so we need to check for them here and either include them or skip them.
+         zstrncpy( szCompareOption, szVML_Statement, 6 )
+         nRC2 = zstrcmp( szCompareOption, "Option" )
+         IF nRC2 = 0
+            // Start of optional statements, so loop through them and either copy or skip.
+            nRC = zSysReadLine( TZWINDOWL, szVML_Statement, nFileIn, 256 )  // Skip the Option Start statement.
+            szCompareOption = ""
+            LOOP WHILE nRC = 1 AND szCompareOption != "Option"
+               zstrncpy( szCompareOption, szVML_Statement, 6 )
+               IF szEntityName2 != ""
+                  // Convert the line and write it out.
+                  zSearchAndReplace( szVML_Statement, 256, "_AD_UpdO",       szAD_UpdObj )    // Update Object Name
+                  zSearchAndReplace( szVML_Statement, 256, "_EntityNameChk", szEntityName2 )  // EntityChk Name
+                  zSearchAndReplace( szVML_Statement, 256, "_EntityName",    szEntityName )   // Entity Name
+                  SysWriteLine( TZWINDOWL, nFileOut, szVML_Statement ) 
+               END
+               nRC = zSysReadLine( TZWINDOWL, szVML_Statement, nFileIn, 256 )
+               zstrncpy( szCompareOption, szVML_Statement, 6 )
+            END
+            nRC = zSysReadLine( TZWINDOWL, szVML_Statement, nFileIn, 256 )  // Skip the Option End statement.
+         END
+         // Process regular line.
+         zSearchAndReplace( szVML_Statement, 256, "_AD_Area",    szAD_Area )     // Area Name
+         zSearchAndReplace( szVML_Statement, 256, "_AD_UpdO",    szAD_UpdObj )   // Update Object Name
+         zSearchAndReplace( szVML_Statement, 256, "_EntityName", szEntityName )  // Entity Name
+         
+         SysWriteLine( TZWINDOWL, nFileOut, szVML_Statement )
+         
+         nRC = zSysReadLine( TZWINDOWL, szVML_Statement, nFileIn, 256 )
+      END
+      
+      SysCloseFile( TZWINDOWL, nFileIn, 0 )
+      SysCloseFile( TZWINDOWL, nFileOut, 0 )
+      
+      // Also make sure the Operation entries exist for the target SourceFile subobject.
+      SET CURSOR FIRST TZWINDOWL.Operation WHERE TZWINDOWL.Operation.Name = szTargetOperationName
+      IF RESULT < zCURSOR_SET
+         // The Operations don't exist in target so copy them.
+         SET CURSOR LAST TZWINDOWL.Operation  
+         SET CURSOR FIRST AD_Base.SourceFile WHERE AD_Base.SourceFile.Name = "SubObjUpdat"
+         FOR EACH AD_Base.Operation 
+            szOperationName = AD_Base.Operation.Name    // We need to convert the Operation Name.
+            zSearchAndReplace( szOperationName, 50, "_AD_Area", szAD_Area )   
+            CreateMetaEntity( TZWINDOWL, TZWINDOWL, "Operation", zPOS_AFTER )
+            TZWINDOWL.Operation.Name = szOperationName
+            SetMatchingAttributesByName( TZWINDOWL, "Operation", AD_Base, "Operation", zSET_NULL )
+            FOR EACH AD_Base.Parameter 
+               CreateMetaEntity( TZWINDOWL, TZWINDOWL, "Parameter", zPOS_AFTER )
+               SetMatchingAttributesByName( TZWINDOWL, "Parameter", AD_Base, "Parameter", zSET_NULL )
+            END 
          END
       END
-      SET CURSOR NEXT TZCONTROL.Control  
    END
-   ResetViewFromSubobject( AD_BaseCtl )
-   ResetViewFromSubobject( TZCONTROL )
-
+   
+   // Process each of the 3 Actions and corresponding Operation as necessary.
+   // The Operations were created above.
+   FOR EACH TZWINDOWL.Action 
+      szActionName = TZWINDOWL.Action.Tag 
+      IF szActionName = "GOTO_UPD__AD_Area" OR 
+         szActionName = "GOTO_NewUPD__AD_Area"
+         
+         TZWINDOWL.Action.DialogName = TZWINDOWL.Dialog.Tag 
+         TZWINDOWL.Action.WindowName = szAD_Area + "Detail"
+      END
+      IF szActionName = "GOTO_UPD__AD_Area" OR 
+         szActionName = "GOTO_NewUPD__AD_Area" OR 
+         szActionName = "DELETE_UPD__AD_Area"
+         
+         zSearchAndReplace( szActionName, 256, "_AD_Area",  szAD_Area )
+         TZWINDOWL.Action.Tag = szActionName
+         SET CURSOR FIRST TZWINDOWL.Operation WHERE TZWINDOWL.Operation.Name = szActionName
+         INCLUDE TZWINDOWL.ActOper FROM TZWINDOWL.Operation 
+      END
+   END
 
 END
 
@@ -3433,3 +3615,131 @@ RenameAD_ControlsR( VIEW TZADWWKO BASED ON LOD TZADWWKO,
    END
 
 END
+
+/*************************************************************************************************
+**    
+**    OPERATION: AddAD_GoExclActions
+**    
+*************************************** **********************************************************/
+TRANSFORMATION OPERATION
+AddAD_GoExclActions( VIEW TZADWWKO BASED ON LOD TZADWWKO,
+                     VIEW TZWINDOWL BASED ON LOD TZWDLGSO,
+                     VIEW AD_Base   BASED ON LOD TZWDLGSO )
+
+   VIEW TaskLPLR REGISTERED AS TaskLPLR
+   STRING ( 256 ) szVML_Statement
+   STRING ( 50 )  szSourceOperationName
+   STRING ( 50 )  szTargetOperationName
+   STRING ( 50 )  szAD_Area
+   STRING ( 50 )  szAD_UpdObj
+   STRING ( 50 )  szEntityName
+   STRING ( 50 )  szOperationName
+   STRING ( 50 )  szActionName
+   STRING ( 256 ) szCompare
+   STRING ( 256 ) szSourceFileDirectory
+   STRING ( 256 ) szTargetFileDirectory
+   INTEGER nRC
+   INTEGER nRC2
+   INTEGER nFileIn
+   INTEGER nFileOut
+   INTEGER nLength 
+
+   // Process GOTO_SelectDetail Action
+   SET CURSOR FIRST TZWINDOWL.Action WHERE TZWINDOWL.Action.Tag = "GOTO_SelectDetail"
+   IF RESULT < zCURSOR_SET
+      MessageSend( TZADWWKO, "", "Autodesign Subdialog",
+                   "GOTO_SelectDetail Action doesn't exist in template.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( TZADWWKO, zWAB_StayOnWindow, 0,0 )
+      RETURN -2
+   END
+   szAD_Area = TZADWWKO.EntitySubGroup.GroupAreaName 
+   TZWINDOWL.Action.Tag = "GOTO_Select" + szAD_Area
+   TZWINDOWL.Action.DialogName = TZWINDOWL.Dialog.Tag 
+   TZWINDOWL.Action.WindowName = TZADWWKO.ESG_LOD_Entity.Name + "Include"
+   
+   // Process EXCLUDE_For_AD_Area Action 
+   SET CURSOR FIRST TZWINDOWL.Action WHERE TZWINDOWL.Action.Tag = "EXCLUDE_For_AD_Area"
+   IF RESULT < zCURSOR_SET
+      MessageSend( TZADWWKO, "", "Autodesign Subdialog",
+                   "EXCLUDE_For_AD_Area Action doesn't exist in template.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( TZADWWKO, zWAB_StayOnWindow, 0,0 )
+      RETURN -2
+   END
+   szActionName = "EXCLUDE_For" + szAD_Area
+   TZWINDOWL.Action.Tag = szActionName
+   
+   // Create Operation and include in Action.
+   SET CURSOR FIRST AD_Base.Operation WITHIN AD_Base.Dialog 
+              WHERE AD_Base.Operation.Name = "EXCLUDE_For_AD_Area"
+   IF RESULT < zCURSOR_SET
+      MessageSend( TZADWWKO, "", "Autodesign Subdialog",
+                   "Operation EXCLUDE_For_AD_Area doesn't exist in template.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( TZADWWKO, zWAB_StayOnWindow, 0,0 )
+      RETURN -2
+   END  
+   SET CURSOR LAST TZWINDOWL.Operation   
+   CreateMetaEntity( TZWINDOWL, TZWINDOWL, "Operation", zPOS_AFTER )
+   TZWINDOWL.Operation.Name = szActionName
+   SetMatchingAttributesByName( TZWINDOWL, "Operation", AD_Base, "Operation", zSET_NULL )
+   FOR EACH AD_Base.Parameter 
+      CreateMetaEntity( TZWINDOWL, TZWINDOWL, "Parameter", zPOS_AFTER )
+      SetMatchingAttributesByName( TZWINDOWL, "Parameter", AD_Base, "Parameter", zSET_NULL )
+   END 
+   INCLUDE TZWINDOWL.ActOper FROM TZWINDOWL.Operation 
+   
+   
+   // COPY AND CONVERT EXCLUDE_For_AD_Area OPERATION VML.
+   
+   // Source Directory is from AD_Base
+   szSourceFileDirectory = "C:\LPLR\AD_Base\ObjExcl.VML"
+   
+   // Target Directory is current LPLR.
+   szTargetFileDirectory = TaskLPLR.LPLR.PgmSrcDir 
+   szTargetFileDirectory = szTargetFileDirectory + "\" + TZWINDOWL.SourceFile.Name + ".VML"
+   
+   // Check if Exclude operation is already in target VML file.
+   szTargetOperationName = szActionName
+   nLength = zGetStringLen( szTargetOperationName )
+   nFileIn = SysOpenFile( TZWINDOWL, szTargetFileDirectory, COREFILE_READ )
+   nRC2    = -1
+   IF nFileIn > 0 
+      nRC = zSysReadLine( TZWINDOWL, szVML_Statement, nFileIn, 256 )
+      LOOP WHILE nRC = 1 AND nRC2 != 0
+         zstrncpy( szCompare, szVML_Statement, nLength )
+         nRC2 = zstrcmp( szCompare, szTargetOperationName )
+         nRC = zSysReadLine( TZWINDOWL, szVML_Statement, nFileIn, 256 )
+      END
+      SysCloseFile( TZWINDOWL, nFileIn, 0 )
+   ELSE 
+      IssueError( TZADWWKO,0,0, "Target VML doesn't exist yet." )
+      RETURN   // Don't continue if the VML hasn't been created yet
+   END
+   
+   IF nRC2 != 0     // Operation was not found.
+   
+      // The Exclude Operation was not found in the target Source File, so copy source VML to end of target VML,
+      // converting the variable characters in the process.
+      szEntityName = TZADWWKO.ESG_LOD_Entity.Name 
+      szAD_UpdObj  = TZADWWKO.W_MetaDefUpdateObject.Name
+      nFileIn   = SysOpenFile( TZWINDOWL, szSourceFileDirectory, COREFILE_READ ) 
+      nFileOut  = SysOpenFile( TZWINDOWL, szTargetFileDirectory, COREFILE_APPEND )
+      nRC = zSysReadLine( TZWINDOWL, szVML_Statement, nFileIn, 256 )
+      LOOP WHILE nRC = 1 
+         // Loop through source vml and convert variable data before copying to target.
+         zSearchAndReplace( szVML_Statement, 256, "_AD_Area",  szAD_Area )        // Area Name
+         zSearchAndReplace( szVML_Statement, 256, "_AD_UpdO",  szAD_UpdObj )      // Entity Name
+         zSearchAndReplace( szVML_Statement, 256, "_EntityName",  szEntityName )  // Update Object Name
+         
+         SysWriteLine( TZWINDOWL, nFileOut, szVML_Statement )
+         
+         nRC = zSysReadLine( TZWINDOWL, szVML_Statement, nFileIn, 256 )
+      END
+      
+      SysCloseFile( TZWINDOWL, nFileIn, 0 )
+      SysCloseFile( TZWINDOWL, nFileOut, 0 )
+   END
+END
+

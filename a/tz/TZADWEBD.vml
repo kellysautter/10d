@@ -1,171 +1,6 @@
 
 /*************************************************************************************************
 **
-**    OPERATION: AutodesignUpdateCtrls
-**
-*************************************************************************************************/
-LOCAL OPERATION
-AutodesignUpdateCtrls( VIEW TZWINDOW    BASED ON LOD TZWDLGSO,
-                       VIEW TZCONTROL   BASED ON LOD TZWDLGSO,
-                       VIEW AD_Base     BASED ON LOD TZWDLGSO,
-                       VIEW SelectedLOD BASED ON LOD TZZOLODO )
-
-   VIEW TZPESRCO          BASED ON LOD TZPESRCO
-   VIEW AD_BaseControlDef BASED ON LOD TZWDLGSO
-   INTEGER lGroupWidth
-   INTEGER lMappingDataWidth
-   INTEGER lMaxMappingDataWidth
-   INTEGER lPromptWidth
-   INTEGER lControlPositionX
-   INTEGER lControlPositionY
-   INTEGER lCurrentPosition
-   INTEGER lTotalDataWidth
-   INTEGER lAveragPixelWidth
-   INTEGER lAttributeCount
-   INTEGER nRC
-   STRING ( 100 ) szAttributeName
-   STRING ( 100 ) szControlDefName
-   STRING ( 100 ) szActionSuffix
-   STRING ( 100 ) szActionName
-   STRING ( 100 ) szControlNameSuffix
-   STRING ( 1 )   szControlNameSuffixGroup
-   STRING ( 1 )   szControlNameSuffixAttribute
-   STRING ( 10 )  szGroupName
-   STRING ( 8 )   szGroupName8
-   STRING ( 20 )  szControlType
-
-   // Build a Text/Update controls 
-   
-   // NOTE: THIS IS OLD CODE AND IS NO LONGER WORKING. IT SHOULD BE REPLACED BY CODE SIMILAR TO "GenDetailGrpBootstrap" IN TZADWWKO.
-   // IT SHOULD ALSO USE DetailMappingLOD_Attribute INSTEAD OF DetailMappingLOD_Attribute.
-   
-   IssueError( TZWINDOW,0,0, "AutodesignUpdateCtrls is no longer functioning." )
-   RETURN -2
-   
-   /*GET VIEW TZPESRCO NAMED "TZPESRCO"
-   szActionSuffix = TZWINDOW.AutoDesignGroup.ActionNameSuffix
-   CreateViewFromView( AD_BaseControlDef, AD_Base )
-   NAME VIEW AD_BaseControlDef "AD_BaseRoot"
-   SET CURSOR FIRST AD_BaseControlDef.Window WHERE AD_BaseControlDef.Window.Tag = "UpdateFields"
-   IF RESULT >= zCURSOR_SET
-      MessageSend( TZWINDOW, "", "Autodesign Window Group",
-                   "The Base group doesn't have a Controls Base Window named 'UpdateFields'.",
-                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-      SetWindowActionBehavior( TZWINDOW, zWAB_StayOnWindow, 0, 0 )
-      RETURN -2
-   END
-   // Determine Width of Prompt and Mapping Controls.
-   // We will take the UpdateFieldPromptLength value (which is max field prompt size) and multiply it by a character
-   // size of 8 pixels to get the width for Prompt entries. The width of the Mapping entries will be the
-   // difference in the size of the Group.
-   lPromptWidth         = TZWINDOW.AutoDesignGroup.UpdateFieldPromptLength * 5
-   lGroupWidth          = TZWINDOW.AutoDesignGroup.ControlWidthInPixels - 10
-   lMaxMappingDataWidth = lGroupWidth - lPromptWidth
-   // Build a Prompt and Mapping entry for each FlatListSelectedAttribute entry.
-   // Starting Y position will be from first control in UpdateGroup.
-   SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
-   lControlPositionY = 10
-   lControlPositionX = 10
-   lAttributeCount = 0
-   FOR EACH DetailMappingLOD_Attribute
-      lAttributeCount = lAttributeCount + 1
-      szControlNameSuffixAttribute = lAttributeCount
-      // Create Prompt entry, which is a Text field. 
-      CreateMetaEntity( TZWINDOW, TZCONTROL, "Control", zPOS_AFTER )
-      szControlNameSuffix = TZWINDOW.AD_MappingAttribute.AttributeName + szControlNameSuffixGroup + szControlNameSuffixAttribute
-      TZCONTROL.Control.Tag       = "P_" + szControlNameSuffix
-      TZCONTROL.Control.Text      = TZWINDOW.AD_MappingAttribute.PromptValue
-      TZCONTROL.Control.CSS_Class = TZWINDOW.AD_MappingAttribute.CSS_ClassForPrompt 
-      TZCONTROL.Control.PSDLG_X   = lControlPositionX
-      TZCONTROL.Control.SZDLG_Y   = 10
-      TZCONTROL.Control.SZDLG_X   = lPromptWidth
-      TZCONTROL.Control.PSDLG_Y   = lControlPositionY
-      SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = "Text"
-      INCLUDE TZCONTROL.ControlDef FROM TZPESRCO.ControlDef
-      
-      // Create the link between the Prompt attribute and the control that it goes with. It's the same name as the tag of the generated control below.
-      TZCONTROL.Control.WebCtrlLabelLink = "M_" + szControlNameSuffix
-      // Create Mapping entry.
-      CreateMetaEntity( TZWINDOW, TZCONTROL, "Control", zPOS_AFTER )
-      TZCONTROL.Control.Tag       = "M_" + szControlNameSuffix
-      TZCONTROL.Control.CSS_Class = TZWINDOW.AD_MappingAttribute.CSS_ClassForControl 
-      TZCONTROL.Control.PSDLG_X   = lControlPositionX + lPromptWidth
-      TZCONTROL.Control.SZDLG_Y   = 12
-      TZCONTROL.Control.PSDLG_Y   = lControlPositionY
-      // The width of the  Control will normally be determined by the size of the associated attribute, but
-      // there will always be a max size (lMaxMappingDataWidth) determined above and a min size of 80..
-      lMappingDataWidth = TZWINDOW.AD_MappingAttribute.DataWidth * 5
-      IF lMappingDataWidth > lMaxMappingDataWidth
-         lMappingDataWidth = lMaxMappingDataWidth
-      ELSE
-         IF lMappingDataWidth < 80
-            lMappingDataWidth = 80
-         END
-      END
-      TZCONTROL.Control.SZDLG_X = lMappingDataWidth
-      // Build the Editbox, Checkbox, Calendar, MLEdit or Combobox controls depending on ControlType.
-      // If the GenerateGroupType is "F", then the request is for display fields only and the ControlType will be Text.
-      szControlType = TZWINDOW.AD_MappingAttribute.ControlType
-      IF TZWINDOW.AutoDesignGroup.GenerateGroupType = "F"    // "F" is for Display fields only.
-         szControlType = "Text"
-      END
-      SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = szControlType
-      IF RESULT < zCURSOR_SET
-         SET CURSOR FIRST TZPESRCO.ControlDef WHERE TZPESRCO.ControlDef.Tag = "Text"
-      END
-      INCLUDE TZCONTROL.ControlDef FROM TZPESRCO.ControlDef
-      // If this is a CheckBox, add Prompt as Text.
-      IF szControlType = "CheckBox"
-         TZCONTROL.Control.Text = TZWINDOW.AD_MappingAttribute.PromptValue
-      END
-      
-      // If this is a ComboBox, set the CtrlBOI attribute from the ComboBox Control in AD_BaseControlDef named "ComboBoxBase"..
-      IF szControlType = "ComboBox"
-         SET CURSOR FIRST AD_BaseControlDef.Control WHERE AD_BaseControlDef.Control.Tag = "ComboBoxBase"
-         IF RESULT >= zCURSOR_SET
-            //TraceLineS( "*** Setting ComboxBox CtrlBOI: ", TZCONTROL.Control.Tag )
-            TZCONTROL.Control.CtrlBOI = AD_BaseControlDef.Control.CtrlBOI 
-         ELSE
-            MessageSend( TZWINDOW, "", "Autodesign Update Controls",
-                   "The AD_Base does not have a Control named 'ComboBoxBase' for ComboBox characteristics. The generated Control will not be complete.",
-                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-         END
-      END
-      // Build CtrlMap subobject for list control entity from Entity.Attribute of FlatListSelectedAttribute
-      CreateMetaEntity( TZWINDOW, TZCONTROL, "CtrlMap", zPOS_AFTER )
-      SET CURSOR FIRST SelectedLOD.LOD_Entity WHERE SelectedLOD.LOD_Entity.Name = TZWINDOW.AD_MappingAttribute.EntityName
-      SET CURSOR FIRST SelectedLOD.ER_Attribute WITHIN SelectedLOD.LOD_Entity
-                 WHERE SelectedLOD.ER_Attribute.Name = TZWINDOW.AD_MappingAttribute.AttributeName
-      INCLUDE TZCONTROL.CtrlMapLOD_Attribute FROM SelectedLOD.LOD_Attribute
-      SET CURSOR FIRST TZWINDOW.ViewObjRef WHERE TZWINDOW.ViewObjRef.Name = SelectedLOD.LOD.Name  
-      INCLUDE TZCONTROL.CtrlMapView FROM TZWINDOW.ViewObjRef
-      // If the Control is MLEdit, then we want to change the height of the Control from 10 to 36.
-      IF szControlType = "MLEdit"
-         TZCONTROL.Control.SZDLG_Y   = 36
-         lControlPositionY = lControlPositionY + 36
-      ELSE
-         lControlPositionY = lControlPositionY + 12
-      END
-   END
-   
-   // Set the Y size of the GroupBox based on the position of the last control generated.
-   // Also adjust the size of any parent GroupBox accordingly.
-   ResetViewFromSubobject( TZCONTROL )   // Go back to the GroupBox
-   TZCONTROL.Control.SZDLG_Y = lControlPositionY + 15
-   nRC = ResetViewFromSubobject( TZCONTROL )   // Go back to second Group.
-   IF nRC = 0
-      TZCONTROL.Control.SZDLG_Y = TZCONTROL.CtrlCtrl.PSDLG_Y + TZCONTROL.CtrlCtrl.SZDLG_Y + 10
-      nRC = ResetViewFromSubobject( TZCONTROL )   // Go back to first Group.
-      IF nRC = 0
-         TZCONTROL.Control.SZDLG_Y = TZCONTROL.CtrlCtrl.PSDLG_Y + TZCONTROL.CtrlCtrl.SZDLG_Y + 10
-      END
-   END
-   DropView( AD_BaseControlDef )*/
-
-END
-
-/*************************************************************************************************
-**
 **    OPERATION: CHECK_ReorderAttributes
 **
 *************************************************************************************************/
@@ -935,7 +770,12 @@ SELECT_ESGL_ListPotAttributes( VIEW ViewToWindow )
                TZADWWKO.ESG_ListLOD_Attribute.PromptValue  = TZADWWKO.ESG_FlatListPotentialAttribute.PromptValue 
                TZADWWKO.ESG_ListLOD_Attribute.PromptLength = TZADWWKO.ESG_FlatListPotentialAttribute.PromptLength 
             END
-            TZADWWKO.ESG_ListLOD_Attribute.ControlType  = TZADWWKO.ESG_FlatListPotentialAttribute.ControlType 
+            // ControlType is Text if Entity isn't updateable.
+            IF TZADWWKO.ESG_FlatListPotentialAttribute.Create = "Y"
+               TZADWWKO.ESG_ListLOD_Attribute.ControlType = TZADWWKO.ESG_FlatListPotentialAttribute.ControlType
+            ELSE
+               TZADWWKO.ESG_ListLOD_Attribute.ControlType = "Text"
+            END
             TZADWWKO.ESG_ListLOD_Attribute.ControlWidth = TZADWWKO.ESG_FlatListPotentialAttribute.ControlWidth 
             SetSelectStateOfEntity( TZADWWKO, "ESG_FlatListPotentialAttribute", 0 )
             
@@ -992,10 +832,15 @@ SELECT_ESGL_DetailPotAttributes( VIEW ViewToWindow )
          IF RESULT < zCURSOR_SET
             INCLUDE TZADWWKO.ESG_DetailLOD_Attribute FROM TZADWWKO.ESG_FlatLOD_Attribute 
              // We will always use the Prompt value for Search.
-            TZADWWKO.ESG_DetailLOD_Attribute.PromptValue         = TZADWWKO.ESG_FlatListPotentialAttribute.PromptValue 
-            TZADWWKO.ESG_DetailLOD_Attribute.PromptLength        = TZADWWKO.ESG_FlatListPotentialAttribute.PromptLength 
-            TZADWWKO.ESG_DetailLOD_Attribute.ControlType         = TZADWWKO.ESG_FlatListPotentialAttribute.ControlType 
-            TZADWWKO.ESG_DetailLOD_Attribute.ControlWidth        = TZADWWKO.ESG_FlatListPotentialAttribute.ControlWidth
+            TZADWWKO.ESG_DetailLOD_Attribute.PromptValue   = TZADWWKO.ESG_FlatListPotentialAttribute.PromptValue 
+            TZADWWKO.ESG_DetailLOD_Attribute.PromptLength  = TZADWWKO.ESG_FlatListPotentialAttribute.PromptLength 
+            TZADWWKO.ESG_DetailLOD_Attribute.ControlWidth  = TZADWWKO.ESG_FlatListPotentialAttribute.ControlWidth
+            // ControlType is Text if Entity isn't updateable.
+            IF TZADWWKO.ESG_FlatListPotentialAttribute.Create = "Y"
+               TZADWWKO.ESG_DetailLOD_Attribute.ControlType = TZADWWKO.ESG_FlatListPotentialAttribute.ControlType
+            ELSE
+               TZADWWKO.ESG_DetailLOD_Attribute.ControlType = "Text"
+            END
             IF TZADWWKO.CSS_ClassPageGroup EXISTS
                TZADWWKO.ESG_DetailLOD_Attribute.CSS_ClassForPrompt  = TZADWWKO.CSS_ClassPageGroup.CSS_ClassPromptValue 
                TZADWWKO.ESG_DetailLOD_Attribute.CSS_ClassForControl = TZADWWKO.CSS_ClassPageGroup.CSS_ClassControlValue 
@@ -1403,6 +1248,10 @@ AUTODESIGN_NewGroup( VIEW ViewToWindow )
    
    // Reposition and Resize all Group Controls.
    ResizeReposGroupBoxes( TZADWWKO, TZWINDOWL )
+
+   // Rename some Controls to avoid duplicate Tags.
+   SET CURSOR FIRST TZWINDOWL.Control
+   RenameAD_Controls( TZADWWKO, TZWINDOWL ) 
    
    // Next, build the subwindow if there is one for the Group Type.
    IF szGroupType = "ListGroupWUpdatePage" OR szGroupType = "ListGroupWDetailPage"
@@ -1504,7 +1353,8 @@ AUTODESIGN_MPG_Pages( VIEW ViewToWindow )
    STRING ( 50 )  szInclObjT
    STRING ( 50 )  szInclSuff
    STRING ( 50 )  szAD_SchN 
-   STRING ( 50 )  szAD_RetN 
+   STRING ( 50 )  szAD_RetO 
+   STRING ( 50 )  szAD_RetE 
    STRING ( 50 )  szAD_UpdObj
    STRING ( 50 )  szMainV
    STRING ( 50 )  szMainE
@@ -1681,27 +1531,55 @@ AUTODESIGN_MPG_Pages( VIEW ViewToWindow )
    IF nFileIn > 0   // Don't continue if the VML hasn't been created yet.
       nRC = zSysReadLine( TZWINDOW, szVML_Statement, nFileIn, 256 )
       LOOP WHILE nRC = 1 AND nRC2 != 0
-         zstrncpy( szCompare, szVML_Statement, nLength )
+         //zstrncpy( szCompare, szVML_Statement, nLength )
+         ZeidonStringCopy( szCompare /* Target String */,
+                     1 /* Target offset */,
+                     nLength /* Max chars to receive */,
+                     szVML_Statement /* Source string */,
+                     1 /* Source offset */,
+                     nLength /* Max chars to copy */,
+                     256 /* Target max length */ )
          nRC2 = zstrcmp( szCompare, szCheckForOperation )
          nRC = zSysReadLine( TZWINDOW, szVML_Statement, nFileIn, 256 )
       END
       SysCloseFile( TZWINDOW, nFileIn, 0 )
    END
+
    
    IF nRC2 != 0     // Operation was not found.
-      // The Operation was not found in the Source File, so copy the VML
+      // The Operation was not found in the target Source File, so copy the VML
       szAD_UpdObj       = TZADWWKO.W_MetaDefUpdateObject.Name
       szSourceDirectory = TaskLPLR.LPLR.PgmSrcDir
       szFindVML         = szSourceDirectory + "\" + TZWINDOW.Dialog.Tag + ".VML" 
       IF TZADWWKO.AutoDesignWork.SelectedPageType = "U"
          
          
-         // If this is the MGP for an original szGroupType = "ListGroupwMGP", then we must set use the ObjDtl2 VML
+         // If this is the MGP for an original szGroupType = "ListGroupwMGP", then we must use the ObjMGP2 VML
          // source and set up the RelinkSubobject replace variables. We determine this by the existance of the
          // TZADWWKOMain OI, which we will also use for some of the variables.
+         // DonC 4/11/2024: I'm not sure the ListGroupwMGP logic is still correct.
          GET VIEW TZADWWKOMn NAMED "TZADWWKOMain"
          IF RESULT < 0
-            szOriginalVML = "c:\lplr\AD_Base\ObjUpdat.VML"
+            // Which save VML to use depends on whether or not there is a returned list object. If there is such
+            // an object, we need to follow the save with a relink of the returned list object.
+            // Also, if the returned list is for CRM, then the object view name is "mConList" + the Area Suffix.
+            IF TZADWWKO.W_MetaDefReturnedObject EXISTS
+               // There is a return list object.
+               szAD_UpdE = UpdateLOD.LOD_EntityParent.Name               // Relink source is root Entity of Update LOD.
+               szAD_RetE = TZADWWKO.LOD_EntityReturnedObjectInclude.Name // Returned Entity
+               IF TZADWWKO.AutodesignSubdialog.FindType = "CRM"
+                  // The returned object is mConList + suffix.
+                  szAD_RetO = "mConList" + szAD_Suffix                   // Returned Entity Name
+                  szOriginalVML = "c:\lplr\AD_Base\ObjUpdcl.VML"         // Use Contact List VML
+               ELSE
+                  // The returned list is identified as TZADWWKO.W_MetaDefReturnedObject.
+                  szAD_RetO = TZADWWKO.W_MetaDefReturnedObject.Name      // Returned Entity Name
+                  szOriginalVML = "c:\lplr\AD_Base\ObjUpdRt.VML"         // Use Returned List VML
+               END
+            ELSE
+               // There is no return list object, so use VML source without Relink.
+               szOriginalVML = "c:\lplr\AD_Base\ObjUpdat.VML"
+            END
          ELSE
             szOriginalVML = "c:\lplr\AD_Base\ObjMGP2.VML"
             // Check to see if an Activate entity was specifified. If so use it. Otherwise use the List entity.
@@ -1727,7 +1605,10 @@ AUTODESIGN_MPG_Pages( VIEW ViewToWindow )
          zSearchAndReplace( szVML_Statement, 256, "_AD_UpdO",  szAD_UpdObj )  // Update Object Name
          zSearchAndReplace( szVML_Statement, 256, "_MainV",    szMainV )      // The Main Object View with original listbox
          zSearchAndReplace( szVML_Statement, 256, "_MainE",    szMainE )      // The Main Object Entity for Activate
+         zSearchAndReplace( szVML_Statement, 256, "_AD_RetO",  szAD_RetO )    // The Main Object View with original listbox
+         zSearchAndReplace( szVML_Statement, 256, "_AD_RetE",  szAD_RetE )    // The Main Object Entity for Activate
          zSearchAndReplace( szVML_Statement, 256, "_AD_UpdE",  szAD_UpdE )    // The Root Entity of the MGP Update LOD.
+         zSearchAndReplace( szVML_Statement, 256, "_AD_Suff",  szAD_Suffix )  // The Root Entity of the MGP Update LOD.
          
          SysWriteLine( TZWINDOW, nFileOut, szVML_Statement )
          
@@ -1858,121 +1739,6 @@ END
 
 /*************************************************************************************************
 **    
-**    OPERATION: AddAD_ListUpdateActions
-**    
-*************************************************************************************************/
-LOCAL OPERATION
-AddAD_ListUpdateActions( VIEW TZCONTROL  BASED ON LOD  TZWDLGSO,
-                         VIEW TZWINDOWL  BASED ON LOD  TZWDLGSO,
-                         VIEW AD_BaseCtl BASED ON LOD  TZWDLGSO,
-                         VIEW AD_Base    BASED ON LOD  TZWDLGSO )
-
-   VIEW TZADWWKO REGISTERED AS TZADWWKO
-
-   // Process CtrlCtrl entries recursively and building Actions for AD New, Update and Delete entries.
-   SetViewToSubobject( AD_BaseCtl, "CtrlCtrl" )
-   SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
-   SET CURSOR FIRST TZCONTROL.Control  
-   FOR EACH AD_BaseCtl.Control
-      IF AD_BaseCtl.Control.Text = "New" OR AD_BaseCtl.Control.Text = "Update" OR AD_BaseCtl.Control.Text = "Delete"
-         // The Actions and related Events were created during the CloneControl for the whole update group.
-         // So we only need to correct the subdialog/window names for New and Update and the mapping for Delete.
-         SET CURSOR FIRST TZWINDOWL.Action WHERE TZWINDOWL.Action.Tag = AD_BaseCtl.EventAct.Tag 
-         IF RESULT < zCURSOR_SET
-            IssueError( TZWINDOWL,0,0, "Programming Error: No Action match for Update Actions." )
-            RETURN 
-         END
-         
-         // New and Update need subdialog/window name changes.
-         // If the Action is New or Update, set the Dialog and Window names to the correct update Window.
-         IF AD_BaseCtl.Control.Text = "New" OR AD_BaseCtl.Control.Text = "Update"
-            TZWINDOWL.Action.DialogName = TZWINDOWL.Dialog.Tag 
-            TZWINDOWL.Action.WindowName = TZADWWKO.ESG_LOD_Entity.Name + "Detail"
-         END
-         
-         // All 3 Controls need mapping change.
-         IF TZWINDOWL.ActMap EXISTS
-            DELETE ENTITY TZWINDOWL.ActMap
-         END
-         CREATE ENTITY TZWINDOWL.ActMap 
-         INCLUDE TZWINDOWL.ActMapLOD_Entity FROM TZADWWKO.ESG_LOD_Entity 
-         SET CURSOR FIRST TZWINDOWL.ViewObjRef WHERE TZWINDOWL.ViewObjRef.Name = TZADWWKO.W_MetaDefUpdateObject.Name 
-         INCLUDE TZWINDOWL.ActMapView FROM TZWINDOWL.ViewObjRef 
-         
-         // Add Suffix to Action Name.
-         TZWINDOWL.Action.Tag = TZWINDOWL.Action.Tag + TZADWWKO.EntitySubGroup.IncludeOperationSuffix 
-      ELSE
-         IF AD_BaseCtl.CtrlCtrl EXISTS
-            AddAD_ListUpdateActions( TZCONTROL, TZWINDOWL, AD_BaseCtl, AD_Base )
-         END
-      END
-      SET CURSOR NEXT TZCONTROL.Control  
-   END
-   ResetViewFromSubobject( AD_BaseCtl )
-   ResetViewFromSubobject( TZCONTROL )
-
-END
-
-/*************************************************************************************************
-**    
-**    OPERATION: AddAD_ListIncludeActions
-**    
-*************************************************************************************************/
-LOCAL OPERATION
-AddAD_ListIncludeActions( VIEW TZCONTROL  BASED ON LOD  TZWDLGSO,
-                          VIEW TZWINDOWL  BASED ON LOD  TZWDLGSO,
-                          VIEW AD_BaseCtl BASED ON LOD  TZWDLGSO,
-                          VIEW AD_Base    BASED ON LOD  TZWDLGSO )
-
-   VIEW TZADWWKO REGISTERED AS TZADWWKO
-
-   // Process CrtlCrtl entries recursively for building Actions for AD New and Delete entries.
-   SetViewToSubobject( AD_BaseCtl, "CtrlCtrl" )
-   SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
-   SET CURSOR FIRST TZCONTROL.Control  
-   FOR EACH AD_BaseCtl.Control
-      IF AD_BaseCtl.Control.Text = "New" OR AD_BaseCtl.Control.Text = "Delete"
-         // Update the New Action if necessary and tie it to the Control.
-         SET CURSOR FIRST TZWINDOWL.Action WHERE TZWINDOWL.Action.Tag = AD_BaseCtl.EventAct.Tag 
-         IF RESULT < zCURSOR_SET
-            TraceLineS( "*** No Action match on ", AD_BaseCtl.EventAct.Tag )
-            IssueError( TZWINDOWL,0,0, "Programming Error: No Action match for Update Actions." )
-            RETURN 
-         END
-         
-         // If the Action is New, set the Dialog and Window names to the correct update Window.
-         IF AD_BaseCtl.Control.Text = "New" 
-            TZWINDOWL.Action.DialogName = TZWINDOWL.Dialog.Tag 
-            TZWINDOWL.Action.WindowName = TZADWWKO.ESG_LOD_Entity.Name + "Include"
-         END
-         
-         // If the Action is Delete, build the ActMap entry to include the list LOD_Entity and View.
-         IF AD_BaseCtl.Control.Text = "Delete" 
-            IF TZWINDOWL.ActMap EXISTS
-               DELETE ENTITY TZWINDOWL.ActMap 
-            END
-            CREATE ENTITY TZWINDOWL.ActMap 
-            INCLUDE TZWINDOWL.ActMapLOD_Entity FROM TZADWWKO.ESG_LOD_Entity 
-            SET CURSOR FIRST TZWINDOWL.ViewObjRef WHERE TZWINDOWL.ViewObjRef.Name = TZADWWKO.W_MetaDefUpdateObject.Name 
-            INCLUDE TZWINDOWL.ActMapView FROM TZWINDOWL.ViewObjRef 
-         END
-         
-         // Add Suffix to Action Name.
-         TZWINDOWL.Action.Tag = TZWINDOWL.Action.Tag + TZADWWKO.EntitySubGroup.IncludeOperationSuffix 
-      ELSE
-         IF AD_BaseCtl.CtrlCtrl EXISTS
-            AddAD_ListIncludeActions( TZCONTROL, TZWINDOWL, AD_BaseCtl, AD_Base )
-         END
-      END
-      SET CURSOR NEXT TZCONTROL.Control  
-   END
-   ResetViewFromSubobject( AD_BaseCtl )
-   ResetViewFromSubobject( TZCONTROL )
-
-END
-
-/*************************************************************************************************
-**    
 **    OPERATION: ReturnAttrControlType
 **    
 *************************************************************************************************/
@@ -2047,7 +1813,12 @@ SELECT_ESGL_MainInclAttributes( VIEW ViewToWindow )
                TZADWWKO.ESG_ListLOD_Attribute.PromptValue  = TZADWWKO.ESG_FlatListPotentialAttribute.PromptValue 
                TZADWWKO.ESG_ListLOD_Attribute.PromptLength = TZADWWKO.ESG_FlatListPotentialAttribute.PromptLength 
             END
-            TZADWWKO.ESG_ListLOD_Attribute.ControlType  = TZADWWKO.ESG_FlatListPotentialAttribute.ControlType 
+            // ControlType is Text if Entity isn't updateable.
+            IF TZADWWKO.ESG_FlatListPotentialAttribute.Create = "Y"
+               TZADWWKO.ESG_ListLOD_Attribute.ControlType = TZADWWKO.ESG_FlatListPotentialAttribute.ControlType
+            ELSE
+               TZADWWKO.ESG_ListLOD_Attribute.ControlType = "Text"
+            END
             TZADWWKO.ESG_ListLOD_Attribute.ControlWidth = TZADWWKO.ESG_FlatListPotentialAttribute.ControlWidth 
          END
          SetSelectStateOfEntity( TZADWWKO, "ESG_FlatListPotentialAttribute", 0 )
@@ -2510,32 +2281,6 @@ ACCEPT_Group( VIEW ViewToWindow )
    
    // The Action/Operation Suffix will be the same as the Group Area Name, at least for now.
    TZADWWKO.EntitySubGroup.IncludeOperationSuffix = TZADWWKO.EntitySubGroup.GroupAreaName 
-   
-   // If this window is for a generate function, execute the operation to generate the listbox and any subpage.
-   // If the request is for List Group Generation, then build both the list group and update page.
-   IF TZADWWKO.EntitySubGroup.ListGroupGenerateFlag = "Y"
-      
-   
-      // Activate AD_Base if it doesn't already exist.
-      GET VIEW AD_Base NAMED "AD_Base"
-      IF RESULT < 0
-         nRC = ActivateAD_Base( TZADWWKO, AD_Base ) 
-         NAME VIEW AD_Base "AD_Base" 
-      END
-      
-      // Execute operation to build List Group.
-      GET VIEW UpdateLOD NAMED "TZZOLODO_Update"
-      GenerateAD_ListGroup( TZADWWKO,
-                            ViewToWindow, 
-                            TZCONTROL,
-                            TZWINDOWL ,
-                            AD_Base,
-                            UpdateLOD,
-                            TZADWWKO.AutoDesignWork.SelectedGroupType )
-      
-      // Execute operation to build Detail page.
-      GenListDetailPage( TZADWWKO, TZWINDOWL, AD_Base, ViewToWindow )
-   END
 
 END
 
@@ -2613,6 +2358,9 @@ PostbuildAD_MultiGroupPage( VIEW ViewToWindow )
       END
       NAME VIEW AD_Base "AD_Base" 
    END
+   
+   // Make sure default for main page is update.
+   TZADWWKO.AutoDesignWork.SelectedPageType = "U"
    
    // Make sure that the TZZOLFLO object of Meta View entries exists.
    GET VIEW TZZOLFLO NAMED "TZZOLFLO"
@@ -3270,7 +3018,11 @@ AUTODESIGN_Group( VIEW ViewToWindow )
          SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
       END
       
-      // Go to build the Prompt / Detail pairs.
+      // Go to build the Prompt / Detail pairs. However, make sure that TZADWWKO.EntitySubGroup.GroupAreaName is wet
+      // because it's used for generating names.
+      IF TZADWWKO.EntitySubGroup.GroupAreaName = ""
+         TZADWWKO.EntitySubGroup.GroupAreaName = TZADWWKO.DetailMappingLOD_Entity.Name 
+      END
       GenDetailGrpBootstrap( TZADWWKO, TZCONTROL, TZWINDOWL, "UpdateGroup" )
       
       // Resize and reposition the Group Boxes on the Window
@@ -3355,6 +3107,10 @@ AUTODESIGN_Group( VIEW ViewToWindow )
    
    // Reposition and Resize all Group Controls.
    ResizeReposGroupBoxes( TZADWWKO, TZWINDOWL )
+   
+   // Rename some Controls to avoid duplicate Tags.
+   SET CURSOR FIRST TZWINDOWL.Control
+   RenameAD_Controls( TZADWWKO, TZWINDOWL ) 
    
    // Tell the Painter to refresh the control.
    RepaintWindowControls( ViewToWindow )
@@ -4469,175 +4225,6 @@ END
 
 /*************************************************************************************************
 **    
-**    OPERATION: PostbuildModifyListGroupMenu
-**    
-*************************************************************************************************/
-DIALOG OPERATION
-PostbuildModifyListGroupMenu( VIEW ViewToWindow )
-
-   VIEW TaskLPLR  REGISTERED AS TaskLPLR
-   VIEW TZCONTROL REGISTERED AS TZCONTROL
-   VIEW TZWINDOWL REGISTERED AS TZWINDOWL 
-   VIEW TZADWWKO  BASED ON LOD  TZADWWKO
-   VIEW TZZOLFLO  BASED ON LOD  TZCMLPLO
-   VIEW TempCtrl  BASED ON LOD  TZWDLGSO
-   STRING ( 50 ) szSubControlType
-   STRING ( 50 ) szGridViewName
-   STRING ( 50 ) szGridEntityName
-   INTEGER nRC
-   
-   // Initialize TZADWWKO as necessary
-   GET VIEW TZADWWKO NAMED "TZADWWKO"
-   IF RESULT >= 0
-      DropObjectInstance( TZADWWKO )
-   END
-   ACTIVATE TZADWWKO EMPTY 
-   NAME VIEW TZADWWKO "TZADWWKO"
-   CREATE ENTITY TZADWWKO.AutoDesignWork 
-   CREATE ENTITY TZADWWKO.AutodesignSubdialog  
-   CREATE ENTITY TZADWWKO.EntitySubGroup
-   /*IF RESULT < 0
-      ACTIVATE TZADWWKO EMPTY 
-      NAME VIEW TZADWWKO "TZADWWKO"
-      CREATE ENTITY TZADWWKO.AutoDesignWork 
-      CREATE ENTITY TZADWWKO.AutodesignSubdialog  
-      CREATE ENTITY TZADWWKO.EntitySubGroup
-   END*/
-   
-   // Make sure that the TZZOLFLO object of Meta LOD entries exists.
-   GET VIEW TZZOLFLO NAMED "TZZOLFLO"
-   IF RESULT < 0
-      CreateViewFromView( TZZOLFLO, TaskLPLR )
-      NAME VIEW TZZOLFLO "TZZOLFLO"
-      SET CURSOR FIRST TZZOLFLO.W_MetaType WHERE TZZOLFLO.W_MetaType.Type = 7   // 7 is read view of LOD 
-   END
-   
-   // Make sure that the TZZOLFLO object of Meta LOD entries exists.
-   GET VIEW TZZOLFLO NAMED "TZZOLFLO"
-   IF RESULT < 0
-      CreateViewFromView( TZZOLFLO, TaskLPLR )
-      NAME VIEW TZZOLFLO "TZZOLFLO"
-      SET CURSOR FIRST TZZOLFLO.W_MetaType WHERE TZZOLFLO.W_MetaType.Type = 7   // 7 is read view of LOD 
-   END
-   
-   // If there is a current Grid in the Group, use it to initialize the Main Object.
-   CreateViewFromView( TempCtrl, TZCONTROL )
-   NAME VIEW TempCtrl "TempCtrl"
-   szSubControlType = ""
-   IF TempCtrl.CtrlCtrl EXISTS
-      nRC = FindGridWithinGroup( TempCtrl )
-      IF nRC = 2
-         szSubControlType = "Grid"
-      END
-   END
-   IF szSubControlType = "Grid"
-      // There is a current Grid, so use the object.
-      szGridViewName   = TempCtrl.CtrlMapView.Name 
-      szGridEntityName = TempCtrl.CtrlMapLOD_Entity.Name 
-      SET CURSOR FIRST TZWINDOWL.ViewObjRef WHERE TZWINDOWL.ViewObjRef.Name = szGridViewName
-      SET CURSOR FIRST TZZOLFLO.W_MetaDef WHERE TZZOLFLO.W_MetaDef.Name = TZWINDOWL.LOD.Name 
-      INCLUDE TZADWWKO.W_MetaDefUpdateObject FROM TZZOLFLO.W_MetaDef 
-      
-      // Execute the operation for builing list of selectable entities.
-      SELECT_ListGroupMainObject( ViewToWindow )
-      SET CURSOR FIRST TZADWWKO.PotentialLOD_Entity WHERE TZADWWKO.PotentialLOD_Entity.Name = szGridEntityName 
-      INCLUDE TZADWWKO.ESG_LOD_Entity FROM TZADWWKO.PotentialLOD_Entity 
-   END
-
-END
-
-/*************************************************************************************************
-**    
-**    OPERATION: GOTO_AutodesignListGroup
-**    
-*************************************************************************************************/
-DIALOG OPERATION
-GOTO_AutodesignListGroup( VIEW ViewToWindow )
-
-   VIEW TZADWWKO  REGISTERED AS TZADWWKO
-   VIEW TZCONTROL REGISTERED AS TZCONTROL
-   VIEW TempCtrl  BASED ON LOD  TZWDLGSO
-   VIEW UpdateLOD BASED ON LOD  TZZOLODO
-   STRING ( 50 ) szSubControlType
-   INTEGER nRC
-   
-   // Depending on the Group Type, add necessary subobjects to TZADWWKO and go to the appropriate subwindow.
-   
-   // Update is the only function currently supported, so the GroupBox must be "card".
-   IF TZCONTROL.CtrlCtrl EXISTS AND TZCONTROL.Control.CSS_Class != "card"
-      MessageSend( ViewToWindow, "", "Autodesign Window Group",
-                   "The Autodesign List function currently supports only update on a Groupbox of CSS Class 'card'.",
-                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
-      RETURN -2
-   END
-   
-   // Delete any current subobjects.. 
-   FOR EACH TZADWWKO.ESG_FlatListPotentialAttribute 
-      DELETE ENTITY TZADWWKO.ESG_FlatListPotentialAttribute NONE  
-   END
-   FOR EACH TZADWWKO.ESG_FlatListPotentialAttribute2 
-      DELETE ENTITY TZADWWKO.ESG_FlatListPotentialAttribute2 NONE  
-   END
-   FOR EACH TZADWWKO.ESG_FlatListPotentialAttribute3 
-      DELETE ENTITY TZADWWKO.ESG_FlatListPotentialAttribute3 NONE  
-   END
-   
-   //CREATE ENTITY TZADWWKO.EntitySubGroup  
-   TZADWWKO.EntitySubGroup.ListGroupGenerateFlag = "Y"
-   TZADWWKO.EntitySubGroup.GroupType = TZADWWKO.AutoDesignWork.SelectedGroupType
-   
-   // Initialize mapping data if this is modification to an existing Grid.
-   IF TZCONTROL.CtrlCtrl EXISTS
-      // Check if there is a current Grid subcontrol. If so, create ESG_ListLOD_Attribute entries from it.
-      CreateViewFromView( TempCtrl, TZCONTROL )
-      NAME VIEW TempCtrl "TempCtrl"
-      szSubControlType = ""
-      IF TempCtrl.CtrlCtrl EXISTS
-         nRC = FindGridWithinGroup( TempCtrl )
-         IF nRC = 2
-            szSubControlType = "Grid"
-         END
-      END
-      IF szSubControlType = "Grid"
-         // Go to build the attribute select subobject from the Grid.
-         // Exclude any existing ESG_LOD_Entity first, since it is created in InitGridSelectAttribs.
-         IF TZADWWKO.ESG_LOD_Entity EXISTS 
-            EXCLUDE TZADWWKO.ESG_LOD_Entity  
-         END
-         InitGridSelectAttribs( TZADWWKO, TempCtrl )
-      ELSE
-         DropView( TempCtrl )
-         MessageSend( ViewToWindow, "", "Autodesign Window Group",
-                      "This function is not valid for any subcontrols that don't contain a Grid.",
-                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-         SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
-         RETURN -2
-      END
-      DropView( TempCtrl )
-   ELSE
-      GET VIEW UpdateLOD NAMED "TZZOLODO_Update" 
-      // Delete any current potential attributes and then go to build them.
-      BuildAD_GroupPotAttrList( TZADWWKO, UpdateLOD, UpdateLOD.LOD_EntityParent.Name, "" )
-   END
-   
-   // Go to next window depending on selected Group Type.
-   IF TZADWWKO.AutoDesignWork.SelectedGroupType = "ListGroupOnly"
-      SetWindowActionBehavior( ViewToWindow, zWAB_ReplaceWindowWithModalWindow, "TZADWEBD", "AD_GroupListOnlySpec" )
-   ELSE
-   IF TZADWWKO.AutoDesignWork.SelectedGroupType = "ListGroupWUpdatePage" OR TZADWWKO.AutoDesignWork.SelectedGroupType = "ListGroupWDetailPage"
-      SetWindowActionBehavior( ViewToWindow, zWAB_ReplaceWindowWithModalWindow, "TZADWEBD", "AD_GroupListwDetailSpec" )
-   ELSE
-   IF TZADWWKO.AutoDesignWork.SelectedGroupType = "ListGroupWIncludePage"
-      SetWindowActionBehavior( ViewToWindow, zWAB_ReplaceWindowWithModalWindow, "TZADWEBD", "AD_GroupListwIncludeSpec" )
-   END
-   END
-   END
-
-END
-
-/*************************************************************************************************
-**    
 **    OPERATION: PostbuildGroupListSpec
 **    
 *************************************************************************************************/
@@ -4649,185 +4236,6 @@ PostbuildGroupListSpec( VIEW ViewToWindow )
    // If this is for immediately autodesign the List Group, change the text of the "OK" button to "Generate"..
    IF TZADWWKO.EntitySubGroup.ListGroupGenerateFlag = "Y"
       SetCtrlText( ViewToWindow, "PBOK", "Generate" )
-   END
-
-END
-
-/*************************************************************************************************
-**    
-**    OPERATION: GenerateAD_ListGroup
-**    
-*************************************************************************************************/
-LOCAL OPERATION
-GenerateAD_ListGroup( VIEW TZADWWKO BASED ON LOD TZADWWKO,
-                      VIEW ViewToWindow, 
-                      VIEW TZCONTROL   BASED ON LOD  TZWDLGSO,
-                      VIEW TZWINDOWL   BASED ON LOD  TZWDLGSO,
-                      VIEW AD_Base     BASED ON LOD  TZWDLGSO,
-                      VIEW UpdateLOD   BASED ON LOD  TZZOLODO,
-                      STRING ( 20 ) szGroupType )
-
-   VIEW AD_BaseCtl  BASED ON LOD  TZWDLGSO
-   STRING ( 50 ) szGroupName
-   STRING ( 50 ) szLOD_ListEntityName
-   STRING ( 50 ) szViewName
-   STRING ( 50 ) szSelectedControlTag
-   STRING ( 90 ) szMsg
-   INTEGER nLevel
-   INTEGER nRC
-
-   // Build the Group List for the type specified.
-   // Note that it is assumed that any Action associated with this List Group does NOT have any Operations.
-
-   SET CURSOR FIRST AD_Base.Window WHERE AD_Base.Window.Tag = "ObjectUpdateGroups"
-   
-   CreateViewFromView( AD_BaseCtl, AD_Base )
-   NAME VIEW  AD_BaseCtl "AD_BaseCtlL"
-   
-   IF szGroupType = "ListGroupOnly"
-      szSelectedControlTag = "GroupListOnly"
-      SET CURSOR FIRST AD_BaseCtl.Control WHERE AD_BaseCtl.Control.Tag = szSelectedControlTag
-   ELSE
-   IF szGroupType = "ListGroupWUpdatePage" OR 
-      szGroupType = "ListGroupWDetailPage"
-      
-      szSelectedControlTag = "GroupUpdateList"
-      SET CURSOR FIRST AD_BaseCtl.Control WHERE AD_BaseCtl.Control.Tag = szSelectedControlTag
-   ELSE
-   IF szGroupType = "ListGroupWIncludePage"
-      szSelectedControlTag = "GroupIncludeList"
-      SET CURSOR FIRST AD_BaseCtl.Control WHERE AD_BaseCtl.Control.Tag = szSelectedControlTag
-   ELSE
-      MessageSend( ViewToWindow, "", "Autodesign Subdialog",
-                   "Invalid List Type.",
-                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
-      RETURN -2
-   END
-   END
-   END
-   IF RESULT < zCURSOR_SET
-      szMsg = "Group '" + szSelectedControlTag + "' doesn't exist in window, 'ObjectUpdateGroups'."
-      MessageSend( ViewToWindow, "", "Autodesign Subdialog", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
-      RETURN -2
-   END
-   
-   // Delete the GroupBox we're on because the Clone will create a new one.
-   DELETE ENTITY TZCONTROL.Control NONE  
-   
-   // Make sure we're on the last Control.
-   SET CURSOR LAST TZCONTROL.Control
-   
-   // Build the Grid Control with subcontrols.
-   
-   // First clone basic structure.
-   nRC = CloneControlAD( ViewToWindow, TZCONTROL, TZWINDOWL, AD_BaseCtl )
-
-   
-   // Set top Group Tag and Text.
-   SET CURSOR LAST TZCONTROL.Control
-   szGroupName = TZADWWKO.EntitySubGroup.GroupAreaName
-   TZCONTROL.Control.Tag  = "Group" + szGroupName + "List"
-   TZCONTROL.Control.Text = "Group " + szGroupName + " List"
-   
-   // Process the Actions tied to the New, Update and Delete buttons.
-   AddAD_ListUpdateActions( TZCONTROL, TZWINDOWL, AD_BaseCtl, AD_Base )
-   
-   // Delete any old Actions that are identified because they have no ActEvent subobject.
-   FOR EACH TZWINDOWL.Action 
-      IF TZWINDOWL.ActEvent DOES NOT EXIST
-         DELETE ENTITY TZWINDOWL.Action NONE 
-      END 
-   END
-   
-   // If this is Bootstrap, go down 3 levels to Group holding Grid.
-   IF TZWINDOWL.Dialog.WEB_JSPGenerationPositioning = "B"
-      SET CURSOR LAST TZCONTROL.CtrlCtrl 
-      nRC = SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
-      SET CURSOR LAST TZCONTROL.CtrlCtrl 
-      nRC = SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
-      SET CURSOR LAST TZCONTROL.CtrlCtrl 
-      nRC = SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
-   END
-   
-   // Build the list mapping entries.
-   szLOD_ListEntityName = TZADWWKO.ESG_LOD_Entity.Name
-   GetStringFromAttribute( szViewName, UpdateLOD, "LOD", "Name" )   // View Name is same as LOD Name.
-   AddListMapping( TZADWWKO, TZCONTROL, TZWINDOWL, UpdateLOD, szLOD_ListEntityName, szViewName, "ESG_List" )
-   
-   // Reset back to the main Group.
-   // For Bootstrap, this is back up 2 levels.
-   // For Others, it's all the way to the top.
-   // Also for Bootstrap, convert Header and Area Group Control data.
-   IF TZWINDOWL.Dialog.WEB_JSPGenerationPositioning = "B"
-      nRC = ResetViewFromSubobject( TZCONTROL ) 
-      SET CURSOR LAST TZCONTROL.Control 
-      nRC = ResetViewFromSubobject( TZCONTROL ) 
-
-      // Execute operation to convert Header and Area Group Control data.
-      ConvertHeaderText( TZADWWKO, TZCONTROL )
-   ELSE
-      nRC = ResetViewFromSubobject( TZCONTROL )    // Make sure we reset view to the top.
-      LOOP WHILE nRC = 0
-         nRC = ResetViewFromSubobject( TZCONTROL )
-      END
-   END
-   
-   // Go to convert header text.
-   ConvertHeaderText( TZADWWKO, TZCONTROL )
-   
-   // Go to name each of the Group Controls using main Attribute and then resize/reposition all controls.
-   /*nLevel = 1
-   GenAD_GroupNames( TZADWWKO,
-                     TZCONTROL, 
-                     TZADWWKO.EntitySubGroup.GroupAreaName, 
-                     TZADWWKO.ESG_LOD_Entity.Name, 
-                     nLevel ) 
-   ResizeReposGroupBoxes( TZADWWKO, TZWINDOWL )*/
-
-   // Tell the Painter to refresh the control.
-   RepaintWindowControls( ViewToWindow )
-
-END
-
-/*************************************************************************************************
-**    
-**    OPERATION: SELECT_ListGroupMainObject
-**    
-*************************************************************************************************/
-DIALOG OPERATION
-SELECT_ListGroupMainObject( VIEW ViewToWindow )
-
-   VIEW TZADWWKO  REGISTERED AS TZADWWKO
-   VIEW UpdateLOD BASED ON LOD  TZZOLODO
-   STRING ( 50 ) szLOD_Name
-   SHORT nRC
-   
-   // Just return if nothing was selected.
-   IF TZADWWKO.W_MetaDefUpdateObject DOES NOT EXIST
-      RETURN
-   END
-   
-   // Activate the selected Detail LOD and name it TZZOLODO_Update. 
-   // It will also be named "TZZOLODO_Update".
-   GET VIEW UpdateLOD NAMED "TZZOLODO_Update"
-   IF RESULT >= 0
-      DropObjectInstance( UpdateLOD )
-   END
-   szLOD_Name = TZADWWKO.W_MetaDefUpdateObject.Name 
-   nRC = ActivateMetaOI_ByName( ViewToWindow, UpdateLOD, 0, zREFER_LOD_META, zSINGLE, szLOD_Name, 0 )
-   NAME VIEW UpdateLOD "TZZOLODO_Update"
-   
-   // Build the FlatListPotentialEntity entries from the update object just activated.
-   // We have one entry in the list for each Entity in the Update Object.
-
-   // First delete any current entries then rebuild them.
-   FOR EACH TZADWWKO.PotentialLOD_Entity 
-      EXCLUDE TZADWWKO.PotentialLOD_Entity NONE 
-   END
-   FOR EACH UpdateLOD.LOD_Entity 
-      INCLUDE TZADWWKO.PotentialLOD_Entity FROM UpdateLOD.LOD_Entity
    END
 
 END

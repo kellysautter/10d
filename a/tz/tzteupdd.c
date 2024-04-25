@@ -1232,6 +1232,12 @@ zwTZTEUPDD_GenerateSyncDDL( zVIEW vSubtask )
 
 typedef zSHORT (POPERATION zFARPROC_VV)( zVIEW, zVIEW );
 
+/*
+// KJS 04/25/24 - I am not sure... but I think I was trying to get it so we could build a schema
+// from the database (the opposite of building sync ddl). I believe the ...._ImortDB_Data that is not commented out
+// is the original and I was experimenting with this. I believe this is compiling on 10c but I am getting an error with
+// 10d, saying (*pfn)( vDTE, vEMD, vTZTEDBLO, szFileName, vSubtask ) has too many parameters. However, "BuildSchema" (kzhsqlxb.c)
+// does have 5 parameters. So I'm not sure why we get this error.
 zOPER_EXPORT zSHORT OPERATION
 zwTZTEUPDD_ImportDB_Data( zVIEW vSubtask )
 {
@@ -1283,8 +1289,7 @@ zwTZTEUPDD_ImportDB_Data( zVIEW vSubtask )
    return( 0 );
 
 } // zwTZTEUPDD_ImportDB_Data
-
-/*
+*/
 
 zOPER_EXPORT zSHORT OPERATION
 zwTZTEUPDD_ImportDB_Data( zVIEW vSubtask )
@@ -1339,7 +1344,7 @@ zwTZTEUPDD_ImportDB_Data( zVIEW vSubtask )
    return( 0 );
 
 } // zwTZTEUPDD_ImportDB_Data
-*/
+
 
 zOPER_EXPORT zSHORT OPERATION
 zwTZTEUPDD_SortDBs( zVIEW    vSubtask )

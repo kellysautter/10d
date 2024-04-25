@@ -2565,22 +2565,15 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
    GET VIEW CurrentLPLR NAMED "TaskLPLR"
    GET VIEW SourceLPLR NAMED "SourceLPLR"
    IF RESULT < 0
-      // Try to activate the SourceLPLR.
-      IF CurrentLPLR.LPLR.wMergeSourceLPLR_Name != ""
-         szFileName = CurrentLPLR.LPLR.wFullyQualifiedFileName + "\bin\" +
-                      CurrentLPLR.LPLR.wMergeSourceLPLR_Name + ".XLP"
-         nRC = ActivateOI_FromFile( SourceLPLR, "TZCMLPLO", TargetERD, szFileName, zSINGLE )
-         IF nRC >= 0
-            NAME VIEW SourceLPLR "SourceLPLR"
-         ELSE
-            MessageSend( TargetERD, "", "ERD Merge",
-                         "The LPLR Name specified does not have an XLP file. No Source ERD will be used.",
-                         zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-            SourceLPLR = 0
-         END
-      ELSE
-         SourceLPLR = 0
-      END
+      MessageSend( TargetERD, "", "ERD Merge",
+                   "The view, 'SourceLPLR', has not been initialized.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SourceLPLR = 0
+   END
+   
+   // Delete any existing error messages for Task object.
+   FOR EACH CurrentLPLR.ErrorMessage 
+      DELETE ENTITY CurrentLPLR.ErrorMessage NONE  
    END
    
    // Make sure there is a TZCMLPLO view named "TZERMFLO" because it looks like the ERD tool needs it.
@@ -2591,7 +2584,7 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
       NAME VIEW ERD_LPLR "TZERMFLO"
       SET CURSOR FIRST ERD_LPLR.W_MetaType WHERE ERD_LPLR.W_MetaType.Type = 2004 
    END
-   
+
    // DonC 04/06/22 - It is the object of this algorithm to create the new Entity icons in the ER diagram as a group underneath the
    // current Entity icons. Thus, we will search the target ER to get the Entity with the largest vertical position and
    // add 15 to it as the beginning Y position for the new Entities.
@@ -2609,7 +2602,6 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
       NewYPos = MaxYPos
       NewXPos = 2
    END
-   
       
    // If we are merging the "whole" lplr, lets loop through the display and mark all as "selected".
    IF szWholeLPLRFlag = "Y"

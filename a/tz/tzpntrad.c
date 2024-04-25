@@ -9414,26 +9414,28 @@ fnCloneCtrlMap( zVIEW     vTgt,
 
    if ( CheckExistenceOfEntity( vSrcC, "CtrlMapLOD_Entity" ) >= 0 )
    {
-      GetViewByName( &vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK );
       GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "CtrlMapLOD_Entity", "Name" );
-      nRC = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name", szTag, 0 );
-      if ( nRC >= 0 )
-      {
-         IncludeSubobjectFromSubobject( vTgtC, "CtrlMapLOD_Entity",
-                                        vLOD, "LOD_Entity", zPOS_AFTER );
-      }
-      else
-      {
-         GetVariableFromAttribute( szTag, 0, 'S', 33, vSrcC,
-                                   "CtrlMapLOD_Entity", "Name", "", 0 );
-         strcpy_s( szMsg, zsizeof( szMsg ), "LOD_Entity doesn't exist: " );
-         strcat_s( szMsg, zsizeof( szMsg ), szTag );
-         MessageSend( vSubtask, "WD00209", "Control Clone",
-                      szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
-      }
+	  if (GetViewByName(&vLOD, "TZTMPLOD", vSubtask, zLEVEL_TASK) >= 0)
+	  {
+		  nRC = SetCursorFirstEntityByString(vLOD, "LOD_Entity", "Name", szTag, 0);
+		  if (nRC >= 0)
+		  {
+			  IncludeSubobjectFromSubobject(vTgtC, "CtrlMapLOD_Entity",
+				  vLOD, "LOD_Entity", zPOS_AFTER);
+		  }
+		  else
+		  {
+			  GetVariableFromAttribute(szTag, 0, 'S', 33, vSrcC,
+				  "CtrlMapLOD_Entity", "Name", "", 0);
+			  strcpy_s(szMsg, zsizeof(szMsg), "LOD_Entity doesn't exist: ");
+			  strcat_s(szMsg, zsizeof(szMsg), szTag);
+			  MessageSend(vSubtask, "WD00209", "Control Clone",
+				  szMsg, zMSGQ_OBJECT_CONSTRAINT_WARNING, 0);
+		  }
+	  }
    }
 
-   if ( CheckExistenceOfEntity( vSrcC, "CtrlMapLOD_Attribute" ) >= 0 )
+   if ( CheckExistenceOfEntity( vSrcC, "CtrlMapLOD_Attribute" ) >= 0 && vLOD != NULL )
    {
       GetStringFromAttribute( szTag, zsizeof( szTag ), vSrcC, "CtrlMapRelatedEntity", "Name" );
       nRC = SetCursorFirstEntityByString( vLOD, "LOD_Entity", "Name", szTag, 0 );

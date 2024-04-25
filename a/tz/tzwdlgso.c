@@ -373,13 +373,15 @@ oTZWDLGSO_ConvertListBoxToGrid( zVIEW     vControl )
 //:             VIEW vNewW  BASED ON LOD TZWDLGSO,
 //:             VIEW vSubtask )
 
-//:   INTEGER   nRC
+//:   VIEW TZPNCTWO BASED ON LOD TZPNCTWO
 static zSHORT
 oTZWDLGSO_CloneAction( zVIEW     vSourceLPLR,
                        zVIEW     vOrigW,
                        zVIEW     vNewW,
                        zVIEW     vSubtask )
 {
+   zVIEW     TZPNCTWO = 0; 
+   //:INTEGER   nRC
    zLONG     nRC = 0; 
    //:INTEGER   nLength
    zLONG     nLength = 0; 
@@ -451,17 +453,48 @@ oTZWDLGSO_CloneAction( zVIEW     vSourceLPLR,
       //:IF RESULT < zCURSOR_SET
       if ( RESULT < zCURSOR_SET )
       { 
-         //:// Add the Operation under the SourceFile entity.  Look at the SourceFile of
+         //:// Add the Operation under the correct SourceFile entity.  Look at the SourceFile of
          //:// the original Dialog to determine if type is C or VML and add the operation
          //:// to the correct SourceFile entry.  If one doesn't exist, create it.
-         //:SET CURSOR FIRST vOrigW.Operation WITHIN vOrigW.Dialog WHERE
-         //:    vOrigW.Operation.Name = vOrigW.ActOper.Name
+         //:// Modified by DonC on 6/9/2023.
+         //:// The correct SourceFile Name to use is determied as follows:
+         //:// 1. If the TZPNCTWO CloneWindowSourceFileFlag is "T", use a SourceFile by the same name as the target Dialog.
+         //:// 1. Otherwise, use the SourceFile Name from the Source Operation
+         //:GET VIEW TZPNCTWO NAMED "TZPNCTWO"
+         RESULT = GetViewByName( &TZPNCTWO, "TZPNCTWO", vSourceLPLR, zLEVEL_TASK );
+         //:IF RESULT >= 0
+         if ( RESULT >= 0 )
+         { 
+            //:IF TZPNCTWO.TZPNCTWO.CloneWindowSourceFileFlag = "T"
+            if ( CompareAttributeToString( TZPNCTWO, "TZPNCTWO", "CloneWindowSourceFileFlag", "T" ) == 0 )
+            { 
+               //:szSourceName = vNewW.Dialog.Tag 
+               GetVariableFromAttribute( szSourceName, 0, 'S', 33, vNewW, "Dialog", "Tag", "", 0 );
+               //:ELSE
+            } 
+            else
+            { 
+               //:szSourceName = vOrigW.SourceFileForOper.Name 
+               GetVariableFromAttribute( szSourceName, 0, 'S', 33, vOrigW, "SourceFileForOper", "Name", "", 0 );
+            } 
+
+            //:END
+            //:ELSE
+         } 
+         else
+         { 
+            //:szSourceName = vOrigW.SourceFileForOper.Name
+            GetVariableFromAttribute( szSourceName, 0, 'S', 33, vOrigW, "SourceFileForOper", "Name", "", 0 );
+         } 
+
+         //:END
+         //:SET CURSOR FIRST vOrigW.Operation WITHIN vOrigW.Dialog 
+         //:           WHERE vOrigW.Operation.Name = vOrigW.ActOper.Name
          GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vOrigW, "ActOper", "Name" );
          RESULT = SetCursorFirstEntityByString( vOrigW, "Operation", "Name", szTempString_0, "Dialog" );
          //:szLanguageType = vOrigW.SourceFile.LanguageType
          GetVariableFromAttribute( szLanguageType, 0, 'S', 2, vOrigW, "SourceFile", "LanguageType", "", 0 );
-         //:szSourceName = vOrigW.SourceFile.Name
-         GetVariableFromAttribute( szSourceName, 0, 'S', 33, vOrigW, "SourceFile", "Name", "", 0 );
+         //://szSourceName = vOrigW.SourceFile.Name
          //:// KJS 06/23/22 - When migrating a dialog, we are not copying all of the SourceFile(s). I am not sure
          //:// why this set cursor was only looking at LanguageType. I am adding SourceFile.Name.
          //:SET CURSOR FIRST vNewW.SourceFile WHERE
@@ -2017,6 +2050,8 @@ oTZWDLGSO_MergeWindowComponents( zVIEW     vNewW,
    CreateViewFromViewForTask( &vTempNewW, vNewW, 0 );
    //:CreateViewFromViewForTask( vTempOrigW, vOrigW, 0 )
    CreateViewFromViewForTask( &vTempOrigW, vOrigW, 0 );
+   //:NAME VIEW vTempOrigW "vTempOrigW"
+   SetNameForView( vTempOrigW, "vTempOrigW", 0, zLEVEL_TASK );
    //:NAME VIEW vNewWC "NewDialogWC"
    SetNameForView( vNewWC, "NewDialogWC", 0, zLEVEL_TASK );
    //:NAME VIEW vOrigWC "OldDialogWC"
@@ -2206,7 +2241,7 @@ oTZWDLGSO_MergeWebMenus( zVIEW     vNewW,
    zVIEW     TZDLG_List = 0; 
    //:VIEW TZWND_List BASED ON LOD  TZWDLGSO
    zVIEW     TZWND_List = 0; 
-   //:STRING (200) szMsg
+   //:STRING ( 200 ) szMsg
    zCHAR     szMsg[ 201 ] = { 0 }; 
    //:INTEGER nRC
    zLONG     nRC = 0; 
@@ -2362,10 +2397,10 @@ oTZWDLGSO_MergeWebMenus( zVIEW     vNewW,
                } 
 
                //:END
-               //:DropView( TZWND_List )
-               DropView( TZWND_List );
             } 
 
+            //:   // On 6/9/2023 DonC and KellyS determined that the following drop should be deleted.
+            //:   //DropView( TZWND_List )
             //:END
          } 
 

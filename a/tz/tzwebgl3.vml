@@ -197,8 +197,10 @@ BuildMainNavSection( VIEW vDialog,
       IF ActionType = zWAB_LinkToHTML_Address
          szHTML_Address = ""
          IF vDialogRoot.OptAct EXISTS
-            SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialogRoot.OptAct.ZKey
-            szHTML_Address = vDialogRoot.Action.WebHTML_TransferAddress
+            //SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialogRoot.OptAct.ZKey
+            // KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
+            //szHTML_Address = vDialogRoot.OptAct.WebHTML_TransferAddress
+            szHTML_Address = ""
          END
       END
       IF ActionType = zWAB_LinkToHTML_Address AND szStyleIsBootstrap = ""
@@ -3578,6 +3580,7 @@ GenJSPJ_CrteSideMenuRecurs( VIEW vDialog,
    STRING ( 50 )    szMenuName
    //STRING ( 34 )    szActionName
    STRING ( 100 )   szActionName
+   STRING ( 256 )   szLinkName
    STRING ( 1 )     szStyleIsjMobile
    STRING ( 1 )     szStyleIsBootstrap
    STRING ( 256 )   szClass
@@ -3635,25 +3638,33 @@ GenJSPJ_CrteSideMenuRecurs( VIEW vDialog,
       ELSE
          szMenuName = vDialogMenu.Option.Tag
       END
-
-   // szHTML_Name = szDialogName + vDialogMenu.OptAct.WindowName + ".jsp"
+      
+      szLinkName = "#"
+      // szHTML_Name = szDialogName + vDialogMenu.OptAct.WindowName + ".jsp"
       IF vDialogMenu.OptAct EXISTS
-
-         // Because the menu actions can be created on separate windows from the control
-         // actions, we need to make sure these actions are unique.  We will prefix a
-         // "m" to the main menu actions and prefix a "sm" to the side menu actions.
-         IF szReusableMenu = "Y"
-            szActionName = "onclick=^" + "sm" + vDialogMenu.OptAct.Tag + "()^"
-            //szActionName = "sm" + vDialogMenu.OptAct.Tag
-         // lLth = zstrlen( szActionName )
-         // IF lLth > 32
-         //    MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
-         //                 szActionName,
-         //                 zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-         // END
+         IF vDialogMenu.OptAct.Type = 45    // Type 45 is Hyperlink Action.
+            // KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
+            //szLinkName = vDialogMenu.OptAct.WebHTML_TransferAddress
+            //szActionName = "target=^_blank^"
+            szLinkName = ""
+            szActionName = ""
          ELSE
-            szActionName = "onclick=^" + vDialogMenu.OptAct.Tag + "()^"
-            //szActionName = vDialogMenu.OptAct.Tag
+            // Because the menu actions can be created on separate windows from the control
+            // actions, we need to make sure these actions are unique.  We will prefix a
+            // "m" to the main menu actions and prefix a "sm" to the side menu actions.
+            IF szReusableMenu = "Y"
+               szActionName = "onclick=^" + "sm" + vDialogMenu.OptAct.Tag + "()^"
+               //szActionName = "sm" + vDialogMenu.OptAct.Tag
+            // lLth = zstrlen( szActionName )
+            // IF lLth > 32
+            //    MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
+            //                 szActionName,
+            //                 zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+            // END
+            ELSE
+               szActionName = "onclick=^" + vDialogMenu.OptAct.Tag + "()^"
+               //szActionName = vDialogMenu.OptAct.Tag
+            END
          END
          ActionType = vDialogMenu.OptAct.Type
       ELSE
@@ -3697,7 +3708,7 @@ GenJSPJ_CrteSideMenuRecurs( VIEW vDialog,
 
       IF szStyleIsBootstrap = ""
          //szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " onclick=^" + szActionName + "()^>" + szNavigationTitle + "</a></li>"
-         szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^#^ " + szClass2 + " " + szActionName + ">" + szNavigationTitle + "</a></li>"
+         szWriteBuffer = "       <li id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + "><a href=^" + szLinkName + "^ " + szClass2 + " " + szActionName + ">" + szNavigationTitle + "</a></li>"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       ELSE
          IF vDialogMenu.Option.WebHTML5Attribute != ""
@@ -3711,9 +3722,11 @@ GenJSPJ_CrteSideMenuRecurs( VIEW vDialog,
          END
          szWriteBuffer = "       <li " + szClass + " id=^" + szMenuName + "^ name=^" + szMenuName + "^>"
          IF szOptOptTag = ""
-            szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#" + szOptOptTag + "^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
+            szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^" + szLinkName + szOptOptTag + "^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
          ELSE
-            szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ data-toggle=^collapse^ aria-expanded=^true^ href=^#" + szOptOptTag + "^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
+            szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ data-toggle=^collapse^ aria-expanded=^true^ href=^" + szLinkName + szOptOptTag
+            szWriteBuffer = szWriteBuffer + "^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
+            //szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ data-toggle=^collapse^ aria-expanded=^true^ href=^" + szLinkName + szOptOptTag + "^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
          END
           //szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " onclick=^" + szActionName + "()^><i class=^align-middle mr-2 fas fa-fw " + szText  + "^></i> <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -4015,8 +4028,10 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
       IF ActionType = zWAB_LinkToHTML_Address
          szHTML_Address = ""
          IF vDialogMenu.OptAct EXISTS
-            SET CURSOR FIRST vDialogMenu.Action WHERE vDialogMenu.Action.ZKey = vDialogMenu.OptAct.ZKey
-            szHTML_Address = vDialogMenu.Action.WebHTML_TransferAddress
+            //SET CURSOR FIRST vDialogMenu.Action WHERE vDialogMenu.Action.ZKey = vDialogMenu.OptAct.ZKey
+            // KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
+            //szHTML_Address = vDialogMenu.OptAct.WebHTML_TransferAddress
+            szHTML_Address = ""
          END
       END
       IF ActionType = zWAB_LinkToHTML_Address AND ( szStyleIsBootstrap = "" ) //OR ( szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal" AND szHasBanner = "Y") ) // KJS 05/24/22 - added szHasBanner

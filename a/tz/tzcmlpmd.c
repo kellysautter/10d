@@ -348,19 +348,11 @@ MERGE_SelectedLPLR_Metas( zVIEW     ViewToWindow )
    //://    2015 - Reports
    //://    2014 - Global Operations
 
-   //:// Note that named views TaskLPLR and TargetLPLR are both for the target LPLR, but are slightly different.
-   //:// TargetLPLR holds a subset of TaskLPLR and identifies the current state of the LPLR at the beginning Merge.
-   //:// TaskLPLR holds the full target LPLR object and is the target used for actually copying.
-   //:// Below, CurrentLPLR is the view used for TaskLPLR.
-
-   //:GET VIEW SourceLPLR  NAMED "SourceLPLR"
-   RESULT = GetViewByName( &SourceLPLR, "SourceLPLR", ViewToWindow, zLEVEL_TASK );
+   //:// Below, CurrentLPLR is the view used for TaskLPLR
    //:GET VIEW CurrentLPLR NAMED "TaskLPLR"
    RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", ViewToWindow, zLEVEL_TASK );
-
-   //:// Indicate on the TaskLPLR that the function is the new LPLR Merge by setting the flag to "L".
-   //:CurrentLPLR.LPLR.MergeType = "L"
-   SetAttributeFromString( CurrentLPLR, "LPLR", "MergeType", "L" );
+   //:GET VIEW SourceLPLR  NAMED "SourceLPLR"
+   RESULT = GetViewByName( &SourceLPLR, "SourceLPLR", ViewToWindow, zLEVEL_TASK );
 
    //:// Delete any existing error messages in TaskLPLR.
    //:FOR CurrentLPLR.ErrorMessage 
@@ -373,6 +365,27 @@ MERGE_SelectedLPLR_Metas( zVIEW     ViewToWindow )
    } 
 
    //:END
+
+   //:// If the request is to add any LOD ER Entity or Attribute entries to the ER, first call the operation to do so.
+   //:IF CurrentLPLR.LPLR.wMergeAllLOD_ER_EntriesFlag = "Y"
+   if ( CompareAttributeToString( CurrentLPLR, "LPLR", "wMergeAllLOD_ER_EntriesFlag", "Y" ) == 0 )
+   { 
+      //:MergeLODsToER( NewERD, SourceLPLR, ViewToWindow )
+      oTZEREMDO_MergeLODsToER( &NewERD, SourceLPLR, ViewToWindow );
+      //:CurrentLPLR.LPLR.wMergeAllLOD_ER_EntriesFlag = ""
+      SetAttributeFromString( CurrentLPLR, "LPLR", "wMergeAllLOD_ER_EntriesFlag", "" );
+   } 
+
+   //:END
+
+   //:// Note that named views TaskLPLR and TargetLPLR are both for the target LPLR, but are slightly different.
+   //:// TargetLPLR holds a subset of TaskLPLR and identifies the current state of the LPLR at the beginning Merge.
+   //:// TaskLPLR holds the full target LPLR object and is the target used for actually copying.
+
+
+   //:// Indicate on the TaskLPLR that the function is the new LPLR Merge by setting the flag to "L".
+   //:CurrentLPLR.LPLR.MergeType = "L"
+   SetAttributeFromString( CurrentLPLR, "LPLR", "MergeType", "L" );
 
    //:// Because some migration operations need an LPLR view with Domain metas in it, we will pass the OrigLPLR view to merge operations
    //:// instead of the  SourceLPLR view. This is because the SourceLPLR contains a subset of the metas from the OrigLPLR, from which the
@@ -460,9 +473,6 @@ MERGE_SelectedLPLR_Metas( zVIEW     ViewToWindow )
          SetAttributeFromString( CurrentLPLR, "LPLR", "wMergeMetaType", "LOD" );
          //:CurrentLPLR.LPLR.wMergeMetaName = MetaName
          SetAttributeFromString( CurrentLPLR, "LPLR", "wMergeMetaName", MetaName );
-
-         //:GET VIEW  CurrentLPLR NAMED "TaskLPLR"
-         RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", ViewToWindow, zLEVEL_TASK );
 
          //:// If replace flag is set, delete the current entry before continuing with the merge function.
          //:SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 2007

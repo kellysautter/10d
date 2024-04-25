@@ -11149,6 +11149,62 @@ UPD_LISTBOX_ConvertToGrid( zVIEW vSubtask )
 
 } // UPD_LISTBOX_ConvertToGrid
 
+/*************************************************************************************************
+**    
+**    OPERATION: GOTO_AutodesignForGroup
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+GOTO_AutodesignForGroup( zVIEW vSubtask )
+{
+   zVIEW  vControl;
+   zVIEW  vControlSub;
+   zVIEW  vWindow;
+   zCHAR  szCSS_Class[ 33 ];      
+   zSHORT nRC_Dialog;
+   zSHORT nRC_Window;
+   zSHORT nRC_Grid;
+   
+   // The following code assumes we're building for a Bootstrap application.
+   // If there is no subControl (CtrlCtrl), then this is a new Autodesign Group and we go to TZADWEBD.AutodesignGroup to build
+   // a full Bootstrap main Group.
+   // Otherwise, we assume we're updating a subgroup which must have a CSS_Class value of "card-body" or "card-body row" and
+   // we then go to TZADWEBD.AutodesignSubgroup.
+   
+   GetViewByName( &vControl, "TZCONTROL", vSubtask, zLEVEL_TASK );
+   GetViewByName( &vWindow, "TZWINDOWL", vSubtask, zLEVEL_TASK );
+   nRC_Window = 0;
+   nRC_Dialog = 0;
+   nRC_Grid   = 0;
+   
+   if ( CheckExistenceOfEntity( vControl, "CtrlCtrl" ) >= zCURSOR_SET )
+   {
+      // Validate that the CSS_Class is "card-body" or "card-body row".
+      GetStringFromAttribute( szCSS_Class, zsizeof( szCSS_Class ), vControl, "Control", "CSS_Class" );
+      if (( zstrcmp( szCSS_Class, "card-body" ) == 0 ) || ( zstrcmp( szCSS_Class, "card-body row" ) == 0 ))
+      {
+         // Set next window to AutodesignSubgroup.
+         SetWindowActionBehavior( vSubtask, zWAB_ReplaceWindowWithModalWindow, "TZADWEBD", "AutodesignForSubgroup" );
+      }
+      else
+      {
+         // Return an Error
+         MessageSend( vSubtask, "", "Autodesign Group",
+                      "For a Group to be updated, it must have CSS_Class 'card-body' or 'card-body row'!",
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
+         SetWindowActionBehavior( vSubtask, zWAB_TerminateActionForError, 0, 0 );
+      }
+      
+   }
+   else
+   {
+      // Set next window to AutodesignGroup.
+      SetWindowActionBehavior( vSubtask, zWAB_ReplaceWindowWithModalWindow, "TZADWEBD", "AutodesignForGroup" );
+   }
+
+   return( 0 );
+} // GOTO_AutodesignForGroup
+
 
 #ifdef __cplusplus
 }

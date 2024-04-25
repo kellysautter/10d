@@ -1,4 +1,4 @@
-z1000-Zeidon    TZTENVTO TZZOXODO                         04/04/24   22:59:17 1.0a2   
+z1000-Zeidon    TZTENVTO TZZOXODO                         04/25/24   11:12:53 1.0a2   
 eOBJECT    1
 aNAME      TZTENVTO
 aZKey      1327779
@@ -1434,7 +1434,7 @@ aERREL_LINK 1
 aCARDMIN   1
 aCARDMAX   1
 aPDELETE   E
-aMAX_LTH   132074
+aMAX_LTH   42074
 
 eATTRIB    8
 aNAME      ZKey
@@ -1534,7 +1534,7 @@ aPERSIST   Y
 aAPDM_TOK  1158059
 aDOMAIN    Note
 aTYPE      S
-aLTH       100000
+aLTH       10000
 aHIDDEN    Y
 aXVAATT_TOK 127
 

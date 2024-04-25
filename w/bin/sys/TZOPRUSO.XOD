@@ -1,4 +1,4 @@
-z1000-Zeidon    TZOPRUSO TZZOXODO                         04/04/24   22:59:12 1.0a2   
+z1000-Zeidon    TZOPRUSO TZZOXODO                         04/25/24   11:12:49 1.0a2   
 eOBJECT    1
 aNAME      TZOPRUSO
 aZKey      1326055
@@ -644,7 +644,7 @@ aPDELETE   D
 aINCLUDE   Y
 aEXCLUDE   Y
 aDERIVED   Y
-aMAX_LTH   100783
+aMAX_LTH   10783
 
 eATTRIB    5
 aNAME      Tag
@@ -821,7 +821,7 @@ aPERSIST   Y
 aAPDM_TOK  1158059
 aDOMAIN    Note
 aTYPE      S
-aLTH       100000
+aLTH       10000
 aHIDDEN    Y
 aXVAATT_TOK 64
 

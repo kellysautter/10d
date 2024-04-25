@@ -17,6 +17,12 @@ oTZTENVRO_SetCursorNewRelType( zVIEW     OldERD,
                                zVIEW     NewERD );
 
 
+static zVOID
+oTZTENVRO_SyncTablRecKeyRecurs( zVIEW     vDTE,
+                                zVIEW     vDTE_Recurs,
+                                zVIEW     vERD );
+
+
 static zSHORT
 oTZTENVRO_TE_MigrateOrgSironSubF( zVIEW     vSubtask,
                                   zVIEW     NewTE,
@@ -25,108 +31,343 @@ oTZTENVRO_TE_MigrateOrgSironSubF( zVIEW     vSubtask,
                                   zVIEW     OldWorkTE );
 
 
-static zVOID
-oTZTENVRO_SyncTablRecKeyRecurs( zVIEW     vDTE,
-                                zVIEW     vDTE_Recurs,
-                                zVIEW     vERD );
+//:ENTITY CONSTRAINT OPERATION
+zOPER_EXPORT zSHORT OPERATION
+oTZTENVRO_Accept_FieldDataRelKey( zVIEW     vTZTENVRO,
+                                  zPCHAR    szEntityName,
+                                  zSHORT    Event,
+                                  zSHORT    State )
+{
+
+   //:Accept_FieldDataRelKey( VIEW vTZTENVRO BASED ON LOD TZTENVRO,
+   //:                     STRING ( 32 )  szEntityName,
+   //:                     SHORT          Event,
+   //:                     SHORT          State )
+
+   //:CASE Event
+   switch( Event )
+   { 
+      //:OF   zECE_ACCEPT:
+      case zECE_ACCEPT :
+
+         //:SetFieldDataRelKeyFlag( vTZTENVRO )
+         oTZTENVRO_SetFieldDataRelKeyFlag( vTZTENVRO );
+         break ;
+
+      //:  /* end zECE_ACCEPT */
+      //:OF   zECE_CANCEL:
+      case zECE_CANCEL :
+         break ;
+
+      //:  /* end zECE_CANCEL */
+      //:OF   zECE_CREATE:
+      case zECE_CREATE :
+         break ;
+
+      //:  /* end zECE_CREATE */
+      //:OF   zECE_DELETE:
+      case zECE_DELETE :
+         break ;
+
+      //:  /* end zECE_DELETE */
+      //:OF   zECE_EXCLUDE:
+      case zECE_EXCLUDE :
+         break ;
+
+      //:  /* end zECE_EXCLUDE */
+      //:OF   zECE_INCLUDE:
+      case zECE_INCLUDE :
+         break ;
+   } 
+
+
+   //:     /* end zECE_INCLUDE */
+   //:END  /* case */
+   return( 0 );
+// END
+} 
 
 
 //:TRANSFORMATION OPERATION
-//:SyncTablRecKey( VIEW vDTE BASED ON LOD TZTENVRO,
-//:                VIEW vERD BASED ON LOD TZEREMDO,
-//:                VIEW vSubtask )
+//:InitializeDBH_Data( VIEW vDTE BASED ON LOD TZTENVRO )
 
-//:   VIEW        vDTE_Recurs BASED ON LOD TZTENVRO
+//:   VIEW TaskLPLR REGISTERED AS TaskLPLR
 zOPER_EXPORT zSHORT OPERATION
-oTZTENVRO_SyncTablRecKey( zVIEW     vDTE,
-                          zVIEW     vERD,
-                          zVIEW     vSubtask )
+oTZTENVRO_InitializeDBH_Data( zVIEW     vDTE )
 {
-   zVIEW     vDTE_Recurs = 0; 
-   //:STRING (32) szIdentifierName
-   zCHAR     szIdentifierName[ 33 ] = { 0 }; 
+   zVIEW     TaskLPLR = 0; 
    zSHORT    RESULT; 
-   zLONG     lTempInteger_0; 
-   zLONG     lTempInteger_1; 
-   zLONG     lTempInteger_2; 
+   //:VIEW vBaseDTE BASED ON LOD  TZTENVRO
+   zVIEW     vBaseDTE = 0; 
+   //:STRING ( 200 ) szSourceFileName
+   zCHAR     szSourceFileName[ 201 ] = { 0 }; 
+   //:SHORT nRC
+   zSHORT    nRC = 0; 
 
+   RESULT = GetViewByName( &TaskLPLR, "TaskLPLR", vDTE, zLEVEL_TASK );
 
-   //:// Create key entries from identifiers, for those identifiers that are not
-   //:// already associated with key entries.  This must follow a recursive
-   //:// path, if there is a chain of identifiers that are defined using relationships.
-   //:// Note that we are processing only the first ER_EntIdentifier, assuming there is only
-   //:// one per entity.
-
-   //:FOR EACH vERD.ER_EntIdentifier WITHIN vERD.EntpER_Model
-   RESULT = SetCursorFirstEntity( vERD, "ER_EntIdentifier", "EntpER_Model" );
-   while ( RESULT > zCURSOR_UNCHANGED )
+   //:// Use the DTE in the AD_Base LPLR to get the Source DBH value.
+   //:szSourceFileName = "c:\lplr\AD_Base\AD_Base.DTE"
+   ZeidonStringCopy( szSourceFileName, 1, 0, "c:\\lplr\\AD_Base\\AD_Base.DTE", 1, 0, 201 );
+   //:nRC = ActivateOI_FromFile ( vBaseDTE, "TZTENVRO", TaskLPLR, szSourceFileName, 8192 )   // 8192 is zIGNORE_ATTRIB_ERRORS
+   nRC = ActivateOI_FromFile( &vBaseDTE, "TZTENVRO", TaskLPLR, szSourceFileName, 8192 );
+   //:IF nRC < 0
+   if ( nRC < 0 )
    { 
-      //:SET CURSOR FIRST vDTE.ER_EntIdentifier WITHIN vDTE.TE_DB_Environ WHERE
-      //:                 vDTE.ER_EntIdentifier.ZKey = vERD.ER_EntIdentifier.ZKey
-      GetIntegerFromAttribute( &lTempInteger_0, vERD, "ER_EntIdentifier", "ZKey" );
-      RESULT = SetCursorFirstEntityByInteger( vDTE, "ER_EntIdentifier", "ZKey", lTempInteger_0, "TE_DB_Environ" );
-      //:IF RESULT < zCURSOR_SET
-      if ( RESULT < zCURSOR_SET )
+      //:IssueError( vDTE,0,0, "The Base TE in AD_Base could not be loaded, so the DBH Data could not be initialized." )
+      IssueError( vDTE, 0, 0, "The Base TE in AD_Base could not be loaded, so the DBH Data could not be initialized." );
+      //:RETURN -2
+      return( -2 );
+   } 
+
+   //:END
+   //:NAME VIEW vBaseDTE "vBaseDTE"
+   SetNameForView( vBaseDTE, "vBaseDTE", 0, zLEVEL_TASK );
+   //:vDTE.TE_DBMS_Source.DBH_Data = vBaseDTE.TE_DBMS_Source.DBH_Data 
+   SetAttributeFromAttribute( vDTE, "TE_DBMS_Source", "DBH_Data", vBaseDTE, "TE_DBMS_Source", "DBH_Data" );
+   //:DropObjectInstance( vBaseDTE )
+   DropObjectInstance( vBaseDTE );
+   return( 0 );
+// END
+} 
+
+
+//:TRANSFORMATION OPERATION
+//:DelFieldFromSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
+//:   VIEW    vTZTENVRO_Copy BASED ON LOD TZTENVRO
+zOPER_EXPORT zSHORT OPERATION
+oTZTENVRO_DelFieldFromSequence( zVIEW     vTZTENVRO )
+{
+   zVIEW     vTZTENVRO_Copy = 0; 
+   //:INTEGER lSequenceNo
+   zLONG     lSequenceNo = 0; 
+   //:INTEGER lNewSequenceNo
+   zLONG     lNewSequenceNo = 0; 
+   zSHORT    RESULT; 
+
+
+   //:IF vTZTENVRO.TE_FieldDataRel.wkSequence > 0
+   if ( CompareAttributeToInteger( vTZTENVRO, "TE_FieldDataRel", "wkSequence", 0 ) > 0 )
+   { 
+
+      //:CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
+      CreateViewFromViewForTask( &vTZTENVRO_Copy, vTZTENVRO, 0 );
+
+      //:lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+      GetIntegerFromAttribute( &lSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
+      //:// set new sequence number for the field with greater number
+      //:FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
+      RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
       { 
-         //:// The identifier has not yet been created in the TE.
-         //:// Position on the correct entity
-         //:SET CURSOR FIRST vDTE.ER_Entity WITHIN vDTE.TE_DB_Environ  WHERE
-         //:                 vDTE.ER_Entity.ZKey = vERD.ER_Entity.ZKey
-         GetIntegerFromAttribute( &lTempInteger_1, vERD, "ER_Entity", "ZKey" );
-         RESULT = SetCursorFirstEntityByInteger( vDTE, "ER_Entity", "ZKey", lTempInteger_1, "TE_DB_Environ" );
-         //:CreateMetaEntity( vSubtask, vDTE, "TE_TablRecKey", zPOS_AFTER )
-         CreateMetaEntity( vSubtask, vDTE, "TE_TablRecKey", zPOS_AFTER );
-         //:szIdentifierName = vERD.ER_EntIdentifier.Name
-         GetVariableFromAttribute( szIdentifierName, 0, 'S', 33, vERD, "ER_EntIdentifier", "Name", "", 0 );
-         //:TranslateStringToUpperCase( szIdentifierName )
-         TranslateStringToUpperCase( szIdentifierName );
-         //:vDTE.TE_TablRecKey.Name =       szIdentifierName
-         SetAttributeFromString( vDTE, "TE_TablRecKey", "Name", szIdentifierName );
-         //:// The Category first equals 2 (Attributes Only), assuming that the key is not for relationships.
-         //:// Later, we will change it to 3 (Attributes & Relationships), if necessary.
-         //:vDTE.TE_TablRecKey.Category = "2"
-         SetAttributeFromString( vDTE, "TE_TablRecKey", "Category", "2" );
-         //:INCLUDE vDTE.ER_EntIdentifier FROM vERD.ER_EntIdentifier
-         RESULT = IncludeSubobjectFromSubobject( vDTE, "ER_EntIdentifier", vERD, "ER_EntIdentifier", zPOS_AFTER );
-         //:// Include each field that is a part of the key
-         //:FOR EACH vERD.ER_AttributeIdentifier WITHIN vERD.ER_EntIdentifier
-         RESULT = SetCursorFirstEntity( vERD, "ER_AttributeIdentifier", "ER_EntIdentifier" );
-         while ( RESULT > zCURSOR_UNCHANGED )
+         //: IF vTZTENVRO_Copy.TE_FieldDataRel.wkSequence > lSequenceNo
+         if ( CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lSequenceNo ) > 0 )
          { 
-            //:SET CURSOR FIRST vDTE.ER_Attribute WITHIN vDTE.TE_TablRec WHERE
-            //:                 vDTE.ER_Attribute.ZKey = vERD.ER_AttributeIdentifier.ZKey
-            GetIntegerFromAttribute( &lTempInteger_2, vERD, "ER_AttributeIdentifier", "ZKey" );
-            RESULT = SetCursorFirstEntityByInteger( vDTE, "ER_Attribute", "ZKey", lTempInteger_2, "TE_TablRec" );
-            //:vDTE.TE_FieldDataRel.Key = "Y"
-            SetAttributeFromString( vDTE, "TE_FieldDataRel", "Key", "Y" );
-            //:INCLUDE vDTE.TE_FieldDataRelKey FROM vDTE.TE_FieldDataRel
-            RESULT = IncludeSubobjectFromSubobject( vDTE, "TE_FieldDataRelKey", vDTE, "TE_FieldDataRel", zPOS_AFTER );
-            RESULT = SetCursorNextEntity( vERD, "ER_AttributeIdentifier", "ER_EntIdentifier" );
+            //: lNewSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+            GetIntegerFromAttribute( &lNewSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
+            //: lNewSequenceNo = lNewSequenceNo - 1
+            lNewSequenceNo = lNewSequenceNo - 1;
+            //: vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lNewSequenceNo
+            SetAttributeFromInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lNewSequenceNo );
          } 
 
+         RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
          //:END
-         //:// Now follow any relationship paths to get what will be imbedded keys.
-         //:CreateViewFromViewForTask( vDTE_Recurs, vDTE, 0 )
-         CreateViewFromViewForTask( &vDTE_Recurs, vDTE, 0 );
-         //:FOR EACH vERD.ER_RelLinkIdentifier WITHIN vERD.ER_EntIdentifier
-         RESULT = SetCursorFirstEntity( vERD, "ER_RelLinkIdentifier", "ER_EntIdentifier" );
-         while ( RESULT > zCURSOR_UNCHANGED )
-         { 
-            //:vDTE.TE_TablRecKey.Category = "3"
-            SetAttributeFromString( vDTE, "TE_TablRecKey", "Category", "3" );
-            //:SyncTablRecKeyRecurs( vDTE, vDTE_Recurs, vERD )
-            oTZTENVRO_SyncTablRecKeyRecurs( vDTE, vDTE_Recurs, vERD );
-            RESULT = SetCursorNextEntity( vERD, "ER_RelLinkIdentifier", "ER_EntIdentifier" );
-         } 
-
-         //:END
-         //:DropView( vDTE_Recurs )
-         DropView( vDTE_Recurs );
       } 
 
-      RESULT = SetCursorNextEntity( vERD, "ER_EntIdentifier", "EntpER_Model" );
       //:END
+
+      //:DropView( vTZTENVRO_Copy )
+      DropView( vTZTENVRO_Copy );
    } 
+
+
+   //:END
+   return( 0 );
+// END
+} 
+
+
+//:TRANSFORMATION OPERATION
+//:MoveFieldInSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
+//:   VIEW    vTZTENVRO_Copy BASED ON LOD TZTENVRO
+zOPER_EXPORT zSHORT OPERATION
+oTZTENVRO_MoveFieldInSequence( zVIEW     vTZTENVRO )
+{
+   zVIEW     vTZTENVRO_Copy = 0; 
+   //:INTEGER lSequenceNo
+   zLONG     lSequenceNo = 0; 
+   //:INTEGER lOldSequenceNo
+   zLONG     lOldSequenceNo = 0; 
+   //:INTEGER lNewSequenceNo
+   zLONG     lNewSequenceNo = 0; 
+   zSHORT    RESULT; 
+
+
+   //:lOldSequenceNo = vTZTENVRO.TE_TablRec.wkSelectedFieldForDragSort
+   GetIntegerFromAttribute( &lOldSequenceNo, vTZTENVRO, "TE_TablRec", "wkSelectedFieldForDragSort" );
+
+   //:IF lOldSequenceNo > 0
+   if ( lOldSequenceNo > 0 )
+   { 
+
+      //:CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
+      CreateViewFromViewForTask( &vTZTENVRO_Copy, vTZTENVRO, 0 );
+
+      //:// set cursor on previous field and get the sequence number
+      //:SET CURSOR PREVIOUS vTZTENVRO_Copy.TE_FieldDataRel
+      RESULT = SetCursorPrevEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
+      //:IF RESULT = zCURSOR_SET
+      if ( RESULT == zCURSOR_SET )
+      { 
+         //:lNewSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+         GetIntegerFromAttribute( &lNewSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
+         //:IF lNewSequenceNo <= lOldSequenceNo
+         if ( lNewSequenceNo <= lOldSequenceNo )
+         { 
+            //:lNewSequenceNo = lNewSequenceNo + 1
+            lNewSequenceNo = lNewSequenceNo + 1;
+         } 
+
+         //:END
+         //:ELSE
+      } 
+      else
+      { 
+         //:lNewSequenceNo = 1
+         lNewSequenceNo = 1;
+      } 
+
+      //:END
+
+      //:// set new sequence number for the field with greater number
+      //:FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
+      RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //:IF lNewSequenceNo < lOldSequenceNo
+         //:   AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence >= lNewSequenceNo
+         //:   AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence <= lOldSequenceNo
+         if ( lNewSequenceNo < lOldSequenceNo && CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lNewSequenceNo ) >= 0 && CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lOldSequenceNo ) <= 0 )
+         { 
+            //:lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+            GetIntegerFromAttribute( &lSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
+            //:lSequenceNo = lSequenceNo + 1
+            lSequenceNo = lSequenceNo + 1;
+            //:vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lSequenceNo
+            SetAttributeFromInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lSequenceNo );
+            //:ELSE
+         } 
+         else
+         { 
+            //:IF lNewSequenceNo > lOldSequenceNo
+            //:   AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence >= lOldSequenceNo
+            //:   AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence <= lNewSequenceNo
+            if ( lNewSequenceNo > lOldSequenceNo && CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lOldSequenceNo ) >= 0 && CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lNewSequenceNo ) <= 0 )
+            { 
+               //:lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+               GetIntegerFromAttribute( &lSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
+               //:lSequenceNo = lSequenceNo - 1
+               lSequenceNo = lSequenceNo - 1;
+               //:vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lSequenceNo
+               SetAttributeFromInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lSequenceNo );
+            } 
+
+            //:END
+         } 
+
+         RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
+         //:END
+      } 
+
+      //:END
+
+      //:// set sequence number for new field
+      //:vTZTENVRO.TE_FieldDataRel.wkSequence = lNewSequenceNo
+      SetAttributeFromInteger( vTZTENVRO, "TE_FieldDataRel", "wkSequence", lNewSequenceNo );
+
+      //:DropView( vTZTENVRO_Copy )
+      DropView( vTZTENVRO_Copy );
+   } 
+
+
+   //:END
+   return( 0 );
+// END
+} 
+
+
+//:TRANSFORMATION OPERATION
+//:NewFieldSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
+//:   VIEW    vTZTENVRO_Copy BASED ON LOD TZTENVRO
+zOPER_EXPORT zSHORT OPERATION
+oTZTENVRO_NewFieldSequence( zVIEW     vTZTENVRO )
+{
+   zVIEW     vTZTENVRO_Copy = 0; 
+   //:INTEGER lSequenceNo
+   zLONG     lSequenceNo = 0; 
+   //:INTEGER lNewSequenceNo
+   zLONG     lNewSequenceNo = 0; 
+   zSHORT    RESULT; 
+
+
+   //:IF vTZTENVRO.TE_FieldDataRel.wkSequence = ""
+   if ( CompareAttributeToString( vTZTENVRO, "TE_FieldDataRel", "wkSequence", "" ) == 0 )
+   { 
+
+      //:CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
+      CreateViewFromViewForTask( &vTZTENVRO_Copy, vTZTENVRO, 0 );
+
+      //:// set cursor on previous field and get the sequence number
+      //:SET CURSOR PREVIOUS vTZTENVRO_Copy.TE_FieldDataRel
+      RESULT = SetCursorPrevEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
+      //:IF RESULT = zCURSOR_SET
+      if ( RESULT == zCURSOR_SET )
+      { 
+         //:lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+         GetIntegerFromAttribute( &lSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
+         //:lSequenceNo = lSequenceNo + 1
+         lSequenceNo = lSequenceNo + 1;
+         //:ELSE
+      } 
+      else
+      { 
+         //:lSequenceNo = 1
+         lSequenceNo = 1;
+      } 
+
+      //:END
+
+      //:// set new sequence number for the field with greater number
+      //:FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
+      RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //: IF vTZTENVRO_Copy.TE_FieldDataRel.wkSequence >= lSequenceNo
+         if ( CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lSequenceNo ) >= 0 )
+         { 
+            //: lNewSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
+            GetIntegerFromAttribute( &lNewSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
+            //: lNewSequenceNo = lNewSequenceNo + 1
+            lNewSequenceNo = lNewSequenceNo + 1;
+            //: vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lNewSequenceNo
+            SetAttributeFromInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lNewSequenceNo );
+         } 
+
+         RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
+         //:END
+      } 
+
+      //:END
+
+      //:// set sequence number for new attribute
+      //:vTZTENVRO.TE_FieldDataRel.wkSequence  = lSequenceNo
+      SetAttributeFromInteger( vTZTENVRO, "TE_FieldDataRel", "wkSequence", lSequenceNo );
+
+      //:DropView( vTZTENVRO_Copy )
+      DropView( vTZTENVRO_Copy );
+   } 
+
 
    //:END
    return( 0 );
@@ -158,6 +399,18 @@ oTZTENVRO_RebuildDBMS_Tables( zVIEW     vDTE,
    zLONG     lTempInteger_2; 
 
 
+   //:// Make sure that the DTE has a DBH_Data value for the current source. If it doesn't, it will create an error
+   //:// later during the BuildSQL_RelsFromEMD operation call below. This is also done in the operation, MergeLODsToER, which
+   //:// calls this operation. However this operation is also called from zwTZEREMDD_RebuildMergeTE, which needs this function.
+   //:IF vDTE.TE_DBMS_Source.DBH_Data = ""
+   if ( CompareAttributeToString( vDTE, "TE_DBMS_Source", "DBH_Data", "" ) == 0 )
+   { 
+      //:nRC = InitializeDBH_Data( vDTE )
+      nRC = oTZTENVRO_InitializeDBH_Data( vDTE );
+   } 
+
+   //:END
+
    //:// Drop Error List View (This probably isn't necessary when called from LPLR ERD Merge.
    //://zwTZTEUPDD_ClearErrorWindow( vSubtask )
 
@@ -167,6 +420,8 @@ oTZTENVRO_RebuildDBMS_Tables( zVIEW     vDTE,
    //:SetCursorFirstEntityByAttr( vDTE_Old, "TE_DBMS_Source", "ZKey",
    //:                            vDTE,     "TE_DBMS_Source", "ZKey", 0 )
    SetCursorFirstEntityByAttr( vDTE_Old, "TE_DBMS_Source", "ZKey", vDTE, "TE_DBMS_Source", "ZKey", 0 );
+   //:NAME VIEW vDTE_Old "vDTE_Old"
+   SetNameForView( vDTE_Old, "vDTE_Old", 0, zLEVEL_TASK );
 
    //://CreateViewFromViewForTask( vDTE_OldTemp, vDTE_Old, 0 )
    //://CreateViewFromViewForTask( vDTE_NewTemp, vDTE, 0 )
@@ -186,9 +441,13 @@ oTZTENVRO_RebuildDBMS_Tables( zVIEW     vDTE,
    //:// Rebuild the entities
    //:nRC = oTZTENVRO_BuildTablRecsFromEMD( vSubtask, vDTE, vEMD, szStartingEntityName )
    nRC = oTZTENVRO_BuildTablRecsFromEMD( vSubtask, vDTE, vEMD, szStartingEntityName );
-   //:IF RESULT < 0
-   if ( RESULT < 0 )
+   //:IF nRC < 0
+   if ( nRC < 0 )
    { 
+      //:TraceLineI( "*** BuildTablRecsFromEMD RC: ", nRC )
+      TraceLineI( "*** BuildTablRecsFromEMD RC: ", nRC );
+      //:IssueError( vSubtask,0,0, "Error on BuildTablRecsFromEMD exec" )
+      IssueError( vSubtask, 0, 0, "Error on BuildTablRecsFromEMD exec" );
       //:DropView( vDTE_Old )
       DropView( vDTE_Old );
       //://DropView( vDTE_OldTemp )
@@ -200,8 +459,8 @@ oTZTENVRO_RebuildDBMS_Tables( zVIEW     vDTE,
    //:END
 
    //:// Rebuild the relationships.
-   //:oTZTENVRO_BuildRelationsFromEMD( vSubtask, vDTE, vEMD )
-   oTZTENVRO_BuildRelationsFromEMD( vSubtask, vDTE, vEMD );
+   //:oTZTENVRO_BuildSQL_RelsFromEMD( vSubtask, vDTE, vEMD ) 
+   oTZTENVRO_BuildSQL_RelsFromEMD( vSubtask, vDTE, vEMD );
 
    //:// Copy over some of the specific physical information that might have been specified manually in the existing entry.
    //:// This logic was taken as a conversion to VML of the code in operation TZTEUPDD.fnRebuildTables.
@@ -258,22 +517,6 @@ oTZTENVRO_RebuildDBMS_Tables( zVIEW     vDTE,
       RESULT = SetCursorNextEntity( vDTE_Old, "TE_TablRec", "" );
       //:END
    } 
-
-   //:      
-   //:   // Copy over physical specifications for TE_TablRec entries that are tied to an ER_Attribute.
-   //:   // DonC comment on 10/17/2022: I am not going to do this because I don't think it will be used in merging LPLR's and the logic in the
-   //:   // TZTEUPDD.fnRebuildTables code and TZTEUPDD.fnFindER_ZKeyForPhysicalKey code are too confusing. In fact it's not clear if the
-   //:   // fnFindER_ZKeyForPhysicalKey code even works correctly.
-   //:   /*FOR EACH vDTE_NewTemp.TE_FieldDataRel 
-   //:      IF vDTE_Old.ER_Attribute EXISTS
-   //:         SET CURSOR FIRST vDTE.ER_Attribute WITHIN vDTE TE_TablRec 
-   //:                    WHERE vDTE.ER_Attribute.ZKey = vDTE_Old.ER_Attribute.ZKey 
-   //:         IF RESULT >= zCURSOR_SET AND vDTE_Old.TE_TablRec.KeepPhysicalCharacteristicsFlag = "Y"
-   //:            
-   //:            
-   //:         END
-   //:      END
-   //:   END*/
 
 
    //:END
@@ -400,6 +643,358 @@ oTZTENVRO_SetCursorNewRelType( zVIEW     OldERD,
 
    //:RETURN 0
    return( 0 );
+// END
+} 
+
+
+//:TRANSFORMATION OPERATION
+//:SetFieldDataRelKeyFlag( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
+
+//:   VIEW vTZTENVRO1 BASED ON LOD TZTENVRO
+zOPER_EXPORT zSHORT OPERATION
+oTZTENVRO_SetFieldDataRelKeyFlag( zVIEW     vTZTENVRO )
+{
+   zVIEW     vTZTENVRO1 = 0; 
+   zSHORT    RESULT; 
+   zLONG     lTempInteger_0; 
+
+
+   //:CreateViewFromViewForTask( vTZTENVRO1, vTZTENVRO, 0 )
+   CreateViewFromViewForTask( &vTZTENVRO1, vTZTENVRO, 0 );
+
+   //:FOR EACH vTZTENVRO1.TE_FieldDataRel
+   RESULT = SetCursorFirstEntity( vTZTENVRO1, "TE_FieldDataRel", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+
+      //: SET CURSOR FIRST vTZTENVRO1.TE_FieldDataRelKey WITHIN vTZTENVRO1.TE_TablRec
+      //:     WHERE vTZTENVRO1.TE_FieldDataRelKey.ZKey = vTZTENVRO1.TE_FieldDataRel.ZKey
+      GetIntegerFromAttribute( &lTempInteger_0, vTZTENVRO1, "TE_FieldDataRel", "ZKey" );
+      RESULT = SetCursorFirstEntityByInteger( vTZTENVRO1, "TE_FieldDataRelKey", "ZKey", lTempInteger_0, "TE_TablRec" );
+
+      //: IF RESULT >= zCURSOR_SET
+      if ( RESULT >= zCURSOR_SET )
+      { 
+         //: vTZTENVRO1.TE_FieldDataRel.Key = "Y"
+         SetAttributeFromString( vTZTENVRO1, "TE_FieldDataRel", "Key", "Y" );
+         //:ELSE
+      } 
+      else
+      { 
+         //: // If FieldType = Attribute (D), set Key=No, else empty
+         //: IF vTZTENVRO1.TE_FieldDataRel.DataOrRelfieldOrSet = "D"
+         if ( CompareAttributeToString( vTZTENVRO1, "TE_FieldDataRel", "DataOrRelfieldOrSet", "D" ) == 0 )
+         { 
+            //: vTZTENVRO1.TE_FieldDataRel.Key = "N"
+            SetAttributeFromString( vTZTENVRO1, "TE_FieldDataRel", "Key", "N" );
+            //:ELSE
+         } 
+         else
+         { 
+            //: vTZTENVRO1.TE_FieldDataRel.Key = ""
+            SetAttributeFromString( vTZTENVRO1, "TE_FieldDataRel", "Key", "" );
+         } 
+
+         //: END
+      } 
+
+      RESULT = SetCursorNextEntity( vTZTENVRO1, "TE_FieldDataRel", "" );
+      //: END
+   } 
+
+   //:END // ENDFOR vTZTENVRO1.TE_FieldDataRel
+
+   //:DropView( vTZTENVRO1 )
+   DropView( vTZTENVRO1 );
+   return( 0 );
+// END
+} 
+
+
+//:TRANSFORMATION OPERATION
+//:SetFieldSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
+//:  VIEW vTZTENVRO_Copy BASED ON LOD TZTENVRO
+zOPER_EXPORT zSHORT OPERATION
+oTZTENVRO_SetFieldSequence( zVIEW     vTZTENVRO )
+{
+   zVIEW     vTZTENVRO_Copy = 0; 
+   //:INTEGER lSequence
+   zLONG     lSequence = 0; 
+   zSHORT    RESULT; 
+
+
+   //:CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
+   CreateViewFromViewForTask( &vTZTENVRO_Copy, vTZTENVRO, 0 );
+
+   //:FOR EACH vTZTENVRO_Copy.TE_DBMS_Source
+   RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_DBMS_Source", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:FOR EACH vTZTENVRO_Copy.TE_TablRec
+      RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_TablRec", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //: lSequence = 1
+         lSequence = 1;
+         //: FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
+         RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
+         while ( RESULT > zCURSOR_UNCHANGED )
+         { 
+            //:  vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lSequence
+            SetAttributeFromInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lSequence );
+            //:  lSequence = lSequence + 1
+            lSequence = lSequence + 1;
+            RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
+         } 
+
+         RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_TablRec", "" );
+         //: END
+      } 
+
+      RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_DBMS_Source", "" );
+      //:END
+   } 
+
+   //:END
+
+   //:DropView( vTZTENVRO_Copy )
+   DropView( vTZTENVRO_Copy );
+   return( 0 );
+// END
+} 
+
+
+//:TRANSFORMATION OPERATION
+//:SortFields( VIEW vTZTENVRO BASED ON LOD TZTENVRO, VIEW vSubtask )
+//:   VIEW vWindow
+zOPER_EXPORT zSHORT OPERATION
+oTZTENVRO_SortFields( zVIEW     vTZTENVRO,
+                      zVIEW     vSubtask )
+{
+   zVIEW     vWindow = 0; 
+   //:VIEW vTZTENVRO_Copy BASED ON LOD TZTENVRO
+   zVIEW     vTZTENVRO_Copy = 0; 
+   zSHORT    RESULT; 
+   zSHORT    lTempInteger_0; 
+
+
+   //:CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
+   CreateViewFromViewForTask( &vTZTENVRO_Copy, vTZTENVRO, 0 );
+   //:FOR EACH vTZTENVRO_Copy.TE_DBMS_Source
+   RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_DBMS_Source", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //: FOR EACH vTZTENVRO_Copy.TE_TablRec
+      RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_TablRec", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //:  IF vTZTENVRO.TE_FieldDataRel EXISTS AND vTZTENVRO.TE_FieldDataRel.wkSequence > 0
+         lTempInteger_0 = CheckExistenceOfEntity( vTZTENVRO, "TE_FieldDataRel" );
+         if ( lTempInteger_0 == 0 && CompareAttributeToInteger( vTZTENVRO, "TE_FieldDataRel", "wkSequence", 0 ) > 0 )
+         { 
+            //:  OrderEntityForView( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence A" )
+            OrderEntityForView( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence A" );
+         } 
+
+         RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_TablRec", "" );
+         //:  END
+      } 
+
+      RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_DBMS_Source", "" );
+      //: END
+   } 
+
+   //:END
+   //:DropView( vTZTENVRO_Copy )
+   DropView( vTZTENVRO_Copy );
+
+   //:GetSubtaskForWindowName( vSubtask, vWindow, "TableRecord" )
+   GetSubtaskForWindowName( vSubtask, &vWindow, "TableRecord" );
+   //:IF vWindow > 0
+   if ( vWindow > 0 )
+   { 
+      //:RefreshCtrl( vWindow, "lbColumnList" )
+      RefreshCtrl( vWindow, "lbColumnList" );
+   } 
+
+   //:END
+   return( 0 );
+// END
+} 
+
+
+//:TRANSFORMATION OPERATION
+//:SyncTablRecKey( VIEW vDTE BASED ON LOD TZTENVRO,
+//:                VIEW vERD BASED ON LOD TZEREMDO,
+//:                VIEW vSubtask )
+
+//:   VIEW        vDTE_Recurs BASED ON LOD TZTENVRO
+zOPER_EXPORT zSHORT OPERATION
+oTZTENVRO_SyncTablRecKey( zVIEW     vDTE,
+                          zVIEW     vERD,
+                          zVIEW     vSubtask )
+{
+   zVIEW     vDTE_Recurs = 0; 
+   //:STRING (32) szIdentifierName
+   zCHAR     szIdentifierName[ 33 ] = { 0 }; 
+   zSHORT    RESULT; 
+   zLONG     lTempInteger_0; 
+   zLONG     lTempInteger_1; 
+   zLONG     lTempInteger_2; 
+
+
+   //:// Create key entries from identifiers, for those identifiers that are not
+   //:// already associated with key entries.  This must follow a recursive
+   //:// path, if there is a chain of identifiers that are defined using relationships.
+   //:// Note that we are processing only the first ER_EntIdentifier, assuming there is only
+   //:// one per entity.
+
+   //:FOR EACH vERD.ER_EntIdentifier WITHIN vERD.EntpER_Model
+   RESULT = SetCursorFirstEntity( vERD, "ER_EntIdentifier", "EntpER_Model" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:SET CURSOR FIRST vDTE.ER_EntIdentifier WITHIN vDTE.TE_DB_Environ WHERE
+      //:                 vDTE.ER_EntIdentifier.ZKey = vERD.ER_EntIdentifier.ZKey
+      GetIntegerFromAttribute( &lTempInteger_0, vERD, "ER_EntIdentifier", "ZKey" );
+      RESULT = SetCursorFirstEntityByInteger( vDTE, "ER_EntIdentifier", "ZKey", lTempInteger_0, "TE_DB_Environ" );
+      //:IF RESULT < zCURSOR_SET
+      if ( RESULT < zCURSOR_SET )
+      { 
+         //:// The identifier has not yet been created in the TE.
+         //:// Position on the correct entity
+         //:SET CURSOR FIRST vDTE.ER_Entity WITHIN vDTE.TE_DB_Environ  WHERE
+         //:                 vDTE.ER_Entity.ZKey = vERD.ER_Entity.ZKey
+         GetIntegerFromAttribute( &lTempInteger_1, vERD, "ER_Entity", "ZKey" );
+         RESULT = SetCursorFirstEntityByInteger( vDTE, "ER_Entity", "ZKey", lTempInteger_1, "TE_DB_Environ" );
+         //:CreateMetaEntity( vSubtask, vDTE, "TE_TablRecKey", zPOS_AFTER )
+         CreateMetaEntity( vSubtask, vDTE, "TE_TablRecKey", zPOS_AFTER );
+         //:szIdentifierName = vERD.ER_EntIdentifier.Name
+         GetVariableFromAttribute( szIdentifierName, 0, 'S', 33, vERD, "ER_EntIdentifier", "Name", "", 0 );
+         //:TranslateStringToUpperCase( szIdentifierName )
+         TranslateStringToUpperCase( szIdentifierName );
+         //:vDTE.TE_TablRecKey.Name =       szIdentifierName
+         SetAttributeFromString( vDTE, "TE_TablRecKey", "Name", szIdentifierName );
+         //:// The Category first equals 2 (Attributes Only), assuming that the key is not for relationships.
+         //:// Later, we will change it to 3 (Attributes & Relationships), if necessary.
+         //:vDTE.TE_TablRecKey.Category = "2"
+         SetAttributeFromString( vDTE, "TE_TablRecKey", "Category", "2" );
+         //:INCLUDE vDTE.ER_EntIdentifier FROM vERD.ER_EntIdentifier
+         RESULT = IncludeSubobjectFromSubobject( vDTE, "ER_EntIdentifier", vERD, "ER_EntIdentifier", zPOS_AFTER );
+         //:// Include each field that is a part of the key
+         //:FOR EACH vERD.ER_AttributeIdentifier WITHIN vERD.ER_EntIdentifier
+         RESULT = SetCursorFirstEntity( vERD, "ER_AttributeIdentifier", "ER_EntIdentifier" );
+         while ( RESULT > zCURSOR_UNCHANGED )
+         { 
+            //:SET CURSOR FIRST vDTE.ER_Attribute WITHIN vDTE.TE_TablRec WHERE
+            //:                 vDTE.ER_Attribute.ZKey = vERD.ER_AttributeIdentifier.ZKey
+            GetIntegerFromAttribute( &lTempInteger_2, vERD, "ER_AttributeIdentifier", "ZKey" );
+            RESULT = SetCursorFirstEntityByInteger( vDTE, "ER_Attribute", "ZKey", lTempInteger_2, "TE_TablRec" );
+            //:vDTE.TE_FieldDataRel.Key = "Y"
+            SetAttributeFromString( vDTE, "TE_FieldDataRel", "Key", "Y" );
+            //:INCLUDE vDTE.TE_FieldDataRelKey FROM vDTE.TE_FieldDataRel
+            RESULT = IncludeSubobjectFromSubobject( vDTE, "TE_FieldDataRelKey", vDTE, "TE_FieldDataRel", zPOS_AFTER );
+            RESULT = SetCursorNextEntity( vERD, "ER_AttributeIdentifier", "ER_EntIdentifier" );
+         } 
+
+         //:END
+         //:// Now follow any relationship paths to get what will be imbedded keys.
+         //:CreateViewFromViewForTask( vDTE_Recurs, vDTE, 0 )
+         CreateViewFromViewForTask( &vDTE_Recurs, vDTE, 0 );
+         //:FOR EACH vERD.ER_RelLinkIdentifier WITHIN vERD.ER_EntIdentifier
+         RESULT = SetCursorFirstEntity( vERD, "ER_RelLinkIdentifier", "ER_EntIdentifier" );
+         while ( RESULT > zCURSOR_UNCHANGED )
+         { 
+            //:vDTE.TE_TablRecKey.Category = "3"
+            SetAttributeFromString( vDTE, "TE_TablRecKey", "Category", "3" );
+            //:SyncTablRecKeyRecurs( vDTE, vDTE_Recurs, vERD )
+            oTZTENVRO_SyncTablRecKeyRecurs( vDTE, vDTE_Recurs, vERD );
+            RESULT = SetCursorNextEntity( vERD, "ER_RelLinkIdentifier", "ER_EntIdentifier" );
+         } 
+
+         //:END
+         //:DropView( vDTE_Recurs )
+         DropView( vDTE_Recurs );
+      } 
+
+      RESULT = SetCursorNextEntity( vERD, "ER_EntIdentifier", "EntpER_Model" );
+      //:END
+   } 
+
+   //:END
+   return( 0 );
+// END
+} 
+
+
+//:TRANSFORMATION OPERATION
+//:SyncTablRecKeyRecurs( VIEW vDTE        BASED ON LOD TZTENVRO,
+//:                      VIEW vDTE_Recurs BASED ON LOD TZTENVRO,
+//:                      VIEW vERD        BASED ON LOD TZEREMDO )
+
+//:   VIEW vDTE_Recurs2 BASED ON LOD TZTENVRO
+static zVOID
+oTZTENVRO_SyncTablRecKeyRecurs( zVIEW     vDTE,
+                                zVIEW     vDTE_Recurs,
+                                zVIEW     vERD )
+{
+   zVIEW     vDTE_Recurs2 = 0; 
+   //:VIEW vERD2       BASED ON LOD TZEREMDO
+   zVIEW     vERD2 = 0; 
+   zSHORT    RESULT; 
+   zLONG     lTempInteger_0; 
+   zLONG     lTempInteger_1; 
+
+
+   //:// This routine creates TE_FieldDataRelKey entries for each relationship defined in
+   //:// an identifier.
+   //:// Position on the source of the relationship and use its keys.
+
+   //:// Create new vDTE and vERD views, so we don't alter the caller's vDTE_Recurs and vERD.
+   //:CreateViewFromViewForTask( vERD2, vERD, 0 )
+   CreateViewFromViewForTask( &vERD2, vERD, 0 );
+   //:CreateViewFromViewForTask( vDTE_Recurs2, vDTE_Recurs, 0 )
+   CreateViewFromViewForTask( &vDTE_Recurs2, vDTE_Recurs, 0 );
+
+   //:SET CURSOR FIRST vERD2.ER_Entity WHERE
+   //:                 vERD2.ER_Entity.ZKey = vERD.ER_Entity_Other_Identifier.ZKey
+   GetIntegerFromAttribute( &lTempInteger_0, vERD, "ER_Entity_Other_Identifier", "ZKey" );
+   RESULT = SetCursorFirstEntityByInteger( vERD2, "ER_Entity", "ZKey", lTempInteger_0, "" );
+
+   //:// Include each field that is a part of the key
+   //:FOR EACH vERD2.ER_AttributeIdentifier WITHIN vERD2.ER_EntIdentifier
+   RESULT = SetCursorFirstEntity( vERD2, "ER_AttributeIdentifier", "ER_EntIdentifier" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:SET CURSOR FIRST vDTE_Recurs2.ER_Attribute WITHIN vDTE_Recurs2.TE_DB_Environ WHERE
+      //:                 vDTE_Recurs2.ER_Attribute.ZKey = vERD2.ER_AttributeIdentifier.ZKey
+      GetIntegerFromAttribute( &lTempInteger_1, vERD2, "ER_AttributeIdentifier", "ZKey" );
+      RESULT = SetCursorFirstEntityByInteger( vDTE_Recurs2, "ER_Attribute", "ZKey", lTempInteger_1, "TE_DB_Environ" );
+      //:vDTE_Recurs2.TE_FieldDataRel.Key = "Y"
+      SetAttributeFromString( vDTE_Recurs2, "TE_FieldDataRel", "Key", "Y" );
+      //:INCLUDE vDTE.TE_FieldDataRelKey FROM vDTE_Recurs2.TE_FieldDataRel
+      RESULT = IncludeSubobjectFromSubobject( vDTE, "TE_FieldDataRelKey", vDTE_Recurs2, "TE_FieldDataRel", zPOS_AFTER );
+      RESULT = SetCursorNextEntity( vERD2, "ER_AttributeIdentifier", "ER_EntIdentifier" );
+   } 
+
+   //:END
+
+   //:// Now follow any relationship paths to get what will be foreign keys.
+   //:FOR EACH vERD2.ER_RelLinkIdentifier WITHIN vERD2.ER_EntIdentifier
+   RESULT = SetCursorFirstEntity( vERD2, "ER_RelLinkIdentifier", "ER_EntIdentifier" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:SyncTablRecKeyRecurs( vDTE, vDTE_Recurs2, vERD2 )
+      oTZTENVRO_SyncTablRecKeyRecurs( vDTE, vDTE_Recurs2, vERD2 );
+      RESULT = SetCursorNextEntity( vERD2, "ER_RelLinkIdentifier", "ER_EntIdentifier" );
+   } 
+
+   //:END
+
+   //:DropView( vDTE_Recurs2 )
+   DropView( vDTE_Recurs2 );
+   //:DropView( vERD2 )
+   DropView( vERD2 );
+   return;
 // END
 } 
 
@@ -1126,6 +1721,120 @@ oTZTENVRO_TE_Migrate( zPVIEW    NewTE,
 } 
 
 
+//:LOCAL OPERATION
+//:TE_MigrateOrgSironSubF( VIEW vSubtask,
+//:                        VIEW NewTE BASED ON LOD TZTENVRO,
+//:                        VIEW OldTE BASED ON LOD TZTENVRO,
+//:                        VIEW NewWorkTE BASED ON LOD TZTENVRO,
+//:                        VIEW OldWorkTE BASED ON LOD TZTENVRO )
+//:   SHORT nRC
+static zSHORT
+oTZTENVRO_TE_MigrateOrgSironSubF( zVIEW     vSubtask,
+                                  zVIEW     NewTE,
+                                  zVIEW     OldTE,
+                                  zVIEW     NewWorkTE,
+                                  zVIEW     OldWorkTE )
+{
+   zSHORT    nRC = 0; 
+   zSHORT    RESULT; 
+   zCHAR     szTempString_0[ 255 ]; 
+
+
+   //:SetViewToSubobject( OldTE, "OrigSironSubField" )
+   SetViewToSubobject( OldTE, "OrigSironSubField" );
+   //:SetViewToSubobject( NewTE, "OrigSironSubField" )
+   SetViewToSubobject( NewTE, "OrigSironSubField" );
+
+   //:// Duplicate OrigSironField and substructure.
+   //:CreateMetaEntity( vSubtask, NewTE, "OrigSironField", zPOS_AFTER )
+   CreateMetaEntity( vSubtask, NewTE, "OrigSironField", zPOS_AFTER );
+   //:SetMatchingAttributesByName( NewTE, "OrigSironField",
+   //:                             OldTE, "OrigSironField", zSET_NULL )
+   SetMatchingAttributesByName( NewTE, "OrigSironField", OldTE, "OrigSironField", zSET_NULL );
+   //:FOR EACH OldTE.FieldComment
+   RESULT = SetCursorFirstEntity( OldTE, "FieldComment", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //: CreateMetaEntity( vSubtask, NewTE, "FieldComment", zPOS_AFTER )
+      CreateMetaEntity( vSubtask, NewTE, "FieldComment", zPOS_AFTER );
+      //: SetMatchingAttributesByName( NewTE, "FieldComment",
+      //:                              OldTE, "FieldComment", zSET_NULL )
+      SetMatchingAttributesByName( NewTE, "FieldComment", OldTE, "FieldComment", zSET_NULL );
+      RESULT = SetCursorNextEntity( OldTE, "FieldComment", "" );
+   } 
+
+   //:END
+
+   //:nRC = SetCursorFirstEntityByEntityCsr( OldWorkTE,
+   //:                                       "SironField",
+   //:                                       OldTE,
+   //:                                       "OrigSironField",
+   //:                                       "TE_DBMS_Source" )
+   nRC = SetCursorFirstEntityByEntityCsr( OldWorkTE, "SironField", OldTE, "OrigSironField", "TE_DBMS_Source" );
+
+   //:IF nRC >= zCURSOR_SET
+   if ( nRC >= zCURSOR_SET )
+   { 
+      //:// Include the SironField under the correct FieldDataRel
+      //:SET CURSOR FIRST NewWorkTE.TE_TablRec WHERE
+      //:        NewWorkTE.TE_TablRec.Name = OldWorkTE.TE_TablRec.Name
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldWorkTE, "TE_TablRec", "Name" );
+      RESULT = SetCursorFirstEntityByString( NewWorkTE, "TE_TablRec", "Name", szTempString_0, "" );
+      //:SET CURSOR FIRST NewWorkTE.TE_FieldDataRel WHERE
+      //:        NewWorkTE.TE_FieldDataRel.Name = OldWorkTE.TE_FieldDataRel.Name
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldWorkTE, "TE_FieldDataRel", "Name" );
+      RESULT = SetCursorFirstEntityByString( NewWorkTE, "TE_FieldDataRel", "Name", szTempString_0, "" );
+
+      //:INCLUDE NewWorkTE.SironField FROM NewTE.OrigSironField
+      RESULT = IncludeSubobjectFromSubobject( NewWorkTE, "SironField", NewTE, "OrigSironField", zPOS_AFTER );
+      //:ELSE
+   } 
+   else
+   { 
+      //:// Include the SironGroup under the correct TablRec
+      //:nRC = SetCursorFirstEntityByEntityCsr( OldWorkTE,
+      //:                                       "SironGroup",
+      //:                                       OldTE,
+      //:                                       "OrigSironField",
+      //:                                       "TE_DBMS_Source" )
+      nRC = SetCursorFirstEntityByEntityCsr( OldWorkTE, "SironGroup", OldTE, "OrigSironField", "TE_DBMS_Source" );
+      //:IF nRC >= zCURSOR_SET
+      if ( nRC >= zCURSOR_SET )
+      { 
+         //:SET CURSOR FIRST NewWorkTE.TE_TablRec WHERE
+         //:        NewWorkTE.TE_TablRec.Name = OldWorkTE.TE_TablRec.Name
+         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldWorkTE, "TE_TablRec", "Name" );
+         RESULT = SetCursorFirstEntityByString( NewWorkTE, "TE_TablRec", "Name", szTempString_0, "" );
+
+         //:INCLUDE NewWorkTE.SironGroup FROM NewTE.OrigSironField
+         RESULT = IncludeSubobjectFromSubobject( NewWorkTE, "SironGroup", NewTE, "OrigSironField", zPOS_AFTER );
+      } 
+
+      //:END
+   } 
+
+   //:END
+
+   //:FOR EACH OldTE.OrigSironSubField
+   RESULT = SetCursorFirstEntity( OldTE, "OrigSironSubField", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:TE_MigrateOrgSironSubF( vSubtask, NewTE, OldTE, NewWorkTE, OldWorkTE )
+      oTZTENVRO_TE_MigrateOrgSironSubF( vSubtask, NewTE, OldTE, NewWorkTE, OldWorkTE );
+      RESULT = SetCursorNextEntity( OldTE, "OrigSironSubField", "" );
+   } 
+
+   //:END
+
+   //:ResetViewFromSubobject( NewTE )
+   ResetViewFromSubobject( NewTE );
+   //:ResetViewFromSubobject( OldTE )
+   ResetViewFromSubobject( OldTE );
+   return( 0 );
+// END
+} 
+
+
 //:TRANSFORMATION OPERATION
 //:TE_RelinkDelete( VIEW vTE  BASED ON LOD TZTENVRO, VIEW vSubtask )
 
@@ -1516,669 +2225,6 @@ oTZTENVRO_TE_RelinkDelete( zVIEW     vTE,
 
    //:RETURN( nDeleteFlag )
    return( ( nDeleteFlag ) );
-// END
-} 
-
-
-//:LOCAL OPERATION
-//:TE_MigrateOrgSironSubF( VIEW vSubtask,
-//:                        VIEW NewTE BASED ON LOD TZTENVRO,
-//:                        VIEW OldTE BASED ON LOD TZTENVRO,
-//:                        VIEW NewWorkTE BASED ON LOD TZTENVRO,
-//:                        VIEW OldWorkTE BASED ON LOD TZTENVRO )
-//:   SHORT nRC
-static zSHORT
-oTZTENVRO_TE_MigrateOrgSironSubF( zVIEW     vSubtask,
-                                  zVIEW     NewTE,
-                                  zVIEW     OldTE,
-                                  zVIEW     NewWorkTE,
-                                  zVIEW     OldWorkTE )
-{
-   zSHORT    nRC = 0; 
-   zSHORT    RESULT; 
-   zCHAR     szTempString_0[ 255 ]; 
-
-
-   //:SetViewToSubobject( OldTE, "OrigSironSubField" )
-   SetViewToSubobject( OldTE, "OrigSironSubField" );
-   //:SetViewToSubobject( NewTE, "OrigSironSubField" )
-   SetViewToSubobject( NewTE, "OrigSironSubField" );
-
-   //:// Duplicate OrigSironField and substructure.
-   //:CreateMetaEntity( vSubtask, NewTE, "OrigSironField", zPOS_AFTER )
-   CreateMetaEntity( vSubtask, NewTE, "OrigSironField", zPOS_AFTER );
-   //:SetMatchingAttributesByName( NewTE, "OrigSironField",
-   //:                             OldTE, "OrigSironField", zSET_NULL )
-   SetMatchingAttributesByName( NewTE, "OrigSironField", OldTE, "OrigSironField", zSET_NULL );
-   //:FOR EACH OldTE.FieldComment
-   RESULT = SetCursorFirstEntity( OldTE, "FieldComment", "" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //: CreateMetaEntity( vSubtask, NewTE, "FieldComment", zPOS_AFTER )
-      CreateMetaEntity( vSubtask, NewTE, "FieldComment", zPOS_AFTER );
-      //: SetMatchingAttributesByName( NewTE, "FieldComment",
-      //:                              OldTE, "FieldComment", zSET_NULL )
-      SetMatchingAttributesByName( NewTE, "FieldComment", OldTE, "FieldComment", zSET_NULL );
-      RESULT = SetCursorNextEntity( OldTE, "FieldComment", "" );
-   } 
-
-   //:END
-
-   //:nRC = SetCursorFirstEntityByEntityCsr( OldWorkTE,
-   //:                                       "SironField",
-   //:                                       OldTE,
-   //:                                       "OrigSironField",
-   //:                                       "TE_DBMS_Source" )
-   nRC = SetCursorFirstEntityByEntityCsr( OldWorkTE, "SironField", OldTE, "OrigSironField", "TE_DBMS_Source" );
-
-   //:IF nRC >= zCURSOR_SET
-   if ( nRC >= zCURSOR_SET )
-   { 
-      //:// Include the SironField under the correct FieldDataRel
-      //:SET CURSOR FIRST NewWorkTE.TE_TablRec WHERE
-      //:        NewWorkTE.TE_TablRec.Name = OldWorkTE.TE_TablRec.Name
-      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldWorkTE, "TE_TablRec", "Name" );
-      RESULT = SetCursorFirstEntityByString( NewWorkTE, "TE_TablRec", "Name", szTempString_0, "" );
-      //:SET CURSOR FIRST NewWorkTE.TE_FieldDataRel WHERE
-      //:        NewWorkTE.TE_FieldDataRel.Name = OldWorkTE.TE_FieldDataRel.Name
-      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldWorkTE, "TE_FieldDataRel", "Name" );
-      RESULT = SetCursorFirstEntityByString( NewWorkTE, "TE_FieldDataRel", "Name", szTempString_0, "" );
-
-      //:INCLUDE NewWorkTE.SironField FROM NewTE.OrigSironField
-      RESULT = IncludeSubobjectFromSubobject( NewWorkTE, "SironField", NewTE, "OrigSironField", zPOS_AFTER );
-      //:ELSE
-   } 
-   else
-   { 
-      //:// Include the SironGroup under the correct TablRec
-      //:nRC = SetCursorFirstEntityByEntityCsr( OldWorkTE,
-      //:                                       "SironGroup",
-      //:                                       OldTE,
-      //:                                       "OrigSironField",
-      //:                                       "TE_DBMS_Source" )
-      nRC = SetCursorFirstEntityByEntityCsr( OldWorkTE, "SironGroup", OldTE, "OrigSironField", "TE_DBMS_Source" );
-      //:IF nRC >= zCURSOR_SET
-      if ( nRC >= zCURSOR_SET )
-      { 
-         //:SET CURSOR FIRST NewWorkTE.TE_TablRec WHERE
-         //:        NewWorkTE.TE_TablRec.Name = OldWorkTE.TE_TablRec.Name
-         GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), OldWorkTE, "TE_TablRec", "Name" );
-         RESULT = SetCursorFirstEntityByString( NewWorkTE, "TE_TablRec", "Name", szTempString_0, "" );
-
-         //:INCLUDE NewWorkTE.SironGroup FROM NewTE.OrigSironField
-         RESULT = IncludeSubobjectFromSubobject( NewWorkTE, "SironGroup", NewTE, "OrigSironField", zPOS_AFTER );
-      } 
-
-      //:END
-   } 
-
-   //:END
-
-   //:FOR EACH OldTE.OrigSironSubField
-   RESULT = SetCursorFirstEntity( OldTE, "OrigSironSubField", "" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //:TE_MigrateOrgSironSubF( vSubtask, NewTE, OldTE, NewWorkTE, OldWorkTE )
-      oTZTENVRO_TE_MigrateOrgSironSubF( vSubtask, NewTE, OldTE, NewWorkTE, OldWorkTE );
-      RESULT = SetCursorNextEntity( OldTE, "OrigSironSubField", "" );
-   } 
-
-   //:END
-
-   //:ResetViewFromSubobject( NewTE )
-   ResetViewFromSubobject( NewTE );
-   //:ResetViewFromSubobject( OldTE )
-   ResetViewFromSubobject( OldTE );
-   return( 0 );
-// END
-} 
-
-
-//:TRANSFORMATION OPERATION
-//:SyncTablRecKeyRecurs( VIEW vDTE        BASED ON LOD TZTENVRO,
-//:                      VIEW vDTE_Recurs BASED ON LOD TZTENVRO,
-//:                      VIEW vERD        BASED ON LOD TZEREMDO )
-
-//:   VIEW vDTE_Recurs2 BASED ON LOD TZTENVRO
-static zVOID
-oTZTENVRO_SyncTablRecKeyRecurs( zVIEW     vDTE,
-                                zVIEW     vDTE_Recurs,
-                                zVIEW     vERD )
-{
-   zVIEW     vDTE_Recurs2 = 0; 
-   //:VIEW vERD2       BASED ON LOD TZEREMDO
-   zVIEW     vERD2 = 0; 
-   zSHORT    RESULT; 
-   zLONG     lTempInteger_0; 
-   zLONG     lTempInteger_1; 
-
-
-   //:// This routine creates TE_FieldDataRelKey entries for each relationship defined in
-   //:// an identifier.
-   //:// Position on the source of the relationship and use its keys.
-
-   //:// Create new vDTE and vERD views, so we don't alter the caller's vDTE_Recurs and vERD.
-   //:CreateViewFromViewForTask( vERD2, vERD, 0 )
-   CreateViewFromViewForTask( &vERD2, vERD, 0 );
-   //:CreateViewFromViewForTask( vDTE_Recurs2, vDTE_Recurs, 0 )
-   CreateViewFromViewForTask( &vDTE_Recurs2, vDTE_Recurs, 0 );
-
-   //:SET CURSOR FIRST vERD2.ER_Entity WHERE
-   //:                 vERD2.ER_Entity.ZKey = vERD.ER_Entity_Other_Identifier.ZKey
-   GetIntegerFromAttribute( &lTempInteger_0, vERD, "ER_Entity_Other_Identifier", "ZKey" );
-   RESULT = SetCursorFirstEntityByInteger( vERD2, "ER_Entity", "ZKey", lTempInteger_0, "" );
-
-   //:// Include each field that is a part of the key
-   //:FOR EACH vERD2.ER_AttributeIdentifier WITHIN vERD2.ER_EntIdentifier
-   RESULT = SetCursorFirstEntity( vERD2, "ER_AttributeIdentifier", "ER_EntIdentifier" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //:SET CURSOR FIRST vDTE_Recurs2.ER_Attribute WITHIN vDTE_Recurs2.TE_DB_Environ WHERE
-      //:                 vDTE_Recurs2.ER_Attribute.ZKey = vERD2.ER_AttributeIdentifier.ZKey
-      GetIntegerFromAttribute( &lTempInteger_1, vERD2, "ER_AttributeIdentifier", "ZKey" );
-      RESULT = SetCursorFirstEntityByInteger( vDTE_Recurs2, "ER_Attribute", "ZKey", lTempInteger_1, "TE_DB_Environ" );
-      //:vDTE_Recurs2.TE_FieldDataRel.Key = "Y"
-      SetAttributeFromString( vDTE_Recurs2, "TE_FieldDataRel", "Key", "Y" );
-      //:INCLUDE vDTE.TE_FieldDataRelKey FROM vDTE_Recurs2.TE_FieldDataRel
-      RESULT = IncludeSubobjectFromSubobject( vDTE, "TE_FieldDataRelKey", vDTE_Recurs2, "TE_FieldDataRel", zPOS_AFTER );
-      RESULT = SetCursorNextEntity( vERD2, "ER_AttributeIdentifier", "ER_EntIdentifier" );
-   } 
-
-   //:END
-
-   //:// Now follow any relationship paths to get what will be foreign keys.
-   //:FOR EACH vERD2.ER_RelLinkIdentifier WITHIN vERD2.ER_EntIdentifier
-   RESULT = SetCursorFirstEntity( vERD2, "ER_RelLinkIdentifier", "ER_EntIdentifier" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //:SyncTablRecKeyRecurs( vDTE, vDTE_Recurs2, vERD2 )
-      oTZTENVRO_SyncTablRecKeyRecurs( vDTE, vDTE_Recurs2, vERD2 );
-      RESULT = SetCursorNextEntity( vERD2, "ER_RelLinkIdentifier", "ER_EntIdentifier" );
-   } 
-
-   //:END
-
-   //:DropView( vDTE_Recurs2 )
-   DropView( vDTE_Recurs2 );
-   //:DropView( vERD2 )
-   DropView( vERD2 );
-   return;
-// END
-} 
-
-
-//:TRANSFORMATION OPERATION
-//:SetFieldSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
-//:  VIEW vTZTENVRO_Copy BASED ON LOD TZTENVRO
-zOPER_EXPORT zSHORT OPERATION
-oTZTENVRO_SetFieldSequence( zVIEW     vTZTENVRO )
-{
-   zVIEW     vTZTENVRO_Copy = 0; 
-   //:INTEGER lSequence
-   zLONG     lSequence = 0; 
-   zSHORT    RESULT; 
-
-
-   //:CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
-   CreateViewFromViewForTask( &vTZTENVRO_Copy, vTZTENVRO, 0 );
-
-   //:FOR EACH vTZTENVRO_Copy.TE_DBMS_Source
-   RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_DBMS_Source", "" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //:FOR EACH vTZTENVRO_Copy.TE_TablRec
-      RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_TablRec", "" );
-      while ( RESULT > zCURSOR_UNCHANGED )
-      { 
-         //: lSequence = 1
-         lSequence = 1;
-         //: FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
-         RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
-         while ( RESULT > zCURSOR_UNCHANGED )
-         { 
-            //:  vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lSequence
-            SetAttributeFromInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lSequence );
-            //:  lSequence = lSequence + 1
-            lSequence = lSequence + 1;
-            RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
-         } 
-
-         RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_TablRec", "" );
-         //: END
-      } 
-
-      RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_DBMS_Source", "" );
-      //:END
-   } 
-
-   //:END
-
-   //:DropView( vTZTENVRO_Copy )
-   DropView( vTZTENVRO_Copy );
-   return( 0 );
-// END
-} 
-
-
-//:TRANSFORMATION OPERATION
-//:SortFields( VIEW vTZTENVRO BASED ON LOD TZTENVRO, VIEW vSubtask )
-//:   VIEW vWindow
-zOPER_EXPORT zSHORT OPERATION
-oTZTENVRO_SortFields( zVIEW     vTZTENVRO,
-                      zVIEW     vSubtask )
-{
-   zVIEW     vWindow = 0; 
-   //:VIEW vTZTENVRO_Copy BASED ON LOD TZTENVRO
-   zVIEW     vTZTENVRO_Copy = 0; 
-   zSHORT    RESULT; 
-   zSHORT    lTempInteger_0; 
-
-
-   //:CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
-   CreateViewFromViewForTask( &vTZTENVRO_Copy, vTZTENVRO, 0 );
-   //:FOR EACH vTZTENVRO_Copy.TE_DBMS_Source
-   RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_DBMS_Source", "" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //: FOR EACH vTZTENVRO_Copy.TE_TablRec
-      RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_TablRec", "" );
-      while ( RESULT > zCURSOR_UNCHANGED )
-      { 
-         //:  IF vTZTENVRO.TE_FieldDataRel EXISTS AND vTZTENVRO.TE_FieldDataRel.wkSequence > 0
-         lTempInteger_0 = CheckExistenceOfEntity( vTZTENVRO, "TE_FieldDataRel" );
-         if ( lTempInteger_0 == 0 && CompareAttributeToInteger( vTZTENVRO, "TE_FieldDataRel", "wkSequence", 0 ) > 0 )
-         { 
-            //:  OrderEntityForView( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence A" )
-            OrderEntityForView( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence A" );
-         } 
-
-         RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_TablRec", "" );
-         //:  END
-      } 
-
-      RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_DBMS_Source", "" );
-      //: END
-   } 
-
-   //:END
-   //:DropView( vTZTENVRO_Copy )
-   DropView( vTZTENVRO_Copy );
-
-   //:GetSubtaskForWindowName( vSubtask, vWindow, "TableRecord" )
-   GetSubtaskForWindowName( vSubtask, &vWindow, "TableRecord" );
-   //:IF vWindow > 0
-   if ( vWindow > 0 )
-   { 
-      //:RefreshCtrl( vWindow, "lbColumnList" )
-      RefreshCtrl( vWindow, "lbColumnList" );
-   } 
-
-   //:END
-   return( 0 );
-// END
-} 
-
-
-//:TRANSFORMATION OPERATION
-//:NewFieldSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
-//:   VIEW    vTZTENVRO_Copy BASED ON LOD TZTENVRO
-zOPER_EXPORT zSHORT OPERATION
-oTZTENVRO_NewFieldSequence( zVIEW     vTZTENVRO )
-{
-   zVIEW     vTZTENVRO_Copy = 0; 
-   //:INTEGER lSequenceNo
-   zLONG     lSequenceNo = 0; 
-   //:INTEGER lNewSequenceNo
-   zLONG     lNewSequenceNo = 0; 
-   zSHORT    RESULT; 
-
-
-   //:IF vTZTENVRO.TE_FieldDataRel.wkSequence = ""
-   if ( CompareAttributeToString( vTZTENVRO, "TE_FieldDataRel", "wkSequence", "" ) == 0 )
-   { 
-
-      //:CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
-      CreateViewFromViewForTask( &vTZTENVRO_Copy, vTZTENVRO, 0 );
-
-      //:// set cursor on previous field and get the sequence number
-      //:SET CURSOR PREVIOUS vTZTENVRO_Copy.TE_FieldDataRel
-      RESULT = SetCursorPrevEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
-      //:IF RESULT = zCURSOR_SET
-      if ( RESULT == zCURSOR_SET )
-      { 
-         //:lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
-         GetIntegerFromAttribute( &lSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
-         //:lSequenceNo = lSequenceNo + 1
-         lSequenceNo = lSequenceNo + 1;
-         //:ELSE
-      } 
-      else
-      { 
-         //:lSequenceNo = 1
-         lSequenceNo = 1;
-      } 
-
-      //:END
-
-      //:// set new sequence number for the field with greater number
-      //:FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
-      RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
-      while ( RESULT > zCURSOR_UNCHANGED )
-      { 
-         //: IF vTZTENVRO_Copy.TE_FieldDataRel.wkSequence >= lSequenceNo
-         if ( CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lSequenceNo ) >= 0 )
-         { 
-            //: lNewSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
-            GetIntegerFromAttribute( &lNewSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
-            //: lNewSequenceNo = lNewSequenceNo + 1
-            lNewSequenceNo = lNewSequenceNo + 1;
-            //: vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lNewSequenceNo
-            SetAttributeFromInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lNewSequenceNo );
-         } 
-
-         RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
-         //:END
-      } 
-
-      //:END
-
-      //:// set sequence number for new attribute
-      //:vTZTENVRO.TE_FieldDataRel.wkSequence  = lSequenceNo
-      SetAttributeFromInteger( vTZTENVRO, "TE_FieldDataRel", "wkSequence", lSequenceNo );
-
-      //:DropView( vTZTENVRO_Copy )
-      DropView( vTZTENVRO_Copy );
-   } 
-
-
-   //:END
-   return( 0 );
-// END
-} 
-
-
-//:TRANSFORMATION OPERATION
-//:DelFieldFromSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
-//:   VIEW    vTZTENVRO_Copy BASED ON LOD TZTENVRO
-zOPER_EXPORT zSHORT OPERATION
-oTZTENVRO_DelFieldFromSequence( zVIEW     vTZTENVRO )
-{
-   zVIEW     vTZTENVRO_Copy = 0; 
-   //:INTEGER lSequenceNo
-   zLONG     lSequenceNo = 0; 
-   //:INTEGER lNewSequenceNo
-   zLONG     lNewSequenceNo = 0; 
-   zSHORT    RESULT; 
-
-
-   //:IF vTZTENVRO.TE_FieldDataRel.wkSequence > 0
-   if ( CompareAttributeToInteger( vTZTENVRO, "TE_FieldDataRel", "wkSequence", 0 ) > 0 )
-   { 
-
-      //:CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
-      CreateViewFromViewForTask( &vTZTENVRO_Copy, vTZTENVRO, 0 );
-
-      //:lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
-      GetIntegerFromAttribute( &lSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
-      //:// set new sequence number for the field with greater number
-      //:FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
-      RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
-      while ( RESULT > zCURSOR_UNCHANGED )
-      { 
-         //: IF vTZTENVRO_Copy.TE_FieldDataRel.wkSequence > lSequenceNo
-         if ( CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lSequenceNo ) > 0 )
-         { 
-            //: lNewSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
-            GetIntegerFromAttribute( &lNewSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
-            //: lNewSequenceNo = lNewSequenceNo - 1
-            lNewSequenceNo = lNewSequenceNo - 1;
-            //: vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lNewSequenceNo
-            SetAttributeFromInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lNewSequenceNo );
-         } 
-
-         RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
-         //:END
-      } 
-
-      //:END
-
-      //:DropView( vTZTENVRO_Copy )
-      DropView( vTZTENVRO_Copy );
-   } 
-
-
-   //:END
-   return( 0 );
-// END
-} 
-
-
-//:TRANSFORMATION OPERATION
-//:MoveFieldInSequence( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
-//:   VIEW    vTZTENVRO_Copy BASED ON LOD TZTENVRO
-zOPER_EXPORT zSHORT OPERATION
-oTZTENVRO_MoveFieldInSequence( zVIEW     vTZTENVRO )
-{
-   zVIEW     vTZTENVRO_Copy = 0; 
-   //:INTEGER lSequenceNo
-   zLONG     lSequenceNo = 0; 
-   //:INTEGER lOldSequenceNo
-   zLONG     lOldSequenceNo = 0; 
-   //:INTEGER lNewSequenceNo
-   zLONG     lNewSequenceNo = 0; 
-   zSHORT    RESULT; 
-
-
-   //:lOldSequenceNo = vTZTENVRO.TE_TablRec.wkSelectedFieldForDragSort
-   GetIntegerFromAttribute( &lOldSequenceNo, vTZTENVRO, "TE_TablRec", "wkSelectedFieldForDragSort" );
-
-   //:IF lOldSequenceNo > 0
-   if ( lOldSequenceNo > 0 )
-   { 
-
-      //:CreateViewFromViewForTask( vTZTENVRO_Copy, vTZTENVRO, 0 )
-      CreateViewFromViewForTask( &vTZTENVRO_Copy, vTZTENVRO, 0 );
-
-      //:// set cursor on previous field and get the sequence number
-      //:SET CURSOR PREVIOUS vTZTENVRO_Copy.TE_FieldDataRel
-      RESULT = SetCursorPrevEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
-      //:IF RESULT = zCURSOR_SET
-      if ( RESULT == zCURSOR_SET )
-      { 
-         //:lNewSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
-         GetIntegerFromAttribute( &lNewSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
-         //:IF lNewSequenceNo <= lOldSequenceNo
-         if ( lNewSequenceNo <= lOldSequenceNo )
-         { 
-            //:lNewSequenceNo = lNewSequenceNo + 1
-            lNewSequenceNo = lNewSequenceNo + 1;
-         } 
-
-         //:END
-         //:ELSE
-      } 
-      else
-      { 
-         //:lNewSequenceNo = 1
-         lNewSequenceNo = 1;
-      } 
-
-      //:END
-
-      //:// set new sequence number for the field with greater number
-      //:FOR EACH vTZTENVRO_Copy.TE_FieldDataRel
-      RESULT = SetCursorFirstEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
-      while ( RESULT > zCURSOR_UNCHANGED )
-      { 
-         //:IF lNewSequenceNo < lOldSequenceNo
-         //:   AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence >= lNewSequenceNo
-         //:   AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence <= lOldSequenceNo
-         if ( lNewSequenceNo < lOldSequenceNo && CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lNewSequenceNo ) >= 0 && CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lOldSequenceNo ) <= 0 )
-         { 
-            //:lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
-            GetIntegerFromAttribute( &lSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
-            //:lSequenceNo = lSequenceNo + 1
-            lSequenceNo = lSequenceNo + 1;
-            //:vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lSequenceNo
-            SetAttributeFromInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lSequenceNo );
-            //:ELSE
-         } 
-         else
-         { 
-            //:IF lNewSequenceNo > lOldSequenceNo
-            //:   AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence >= lOldSequenceNo
-            //:   AND vTZTENVRO_Copy.TE_FieldDataRel.wkSequence <= lNewSequenceNo
-            if ( lNewSequenceNo > lOldSequenceNo && CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lOldSequenceNo ) >= 0 && CompareAttributeToInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lNewSequenceNo ) <= 0 )
-            { 
-               //:lSequenceNo = vTZTENVRO_Copy.TE_FieldDataRel.wkSequence
-               GetIntegerFromAttribute( &lSequenceNo, vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence" );
-               //:lSequenceNo = lSequenceNo - 1
-               lSequenceNo = lSequenceNo - 1;
-               //:vTZTENVRO_Copy.TE_FieldDataRel.wkSequence = lSequenceNo
-               SetAttributeFromInteger( vTZTENVRO_Copy, "TE_FieldDataRel", "wkSequence", lSequenceNo );
-            } 
-
-            //:END
-         } 
-
-         RESULT = SetCursorNextEntity( vTZTENVRO_Copy, "TE_FieldDataRel", "" );
-         //:END
-      } 
-
-      //:END
-
-      //:// set sequence number for new field
-      //:vTZTENVRO.TE_FieldDataRel.wkSequence = lNewSequenceNo
-      SetAttributeFromInteger( vTZTENVRO, "TE_FieldDataRel", "wkSequence", lNewSequenceNo );
-
-      //:DropView( vTZTENVRO_Copy )
-      DropView( vTZTENVRO_Copy );
-   } 
-
-
-   //:END
-   return( 0 );
-// END
-} 
-
-
-//:TRANSFORMATION OPERATION
-//:SetFieldDataRelKeyFlag( VIEW vTZTENVRO BASED ON LOD TZTENVRO )
-
-//:   VIEW vTZTENVRO1 BASED ON LOD TZTENVRO
-zOPER_EXPORT zSHORT OPERATION
-oTZTENVRO_SetFieldDataRelKeyFlag( zVIEW     vTZTENVRO )
-{
-   zVIEW     vTZTENVRO1 = 0; 
-   zSHORT    RESULT; 
-   zLONG     lTempInteger_0; 
-
-
-   //:CreateViewFromViewForTask( vTZTENVRO1, vTZTENVRO, 0 )
-   CreateViewFromViewForTask( &vTZTENVRO1, vTZTENVRO, 0 );
-
-   //:FOR EACH vTZTENVRO1.TE_FieldDataRel
-   RESULT = SetCursorFirstEntity( vTZTENVRO1, "TE_FieldDataRel", "" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-
-      //: SET CURSOR FIRST vTZTENVRO1.TE_FieldDataRelKey WITHIN vTZTENVRO1.TE_TablRec
-      //:     WHERE vTZTENVRO1.TE_FieldDataRelKey.ZKey = vTZTENVRO1.TE_FieldDataRel.ZKey
-      GetIntegerFromAttribute( &lTempInteger_0, vTZTENVRO1, "TE_FieldDataRel", "ZKey" );
-      RESULT = SetCursorFirstEntityByInteger( vTZTENVRO1, "TE_FieldDataRelKey", "ZKey", lTempInteger_0, "TE_TablRec" );
-
-      //: IF RESULT >= zCURSOR_SET
-      if ( RESULT >= zCURSOR_SET )
-      { 
-         //: vTZTENVRO1.TE_FieldDataRel.Key = "Y"
-         SetAttributeFromString( vTZTENVRO1, "TE_FieldDataRel", "Key", "Y" );
-         //:ELSE
-      } 
-      else
-      { 
-         //: // If FieldType = Attribute (D), set Key=No, else empty
-         //: IF vTZTENVRO1.TE_FieldDataRel.DataOrRelfieldOrSet = "D"
-         if ( CompareAttributeToString( vTZTENVRO1, "TE_FieldDataRel", "DataOrRelfieldOrSet", "D" ) == 0 )
-         { 
-            //: vTZTENVRO1.TE_FieldDataRel.Key = "N"
-            SetAttributeFromString( vTZTENVRO1, "TE_FieldDataRel", "Key", "N" );
-            //:ELSE
-         } 
-         else
-         { 
-            //: vTZTENVRO1.TE_FieldDataRel.Key = ""
-            SetAttributeFromString( vTZTENVRO1, "TE_FieldDataRel", "Key", "" );
-         } 
-
-         //: END
-      } 
-
-      RESULT = SetCursorNextEntity( vTZTENVRO1, "TE_FieldDataRel", "" );
-      //: END
-   } 
-
-   //:END // ENDFOR vTZTENVRO1.TE_FieldDataRel
-
-   //:DropView( vTZTENVRO1 )
-   DropView( vTZTENVRO1 );
-   return( 0 );
-// END
-} 
-
-
-//:ENTITY CONSTRAINT OPERATION
-zOPER_EXPORT zSHORT OPERATION
-oTZTENVRO_Accept_FieldDataRelKey( zVIEW     vTZTENVRO,
-                                  zPCHAR    szEntityName,
-                                  zSHORT    Event,
-                                  zSHORT    State )
-{
-
-   //:Accept_FieldDataRelKey( VIEW vTZTENVRO BASED ON LOD TZTENVRO,
-   //:                     STRING ( 32 )  szEntityName,
-   //:                     SHORT          Event,
-   //:                     SHORT          State )
-
-   //:CASE Event
-   switch( Event )
-   { 
-      //:OF   zECE_ACCEPT:
-      case zECE_ACCEPT :
-
-         //:SetFieldDataRelKeyFlag( vTZTENVRO )
-         oTZTENVRO_SetFieldDataRelKeyFlag( vTZTENVRO );
-         break ;
-
-      //:  /* end zECE_ACCEPT */
-      //:OF   zECE_CANCEL:
-      case zECE_CANCEL :
-         break ;
-
-      //:  /* end zECE_CANCEL */
-      //:OF   zECE_CREATE:
-      case zECE_CREATE :
-         break ;
-
-      //:  /* end zECE_CREATE */
-      //:OF   zECE_DELETE:
-      case zECE_DELETE :
-         break ;
-
-      //:  /* end zECE_DELETE */
-      //:OF   zECE_EXCLUDE:
-      case zECE_EXCLUDE :
-         break ;
-
-      //:  /* end zECE_EXCLUDE */
-      //:OF   zECE_INCLUDE:
-      case zECE_INCLUDE :
-         break ;
-   } 
-
-
-   //:     /* end zECE_INCLUDE */
-   //:END  /* case */
-   return( 0 );
 // END
 } 
 

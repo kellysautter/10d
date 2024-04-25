@@ -1568,7 +1568,8 @@ zwfnTZEREMDD_CheckRelLinkIdentifier( zVIEW vSubtask, zVIEW vERD2 )
 static void
 zwfnTZEREMDD_CheckDomains( zVIEW vSubtask, zVIEW vERD2 )
 {
-   zCHAR  szName[ 33 ];
+   zCHAR  szEntityName[ 33 ];
+   zCHAR  szAttributeName[ 33 ];
    zSHORT nRC;
 
    // Make sure that nothing has happened so that we have ER_Attribute entities
@@ -1579,9 +1580,12 @@ zwfnTZEREMDD_CheckDomains( zVIEW vSubtask, zVIEW vERD2 )
    {
       if ( CheckExistenceOfEntity( vERD2, "Domain" ) < zCURSOR_SET )
       {
-         GetStringFromAttribute( szName, zsizeof( szName ), vERD2, "ER_Attribute", "Name" );
+         GetStringFromAttribute( szEntityName, zsizeof( szEntityName ), vERD2, "ER_Entity", "Name" );
+         GetStringFromAttribute( szAttributeName, zsizeof( szAttributeName ), vERD2, "ER_Attribute", "Name" );
          strcpy_s( szWorkMessage, zsizeof( szWorkMessage ), "Attribute '" );
-         strcat_s( szWorkMessage, zsizeof( szWorkMessage ), szName );
+         strcat_s( szWorkMessage, zsizeof( szWorkMessage ), szEntityName );
+         strcat_s( szWorkMessage, zsizeof( szWorkMessage ), "." );
+         strcat_s( szWorkMessage, zsizeof( szWorkMessage ), szAttributeName );
          strcat_s( szWorkMessage, zsizeof( szWorkMessage ), "' does not have Domain assigned." );
          zwTZEREMDD_WriteErrorMsg( vSubtask, vERD2, szWorkMessage, 1 );
       }
@@ -11560,48 +11564,74 @@ zwTZEREMDD_CompareERDs( zVIEW vSubtask )
    zVIEW  vSourceERD;
    zVIEW  vTargetERD;
    zVIEW  vTaskLPLR;
+   zVIEW  vTZCMWKSO;
+   zVIEW  vSourceLPLR;
    zCHAR  szFileName[ 500 ];
    zCHAR  szERD_Name[ 33 ];
+   zCHAR  szLPLR_Name[ 33 ];
    zCHAR  szSourceLPLR_Name[ 33 ];
+   zCHAR  szZeidonWKS[ 128 ];
    zSHORT nRC;
 
    // Compare the Target ERD, the ERD we are currently updating, to a ERD of the same name
    // that is contained in the specified Directory Structure.
    // If an LPLR name has been entered, use it to get the XLP file and any dependent Domains.
-
-   // Get view of current ERD to be Target and view of current LPLR.
-   GetViewByName( &vTargetERD, "TZEREMDO", vSubtask, zLEVEL_TASK );
-   SetNameForView( vTargetERD, "TargetERD", vSubtask, zLEVEL_TASK );
-   GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-
-   // Get the Source ERD Name. If a Source LPLR name is specified, then that is the name of the ERD.
-   // Otherwise, the ERD Name for the Source is considered to be the same as in the Target.
-   GetStringFromAttribute( szSourceLPLR_Name, zsizeof( szSourceLPLR_Name ), vTaskLPLR, "LPLR", "wMergeSourceLPLR_Name" );
-   if ( zstrcmp( szSourceLPLR_Name, "" ) != 0 )
-      strcpy_s( szERD_Name, zsizeof( szERD_Name ), szSourceLPLR_Name );
+   
+   // Make sure either an LPLR is selected or an ER file name is entered.
+   GetViewByName( &vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+   nRC = CheckExistenceOfEntity( vTZCMWKSO, "SelectedLPLR" );
+   if ( nRC >= 0 )
+   {
+      // First activate the Source LPLR.
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTZCMWKSO, "SelectedLPLR", "ExecDir" );
+      GetStringFromAttribute( szLPLR_Name, zsizeof( szLPLR_Name ), vTZCMWKSO, "SelectedLPLR", "Name" );
+      strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+      strcat_s( szFileName, zsizeof( szFileName ), szLPLR_Name );
+      strcat_s( szFileName, zsizeof( szFileName ), ".XLP" );
+      TraceLineS( "XLP File Name: ", szFileName );
+      nRC = ActivateOI_FromFile( &vSourceLPLR, "TZCMLPLO", vSubtask, szFileName, zSINGLE );
+      if ( nRC < 0 )
+      {
+         MessageSend( vSubtask, "", "Compare ERD's", "Invalid XLP File Name", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+         SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
+         return( -1 );
+      }
+      SetNameForView( vSourceLPLR, "SourceLPLR", vSubtask, zLEVEL_TASK );
+      nRC = SetCursorFirstEntityByInteger( vSourceLPLR, "W_MetaType", "Type", 4, "" );
+      
+      // Set up activate Source ERD using LPLR data.
+      GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTZCMWKSO, "SelectedLPLR", "MetaSrcDir" );
+      GetStringFromAttribute( szERD_Name, zsizeof( szERD_Name ), vSourceLPLR, "W_MetaDef", "Name" );
+      strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+      strcat_s( szFileName, zsizeof( szFileName ), szERD_Name );
+      strcat_s( szFileName, zsizeof( szFileName ), ".PMD" );
+   }
    else
    {
-      SetCursorFirstEntityByInteger( vTaskLPLR, "W_MetaType", "Type", 4, "" );     // 4 is ERD Meta Type
-      GetStringFromAttribute( szERD_Name, zsizeof( szERD_Name ), vTaskLPLR, "W_MetaDef", "Name" );
+      // Set up activate Source ERD using fully qualified directory ERD name.
+      MessageSend( vSubtask, "", "Compare ERD's", "The ER file name option is currently not supported.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
+      return( -1 );
+      /*GetStringFromAttribute( szFileName, vTaskLPLR, "LPLR", "wFullyQualifiedFileName" );
+      if ( zstrcmp( szFileName, "" ) == 0 )
+      {
+         MessageSend( vSubtask, "", "Compare ERD's", "Either an LPLR or File Name must be specified.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+         SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
+         return( -1 );
+      }*/
+      
    }
 
-   // Activate Source view. We are not necessarily positioned on the ER meta entry.
-   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "wFullyQualifiedFileName" );
-   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
-   strcat_s( szFileName, zsizeof( szFileName ), szERD_Name );
-   strcat_s( szFileName, zsizeof( szFileName ), ".PMD" );
+   // Activate Source ERD. 
    TraceLineS( "Source File Name: ", szFileName );
    nRC = ActivateOI_FromFile( &vSourceERD, "TZEREMDO", vSubtask, szFileName, zSINGLE );
    if ( nRC < 0 )
    {
-      MessageSend( vSubtask, "", "Compare ERD's", "Invalid File Name", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      MessageSend( vSubtask, "", "Compare ERD's", "Invalid Source File Name", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
       return( -1 );
    }
    SetNameForView( vSourceERD, "SourceERD", vSubtask, zLEVEL_TASK );
-
-   // Call operation to compare ERD's.
-   oTZEREMDO_ERD_Compare( vTargetERD, vSourceERD, "A" );
 
    return( 0 );
 
@@ -11617,48 +11647,19 @@ zwTZEREMDD_CompareER_Entities( zVIEW vSubtask )
 {
    zVIEW  vSourceERD;
    zVIEW  vTargetERD;
-   zVIEW  vTaskLPLR;
-   zCHAR  szFileName[ 500 ];
-   zCHAR  szERD_Name[ 33 ];
-   zCHAR  szSourceLPLR_Name[ 33 ];
    zSHORT nRC;
-
-   // Compare the Target ERD, the ERD we are currently updating, to a ERD of the same name
-   // that is contained in the specified Directory Structure.
-   // If an LPLR name has been entered, use it to get the XLP file and any dependent Domains.
-
-   // Get view of current ERD to be Target and view of current LPLR.
+   
+   // This function calls zwTZEREMDD_CompareERDs to set up the source ERD and then calls
+   // oTZEREMDO_ERD_Compare with the "Entity" type.
+   
+   nRC = zwTZEREMDD_CompareERDs( vSubtask );
+   if ( nRC < 0 )
+      return( nRC );
+   
+   // Call operation to compare ERD's.
    GetViewByName( &vTargetERD, "TZEREMDO", vSubtask, zLEVEL_TASK );
    SetNameForView( vTargetERD, "TargetERD", vSubtask, zLEVEL_TASK );
-   GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-
-   // Get the Source ERD Name. If a Source LPLR name is specified, then that is the name of the ERD.
-   // Otherwise, the ERD Name for the Source is considered to be the same as in the Target.
-   GetStringFromAttribute( szSourceLPLR_Name, zsizeof( szSourceLPLR_Name ), vTaskLPLR, "LPLR", "wMergeSourceLPLR_Name" );
-   if ( zstrcmp( szSourceLPLR_Name, "" ) != 0 )
-      zstrcpy( szERD_Name, szSourceLPLR_Name );
-   else
-   {
-      SetCursorFirstEntityByInteger( vTaskLPLR, "W_MetaType", "Type", 4, "" );     // 4 is ERD Meta Type
-      GetStringFromAttribute( szERD_Name, zsizeof( szERD_Name ), vTaskLPLR, "W_MetaDef", "Name" );
-   }
-
-   // Activate Source view. We are not necessarily positioned on the ER meta entry.
-   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vTaskLPLR, "LPLR", "wFullyQualifiedFileName" );
-   zstrcat( szFileName, "\\" );
-   zstrcat( szFileName, szERD_Name );
-   zstrcat( szFileName, ".PMD" );
-   TraceLineS( "Source File Name: ", szFileName );
-   nRC = ActivateOI_FromFile( &vSourceERD, "TZEREMDO", vSubtask, szFileName, zSINGLE );
-   if ( nRC < 0 )
-   {
-      MessageSend( vSubtask, "", "Compare ERD's", "Invalid File Name", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
-      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
-      return( -1 );
-   }
-   SetNameForView( vSourceERD, "SourceERD", vSubtask, zLEVEL_TASK );
-
-   // Call operation to compare ERD's.
+   GetViewByName( &vSourceERD, "SourceERD", vSubtask, zLEVEL_TASK );
    oTZEREMDO_ERD_Compare( vTargetERD, vSourceERD, "E" );
 
    return( 0 );
@@ -11696,9 +11697,9 @@ zwTZEREMDD_CompareERDsMrg( zVIEW vSubtask )
    GetStringFromAttribute( szFileName, zsizeof( szFileName ), vSourceLPLR, "LPLR", "PgmSrcDir" );   // LPLR Directory Structure
    SetCursorFirstEntityByInteger( vSourceLPLR, "W_MetaType", "Type", 4, "" );     // 4 is ERD Meta Type
    GetStringFromAttribute( szERD_Name, zsizeof( szERD_Name ), vSourceLPLR, "W_MetaDef", "Name" );
-   zstrcat( szFileName, "\\" );
-   zstrcat( szFileName, szERD_Name );
-   zstrcat( szFileName, ".PMD" );
+   strcat_s( szFileName, zsizeof( szFileName ), "\\" );
+   strcat_s( szFileName, zsizeof( szFileName ), szERD_Name );
+   strcat_s( szFileName, zsizeof( szFileName ), ".PMD" );
    TraceLineS( "Source File Name: ", szFileName );
    nRC = ActivateOI_FromFile( &vSourceERD, "TZEREMDO", vSubtask, szFileName, zSINGLE );
    if ( nRC < 0 )
@@ -12420,6 +12421,27 @@ REFRESH_LOD_EntityAttributes( zVIEW vSubtask )
 
    return( 0 );
 } // REFRESH_LOD_EntityAttributes
+
+/*************************************************************************************************
+**    
+**    OPERATION: zwTZEREMDD_PostbuildERD_Compare
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEREMDD_PostbuildERD_Compare( zVIEW vSubtask )
+{
+   zVIEW    vTZCMWKSO;
+   zCHAR    szZeidonWKS[ 128 ];
+   
+   // Activate the list of LPLR entries.
+   if ( oTZCMWKSO_GetWKS_FileName( szZeidonWKS, zsizeof( szZeidonWKS ) ) == 0 )
+   {
+      ActivateOI_FromFile( &vTZCMWKSO, "TZCMWKSO", vSubtask, szZeidonWKS, zSINGLE | zNOI_OKAY | zIGNORE_ATTRIB_ERRORS );
+      SetNameForView( vTZCMWKSO, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+   }
+
+   return( 0 );
+} // zwTZEREMDD_PostbuildERD_Compare
 
 
 #ifdef __cplusplus

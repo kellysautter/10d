@@ -1,7 +1,7 @@
-z1000-Zeidon    TZADWWKO TZZOLODO 02/01/24   13:09:28 1.0a2    
+z1000-Zeidon    TZADWWKO TZZOLODO 04/02/24   16:56:58 1.0a2    
 eLOD       1
 aZKey      1330759
-aNextZKeyToAssign 92003034
+aNextZKeyToAssign 92003057
 aName      TZADWWKO
 aReLinked  Y
 aDLL_Name  TZLODOPR
@@ -11203,13 +11203,6 @@ aDataType  V
 aZKey      92002893
 
 eParameter 4
-aShortDesc TZCONTROL
-aDataType  V
-aPFlag     N
-aUFlag     N
-aZKey      92002894
-
-eParameter 4
 aShortDesc TZWINDOWL
 aDataType  V
 aPFlag     N
@@ -11217,18 +11210,18 @@ aUFlag     N
 aZKey      92002895
 
 eParameter 4
-aShortDesc AD_BaseCtl
-aDataType  V
-aPFlag     N
-aUFlag     N
-aZKey      92002896
-
-eParameter 4
 aShortDesc AD_Base
 aDataType  V
 aPFlag     N
 aUFlag     N
 aZKey      92002897
+
+eParameter 4
+aShortDesc szGroupType
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      92003049
 
 eOperation 3
 aName      AddAD_ListMGP_Actions
@@ -12069,6 +12062,31 @@ aPFlag     N
 aUFlag     N
 aZKey      92002330
 
+eOperation 3
+aName      AddAD_GoExclActions
+aZKey      92003050
+aType      T
+aReturnDataType N
+
+eParameter 4
+aShortDesc View To Instance
+aDataType  V
+aZKey      92003051
+
+eParameter 4
+aShortDesc TZWINDOWL
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      92003056
+
+eParameter 4
+aShortDesc AD_Base
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      92003057
+
 ePOD       2
 aNAME      TZADWWKO
 aZKey      1149549
@@ -12108,6 +12126,10 @@ aZKey      1330759
 aType      7
 aLastUpdateDate 19951102195958000
 aLastCheckInDate 19951102203051110
+
+eOperationList 2
+
+eOperSourceFile 3
 
 eOperationList 2
 
@@ -14668,63 +14690,65 @@ i3317      5
 i3318      1657
 i3319      1658
 i3320      470
-i3472      3322
-i3473      3321
-i3474      3325
-i3475      3321
-i3476      3337
-i3477      3321
-i3478      3331
-i3479      3321
-i3480      3343
-i3481      3321
-i3482      3348
-i3483      3321
-i3484      3356
-i3485      3321
-i3486      3361
-i3487      3321
-i3488      3365
-i3489      3321
-i3490      3370
-i3491      3321
-i3492      3379
-i3493      3321
-i3494      3384
-i3495      3321
-i3496      3388
-i3497      3321
-i3498      3391
-i3499      3321
-i3500      3396
-i3501      3321
-i3502      3400
-i3503      3321
-i3504      3404
-i3505      3321
-i3506      3410
-i3507      3321
-i3508      3415
-i3509      3321
-i3510      3420
-i3511      3321
-i3512      3425
-i3513      3321
-i3514      3432
-i3515      3321
-i3516      3437
-i3517      3321
-i3518      3442
-i3519      3321
-i3520      3445
-i3521      3321
-i3522      3448
-i3523      3321
-i3524      3452
-i3525      3321
-i3526      3455
-i3527      3321
-i3528      3458
-i3529      3321
-i3530      3464
-i3531      3321
+i3475      3322
+i3476      3321
+i3477      3467
+i3478      3321
+i3479      3325
+i3480      3321
+i3481      3336
+i3482      3321
+i3483      3331
+i3484      3321
+i3485      3342
+i3486      3321
+i3487      3347
+i3488      3321
+i3489      3355
+i3490      3321
+i3491      3360
+i3492      3321
+i3493      3364
+i3494      3321
+i3495      3369
+i3496      3321
+i3497      3378
+i3498      3321
+i3499      3383
+i3500      3321
+i3501      3387
+i3502      3321
+i3503      3390
+i3504      3321
+i3505      3395
+i3506      3321
+i3507      3399
+i3508      3321
+i3509      3403
+i3510      3321
+i3511      3409
+i3512      3321
+i3513      3414
+i3514      3321
+i3515      3419
+i3516      3321
+i3517      3424
+i3518      3321
+i3519      3431
+i3520      3321
+i3521      3436
+i3522      3321
+i3523      3441
+i3524      3321
+i3525      3444
+i3526      3321
+i3527      3447
+i3528      3321
+i3529      3451
+i3530      3321
+i3531      3454
+i3532      3321
+i3533      3457
+i3534      3321
+i3535      3463
+i3536      3321

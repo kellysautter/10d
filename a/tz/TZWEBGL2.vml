@@ -656,8 +656,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
       END
       END
       
-      szWriteBuffer = "<% /* " + szCtrlTag + ":" + szControlType + " */ %>"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      //szWriteBuffer = "<% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+      //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
       // Check to see if this GroupBox has a WebControlProperty of "Table".  If so, then we will create this
       // as a table and try and position what is in this group box as a table.
@@ -1979,16 +1979,17 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             // Get the Question
             szWriteBuffer = "          iQuestionCount = iQuestionCount + 1;"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          szQuestion = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^Number^).getString(^^);"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "          if ( szQuestion.length() > 0 )"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "             szQuestion = szQuestion + ^. ^;"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y"
                // If we are using language conversion, then we will use the derived attribute names instead of the normal entity/attribute name.
-               szWriteBuffer = "          szQuestion = szQuestion + " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^dQuestion^).getString(^^);"
+               szWriteBuffer = "          szQuestion = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^dQuestion^).getString(^^);"
             ELSE
+               // KJS 08/22/23 - Putting the Number here... only if we are not using language. Otherwise, it needs to be part of dQuestion.
+               szWriteBuffer = "          szQuestion = " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^Number^).getString(^^);"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "          if ( szQuestion.length() > 0 )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "             szQuestion = szQuestion + ^. ^;"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "          szQuestion = szQuestion + " + vDialog.CtrlMapView.Name + ".cursor(^SurveyQuestion^).getAttribute(^Question^).getString(^^);"
             END
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2892,9 +2893,26 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         ELSE
                            szText = "<%=strErrorMapValue%>"
                         END
-                        
+                        //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk KJS 09/08/23
+                        // KJS 09/08/23 - The variable header, didn't have the "text-right". I want to add that.
+                        // Need to set on the mapping that is not the header. To see the domain type.
+                        SET CURSOR FIRST vDialog.CtrlMap WHERE vDialog.CtrlMap.Tag != "Variable Header"                        
+                        IF szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Domain EXISTS AND 
+                           ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
+                           IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-left" ) <= 0
+                              szClass = " text-right"
+                           END   
+                        ELSE
+                           szClass = ""
+                        END  
+                       //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
                         IF szAbsoluteWidth = ""
-                           szWriteBuffer = "   <th><%=strErrorMapValue%></th>"
+                           IF szClass = ""
+                              szWriteBuffer = "   <th"
+                           ELSE
+                              szWriteBuffer = "   <th class=^" + szClass + "^"
+                           END
+                           szWriteBuffer = szWriteBuffer + "><%=strErrorMapValue%></th>"
                         ELSE
                            szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^><%=strErrorMapValue%></th>"
                         END

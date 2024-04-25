@@ -1,3 +1,9 @@
+Changes made 04/25/24
+* Incorporated Don's autodesign changes
+* Added a new field to TZCMLPLO.LOD (LPLR.AutodesignBase) 
+* Added AutodesignBase field to TZCMLPLD.PWD (Workstations "Application Maintenance" window)
+* Some fixes to zdr cpp files due to copy/paste crash errors.
+
 # Zeidon 10d 
 
 ## Compiling

@@ -992,8 +992,12 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    IF vDialog.EventAct EXISTS
       szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
-                      " value=^" + vDialog.Control.RadioOrCheckboxValue +
-                      "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + " onclick=^" + vDialog.EventAct.Tag + "( )^>"
+                      " value=^" + vDialog.Control.RadioOrCheckboxValue
+      IF szRepeatGrpKey = ""
+         szWriteBuffer = szWriteBuffer + "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + " onclick=^" + vDialog.EventAct.Tag + "( )^>"
+      ELSE
+         szWriteBuffer = szWriteBuffer + "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + " onclick=^" + vDialog.EventAct.Tag + "( '" + szCtrlTag + szRepeatGrpKey + "' )^>"
+      END
    ELSE
       szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
                       " value=^" + vDialog.Control.RadioOrCheckboxValue +
@@ -2018,8 +2022,12 @@ GenJSPJ_CrteCtrlsRadio( VIEW vDialog BASED ON LOD TZWDLGSO,
    // szStyle = " style=^position:absolute;LEFT:" + szX + ";TOP:" + szY + ";^ "
       IF  szActionName != ""
          szWriteBuffer = "      <td style=^width:15px;border:0px;^><input type=^radio^ name=^" + szRadioGroupName + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
-                         "^ <%=strDisabled%> value=^" + vDialog.Control.RadioOrCheckboxValue +
-                         "^ <%=strErrorMapValue%> " + szStyle + szDisabled + " onclick=^" + szActionName + "( )^  ></td>"
+                         "^ <%=strDisabled%> value=^" + vDialog.Control.RadioOrCheckboxValue
+         IF szRepeatGrpKey = ""                         
+            szWriteBuffer = szWriteBuffer + "^ <%=strErrorMapValue%> " + szStyle + szDisabled + " onclick=^" + szActionName + "( )^  ></td>"
+         ELSE
+            szWriteBuffer = szWriteBuffer + "^ <%=strErrorMapValue%> " + szStyle + szDisabled + " onclick=^" + szActionName + "( '" + szCtrlTag + szRepeatGrpKey + "' )^  ></td>"
+         END                         
       ELSE
          szWriteBuffer = "      <td style=^width:15px;border:0px;^><input type=^radio^ name=^" + szRadioGroupName + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
                          "^ <%=strDisabled%> value=^" + vDialog.Control.RadioOrCheckboxValue +
@@ -2716,8 +2724,8 @@ GenJSPJ_CrteGroupTable( VIEW vDialog BASED ON LOD TZWDLGSO,
       END
       END
 
-      szWriteBuffer = "<% /* " + szCtrlTag + ":" + szControlType + " */ %>"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      //szWriteBuffer = "<% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+      //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
       // Check to see if this GroupBox has a WebControlProperty of "Table".  If so, then we will create this
       // as a table and try and position what is in this group box as a table.
@@ -6053,8 +6061,8 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
          IF vDialogTemp.ControlDef.Tag = "EditBox"
             szCtrlTag     = vDialogTemp.Control.Tag
             szControlType = vDialogTemp.ControlDef.Tag
-            szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
-            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+            //szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+            //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
             //CreateAbsolStyleString( vDialogTemp, szStyle, lSizeX, lSizeY, "" )
             zIntegerToString( szWidth, 10, vDialogTemp.Control.SZDLG_X * dDLUnits )
@@ -6160,8 +6168,8 @@ GenJSPJ_CrteFileTransferForm( VIEW vDialog,
                      
             szCtrlTag     = vDialogTemp.Control.Tag
             szControlType = vDialogTemp.ControlDef.Tag
-            szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
-            WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+            //szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+            //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
             //CreateAbsolStyleString( vDialogTemp, szStyle, lSizeX, lSizeY, "" )
             IF szNoPositioning = "Y"

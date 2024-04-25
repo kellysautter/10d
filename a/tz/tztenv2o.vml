@@ -1016,6 +1016,13 @@ RebuildDBMS_Tables( VIEW vDTE BASED ON LOD TZTENVRO,
    //VIEW vDTE_OldTemp BASED ON LOD TZTENVRO
    //VIEW vDTE_NewTemp BASED ON LOD TZTENVRO
    INTEGER nRC
+   
+   // Make sure that the DTE has a DBH_Data value for the current source. If it doesn't, it will create an error
+   // later during the BuildSQL_RelsFromEMD operation call below. This is also done in the operation, MergeLODsToER, which
+   // calls this operation. However this operation is also called from zwTZEREMDD_RebuildMergeTE, which needs this function.
+   IF vDTE.TE_DBMS_Source.DBH_Data = ""
+      nRC = InitializeDBH_Data( vDTE )
+   END
   
    // Drop Error List View (This probably isn't necessary when called from LPLR ERD Merge.
    //zwTZTEUPDD_ClearErrorWindow( vSubtask )
@@ -1024,6 +1031,7 @@ RebuildDBMS_Tables( VIEW vDTE BASED ON LOD TZTENVRO,
    ActivateOI_FromOI_ForTask( vDTE_Old, vDTE, 0, zMULTIPLE )
    SetCursorFirstEntityByAttr( vDTE_Old, "TE_DBMS_Source", "ZKey",
                                vDTE,     "TE_DBMS_Source", "ZKey", 0 )
+   NAME VIEW vDTE_Old "vDTE_Old"
 
    //CreateViewFromViewForTask( vDTE_OldTemp, vDTE_Old, 0 )
    //CreateViewFromViewForTask( vDTE_NewTemp, vDTE, 0 )
@@ -1035,7 +1043,9 @@ RebuildDBMS_Tables( VIEW vDTE BASED ON LOD TZTENVRO,
 
    // Rebuild the entities
    nRC = oTZTENVRO_BuildTablRecsFromEMD( vSubtask, vDTE, vEMD, szStartingEntityName )
-   IF RESULT < 0
+   IF nRC < 0
+      TraceLineI( "*** BuildTablRecsFromEMD RC: ", nRC )
+      IssueError( vSubtask,0,0, "Error on BuildTablRecsFromEMD exec" )
       DropView( vDTE_Old )
       //DropView( vDTE_OldTemp )
       //DropView( vDTE_NewTemp )
@@ -1043,7 +1053,7 @@ RebuildDBMS_Tables( VIEW vDTE BASED ON LOD TZTENVRO,
    END
    
    // Rebuild the relationships.
-   oTZTENVRO_BuildRelationsFromEMD( vSubtask, vDTE, vEMD )
+   oTZTENVRO_BuildSQL_RelsFromEMD( vSubtask, vDTE, vEMD ) 
    
    // Copy over some of the specific physical information that might have been specified manually in the existing entry.
    // This logic was taken as a conversion to VML of the code in operation TZTEUPDD.fnRebuildTables.
@@ -1069,27 +1079,37 @@ RebuildDBMS_Tables( VIEW vDTE BASED ON LOD TZTENVRO,
             vDTE.TE_TablRec.KeepPhysCharsFlagForAllColumns  = vDTE_Old.TE_TablRec.KeepPhysCharsFlagForAllColumns
          END
       END
-         
-      // Copy over physical specifications for TE_TablRec entries that are tied to an ER_Attribute.
-      // DonC comment on 10/17/2022: I am not going to do this because I don't think it will be used in merging LPLR's and the logic in the
-      // TZTEUPDD.fnRebuildTables code and TZTEUPDD.fnFindER_ZKeyForPhysicalKey code are too confusing. In fact it's not clear if the
-      // fnFindER_ZKeyForPhysicalKey code even works correctly.
-      /*FOR EACH vDTE_NewTemp.TE_FieldDataRel 
-         IF vDTE_Old.ER_Attribute EXISTS
-            SET CURSOR FIRST vDTE.ER_Attribute WITHIN vDTE TE_TablRec 
-                       WHERE vDTE.ER_Attribute.ZKey = vDTE_Old.ER_Attribute.ZKey 
-            IF RESULT >= zCURSOR_SET AND vDTE_Old.TE_TablRec.KeepPhysicalCharacteristicsFlag = "Y"
-               
-               
-            END
-         END
-      END*/
-
 
    END
    
    // if field sequence does not exist, set it
    SetFieldSequence( vDTE )
    DropView( vDTE_Old )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: InitializeDBH_Data
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+InitializeDBH_Data( VIEW vDTE BASED ON LOD TZTENVRO )
+
+   VIEW TaskLPLR REGISTERED AS TaskLPLR
+   VIEW vBaseDTE BASED ON LOD  TZTENVRO
+   STRING ( 200 ) szSourceFileName
+   SHORT nRC
+   
+   // Use the DTE in the AD_Base LPLR to get the Source DBH value.
+   szSourceFileName = "c:\lplr\AD_Base\AD_Base.DTE"
+   nRC = ActivateOI_FromFile ( vBaseDTE, "TZTENVRO", TaskLPLR, szSourceFileName, 8192 )   // 8192 is zIGNORE_ATTRIB_ERRORS
+   IF nRC < 0
+      IssueError( vDTE,0,0, "The Base TE in AD_Base could not be loaded, so the DBH Data could not be initialized." )
+      RETURN -2
+   END
+   NAME VIEW vBaseDTE "vBaseDTE"
+   vDTE.TE_DBMS_Source.DBH_Data = vBaseDTE.TE_DBMS_Source.DBH_Data 
+   DropObjectInstance( vBaseDTE )
 
 END

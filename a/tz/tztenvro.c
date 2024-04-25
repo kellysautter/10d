@@ -1699,6 +1699,7 @@ ofnTZTENVRO_ImplementSQL_RelLink( zVIEW    vSubtask,
    zCHAR    szDesc[ 255 ];
    zCHAR    szName[ 255 ];
    zSHORT   RESULT;
+   zSHORT   nRC;
    zCHAR    szTemp[ 100 ];
    zCHAR    szTemp2[ 100 ];
    zLONG    lEntityZKey;
@@ -1749,7 +1750,13 @@ ofnTZTENVRO_ImplementSQL_RelLink( zVIEW    vSubtask,
       }
    }
 
-   SetOI_FromBlob( &vDBH_Data, szDBH_DataObjectName, vDTE_c, vDTE_p, "TE_DBMS_Source", "DBH_Data", zNOI_OKAY );
+   nRC = SetOI_FromBlob( &vDBH_Data, szDBH_DataObjectName, vDTE_c, vDTE_p,
+                         "TE_DBMS_Source", "DBH_Data", zNOI_OKAY );
+   if ( nRC < 0 )
+   {
+      IssueError( vSubtask, 0, 0, "DBH Data has not been set for DB Source entry. Use 'Set DBH' button on Data Source window to set values." );
+      return( -2 );
+   }
 
    // Prior to this code, the TempRelKey entities for DTE_p have been converted to TE_FieldDataRelKey entries,
    // which point to the corresponding foreign key in DTE_p.

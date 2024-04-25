@@ -26,6 +26,7 @@ OBJS           = $(Z_OBJ)\$(MODULE).obj \
                  $(Z_OBJ)\tzadw8aw.obj \
                  $(Z_OBJ)\tzadwexp.obj \
                  $(Z_OBJ)\tzadwoaw.obj \
+                 $(Z_OBJ)\tzadwwko.obj \
                  $(Z_OBJ)\tzcm_opr.obj \
                  $(Z_OBJ)\tzcmcpro.obj \
                  $(Z_OBJ)\tzcmcvto.obj \

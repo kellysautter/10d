@@ -2587,7 +2587,7 @@ zwTZOPUPDD_SaveAsCheckValues( zVIEW  vSubtask,
                               zPCHAR szOutName )
 {
    zCHAR   szNewName[ 33 ];
-   zCHAR   szControltext[ 4 ];
+   zCHAR   szControltext[ 5 ];
    zCHAR   szLanguageType[ 4 ];
    zCHAR   szMsg[ 100 ];
    zVIEW   vProfileXFER;
@@ -2646,7 +2646,7 @@ zwTZOPUPDD_SaveAsCheckValues( zVIEW  vSubtask,
    // if save Operation as with Operation Code
    if ( GetCtrlState( vWindow, "cbCopyCode", zCONTROL_STATUS_CHECKED ) == 1 )
    {
-      GetCtrlText( vWindow, "txtType", szControltext, 4 );
+      GetCtrlText( vWindow, "txtType", szControltext, 5 );
       GetStringFromAttributeByContext( szLanguageType, vTZOGSRCO,
                                        "GlobalOperationGroup",
                                        "LanguageType", "LanguageType", 4 );

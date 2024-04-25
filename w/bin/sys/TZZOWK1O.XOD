@@ -1,4 +1,4 @@
-z1000-Zeidon    TZZOWK1O TZZOXODO                         04/04/24   22:59:22 1.0a2   
+z1000-Zeidon    TZZOWK1O TZZOXODO                         04/25/24   11:12:56 1.0a2   
 eOBJECT    1
 aNAME      TZZOWK1O
 aZKey      11005135
@@ -646,7 +646,7 @@ aDELETE    Y
 aPDELETE   D
 aUPDATE    Y
 aINCLSRC   Y
-aMAX_LTH   132074
+aMAX_LTH   42074
 
 eATTRIB    6
 aNAME      ZKey
@@ -746,7 +746,7 @@ aPERSIST   Y
 aAPDM_TOK  1158059
 aDOMAIN    Note
 aTYPE      S
-aLTH       100000
+aLTH       10000
 aHIDDEN    Y
 aXVAATT_TOK 58
 

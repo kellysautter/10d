@@ -6658,14 +6658,8 @@ GenJSPJ_CrteFileTransferForm( zVIEW     vDialog,
          GetVariableFromAttribute( szCtrlTag, 0, 'S', 33, vDialogTemp, "Control", "Tag", "", 0 );
          //:   szControlType = vDialogTemp.ControlDef.Tag
          GetVariableFromAttribute( szControlType, 0, 'S', 51, vDialogTemp, "ControlDef", "Tag", "", 0 );
-         //:   szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
-         ZeidonStringCopy( szWriteBuffer, 1, 0, "   <% /* ", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, ":", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szControlType, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, " */ %>", 1, 0, 10001 );
-         //:   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+         //:   //szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+         //:   //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
          //:   //CreateAbsolStyleString( vDialogTemp, szStyle, lSizeX, lSizeY, "" )
          //:   zIntegerToString( szWidth, 10, vDialogTemp.Control.SZDLG_X * dDLUnits )
@@ -6912,14 +6906,8 @@ GenJSPJ_CrteFileTransferForm( zVIEW     vDialog,
          GetVariableFromAttribute( szCtrlTag, 0, 'S', 33, vDialogTemp, "Control", "Tag", "", 0 );
          //:   szControlType = vDialogTemp.ControlDef.Tag
          GetVariableFromAttribute( szControlType, 0, 'S', 51, vDialogTemp, "ControlDef", "Tag", "", 0 );
-         //:   szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
-         ZeidonStringCopy( szWriteBuffer, 1, 0, "   <% /* ", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, ":", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szControlType, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, " */ %>", 1, 0, 10001 );
-         //:   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+         //:   //szWriteBuffer = "   <% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+         //:   //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
 
          //:   //CreateAbsolStyleString( vDialogTemp, szStyle, lSizeX, lSizeY, "" )
          //:   IF szNoPositioning = "Y"
@@ -14132,14 +14120,8 @@ GenJSPJ_CrteGroupTable( zVIEW     vDialog,
 
       //:END
 
-      //:szWriteBuffer = "<% /* " + szCtrlTag + ":" + szControlType + " */ %>"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "<% /* ", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, ":", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szControlType, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, " */ %>", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+      //://szWriteBuffer = "<% /* " + szCtrlTag + ":" + szControlType + " */ %>"
+      //://WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
       //:// Check to see if this GroupBox has a WebControlProperty of "Table".  If so, then we will create this
       //:// as a table and try and position what is in this group box as a table.
@@ -15451,8 +15433,7 @@ GenJSPJ_CrteCtrlsRadio( zVIEW     vDialog,
       if ( ZeidonStringCompare( szActionName, 1, 0, "", 1, 0, 33 ) != 0 )
       { 
          //:szWriteBuffer = "      <td style=^width:15px;border:0px;^><input type=^radio^ name=^" + szRadioGroupName + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey +
-         //:                "^ <%=strDisabled%> value=^" + vDialog.Control.RadioOrCheckboxValue +
-         //:                "^ <%=strErrorMapValue%> " + szStyle + szDisabled + " onclick=^" + szActionName + "( )^  ></td>"
+         //:                "^ <%=strDisabled%> value=^" + vDialog.Control.RadioOrCheckboxValue
          ZeidonStringCopy( szWriteBuffer, 1, 0, "      <td style=^width:15px;border:0px;^><input type=^radio^ name=^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szRadioGroupName, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
@@ -15462,12 +15443,33 @@ GenJSPJ_CrteCtrlsRadio( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strDisabled%> value=^", 1, 0, 10001 );
          GetVariableFromAttribute( szTempString_11, 0, 'S', 51, vDialog, "Control", "RadioOrCheckboxValue", "", 0 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_11, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strErrorMapValue%> ", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, " onclick=^", 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^  ></td>", 1, 0, 10001 );
+         //:IF szRepeatGrpKey = ""                         
+         if ( ZeidonStringCompare( szRepeatGrpKey, 1, 0, "", 1, 0, 101 ) == 0 )
+         { 
+            //:szWriteBuffer = szWriteBuffer + "^ <%=strErrorMapValue%> " + szStyle + szDisabled + " onclick=^" + szActionName + "( )^  ></td>"
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strErrorMapValue%> ", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, " onclick=^", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^  ></td>", 1, 0, 10001 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:szWriteBuffer = szWriteBuffer + "^ <%=strErrorMapValue%> " + szStyle + szDisabled + " onclick=^" + szActionName + "( '" + szCtrlTag + szRepeatGrpKey + "' )^  ></td>"
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strErrorMapValue%> ", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, " onclick=^", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "( '", 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+            ZeidonStringConcat( szWriteBuffer, 1, 0, "' )^  ></td>", 1, 0, 10001 );
+         } 
+
+         //:END                         
          //:ELSE
       } 
       else
@@ -17376,7 +17378,8 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
    zSHORT    lTempInteger_1; 
    zCHAR     szTempString_10[ 51 ]; 
    zCHAR     szTempString_11[ 33 ]; 
-   zCHAR     szTempString_12[ 51 ]; 
+   zCHAR     szTempString_12[ 33 ]; 
+   zCHAR     szTempString_13[ 51 ]; 
 
 
    //:GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
@@ -17611,8 +17614,7 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
    if ( lTempInteger_1 == 0 )
    { 
       //:szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
-      //:                " value=^" + vDialog.Control.RadioOrCheckboxValue +
-      //:                "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + " onclick=^" + vDialog.EventAct.Tag + "( )^>"
+      //:                " value=^" + vDialog.Control.RadioOrCheckboxValue
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<input type=^checkbox^ name=^", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
@@ -17624,13 +17626,35 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, " value=^", 1, 0, 10001 );
       GetVariableFromAttribute( szTempString_10, 0, 'S', 51, vDialog, "Control", "RadioOrCheckboxValue", "", 0 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_10, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strErrorMapValue%> ", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, " onclick=^", 1, 0, 10001 );
-      GetVariableFromAttribute( szTempString_11, 0, 'S', 33, vDialog, "EventAct", "Tag", "", 0 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_11, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^>", 1, 0, 10001 );
+      //:IF szRepeatGrpKey = ""
+      if ( ZeidonStringCompare( szRepeatGrpKey, 1, 0, "", 1, 0, 101 ) == 0 )
+      { 
+         //:szWriteBuffer = szWriteBuffer + "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + " onclick=^" + vDialog.EventAct.Tag + "( )^>"
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strErrorMapValue%> ", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, " onclick=^", 1, 0, 10001 );
+         GetVariableFromAttribute( szTempString_11, 0, 'S', 33, vDialog, "EventAct", "Tag", "", 0 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_11, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^>", 1, 0, 10001 );
+         //:ELSE
+      } 
+      else
+      { 
+         //:szWriteBuffer = szWriteBuffer + "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + " onclick=^" + vDialog.EventAct.Tag + "( '" + szCtrlTag + szRepeatGrpKey + "' )^>"
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strErrorMapValue%> ", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, " onclick=^", 1, 0, 10001 );
+         GetVariableFromAttribute( szTempString_12, 0, 'S', 33, vDialog, "EventAct", "Tag", "", 0 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_12, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "( '", 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, "' )^>", 1, 0, 10001 );
+      } 
+
+      //:END
       //:ELSE
    } 
    else
@@ -17647,8 +17671,8 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strDisabled%> ", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, " value=^", 1, 0, 10001 );
-      GetVariableFromAttribute( szTempString_12, 0, 'S', 51, vDialog, "Control", "RadioOrCheckboxValue", "", 0 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_12, 1, 0, 10001 );
+      GetVariableFromAttribute( szTempString_13, 0, 'S', 51, vDialog, "Control", "RadioOrCheckboxValue", "", 0 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_13, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strErrorMapValue%> ", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
