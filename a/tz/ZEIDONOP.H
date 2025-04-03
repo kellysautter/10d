@@ -266,21 +266,27 @@ oTZTENVRO_BuildRelationsFromEMD( zVIEW vViewToInstance0,
                                  zVIEW vERD2 );
 
 //end
-//start TZOGSRCO 2024.04.25 11:12:48
+//start TZOGSRCO 2024.06.26 16:49:22
 zOPER_EXPORT zSHORT OPERATION
-oTZOGSRCO_GlobalOperGrpMigrate( zVIEW vViewToInstance0,
-                                zPCHAR pchSourceGlobalOperGrou1,
-                                zVIEW vSourceLPLR2,
-                                zVIEW vSubtask3 );
+oTZOGSRCO_GlobalOperGrpMerge( zVIEW vViewToInstance0,
+                              zPCHAR pchSourceGlobalOperGrou1,
+                              zVIEW vSourceLPLR2,
+                              zVIEW vSubtask3 );
 
 zOPER_EXPORT zSHORT OPERATION
-oTZOGSRCO_AcceptParameter( zVIEW vViewtoInstance0,
-                           zPCHAR pchEntityName1,
-                           zSHORT nEvent2,
-                           zSHORT nState3 );
+oTZOGSRCO_CopyNewOperationVML( zVIEW vViewToInstance0,
+                               zPCHAR pchOperationName1,
+                               zPCHAR pchSourceOperationFileN2,
+                               zPCHAR pchTargetOperationFileN3 );
 
 zOPER_EXPORT zSHORT OPERATION
 oTZOGSRCO_GenerateXOG( zVIEW vViewToInstance0 );
+
+zOPER_EXPORT zSHORT OPERATION
+oTZOGSRCO_GlobalOperGrpMigrate( zVIEW vNewOperGrp0,
+                                zPCHAR pchOperGroupMetaName1,
+                                zVIEW vSourceLPLR2,
+                                zVIEW vvSubtask3 );
 
 //end
 //start TZERSASO 2024.04.25 11:12:48
@@ -1518,7 +1524,7 @@ oTZCMCPRO_CPLR_Enqueue( zVIEW vTZCMCPRO0,
                         zSHORT nEnqueueType2 );
 
 //end
-//start TZCMLPLO 2024.04.25 11:12:43
+//start TZCMLPLO 2024.06.26 16:49:45
 zOPER_EXPORT zSHORT OPERATION
 oTZCMLPLO_CheckOI_ForDupZKey( zVIEW vViewToInstance0,
                               zVIEW vViewSubjectOI1,
@@ -2284,13 +2290,21 @@ zOPER_EXPORT zSHORT OPERATION
 oDonTestXXXXXXXXYYYYYYYYCCCCCCCCB_ThisIsATest( zVIEW vViewToInstance0 );
 
 //end
-//start TZADWWKO 2024.04.25 11:12:39
+//start TZADWWKO 2024.06.26 16:49:11
 zOPER_EXPORT zSHORT OPERATION
-oTZADWWKO_ActivateAD_Base( zVIEW vViewToInstance0,
-                           zPVIEW vReturnedAD_BaseView1 );
+oTZADWWKO_AddAD_GoExclActions( zVIEW vViewToInstance0,
+                               zVIEW vTZWINDOWL1,
+                               zVIEW vAD_Base2 );
 
 zOPER_EXPORT zSHORT OPERATION
 oTZADWWKO_AddAD_ListInclActions( zVIEW vViewToInstance0,
+                                 zVIEW vTZCONTROL1,
+                                 zVIEW vTZWINDOWL2,
+                                 zVIEW vAD_BaseCtl3,
+                                 zVIEW vAD_Base4 );
+
+zOPER_EXPORT zSHORT OPERATION
+oTZADWWKO_AddAD_ListMGP_Actions( zVIEW vTZADWWKO0,
                                  zVIEW vTZCONTROL1,
                                  zVIEW vTZWINDOWL2,
                                  zVIEW vAD_BaseCtl3,
@@ -2301,13 +2315,6 @@ oTZADWWKO_AddAD_ListUpdActions( zVIEW vViewToInstance0,
                                 zVIEW vTZWINDOWL1,
                                 zVIEW vAD_Base2,
                                 zPCHAR pchszGroupType3 );
-
-zOPER_EXPORT zSHORT OPERATION
-oTZADWWKO_AddAD_ListMGP_Actions( zVIEW vTZADWWKO0,
-                                 zVIEW vTZCONTROL1,
-                                 zVIEW vTZWINDOWL2,
-                                 zVIEW vAD_BaseCtl3,
-                                 zVIEW vAD_Base4 );
 
 zOPER_EXPORT zSHORT OPERATION
 oTZADWWKO_AddFindRangeInitValues( zVIEW vViewToInstance0,
@@ -2432,6 +2439,15 @@ oTZADWWKO_InitGridSelectAttribs( zVIEW vViewToInstance0,
                                  zVIEW vTZCONTROL1 );
 
 zOPER_EXPORT zSHORT OPERATION
+oTZADWWKO_InitializeL_SymbolType( zVIEW vViewToInstance0 );
+
+zOPER_EXPORT zSHORT OPERATION
+oTZADWWKO_PositionOnControlByTag( zVIEW vViewToInstance0,
+                                  zPVIEW vReturnedView1,
+                                  zVIEW vOuterStartView2,
+                                  zPCHAR pchszControlTagName3 );
+
+zOPER_EXPORT zSHORT OPERATION
 oTZADWWKO_RenameAD_Controls( zVIEW vViewToInstance0,
                              zVIEW vTZWINDOWL1 );
 
@@ -2445,17 +2461,11 @@ oTZADWWKO_ResizeReposGroupBoxes( zVIEW vViewToInstance0,
                                  zVIEW vTZWINDOWL1 );
 
 zOPER_EXPORT zSHORT OPERATION
-oTZADWWKO_ResizeReposRecurs( zVIEW vViewToInstance0,
-                             zLONG lLevel1 );
+oTZADWWKO_ResizeReposRecurs( zVIEW vViewToInstance0 );
 
 zOPER_EXPORT zSHORT OPERATION
 oTZADWWKO_SetDialogProperties( zVIEW vViewToInstance0,
                                zVIEW vTargetDialogView1,
                                zVIEW vSourceDialogView2 );
-
-zOPER_EXPORT zSHORT OPERATION
-oTZADWWKO_AddAD_GoExclActions( zVIEW vViewToInstance0,
-                               zVIEW vTZWINDOWL1,
-                               zVIEW vAD_Base2 );
 
 //end

@@ -4296,19 +4296,12 @@ GenJSPJ_Action( zVIEW     vDialog,
          ZeidonStringCopy( szWriteBuffer, 1, 0, "      if ( strURL.equals( ^^ ) )", 1, 0, 10001 );
          //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
          WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
-         //://szWriteBuffer = "         strURL = response.encodeRedirectURL( ^" + szLogout + "^ );"
          //:szWriteBuffer = "         strURL = response.encodeRedirectURL( ^" + szLogout + "^ );"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "         strURL = response.encodeRedirectURL( ^", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szLogout, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
-         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-         //:/*
-         //:szWriteBuffer = "      response.sendRedirect( strURL );"
-         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         //:szWriteBuffer = "      return;"
-         //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         //:*/ 
+         //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
          //:szWriteBuffer = "      response.sendRedirect( strURL );"
          ZeidonStringCopy( szWriteBuffer, 1, 0, "      response.sendRedirect( strURL );", 1, 0, 10001 );
          //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )

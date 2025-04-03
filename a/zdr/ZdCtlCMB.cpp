@@ -1404,13 +1404,16 @@ ZComboBox::BuildListFromOI( zBOOL bRefresh )
 void
 ZComboBox::SetDisplaySelSet( zSHORT nSelSet )
 {
-   m_nDisplaySelSet = nSelSet;
+
+	m_nDisplaySelSet = nSelSet;
+   
    if ( m_nDisplaySelSet )
       m_ulFlag |= zQUAL_SELECTED;
    else
    if ( m_ulFlag & zQUAL_SELECTED )
       m_ulFlag &= ~zQUAL_SELECTED;
 }
+
 
 void
 ZComboBox::SetSelectSelSet( zSHORT nSelSet )
@@ -1841,7 +1844,7 @@ ZComboBox::MapFromOI( WPARAM wFlag )
          {
             zCPCHAR cpcBrowseScope = 0;
             zSHORT  nPrevSelSet = 0;
-
+			
             if ( GetViewByName( &vApp, *m_pzsListMapVName, m_pZSubtask->m_vDialog, zLEVEL_ANY ) > 0 )
             {
                nPrevSelSet = SetSelectSetForView( vApp, m_nDisplaySelSet );
@@ -1953,14 +1956,19 @@ ZComboBox::MapFromOI( WPARAM wFlag )
                if ( m_nDisplaySelSet )
                {
                   // If there are no entities to list ... quit.
-                  SetSelectSetForView( vApp, m_nDisplaySelSet );
+				  zSHORT  nPrevSelSet = 0;
+				  // KJS 05/08/24 - I added the nPrevSelSet and the SetSelect... at the end of this if becaues
+				  // otherwise, the SetSelect was set for 2, not 1. Then if we tried to update a WebControlProperty, the
+				  // assignment wouldn't work.
+				  nPrevSelSet = SetSelectSetForView( vApp, m_nDisplaySelSet );
                   if ( SetEntityCursor( vApp, *m_pzsListMapEName, 0,
                                         m_ulFlag | zPOS_FIRST | zTEST_CSR_RESULT | zQUAL_SELECTED,
                                         0, 0, 0, 0, cpcBrowseScope, 0 ) >= 0 )
                   {
                      uMapState |= zMAPACT_ENTITY_EXISTS;
                   }
-               }
+				  SetSelectSetForView(vApp, nPrevSelSet);
+			   }
                else
                {
                   // If there are no entities to list ... quit.
@@ -2198,8 +2206,8 @@ ZComboBox::MapToOI( zLONG lFlag )
          if ( m_pzsListMapContext )
             cpcMapContext = *m_pzsListMapContext;
 
-         if ( m_nDisplaySelSet )
-            nPrevSelSet = SetSelectSetForView( vMap, m_nDisplaySelSet );
+		 if (m_nDisplaySelSet)
+			 nPrevSelSet = SetSelectSetForView( vMap, m_nDisplaySelSet );
          else
             nPrevSelSet = 0;
 
@@ -3587,7 +3595,7 @@ ZComboBox::FormatTextAtPosition( zPCHAR pchText,
 
       if ( m_nDisplaySelSet )
       {
-         nPrevSelSet = SetSelectSetForView( m_vAppList, m_nDisplaySelSet );
+		  nPrevSelSet = SetSelectSetForView(m_vAppList, m_nDisplaySelSet);
       // TraceLineI( "ZListCtrl::FormatText DisplaySelectSet: ", m_nDisplaySelSet );
       }
       else
@@ -4203,6 +4211,31 @@ CB_SetDisplaySelectSet( zVIEW   vSubtask,
    }
 
    return( -1 );
+}
+
+zOPER_EXPORT zSHORT OPERATION
+CB_UnSetDisplaySelectSet(zVIEW   vSubtask,
+	zCPCHAR cpcCtrlTag,
+	zSHORT  nSelectSet)
+{
+	ZSubtask *pZSubtask;
+	ZMapAct  *pzma;
+	// KJS 05/08/24 - I added this because of issues we were having with WebControlProperties and setting them.
+	// I'm not sure how much it matters that SetDisplaySelSet would still be set at a 2 but this will reset back
+	// to 0.
+	if (GetWindowAndCtrl(&pZSubtask, &pzma, vSubtask, cpcCtrlTag) == 0)
+	{
+		ZComboBox *pCombo = DYNAMIC_DOWNCAST(ZComboBox, pzma->m_pCtrl);
+		if (pCombo)
+		{
+			pCombo->SetDisplaySelSet( 0 );
+			return(0);
+		}
+
+		TraceLineS("drvr - Invalid control type for CB_UnSetDisplaySelectSet ", cpcCtrlTag);
+	}
+
+	return(-1);
 }
 
 //./ ADD NAME=CB_SetSelectSelectSet

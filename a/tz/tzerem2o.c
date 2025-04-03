@@ -1079,6 +1079,8 @@ oTZEREMDO_ERD_Migrate( zVIEW     NewERD,
    zCHAR     DomainName[ 33 ] = { 0 }; 
    //:STRING ( 1 )   NewEntityFlag
    zCHAR     NewEntityFlag[ 2 ] = { 0 }; 
+   //:INTEGER ZKeyInitialization
+   zLONG     ZKeyInitialization = 0; 
    //:INTEGER FoundInd
    zLONG     FoundInd = 0; 
    //:INTEGER nRC
@@ -1102,8 +1104,16 @@ oTZEREMDO_ERD_Migrate( zVIEW     NewERD,
    GetVariableFromAttribute( szTempString_0, 0, 'S', 33, *SourceLPLR, "W_MetaDef", "Name", "", 0 );
    ZeidonStringConcat( SourceFileName, 1, 0, szTempString_0, 1, 0, 514 );
    ZeidonStringConcat( SourceFileName, 1, 0, ".PMD", 1, 0, 514 );
-   //:ActivateOI_FromFile( OldERD, "TZEREMDO", SourceLPLR, SourceFileName, 8192 )
-   ActivateOI_FromFile( &OldERD, "TZEREMDO", *SourceLPLR, SourceFileName, 8192 );
+   //:nRC = ActivateOI_FromFile( OldERD, "TZEREMDO", SourceLPLR, SourceFileName, 8192 )
+   nRC = ActivateOI_FromFile( &OldERD, "TZEREMDO", *SourceLPLR, SourceFileName, 8192 );
+   //:IF nRC < 0
+   if ( nRC < 0 )
+   { 
+      //:RETURN -2
+      return( -2 );
+   } 
+
+   //:END
    //:// 8192 IS zIGNORE_ATTRIB_ERRORS
    //:NAME VIEW OldERD "OldERD"
    SetNameForView( OldERD, "OldERD", 0, zLEVEL_TASK );
@@ -1116,6 +1126,26 @@ oTZEREMDO_ERD_Migrate( zVIEW     NewERD,
       CreateMetaEntity( vSubtask, NewERD, "EntpER_Model", zPOS_AFTER );
       //:SetMatchingAttributesByName ( NewERD, "EntpER_Model", OldERD, "EntpER_Model", zSET_NULL )
       SetMatchingAttributesByName( NewERD, "EntpER_Model", OldERD, "EntpER_Model", zSET_NULL );
+
+      //:// DonC Change 6/4/2024
+      //:// We need to adjust the NextZKeyToAssign value because migrating work attributes for a LOD can generate the 
+      //:// same ZKey for an ER_Attribute, which causes problems on relink of the LOD when the LOD is activated.
+      //:ZKeyInitialization = NewERD.EntpER_Model.NextZKeyToAssign
+      GetIntegerFromAttribute( &ZKeyInitialization, NewERD, "EntpER_Model", "NextZKeyToAssign" );
+      //:ZKeyInitialization = ZKeyInitialization - 100000000
+      ZKeyInitialization = ZKeyInitialization - 100000000;
+      //:IF ZKeyInitialization < 0
+      if ( ZKeyInitialization < 0 )
+      { 
+         //:ZKeyInitialization = NewERD.EntpER_Model.NextZKeyToAssign
+         GetIntegerFromAttribute( &ZKeyInitialization, NewERD, "EntpER_Model", "NextZKeyToAssign" );
+         //:ZKeyInitialization = ZKeyInitialization + 100000000
+         ZKeyInitialization = ZKeyInitialization + 100000000;
+      } 
+
+      //:END
+      //:NewERD.EntpER_Model.NextZKeyToAssign = ZKeyInitialization
+      SetAttributeFromInteger( NewERD, "EntpER_Model", "NextZKeyToAssign", ZKeyInitialization );
    } 
 
    //:END

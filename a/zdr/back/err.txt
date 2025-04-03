@@ -1,0 +1,351 @@
+TzCtlCVT.cpp:            *pchRCFileName = 0;
+TzCtlCVT.cpp:      *pchRCFileName = 0;
+TzCtlCVT.cpp:   *pchRCFileName++ = '\"';
+TzCtlCVT.cpp:               *pchRCFileName++ = '\\';
+TzCtlCVT.cpp:            *pchRCFileName++ = *cpcBMPName++;
+TzCtlCVT.cpp:      while ( *pchPos )
+TzCtlCVT.cpp:         if ( *pchPos == '\\' )
+TzCtlCVT.cpp:            *pchRCFileName++ = '\\';
+TzCtlCVT.cpp:         *pchRCFileName++ = *pchPos++;
+TzCtlCVT.cpp:             *pchRCFileName++ = '\\';
+TzCtlCVT.cpp:         *pchRCFileName++ = *cpcBMPName++;
+TzCtlCVT.cpp:   *pchRCFileName++ = '\"';
+TzCtlCVT.cpp:   *pchRCFileName = 0;
+TzCtlCVT.cpp:            if ( *pchText == 0 )
+TzCtlCVT.cpp:            *pch = 0;   // separate Text from ToolTip
+TzCtlCVT.cpp:            *pch = 0;
+TzCtlCVT.cpp:   *pch = 0;
+TzCtlCVT.cpp:   *pch = 0;
+TzCtlCVT.cpp:   *pch = 0;
+TzCtlCVT.cpp:   *pch = 0;
+TzCtlERD.cpp:                     if ( pchPrintTitle && *pchPrintTitle )
+TzCtlERE.cpp:   if ( pchText && *pchText )
+TzCtlERL.cpp:   if ( pchForwardText && *pchForwardText )
+TzCtlPTE.cpp:               if ( *pch )
+TzCtlPTX.cpp:               *pch = '\r';
+TzCtlPTX.cpp:            *pchText = '\r';
+TzCtlPTX.cpp:   if ( pch && *pch )    // DLL_Name
+TzCtlPTX.cpp:   if ( pch && *pch )
+TzCtlPTX.cpp:         if ( *pch == '.' && *(pch + 1) == '\\' )
+TzCtlPTX.cpp:   if ( pch && *pch )   // DLL_Name
+TzCtlPTX.cpp:   if ( pchBitmap == 0 || *pchBitmap == 0 )  // nothing left in the Ctrl BOI
+TzCtlPTX.cpp:      if ( (isdigit( *pchBitmap ) || (pchSemiColon != 0)) &&
+TzCtlPTX.cpp:      if ( *pchSemiColon == '.' && *(pchSemiColon + 1) == '\\' )
+TzCtlPTX.cpp:   if ( *pchText == 0 )
+TzCtlPTX.cpp:         if ( *pch )
+TzCtlPTX.cpp:         if ( *pch )
+Z2MPAPI.cpp:   *pchStreet = 0;
+Z2MPAPI.cpp:   *pchCity = 0;
+Z2MPAPI.cpp:   *pchOtherCity = 0;
+Z2MPAPI.cpp:   *pchRegion = 0;
+Z2MPAPI.cpp:   *pchPostalCode = 0;
+ZCrystalEditView.cpp:   char *pchLineBuffer = new char[nCurrentMax];
+ZdCtl.cpp:      while ( pch && *pch && (*pch == '0' || *pch == '.' || isspace( *pch )) )
+ZdCtl.cpp:      if ( pch && *pch )
+ZdCtlBar.cpp:         *pchSemiColon = 0;
+ZdCtlBar.cpp:         *pchSemiColon = ';';
+ZdCtlBar.cpp:   if ( *pchBuffer )
+ZdCtlBar.cpp:         *pchComma = 0;
+ZdCtlBar.cpp:            *pchComma = 0;
+ZdCtlBar.cpp:               *pchComma = 0;
+ZdCtlBar.cpp:                  *pchComma = 0;
+ZdCtlBMB.cpp:   if ( pch && *pch )   // DLL_Name
+ZdCtlBMB.cpp:      if ( *pchDLL_Name )
+ZdCtlBMB.cpp:   if ( hInstDLL == 0 || pchBitmap == 0 || *pchBitmap == 0 )  // nothing left in the Ctrl BOI
+ZdCtlBMB.cpp:   if ( (isdigit( *pchBitmap ) || (pchSemiColon != 0)) &&
+ZdCtlBMB.cpp:   if ( pchBitmap == 0 || *pchBitmap == 0 )  // nothing left in the Ctrl BOI
+ZdCtlBMB.cpp:      if ( (isdigit( *pchBitmap ) || (pchSemiColon != 0)) &&
+ZdCtlBMB.cpp:      if ( *pchSemiColon == '.' && *(pchSemiColon + 1) == '\\' )
+ZdCtlBMP.cpp:      if ( pch && *pch )   // DLL_Name
+ZdCtlBMP.cpp:         if ( *pchDLL_Name )
+ZdCtlBMP.cpp:   if ( pchBitmap == 0 || *pchBitmap == 0 )  // nothing left in the Ctrl BOI
+ZdCtlBMP.cpp:   if ( pchSemiColon && *pchSemiColon == '@' ) // V.E.A.P.X reference
+ZdCtlBMP.cpp:      if ( (isdigit( *pchBitmap ) || (pchSemiColon != 0)) &&
+ZdCtlBMP.cpp:      if ( *pchSemiColon == '.' && *(pchSemiColon + 1) == '\\' )
+ZdCtlBTN.cpp:            *pchText = '\r';
+ZdCtlBTN.cpp:      if ( *pchAmpersand == '&' )
+ZdCtlBTN.cpp:         m_chQuickKey = toupper( *pchAmpersand );
+ZdCtlBTN.cpp:   while ( pch && *pch )
+ZdCtlBTN.cpp:         *pchNewLine = 0;
+ZdCtlBTN.cpp:                  *pchSpace = 0;
+ZdCtlBTN.cpp:            while ( *pch == ' ' )
+ZdCtlCHK.cpp:      if ( *pchAmpersand == '&' )
+ZdCtlCHK.cpp:         m_chQuickKey = toupper( *pchAmpersand );
+ZdCtlEDT.cpp:            *pch = ' ';
+ZdCtlEDT.cpp:   *pchSelectedText = 0;
+ZdCtlEVW.cpp:   char *pchLineBuffer = new char[nCurrentMax];
+ZdCtlEVW.cpp:   char *pchDot = strrchr( (char *) cpcFileName, '.' );
+ZdCtlHD.cpp:   if ( *pchBuffer )
+ZdCtlHD.cpp:         *pchComma = 0;
+ZdCtlHD.cpp:         *pchComma = 0;
+ZdCtlHD.cpp:         *pchComma = 0;
+ZdCtlHD.cpp:         *pchComma = 0;
+ZdCtlHD.cpp:         *pchComma = 0;
+ZdCtlHD.cpp:                  if ( lPages > 1 && (lPage > 1 || pchPrintTitle == 0 || *pchPrintTitle == 0) )
+ZdCtlHD.cpp:                     if ( pchPrintTitle && *pchPrintTitle )
+ZdCtlHDN.cpp:   if ( pchText && *pchText )
+ZdCtlHDN.cpp:   if ( pchTitle && *pchTitle )
+ZdCtlHDN.cpp:   if ( pchDIL && *pchDIL )
+ZdCtlHDN.cpp:   if ( pchOutsideText1 && *pchOutsideText1 )
+ZdCtlHDN.cpp:   if ( pchOutsideText2 && *pchOutsideText2 )
+ZdCtlHDN.cpp:   if ( pchOutsideText3 && *pchOutsideText3 )
+ZdCtlHDN.cpp:   if ( pchOutsideText4 && *pchOutsideText4 )
+ZdCtlHDN.cpp:   if ( pchOutsideText5 && *pchOutsideText5 )
+ZdCtlHDN.cpp:   if ( pchType && *pchType )
+ZdCtlHDN.cpp:      m_chType = *pchType;
+ZdCtlICO.cpp:   if ( *pch )   // DLL_Name
+ZdCtlICO.cpp:      if ( *pchDLL_Name )
+ZdCtlICO.cpp:   if ( pch && *pch )
+ZdCtlICO.cpp:           (isdigit( *pch ) || (pchSemiColon != 0)) &&
+ZdCtlICO.cpp:         if ( *pch == '.' && *(pch + 1) == '\\' )
+ZdCtlLBH.cpp:               *pch = 0;
+ZdCtlLBH.cpp:                  *pchTab = 0;
+ZdCtlLBH.cpp:                     if ( *pchTab )
+ZdCtlLBH.cpp:   if ( *pchBuffer )
+ZdCtlLBH.cpp:            *pchComma = 0;
+ZdCtlLBH.cpp:               while ( pch && *pch )
+ZdCtlLBH.cpp:                     *pchPeriod = 0;
+ZdCtlLBH.cpp:                     *pchSpace = 0;
+ZdCtlLBH.cpp:                        *pchBracket = 0;
+ZdCtlLBH.cpp:                     *pchPeriod = '.';
+ZdCtlLBH.cpp:                        *pchSpace = ' ';
+ZdCtlLBH.cpp:                           *pchBracket = ']';
+ZdCtlLBH.cpp:         *pchPos = ' ';
+ZdCtlLBH.cpp:         *pchPos = ' ';
+ZdCtlLBH.cpp:   while ( *pchEntity )
+ZdCtlLBH.cpp:      while ( *pchEntity && isspace( *pchEntity ) )
+ZdCtlLBH.cpp:      if ( *pchEntity == 0 )
+ZdCtlLBH.cpp:         *pchAttrib = 0;
+ZdCtlLBH.cpp:      while ( *pchEnd && isspace( *pchEnd ) == FALSE )
+ZdCtlLBH.cpp:      while ( *pchEnd && isspace( *pchEnd ) )
+ZdCtlLBH.cpp:         *pchEnd = 0;
+ZdCtlLBH.cpp:      if ( *pchEnd == 'A' )
+ZdCtlLBH.cpp:      if ( *pchEnd == 'D' )
+ZdCtlLBH.cpp:      while ( *pchEnd && isspace( *pchEnd ) )
+ZdCtlLBH.cpp:         *pchEnd = 0;
+ZdCtlLBH.cpp:      if ( *pchEnd == '[' )
+ZdCtlLBH.cpp:            *pchEnd = 0;
+ZdCtlLBH.cpp:            while ( *pch == ' ' )
+ZdCtlLBX.cpp:                     *pchTab = 0;
+ZdCtlLBX.cpp:                        if ( *pchTab )
+ZdCtlLBX.cpp:                  *pch = 0;
+ZdCtlLBX.cpp:      if ( pchMem && pchMem != (zPCHAR) -1 && *pchMem )
+ZdCtlLBX.cpp:         *pchPos = ' ';
+ZdCtlLBX.cpp:      *pchPos = ' ';
+ZdCtlLBX.cpp:      *pchPos = ' ';
+ZdCtlLBX.cpp:      if ( pchMem && pchMem != (zPCHAR) -1 && *pchMem )
+ZdCtlLBX.cpp:            while ( *pch == ' ' )
+ZdCtlLBX.cpp:         *pchNextCol++ = 0;
+ZdCtlLBX.cpp:                 (*pchMem == chLower || *pchMem == chUpper) )
+ZdCtlMST.cpp:   if ( *pch )
+ZdCtlMST.cpp:            while ( *pch )
+ZdCtlMST.cpp:   if ( *pchDLL_Name )
+ZdCtlMST.cpp:               *pchComma = 0;
+ZdCtlMST.cpp:            if ( *pchValue && zstrstr( pchValue, cpcFindString ) )
+ZdCtlMST.cpp:                  *pchComma = ',';
+ZdCtlMST.cpp:               *pchComma = ',';
+ZdCtlO.cpp:         while ( *pch1 != ';' && *pch1 )
+ZdCtlO.cpp:         if ( *pch1 == ';' )
+ZdCtlO.cpp:            while ( *pch1 != ';' && *pch1 )
+ZdCtlO.cpp:            if ( *pch1 == ';' )
+ZdCtlO.cpp:               while ( *pch1 != ';' && *pch1 )
+ZdCtlO.cpp:               if ( *pch1 == ';' )
+ZdCtlO.cpp:                  while ( *pch1 != ';' && *pch1 )
+ZdCtlO.cpp:                  if ( *pch1 == ';' )
+ZdCtlRB.cpp:      if ( *pch )    // default radio button
+ZdCtlRB.cpp:      if ( *pchAmpersand == '&' )
+ZdCtlRB.cpp:         m_chQuickKey = toupper( *pchAmpersand );
+ZdCtlRB.cpp:               (*pch == 0 && pRadioBtnGroup->m_pZDfltRB == this)) )
+ZdCtlRDI.cpp:      *pchDelimiter = 0;
+ZdCtlSS.cpp:            if ( *pch == (char) 0xFF )
+ZdCtlSS.cpp:               *pchComma = 0;
+ZdCtlSS.cpp:               *pchComma = '\t';
+ZdCtlSS.cpp:            if ( *pch )
+ZdCtlSS.cpp:   if ( *pchBuffer )
+ZdCtlSS.cpp:      if ( *pch == '~' )
+ZdCtlSS.cpp:      if ( *pch == '~' )
+ZdCtlSS.cpp:            *pchComma = 0;
+ZdCtlSS.cpp:               while ( pch && *pch )
+ZdCtlSS.cpp:                     *pchPeriod = 0;
+ZdCtlSS.cpp:                     *pchSpace = 0;
+ZdCtlSS.cpp:                        *pchBracket = 0;
+ZdCtlSS.cpp:                     *pchPeriod = '.';
+ZdCtlSS.cpp:                        *pchSpace = ' ';
+ZdCtlSS.cpp:                           *pchBracket = ']';
+ZdCtlSS.cpp:         if ( *pch == (char) 0xFF )
+ZdCtlSS.cpp:      *pch = '~';
+ZdCtlSSD.cpp:               if ( *pchData )
+ZdCtlSSE.cpp:   if ( *pchBuffer )
+ZdCtlSSE.cpp:            *pchComma = 0;
+ZdCtlSSE.cpp:         *pchComma = 0;
+ZdCtlSSE.cpp:         *pchComma = '\t';
+ZdCtlSSE.cpp:      // if ( *pchCheckByte == (char) 0xFE )
+ZdCtlSSE.cpp:            if ( *pch )
+ZdCtlSSE.cpp:            if ( *pch )
+ZdCtlSSE.cpp:      if ( *pch )
+ZdCtlSSE.cpp:   *pchReturnData = 0;
+ZdCtlSSE.cpp:   if ( *pchItemSrc )
+ZdCtlSSE.cpp://    lpText = (zPCHAR) DrLockTaskMemory( *pchItemSrc );
+ZdCtlSSE.cpp:      lpText = (zPCHAR) *pchItemSrc;
+ZdCtlSSE.cpp:         lpTextDest = (zPCHAR) DrLockTaskMemory( *pchItemDest );
+ZdCtlSSE.cpp:         *pchItemDest = lpTextDest;
+ZdCtlSSM.cpp:   if ( *pchText )
+ZdCtlSSM.cpp:            *pchPtr = 0;
+ZdCtlSSM.cpp:         *pch = 0;
+ZdCtlSSM.cpp:         if ( *pch )
+ZdCtlSSM.cpp:   *pchTextFmt =  0;
+ZdCtlSSM.cpp:      if ( *pchTextFmt == 0 )
+ZdCtlSSS.cpp:        fValue != SS_VALUE_INT /* 3 */ && *pchData == 0 )
+ZdCtlSSS.cpp:   if ( pchData == 0 || *pchData == 0 )
+ZdCtlSSS.cpp:            if ( pchDecimalData && *pchDecimalData )
+ZdCtlSSU.cpp:            while ( *pch == ' ' )
+ZdCtlSSX.cpp:ZListFile::ZListFile( zCHAR const *pchFileName,
+ZdCtlSSX.cpp:                      zCHAR const *pchFunctionName )
+ZdCtlTXT.cpp:         if ( *pchAmpersand == '&' )
+ZdCtlTXT.cpp:            m_chQuickKey = toupper( *pchAmpersand );
+ZdCtlTXT.cpp:         *pchBackSlash = '\n';
+ZdCtlTXT.cpp:   while ( pch && *pch )
+ZdCtlTXT.cpp:         *pchNewLine = 0;
+ZdCtlTXT.cpp:                  *pchSpace = 0;
+ZdCtlTXT.cpp:            while ( *pch == ' ' )
+ZDr.cpp:   while ( pch && *pch )
+ZDr.cpp:         *pchSemi = 0;
+ZDr.cpp:         *pchSemi = ';';
+ZDr.cpp:         *pchComma = 0;
+ZDrAxLst.cpp:      if ( *pch && (lVisible == 0 || lVisible == -1) )
+ZDrCmdLN.cpp:   if ( *pch )
+ZDrCmdLN.cpp:      if ( *pch == 0 )
+ZDrCtl.cpp:      if ( *pch )
+ZDrDlgA.cpp:         while ( *pch == ' ' )
+ZDrDlgA.cpp:         while ( *pch && zisspace( *pch ) == FALSE )
+ZDrDlgA.cpp:      while ( *pch == ' ' )
+ZDrDlgA.cpp:      if ( *pch && *pch == *(pch + 1) )
+ZDrDlgA.cpp:         pchDlg = zstrchr( pchApp, *pch );
+ZDrDlgA.cpp:            *pchDlg = 0;
+ZDrDlgC.cpp:   *pchReturnTag = 0;
+ZDrDlgC.cpp:         if ( *pch == '\t' )
+ZDrDlgC.cpp:            if ( *pch == '\t' )
+ZDrDlgC.cpp:         while ( pch && *pch )
+ZDrDlgC.cpp:               *pchTag = 0;
+ZDrDlgC.cpp:               *pchTag = ';';
+ZDrDlgC.cpp:// *pchValue = 0;  permit the caller to set the default return value!
+ZDrDlgC.cpp:      if ( *pch == 0 || zstrcmp( pch, cpcText ) )
+ZDrDlgC.cpp:   *pchText = 0;  // initialize the return value
+ZDrDlgC.cpp:      *pchValue = 0;
+ZDrDlgC.cpp:   *pchReturnCtrlTag = 0;
+ZDrDlgM.cpp:   *pchReturnPopupTag = 0;
+ZDrDlgM.cpp:   *pchReturnTag = 0;
+ZDrDlgM.cpp:// *pchValue = 0;  permit the caller to set the default return value!
+ZDrDlgO.cpp:      *pch = 0;
+ZDrDlgP.cpp:               *pch = 0;
+ZDrDlgP.cpp:                     *pchNewLine = 0;
+ZDrDlgP.cpp:                     if ( *pchNewLine == '\r' )
+ZDrDlgP.cpp:                        *pchNewLine = 0;
+ZDrDlgP.cpp:                     *pchNewPage = 0;
+ZDrDlgW.cpp:   *pchDlgTag = *pchWndTag = 0;
+ZDrDlgW.cpp:   *pchDlgTag = *pchWndTag = *pchCtrlTag = 0;
+ZDrDlgW.cpp:         *pchComma = 0;
+ZDrDlgW.cpp:            *pchComma = 0;
+ZDrMapAc.cpp:      *pchText = 0;
+ZDrMapAc.cpp:   while ( pch && *pch )
+ZDrMapAc.cpp:         *pchSemiInternal = 0;
+ZDrMapAc.cpp:            *pchSemiDisplay = 0;
+ZDrMapAc.cpp:         *pchSemiInternal = ';';
+ZDrMapAc.cpp:            *pchSemiDisplay = ';';
+ZDrMenu.cpp:      if ( *pch )
+ZDrMenu.cpp:               if ( *pch )
+ZDrMisc.cpp:   while ( pch && *pch )
+ZDrMisc.cpp:         *pchSemiColon = 0;
+ZDrMisc.cpp:      if ( pch && *pch )
+ZDrMisc.cpp:               if ( *pch == ' ' && *(pch + 1) == 0 )
+ZDrMisc.cpp:         *pchSemiColon = ';';
+ZDrMisc.cpp:   for ( pchDollars = szWindowText;  *pchDollars == ' ';  pchDollars++ )
+ZDrMisc.cpp:      if ( *pchDollars == 0 )
+ZDrMisc.cpp:   for ( pch = pchDollars; *pch && (*pch != '.') && (*pch != ' '); pch++ )
+ZDrMisc.cpp:      if ( (*pch < '0') || (*pch > '9') )
+ZDrMisc.cpp:   zBOOL bDollarsOnly = (*pch == 0);
+ZDrMisc.cpp:   *pch = 0;
+ZDrMisc.cpp:      for ( pchCents = ++pch; *pch && (*pch != ' '); pch++ )
+ZDrMisc.cpp:         if ( (*pch < '0') || (*pch > '9') )
+ZDrMisc.cpp:      if ( *pch == ' ' )
+ZDrMisc.cpp:         for ( pch++ ; *pch; pch++ )
+ZDrMisc.cpp:            if ( *pch != ' ' )
+ZDrOle.cpp:   *pchFileName = 0;
+ZDrOle.cpp:      *pchEntity = 0;
+ZDrOle.cpp:         *pchAttribute = 0;
+ZDrOle.cpp:            *pchImagePath = 0;
+ZDrOle.cpp:               *pchExt = 0;
+ZDrOle.cpp:         if ( *pchView )
+ZDrOle.cpp:               if ( pchExt && *pchExt )
+ZDrParse.cpp:         *pchComma = 0;
+ZDrParse.cpp:            *pchComma = ',';
+ZDrParse.cpp:         *pchComma = ',';
+ZDrParse.cpp:   if ( *pchLine == '"' || *pchLine == '\'' )
+ZDrParse.cpp:      chDelimiter = *pchLine;
+ZDrParse.cpp:      if ( pchQuote == 0 || (*pchComma && *pchComma != ',') )
+ZDrParse.cpp:      *pchQuote = 0;
+ZDrParse.cpp:      if ( *pchComma )
+ZDrParse.cpp:         *pchComma = 0;
+ZDrParse.cpp:   while ( pch && *pch )
+ZDrParse.cpp:         *pchDot1 = 0;
+ZDrParse.cpp:         *pchDot2 = 0;
+ZDrParse.cpp:         *pchComma = 0;
+ZDrParse.cpp:            *pchEqual = 0;
+ZDrParse.cpp:            *pchEqual = 0;
+ZDrParse.cpp:         *pchEqual = '=';
+ZDrParse.cpp:         *pchDot1 = '.';
+ZDrParse.cpp:         *pchDot2 = '.';
+ZDrParse.cpp:         *pchComma = ',';
+ZDrParse.cpp:      *pchSrcListScope = 0;
+ZDrParse.cpp:         *pchNewline = 0;
+ZDrParse.cpp:            *pchNewline = '<';
+ZDrParse.cpp:            *pchNewline = '\r';
+ZDrPrint.cpp:   *pchPageNumber = 0;
+ZDrPrint.cpp:         while ( pch && *pch )
+ZDrPrint.cpp:      if ( pchBitmapName && *pchBitmapName == 0 )
+ZDrPrint.cpp:   while ( *pch )
+ZDrPrint.cpp:      if ( *pch == cFrom )
+ZDrPrint.cpp:         *pch = cTo;
+ZDrPrint.cpp:               *pchExt = 0;
+ZDrPrtC.cpp:   while ( pch && *pch )
+ZDrPrtC.cpp:         *pchSemi = 0;
+ZDrPrtC.cpp:            *pchSemi = ';';
+ZDrPrtC.cpp:            *pchSemi = ';';
+ZDrPrtC.cpp:               *pchText = '\r';
+ZDrPrtC.cpp:               *pchText = '\r';
+ZDrPrtC.cpp:      if ( pchBitmapName && *pchBitmapName == 0 &&
+ZDrPrtC.cpp:      if ( pchBitmapName && *pchBitmapName )   // DLL_Name
+ZDrPrtC.cpp:      if ( *pchSemiColon == '.' && *(pchSemiColon + 1) == '\\' )
+ZDrPrtC.cpp:            if ( (isdigit( *pchBitmapName ) || (pchSemiColon != 0)) &&
+ZDrPrtC.cpp:      if ( *pchDLL_Name )
+ZDrPrtC.cpp:   *pchEntityName = 0;
+ZDrSTask.cpp:         *pch = 0;
+ZDrSTask.cpp:         m_lRelease += *pch;
+ZDrSTask.cpp:   if ( *pch )
+ZDrSTask.cpp:      if ( *pch == 0 )
+ZDrTask.cpp:      *pchEnd = 0;   // A '.' is the end of the DialogName
+ZDrTask.cpp:                     *pch = 0;
+ZDrTask.cpp:                        *pch = 0;
+ZDrTask.cpp:   *pchReturnStudentId = 0;
+ZDrTask.cpp:         if ( *pch == 0 )
+ZDrTask.cpp:            if ( *pch == 0 )
+ZDrUtil.cpp:      *pchReturnString = 0;
+ZDrUtil.cpp:   // *pchTgt = c;
+ZDrUtil.cpp:      *pchTgt = '.';   // I don't know what to do for Mozilla, so punt
+ZDrUtil.cpp:      *pchTgt = c;  // we have good character
+ZDrUtil.cpp:            *pch = 0;
+ZDrUtil.cpp:         while ( *pchEntity && (pchAttrib = zstrchr( pchEntity, '.' )) != 0 )
+ZDrUtil.cpp:            *pchAttrib = 0;
+ZDrUtil.cpp:            *pchAscendDescend = 0;
+ZDrVCtrl.cpp:         while ( pch && *pch )
+ZDrVCtrl.cpp:               *pchSemi = 0;
+ZDrVCtrl.cpp:                  *pchSemi = ';';
+ZDrVCtrl.cpp:               *pchSemi = ';';
+ZSEMail.cpp:      if ( *pchUserName )
+ZSEMail.cpp:   if ( pchSmtpUserName && *pchSmtpUserName )
+ZSEMail.cpp:   if ( pchSmtpPassword && *pchSmtpPassword )
+ZSEMail.cpp:      if ( pchSmtpServer == 0 || *pchSmtpServer == 0 )
+ZSEMail.cpp:      if ( pchSender == 0 || *pchSender == 0 )
+ZSEMail.cpp:      if ( pchRecipient == 0 || *pchRecipient == 0 )
+ZSEMail.cpp:      if ( pchSubject == 0 || *pchSubject == 0 )
+ZSEMail.cpp:      if ( pchBody == 0 || *pchBody == 0 )

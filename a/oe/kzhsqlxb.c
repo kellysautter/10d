@@ -4502,7 +4502,7 @@ BuildSchema(  zVIEW  vDTE,
 
    // First thing we have to do is call the SQL DBH to load the current
    // DB schema.
-   GetStringFromAttribute( szDLL,
+   GetStringFromAttribute( szDLL, zsizeof(szDLL),
                            vDTE, "TE_DBMS_Source", "Executable" );
    hLibrary = SysLoadLibrary( vSubtask, szDLL );
    if ( hLibrary )

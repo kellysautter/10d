@@ -1339,6 +1339,12 @@ fnActivateMetaOI( zVIEW   vSubtask,
    // create a new view to be passed back to the application that requested
    // the meta.
    CreateViewFromViewForTask( pvMOI, *pvMOI, vSubtask );
+   // KJS 07/12/24 - TESTING
+   if (szMetaOI_Name == "wQuery")
+   {
+
+   }
+   // KJS 07/12/24 - END OF TESTING
 
    // **** Temporary Hack  05.12.1997
    // If this is a LOD, we are going to make sure that all IndentName values

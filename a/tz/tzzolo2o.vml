@@ -156,7 +156,7 @@ LOD_Migrate( VIEW          NewMainLOD BASED ON LOD TZZOLODO,
    VIEW ReturnedTE       BASED ON LOD TZTENVRO
    VIEW OldTE            BASED ON LOD TZTENVRO
    VIEW NewVOR           BASED ON LOD TZWDVORO
-
+   STRING ( 50 )  szOperationName
    STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
    STRING ( 513 ) TargetFileName            // zMAX_FILESPEC_LTH+1
    STRING ( 40 )  SourceName
@@ -330,7 +330,8 @@ LOD_Migrate( VIEW          NewMainLOD BASED ON LOD TZZOLODO,
 
    ELSE
 
-      // The LOD already exists, so we are only merging Operations (including source code) into the LOD.
+      // The LOD already exists, so we are merging Operations (including source code) into the LOD, as well as
+      // Entities and Attributes.
       // Note that the following code does not handle the situation where Operations in the Source LPLR
       // have been moved from one Source File to another. It assumes that they're in the same Source File.
       FOR EACH OldMainLOD.SourceFile
@@ -369,30 +370,25 @@ LOD_Migrate( VIEW          NewMainLOD BASED ON LOD TZZOLODO,
             MergeOperationsFlag = "Y"
          END
 
-         // Merge each Operation and related code, if requested.
+         // Merge each Operation and related code, if it doesn't already exist.
          FOR EACH OldMainLOD.Operation
-            ModifyFlag = "Y"
-            SET CURSOR FIRST NewMainLOD.Operation WHERE NewMainLOD.Operation.Name = OldMainLOD.Operation.Name
-            IF RESULT >= zCURSOR_SET
-               IF NewMainLOD.Operation.DoNotMergeFlag = "Y"
-                  ModifyFlag = "N"
-               ELSE
-                  DELETE ENTITY NewMainLOD.Operation NONE
-               END
-            END
-            IF ModifyFlag = "Y"    // Either the Operation is new or it is to replace the old Operation.
+            szOperationName = OldMainLOD.Operation.Name
+            
+            // Operation Entry
+            SET CURSOR FIRST NewMainLOD.Operation WHERE NewMainLOD.Operation.Name = szOperationName
+            IF RESULT < zCURSOR_SET
+               // The operation doesn't exist, so create it.
                CreateMetaEntity( vSubtask, NewMainLOD, "Operation", zPOS_AFTER )
                SetMatchingAttributesByName ( NewMainLOD, "Operation", OldMainLOD, "Operation", zSET_NULL )
                FOR EACH OldMainLOD.Parameter
                   CreateMetaEntity( vSubtask, NewMainLOD, "Parameter", zPOS_AFTER )
-                  SetMatchingAttributesByName ( NewMainLOD, "Parameter", OldMainLOD, "Operation", zSET_NULL )
-               END
-
-               // Merge in the Operation code, unless it was copied in for a new SourceFile above.
-               IF MergeOperationsFlag = "Y"
-                  CopyOperationCode( NewMainLOD, TargetFileName, SourceFileName, NewMainLOD.Operation.Name )
+                  SetMatchingAttributesByName ( NewMainLOD, "Parameter", OldMainLOD, "Parameter", zSET_NULL )
                END
             END
+            
+            // Operation VML entry.
+            // The CopyNewOperationVML operation will check to see if the operation exists and will add it as necessary.
+            CopyNewOperationVML( NewMainLOD, szOperationName, SourceFileName, TargetFileName )
          END
       END
 
@@ -412,18 +408,19 @@ LOD_Migrate( VIEW          NewMainLOD BASED ON LOD TZZOLODO,
       CreateViewFromViewForTask( OldRecursiveLOD, OldMainLOD, 0 )
       NAME VIEW NewRecursiveLOD "NewRecursiveLOD"
       NAME VIEW OldRecursiveLOD "OldRecursiveLOD"
-TraceLineS( "**** Before LOD_EntityMerge loop", "" )
+//TraceLineS( "**** Before LOD_EntityMerge loop", "" )
       
       // Merge/copy the Entities/Attributes as necessary.
       FOR EACH OldRecursiveLOD.LOD_EntityParent
          SET CURSOR FIRST NewRecursiveLOD.LOD_EntityParent WHERE NewRecursiveLOD.LOD_EntityParent.Name = OldRecursiveLOD.LOD_EntityParent.Name  
          IF RESULT >= zCURSOR_SET
             // Entity already exists, so just execute Merge functionality.
+
             nRC = LOD_EntityMerge( NewMainLOD,
                                    NewRecursiveLOD,
                                    OldMainLOD,
                                    OldRecursiveLOD,
-                                   SourceLPLR2,
+                                   SourceLPLR,
                                    CurrentLPLR,
                                    NewERD,
                                    SourceERD,
@@ -439,7 +436,7 @@ TraceLineS( "**** Before LOD_EntityMerge loop", "" )
                                   NewRecursiveLOD,
                                   OldMainLOD,
                                   OldRecursiveLOD,
-                                  SourceLPLR2,
+                                  SourceLPLR,
                                   CurrentLPLR,
                                   NewERD,
                                   SourceERD,
@@ -556,7 +553,6 @@ LOD_OperationCopy( VIEW vSubtask,
                    VIEW SourceLPLR BASED ON LOD TZCMLPLO )
 
    VIEW DirLPLR BASED ON LOD TZCMLPLO
-
    STRING ( 40 )  SourceName
    STRING ( 32 )  MetaName
    STRING ( 9 )   ExtensionName
@@ -566,7 +562,7 @@ LOD_OperationCopy( VIEW vSubtask,
    FOR EACH OldMainLOD.SourceFile
 
       // If there is no structure underneath the SourceFile entity in the
-      // old LOD, ignore it..
+      // old LOD, ignore it.
       // If there is a structure underneath the SourceFile entity in the old LOD,
       // simply copy it over.
 
@@ -589,7 +585,6 @@ LOD_OperationCopy( VIEW vSubtask,
                SetMatchingAttributesByName ( NewMainLOD, "Parameter",
                                              OldMainLOD, "Parameter", zSET_NULL )
             END
-
          END
 
       END
@@ -727,13 +722,14 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
          RETURN 
       END
    END
-TraceLineS( "***** Entity Copy: ", OldRecursiveLOD.LOD_EntityParent.Name )
+//TraceLineS( "***** Entity Copy: ", OldRecursiveLOD.LOD_EntityParent.Name )
    
    // If the LOD Entity already exists, merge it. Otherwise copy it.
    SET CURSOR FIRST NewRecursiveLOD.LOD_EntityParent WHERE NewRecursiveLOD.LOD_EntityParent.Name = OldRecursiveLOD.LOD_EntityParent.Name 
    IF RESULT >= zCURSOR_SET
 //TraceLineS( "***** Before Merge", "" )  
       // LOD Entity already exists in target, so just merge it.
+
       nRC = LOD_EntityMerge( NewMainLOD,
                              NewRecursiveLOD,
                              OldMainLOD,
@@ -752,7 +748,6 @@ TraceLineS( "***** Entity Copy: ", OldRecursiveLOD.LOD_EntityParent.Name )
      
       ErrorFlag = 0
 
-//TraceLineS( "***** Before Create LOD_EntityParent", "" ) 
       SET CURSOR LAST NewRecursiveLOD.LOD_EntityParent
       CreateMetaEntity( vSubtask, NewRecursiveLOD, "LOD_EntityParent", zPOS_AFTER )
       SetMatchingAttributesByName( NewRecursiveLOD, "LOD_EntityParent", OldRecursiveLOD,
@@ -1389,9 +1384,6 @@ LOD_AttributeCopy( VIEW        vSubtask,
          SET CURSOR FIRST NewERD.ER_Entity    WHERE NewERD.ER_Entity.Name    = LODEntityName
          SET CURSOR FIRST NewERD.ER_Attribute WHERE NewERD.ER_Attribute.Name = ERAttributeName
          IF RESULT < zCURSOR_SET
-   IF ERAttributeName = "Name"
-      IssueError( vSubtask,0,0, "LOD_AttributeCopy: At Attribute Name" )
-   END
             szMsg = "ER Attribute, " + LODEntityName + "." + ERAttributeName + ", does not exist in target ERD and will not be copied." 
             CreateErrorMessage( TaskLPLR, szMsg )
             RETURN
@@ -1441,22 +1433,45 @@ LOD_AttributeCopy( VIEW        vSubtask,
                DomainName = OldRecursiveLOD.DomainRec.Name
                SET CURSOR FIRST CurrentLPLR.W_MetaDef
                           WHERE CurrentLPLR.W_MetaDef.Name = DomainName
-               IF RESULT >= zCURSOR_SET
+               IF RESULT >= zCURSOR_SET 
                   ErrorFlag = 0  // Indicate Domain found.
                END
             ELSE
-
+               // Modified by DonC on 7/10/2024 because sometimes the SourceLPLR didn't have a Domain Meta or the CPLR_ZKey wasn't correct.
                NAME VIEW SourceLPLR "DomainSourceLPLR"
                SET CURSOR FIRST SourceLPLR.W_MetaType
                           WHERE SourceLPLR.W_MetaType.Type = 2003
-               SET CURSOR FIRST SourceLPLR.W_MetaDef
-                          WHERE SourceLPLR.W_MetaDef.CPLR_ZKey = OldRecursiveLOD.DomainRec.ZKey // ZKey is used here in case DomainName was changed
-               IF RESULT >= zCURSOR_SET
-                  DomainName = SourceLPLR.W_MetaDef.Name
+               IF RESULT < zCURSOR_SET
+                  // The SourceLPLR doesn't always have a Domain meta type when merging a whole LPLR, so use Name from LOD.
+                  DomainName = OldRecursiveLOD.DomainRec.Name
                   SET CURSOR FIRST CurrentLPLR.W_MetaDef
                              WHERE CurrentLPLR.W_MetaDef.Name = DomainName
                   IF RESULT >= zCURSOR_SET
                      ErrorFlag = 0  // Indicate Domain found.
+                  END
+               ELSE
+                  SET CURSOR FIRST SourceLPLR.W_MetaDef
+                             WHERE SourceLPLR.W_MetaDef.CPLR_ZKey = OldRecursiveLOD.DomainRec.ZKey // ZKey is used here in case DomainName was changed
+                  IF RESULT >= zCURSOR_SET
+                     DomainName = SourceLPLR.W_MetaDef.Name
+                     SET CURSOR FIRST CurrentLPLR.W_MetaDef
+                                WHERE CurrentLPLR.W_MetaDef.Name = DomainName
+                     IF RESULT >= zCURSOR_SET
+                        ErrorFlag = 0  // Indicate Domain found.
+                     END
+                  ELSE
+                     SET CURSOR FIRST SourceLPLR.W_MetaDef
+                                WHERE SourceLPLR.W_MetaDef.Name = OldRecursiveLOD.DomainRec.Name // Use Name is no match on zkey.
+                     IF RESULT >= zCURSOR_SET
+                        DomainName = SourceLPLR.W_MetaDef.Name
+                        SET CURSOR FIRST CurrentLPLR.W_MetaDef
+                                   WHERE CurrentLPLR.W_MetaDef.Name = DomainName
+                        IF RESULT >= zCURSOR_SET
+                           ErrorFlag = 0  // Indicate Domain found.
+                        END
+                     ELSE
+                        IssueError( vSubtask,0,0, "System Error: No match on SourceLPLR Domain." )
+                     END
                   END
                END
             END
@@ -2887,7 +2902,7 @@ END
 
 /*************************************************************************************************
 **
-**    OPERATION: LOD_Compare
+**    OPERATION: LOD_Merge
 **
 *************************************************************************************************/
 TRANSFORMATION OPERATION
@@ -3178,5 +3193,139 @@ LOD_MergeEntity( VIEW TargetLOD      BASED ON LOD TZZOLODO,
    END
    ResetViewFromSubobject( SourceLOD )
    ResetViewFromSubobject( TargetLOD )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: CopyNewOperationVML
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+CopyNewOperationVML( VIEW TZZOLODO BASED ON LOD TZZOLODO,
+                     STRING ( 50 )  szOperationName,
+                     STRING ( 200 ) szSourceOperationFileName,
+                     STRING ( 200 ) szTargetOperationFileName )
+
+   STRING ( 256 ) szCompare
+   STRING ( 256 ) szVML_Statement
+   STRING ( 1 )   szCopyVML_Flag
+   STRING ( 1 )   szFoundFlag
+   STRING ( 1 )   szCopyEndFlag
+   INTEGER nFileIn
+   INTEGER nFileOut
+   INTEGER nLength
+   INTEGER nCommentStart
+   INTEGER nCopyStart
+   INTEGER nLineNumber
+   INTEGER nTempLineNumber
+   SHORT   nRC
+   SHORT   nRC2
+   
+   // This is the same code as the operation by the same name in LOD TZOGSRCO.
+
+   // First determine if Operation already exists in file.
+   nLength   = zGetStringLen( szOperationName )
+   nFileIn   = SysOpenFile( TZZOLODO, szTargetOperationFileName, COREFILE_READ )
+   IF nFileIn >= 0  
+      // The file exists, so check if the operation already exists.
+      nRC  = zSysReadLine( TZZOLODO, szVML_Statement, nFileIn, 256 )
+      nRC2 = -1
+      LOOP WHILE nRC = 1 AND nRC2 != 0
+         zstrncpy( szCompare, szVML_Statement, nLength )    // Copy the necsssary characters of the line to the compare field.
+         nRC2 = zstrcmp( szCompare, szOperationName )
+         nRC = zSysReadLine( TZZOLODO, szVML_Statement, nFileIn, 256 )
+      END
+      SysCloseFile( TZZOLODO, nFileIn, 0 )
+      IF nRC2 != 0
+         // The file exists but doesn't have the Operation.
+         szCopyVML_Flag = "Y"
+         nFileOut  = SysOpenFile( TZZOLODO, szTargetOperationFileName, COREFILE_APPEND )
+         TraceLineI( "*** nFileOut Append: ", nFileOut )
+      END
+   ELSE
+      // The file doesn't exist, so set flag for copy and open output file for WRITE.
+      szCopyVML_Flag = "Y"
+      nFileOut = SysOpenFile( TZZOLODO, szTargetOperationFileName, COREFILE_WRITE )
+   END
+   
+   IF szCopyVML_Flag = "Y"
+      // Copy the Operation.
+      // The challenge is to ONLY copy that one operation out of the whole file and to pick up the
+      // comment lines documenting the beginning of the operation. We will thus make an initial pass of 
+      // the Source VML file and note the line number of the start of that comment section and then make a second
+      // pass to copy line from there to the "END" statement.
+      
+      // First locate start of comment line for operation.
+      nCommentStart = 0
+      nLineNumber   = 0
+      szFoundFlag   = ""
+      nFileIn   = SysOpenFile( TZZOLODO, szSourceOperationFileName, COREFILE_READ )
+      nRC = zSysReadLine( TZZOLODO, szVML_Statement, nFileIn, 256 )
+      LOOP WHILE nRC = 1 AND szFoundFlag = ""
+         nLineNumber = nLineNumber + 1
+         szCompare = "XXX"    // Necessary for length of copy to result in 3 characters.
+         zstrncpy( szCompare, szVML_Statement, 3 )
+         nRC2 = zstrcmp( szCompare, "/**" )
+         IF nRC2 = 0
+            // This is the start of a comment section, so save the line number.
+            nCommentStart = nLineNumber
+            nLineNumber = nLineNumber + 1
+            nRC = zSysReadLine( TZZOLODO, szVML_Statement, nFileIn, 256 )   // Skip to next line.
+         END
+         // Check for Operation statement line.
+         zstrncpy( szCompare, szVML_Statement, nLength )    // Copy the necsssary characters of the line to the compare field.
+         nRC2 = zstrcmp( szCompare, szOperationName )
+         IF nRC2 = 0
+            // This is the Operation Statement, so the last nCommentStart value identifies the line number to start copying.
+            // Thus we will simple save the value and exist this loop.
+            szFoundFlag = "Y"
+         END
+         nRC = zSysReadLine( TZZOLODO, szVML_Statement, nFileIn, 256 )
+      END
+      SysCloseFile( TZZOLODO, nFileIn, 0 )
+
+      // Only continue if the Operation was found.
+      IF szFoundFlag = "Y"
+       
+         // If there was no comment line for the operation, just back up 1 line for the start of operation definition.
+         IF nCommentStart = 0
+            nCopyStart = nLineNumber - 1
+         ELSE
+            // If the Comment Start is more than 10 lines before the current line, we will assume it's from an earlier 
+            // operation and will not use it.
+            nTempLineNumber = nLineNumber - 10
+            IF nTempLineNumber > nCommentStart
+               nCopyStart = nLineNumber - 1
+            ELSE
+               nCopyStart = nCommentStart
+            END
+         END
+      
+         // Now reprocess the Source VML to actually copy the necessary lines, starting with CommentStart and continuing
+         // to the "END" statement.
+         SysWriteLine( TZZOLODO, nFileOut, "" )  // Add a blank line before the operation.
+         nLineNumber   = 0
+         szCopyEndFlag = ""
+         nFileIn = SysOpenFile( TZZOLODO, szSourceOperationFileName, COREFILE_READ )
+         nRC = zSysReadLine( TZZOLODO, szVML_Statement, nFileIn, 256 )
+         LOOP WHILE nRC = 1 AND szCopyEndFlag = ""
+            nLineNumber = nLineNumber + 1
+            IF nLineNumber >= nCopyStart
+               SysWriteLine( TZZOLODO, nFileOut, szVML_Statement )
+               // Check if this is "END" statement.
+               szCompare = "XXX"    // Necessary for length of copy to result in 3 characters.
+               zstrncpy( szCompare, szVML_Statement, 3 )
+               nRC2 = zstrcmp( szCompare, "END" )
+               IF nRC2 = 0
+                  szCopyEndFlag = "Y"
+               END
+            END
+            nRC = zSysReadLine( TZZOLODO, szVML_Statement, nFileIn, 256 )
+         END
+      END
+      SysCloseFile( TZZOLODO, nFileIn, 0 )
+      SysCloseFile( TZZOLODO, nFileOut, 0 )
+   END
 
 END

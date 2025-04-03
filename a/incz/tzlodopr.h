@@ -760,7 +760,8 @@ typedef sQExprStruct * LPQEXPRSTRUCT;
 
 #define PARM_LIST_SIZE 20
 
-#define WHERE_ARRAY_SIZE 30
+// KJS 01/09/25 - Changed this from 30 because a long WHERE clause caused an error.
+#define WHERE_ARRAY_SIZE 100
 
 /////////////////////////////////////////////////////////////////////////////
 //

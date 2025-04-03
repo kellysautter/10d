@@ -1,40 +1,35 @@
-/*
-CHANGE LOG
-2000.10.20    SR  Z2000  Size of path variables
-   Modified size of SourceFileName and SourceFileName2 in function GlobalOperGrpMigrate
-   because size of attributes ExecDir, MetaSrcDir and PgmSrcDir has been changed to 254
-   in datamodel.
-2000.02.21  HH
-   ActivateOI_FromFile with zIGNORE_ATTRIB_ERRORS(8192)
-2000.01.13  BL
-   remove unreferenced local variable from here old version
-1998/09/10  DC
-   Added AcceptParameter operation to force the Return Value flag for string parms. (TB 249)
-04.11.1998  HH
-   set AcceptParameter to Dummy (TB370).
-*/
 
+/*************************************************************************************************
+**    
+**    OPERATION: GlobalOperGrpMerge
+**    
+*************************************************************************************************/
 TRANSFORMATION OPERATION
-GlobalOperGrpMigrate( VIEW        NewOperGrp BASED ON LOD TZOGSRCO,
-                      STRING (32) OperGroupMetaName,
-                      VIEW        SourceLPLR BASED ON LOD TZCMLPLO,
-                      VIEW        vSubtask )
+GlobalOperGrpMerge( VIEW        NewOperGrp BASED ON LOD TZOGSRCO,
+                    STRING (50) OperGroupMetaName,
+                    VIEW        SourceLPLR BASED ON LOD TZCMLPLO,
+                    VIEW        vSubtask )
 
    VIEW OldOperGrp  BASED ON LOD TZOGSRCO
    VIEW CurrentLPLR BASED ON LOD TZCMLPLO
-
-   STRING ( 513 ) SourceFileName                    // size according to zMAX_FILESPEC+1
-   STRING ( 513 ) SourceFileName2                   // size according to zMAX_FILESPEC+1
-   STRING ( 36 ) SourceName
+   VIEW TZZOLODO    BASED ON LOD TZZOLODO
+   STRING ( 500 ) szSourceFileName  
+   STRING ( 500 ) szVML_SourceFileName    
+   STRING ( 500 ) szVML_TargetFileName  
+   STRING ( 50 )  szSourceName
+   STRING ( 50 )  szOperationName
 
    // Activate existing source meta OldOperGroup
-   SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + OperGroupMetaName + ".POG"
+   szSourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + OperGroupMetaName + ".POG"
+
    // zIGNORE_ATTRIB_ERRORS=8192
    ActivateOI_FromFile( OldOperGrp, "TZOGSRCO", SourceLPLR,
-                        SourceFileName, zSINGLE + 8192 )
+                        szSourceFileName, zSINGLE + 8192 )
    NAME VIEW OldOperGrp "OldOperGrp"
-   //ActivateEmptyMetaOI( vSubtask, NewOperGrp, 14, zSINGLE ) // 14 is zSOURCE_GOPGRP_META
-   //NAME VIEW NewOperGrp "NewOperGrp"
+   GET VIEW CurrentLPLR NAMED "TaskLPLR"
+   szSourceName = OperGroupMetaName + "." + OldOperGrp.GlobalOperationGroup.Extension
+   szVML_SourceFileName = SourceLPLR.LPLR.PgmSrcDir + "\" + szSourceName
+   szVML_TargetFileName = CurrentLPLR.LPLR.PgmSrcDir + "\" + szSourceName
 
    IF NewOperGrp.GlobalOperationGroup DOES NOT EXIST
 
@@ -47,17 +42,7 @@ GlobalOperGrpMigrate( VIEW        NewOperGrp BASED ON LOD TZOGSRCO,
       // We will assume a source file exists if the SourceFile.Extension is not null.  If there
       // is actually no source file, the CopyFile does no harm.
       IF OldOperGrp.GlobalOperationGroup.Extension != ""
-         RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get view for directory info.
-         ResetViewFromSubobject( CurrentLPLR )
-         IF OldOperGrp.GlobalOperationGroup.Extension = "C"
-            SourceName = OperGroupMetaName + ".C"
-         ELSE
-            SourceName = OperGroupMetaName + ".VML"
-         END
-         SourceFileName = SourceLPLR.LPLR.PgmSrcDir + "\" + SourceName
-         SourceFileName2 = CurrentLPLR.LPLR.PgmSrcDir + "\" + SourceName
-         SysCopyFile( vSubtask, SourceFileName, SourceFileName2, TRUE )
-         DropMetaOI( vSubtask, CurrentLPLR )
+         SysCopyFile( vSubtask, szVML_SourceFileName, szVML_TargetFileName, TRUE )
       END
 
       FOR EACH OldOperGrp.Operation
@@ -82,9 +67,7 @@ GlobalOperGrpMigrate( VIEW        NewOperGrp BASED ON LOD TZOGSRCO,
 
       // The Global Operation Group exists in the target, so merge in any new Operations.
       // We will force over any Operations (both prototype and code) for any Operations not flagged as modified in target LPLR.
-
       FOR EACH OldOperGrp.Operation
-
          SET CURSOR FIRST NewOperGrp.Operation WHERE NewOperGrp.Operation.Name = OldOperGrp.Operation.Name
          IF RESULT < zCURSOR_SET
             CreateMetaEntity( vSubtask, NewOperGrp, "Operation", zPOS_AFTER )
@@ -105,72 +88,23 @@ GlobalOperGrpMigrate( VIEW        NewOperGrp BASED ON LOD TZOGSRCO,
                SetMatchingAttributesByName( NewOperGrp, "Parameter", OldOperGrp, "Parameter", zSET_NULL )
             END
 
-            // Add new Operation Code.
-            // CopyOperationCode
-
+            // DonC change on 7/11/2024 because we currently only copy VML source files.
+            // Copy Operation Code if the source is VML.
+            IF NewOperGrp.GlobalOperationGroup.LanguageType = "V"
+               szOperationName = NewOperGrp.Operation.Name 
+               // We will temporarily use the TZZOLODO LOD definition so that we can reus the CopyNewOperationVML
+               // operation tied to that LOD.
+               TZZOLODO = NewOperGrp
+               CopyNewOperationVML( TZZOLODO, szOperationName, szVML_SourceFileName, szVML_TargetFileName )
+            END
          END
-
       END
-
    END
-
-
 
    DropObjectInstance( OldOperGrp )
    CommitMetaOI( vSubtask, NewOperGrp, 14 )   // 14 is zSOURCE_GOPGRP_META
 
-   // Build the prototypes in zeidon.h file.
-   RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_GOPGRP_META ) // Get view for Merge oper.
-   ResetViewFromSubobject( CurrentLPLR )
-   MergeGlobalPrototypes( NewOperGrp,
-                          NewOperGrp.GlobalOperationGroup.Name,
-                          "GlobalOperationGroup",
-                          CurrentLPLR )
-   DropMetaOI( vSubtask, CurrentLPLR )
-
 END
-
-ENTITY CONSTRAINT OPERATION
-AcceptParameter( VIEW OperGrp BASED ON LOD TZOGSRCO,
-                 STRING ( 32 ) sEntityName,
-                 SHORT Event,
-                 SHORT State )
-
-CASE Event
-OF   zECE_ACCEPT:
-
-   // For a string parameter, force on the Return Value flag.
-   /*  removed HH 4.11.98
-   IF  OperGrp.Parameter.DataType = "S" AND
-        OperGrp.Parameter.PFlag != "Y"
-              OperGrp.Parameter.PFlag = "Y"
-              MessageSend( OperGrp, "OP00812", "Operations",
-                           "Forcing the setting of 'Return Value' for string parameters.",
-                           zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-   END
-   */
-   RETURN 0
-
-     /* end zECE_ACCEPT */
-OF   zECE_CANCEL:
-
-     /* end zECE_CANCEL */
-OF   zECE_CREATE:
-
-     /* end zECE_CREATE */
-OF   zECE_DELETE:
-
-     /* end zECE_DELETE */
-OF   zECE_EXCLUDE:
-
-     /* end zECE_EXCLUDE */
-OF   zECE_INCLUDE:
-
-     /* end zECE_INCLUDE */
-END  /* case */
-
-END
-
 
 /*************************************************************************************************
 **    
@@ -242,5 +176,76 @@ GenerateXOG( VIEW OperationGroup BASED ON LOD TZOGSRCO )
    END
    CommitOI_ToFile( OperationXOG, XOG_FileName, zASCII )
    DropObjectInstance( OperationXOG )
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GlobalOperGrpMerge
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GlobalOperGrpMigrate( VIEW        NewOperGrp BASED ON LOD TZOGSRCO,
+                      STRING (50) OperGroupMetaName,
+                      VIEW        SourceLPLR BASED ON LOD TZCMLPLO,
+                      VIEW        vSubtask )
+
+   VIEW OldOperGrp  BASED ON LOD TZOGSRCO
+   VIEW CurrentLPLR BASED ON LOD TZCMLPLO
+   STRING ( 500 ) szSourceFileName  
+   STRING ( 500 ) szVML_SourceFileName    
+   STRING ( 500 ) szVML_TargetFileName  
+   STRING ( 50 )  szSourceName
+   STRING ( 256 ) szVML_Statement
+   INTEGER nFileIn
+   INTEGER nFileOut
+   SHORT   nRC
+
+   // Activate existing source meta OldOperGroup
+   szSourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + OperGroupMetaName + ".POG"
+   nRC = ActivateOI_FromFile( OldOperGrp, "TZOGSRCO", SourceLPLR,
+                              szSourceFileName, zSINGLE + 8192 )
+   NAME VIEW OldOperGrp "OldOperGrp"
+   GET VIEW CurrentLPLR NAMED "TaskLPLR"
+   szSourceName = OperGroupMetaName + "." + OldOperGrp.GlobalOperationGroup.Extension
+   szVML_SourceFileName = SourceLPLR.LPLR.PgmSrcDir + "\" + szSourceName
+   szVML_TargetFileName = CurrentLPLR.LPLR.PgmSrcDir + "\" + szSourceName
+
+   // It is assumed here the the Operation Group does NOT exist in the target LPLR, so simply copy everything over.
+
+   CreateMetaEntity( vSubtask, NewOperGrp, "GlobalOperationGroup", zPOS_AFTER )
+   SetMatchingAttributesByName( NewOperGrp, "GlobalOperationGroup", OldOperGrp, "GlobalOperationGroup", zSET_NULL )
+
+   FOR EACH OldOperGrp.Operation
+
+      CreateMetaEntity( vSubtask, NewOperGrp, "Operation", zPOS_AFTER )
+      SetMatchingAttributesByName ( NewOperGrp, "Operation", OldOperGrp,
+                                    "Operation", zSET_NULL )
+
+      FOR EACH OldOperGrp.Parameter
+         // Make sure the ShortDesc in the Parameter is not null.
+         IF OldOperGrp.Parameter.ShortDesc = ""
+            OldOperGrp.Parameter.ShortDesc = "Parm"
+         END
+         CreateMetaEntity( vSubtask, NewOperGrp, "Parameter", zPOS_AFTER )
+         SetMatchingAttributesByName( NewOperGrp, "Parameter", OldOperGrp,
+                                      "Parameter", zSET_NULL )
+      END
+
+   END
+   CommitMetaOI( vSubtask, NewOperGrp, 14 )  // 14 is zSOURCE_GOPGRP_META
+   
+   // Copy over the source file to the new LPLR directory, if there is a VML source file.
+   IF OldOperGrp.GlobalOperationGroup.Extension = "VML"
+      nFileIn  = SysOpenFile( vSubtask, szVML_SourceFileName, COREFILE_READ )
+      nFileOut = SysOpenFile( vSubtask, szVML_TargetFileName, COREFILE_WRITE )
+      nRC = zSysReadLine( vSubtask, szVML_Statement, nFileIn, 256 )
+      LOOP WHILE nRC = 1 
+         SysWriteLine( vSubtask, nFileOut, szVML_Statement )
+         nRC = zSysReadLine( vSubtask, szVML_Statement, nFileIn, 256 )
+      END
+      SysCloseFile( vSubtask, nFileIn, 0 )
+      SysCloseFile( vSubtask, nFileOut, 0 )
+   END
 
 END

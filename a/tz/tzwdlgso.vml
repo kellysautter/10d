@@ -297,6 +297,7 @@ MergeWebMenus( VIEW vNewW  BASED ON LOD TZWDLGSO,
    VIEW TaskLPLR   REGISTERED AS TaskLPLR
    VIEW TZDLG_List BASED ON LOD  TZCMLPLO
    VIEW TZWND_List BASED ON LOD  TZWDLGSO
+   VIEW TempDialog BASED ON LOD  TZWDLGSO
    STRING ( 200 ) szMsg
    INTEGER nRC
 
@@ -327,11 +328,27 @@ MergeWebMenus( VIEW vNewW  BASED ON LOD TZWDLGSO,
          SET CURSOR FIRST TZDLG_List.W_MetaDef
                     WHERE TZDLG_List.W_MetaDef.Name = vOrigW.ReusableSideDialog.Tag
          IF RESULT < zCURSOR_SET
+            // Modified by DonC on 7/18/2024 so that the target LPLR on a Merge Dialog does not have to contain
+            // the Dialog holding the reusable menu.
+            // To handle this situation, we will create a temporary Dialog with a Window entity to be used as
+            // the source of the include creating the ReusableSideWindow.
+            ACTIVATE TempDialog EMPTY 
+            NAME VIEW TempDialog "TempDialog"
+            CREATE ENTITY TempDialog.Dialog 
+            TempDialog.Dialog.ZKey = 1   // Use a Zkey value that would never get relinked with an incorrect Dialog.
+            TempDialog.Dialog.Tag  = vOrigW.ReusableSideDialog.Tag
+            CREATE ENTITY TempDialog.Window 
+            TempDialog.Window.ZKey = 2
+            TempDialog.Window.Tag  = vOrigW.ReusableSideWindow.Tag  
+            INCLUDE vNewW.ReusableSideWindow FROM TempDialog.Window
+            DropObjectInstance( TempDialog )
+            
             // The Dialog holding the Menu does not exist in the target LPLR, so return an error message.
-            szMsg = "Dialog defining Menu, '" + vOrigW.ReusableSideDialog.Tag + "." + vOrigW.ReusableSideWindow.Tag +
-                    "', does not exist in target LPLR and will not be copied."
-            CreateErrorMessage( TaskLPLR, szMsg )
-            RETURN -1
+            //szMsg = "Dialog, " + vOrigW.Dialog.Tag + ", uses Menu, '" + 
+            //        vOrigW.ReusableSideDialog.Tag + "." + vOrigW.ReusableSideWindow.Tag +
+            //        "', which does not exist in target LPLR and will thus not be copied."
+            //CreateErrorMessage( TaskLPLR, szMsg )
+            //RETURN -2
          ELSE
             // Make sure that any left over ReusableDialogSelection entity is removed and then
             // include new Dialog.
@@ -762,7 +779,7 @@ CloneCtrlMap( VIEW vNewW    BASED ON LOD TZWDLGSO,
    VIEW vLOD       BASED ON LOD  TZZOLODO
    VIEW LOD_List   BASED ON LOD  TZCMLPLO
    INTEGER       nRC
-   STRING ( 64 ) szMsg
+   STRING ( 200 ) szMsg
 
    CreateMetaEntity( vSubtask, vNewWC, "CtrlMap", zPOS_AFTER )
    SetMatchingAttributesByName( vNewWC, "CtrlMap",
@@ -782,7 +799,8 @@ CloneCtrlMap( VIEW vNewW    BASED ON LOD TZWDLGSO,
                                         vNewW, "ViewObjRef", zPOS_AFTER )
       ELSE
          // Return Error Message
-         szMsg = "Named View, " + vOrigWC.CtrlMapView.Name + ", does not exist. CtrlMap for Control, " + vOrigWC.Control.Tag + ", will not be created."
+         szMsg = "Named View, " + vOrigWC.CtrlMapView.Name + ", does not exist. CtrlMap for Control, " + 
+                 vOrigW.Window.Tag + "." + vOrigWC.Control.Tag + ", will not be created."
          CreateErrorMessage( TaskLPLR, szMsg )
          
          // Delete all CtrlMap entries because some controls (ie., ComboBox) will give error with partial mapping.
@@ -814,7 +832,7 @@ CloneCtrlMap( VIEW vNewW    BASED ON LOD TZWDLGSO,
                                         vLOD,  "LOD_Entity", zPOS_AFTER )
       ELSE
          szMsg = "LOD_Entity, " + vOrigWC.CtrlMapLOD_Entity.Name + ", does not exist." + 
-                 " CtrlMap for Control, " + vOrigWC.CtrlMapView.Name + "." + vOrigWC.Control.Tag + ", will not be created."
+                 " CtrlMap for Control, " + vOrigW.Window.Tag + "." + vOrigWC.Control.Tag + ", will not be created."
          CreateErrorMessage( TaskLPLR, szMsg )
          
          // Delete all CtrlMap entries because some controls (ie., ComboBox) will give error with partial mapping.
@@ -835,7 +853,7 @@ CloneCtrlMap( VIEW vNewW    BASED ON LOD TZWDLGSO,
          CtrlAttributeMapping( vSubtask, vSourceLPLR, vOrigWC, vNewWC, vLOD )
       ELSE
          szMsg = "LOD_Entity, " + vOrigWC.CtrlMapView.Name + "." + vOrigWC.CtrlMapRelatedEntity.Name + ", does not exist." + 
-                 " CtrlMap for Control, " + vOrigWC.Control.Tag + ", will not be created."
+                 " CtrlMap for Control, " + vOrigW.Window.Tag + "." + vOrigWC.Control.Tag + ", will not be created."
          CreateErrorMessage( TaskLPLR, szMsg )
          
          // Delete all CtrlMap entries because some controls (ie., ComboBox) will give error with partial mapping.
@@ -868,7 +886,7 @@ CtrlAttributeMapping( VIEW vSubtask,
    VIEW TaskLPLR   REGISTERED AS TaskLPLR
    VIEW vDomain    BASED ON LOD  TZDGSRCO
    VIEW DomainList BASED ON LOD  TZCMLPLO
-   STRING ( 64 ) szMsg
+   STRING ( 200 ) szMsg
 
    // We assume position is already on the correct LOD_Entity.
    SET CURSOR FIRST vLOD.ER_Attribute WITHIN vLOD.LOD_Entity
@@ -883,9 +901,11 @@ CtrlAttributeMapping( VIEW vSubtask,
          SET CURSOR FIRST vSourceLPLR.W_MetaDef WHERE
                           vSourceLPLR.W_MetaDef.CPLR_ZKey = vOrigWC.CtrlMapER_Domain.ZKey
          RetrieveViewForMetaList( vSubtask, DomainList, zREFER_DOMAIN_META )
+         NAME VIEW DomainList "DomainListCtrl"
          SET CURSOR FIRST DomainList.W_MetaDef WHERE DomainList.W_MetaDef.Name = vSourceLPLR.W_MetaDef.Name
          IF RESULT >= 0
             ActivateMetaOI( vSubtask, vDomain, DomainList, zREFER_DOMAIN_META, zSINGLE )
+            NAME VIEW vDomain "vDomainContextMap"
             SET CURSOR FIRST vDomain.Context WHERE vDomain.Context.Name = vOrigWC.CtrlMapContext.Name
             IF RESULT >= 0
                IncludeSubobjectFromSubobject( vNewWC, "CtrlMapContext",
@@ -1075,7 +1095,8 @@ CloneActMap( VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
       ELSE
          // Delete the ActMap entity created above since it can't be completed.
          // Return Error Message
-         szMsg = "ActionMap, '" + vOrigW.ActMapView.Name + "', will not be created because of missing Named View."
+         szMsg = "ActionMap, '" + vOrigW.Window.Tag + "." + vOrigW.ActMapView.Name + 
+                 "', will not be created because of missing Named View."
          CreateErrorMessage( TaskLPLR, szMsg )
          DELETE ENTITY vNewW.ActMap
          RETURN 
@@ -1249,7 +1270,7 @@ CloneOptMap( VIEW vSourceLPLR BASED ON LOD TZCMLPLO,
    VIEW vLOD       BASED ON LOD  TZZOLODO
    VIEW LOD_List   BASED ON LOD  TZCMLPLO
    INTEGER       nRC
-   STRING ( 64 ) szMsg
+   STRING ( 200 ) szMsg
 
    CreateMetaEntity( vSubtask, vNewWO, "OptMap", zPOS_AFTER )
    SetMatchingAttributesByName( vNewWO, "OptMap",
@@ -1328,7 +1349,7 @@ OptAttributeMapping( VIEW vSubtask,
    VIEW TaskLPLR   REGISTERED AS TaskLPLR
    VIEW vDomain    BASED ON LOD  TZDGSRCO
    VIEW DomainList BASED ON LOD  TZCMLPLO
-   STRING ( 64 ) szMsg
+   STRING ( 200 ) szMsg
 
    // We assume position is already on the correct LOD_Entity.
    SET CURSOR FIRST vLOD.ER_Attribute WITHIN vLOD.LOD_Entity WHERE  vLOD.ER_Attribute.Name = vOrigWO.OptMapER_Attribute.Name
@@ -1341,6 +1362,7 @@ OptAttributeMapping( VIEW vSubtask,
          SET CURSOR FIRST vSourceLPLR.W_MetaType WHERE vSourceLPLR.W_MetaType.Type = 2003
          SET CURSOR FIRST vSourceLPLR.W_MetaDef WHERE vSourceLPLR.W_MetaDef.CPLR_ZKey = vOrigWO.OptMapER_Domain.ZKey
          RetrieveViewForMetaList( vSubtask, DomainList, zREFER_DOMAIN_META )
+         NAME VIEW DomainList "DomainListOpt"
          SET CURSOR FIRST DomainList.W_MetaDef WHERE DomainList.W_MetaDef.Name = vSourceLPLR.W_MetaDef.Name
          IF RESULT >= 0
             ActivateMetaOI( vSubtask, vDomain, DomainList, zREFER_DOMAIN_META, zSINGLE )
@@ -1493,7 +1515,6 @@ DialogMigrate( VIEW          NewDialog  BASED ON LOD TZWDLGSO,
    VIEW CurrentLPLR BASED ON LOD TZCMLPLO
    VIEW TZDLG_List  BASED ON LOD TZCMLPLO
    VIEW OldDialog   BASED ON LOD TZWDLGSO
-
    STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
    STRING ( 32 )  SourceName
    INTEGER        nRC
@@ -1506,8 +1527,10 @@ DialogMigrate( VIEW          NewDialog  BASED ON LOD TZWDLGSO,
    // Activate existing source meta OldDialog
    SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DialogName + ".PWD"
 
-   ActivateOI_FromFile( OldDialog, "TZWDLGSO", SourceLPLR, SourceFileName, 8192 )
-   // 8192 is zIGNORE_ATTRIB_ERRORS
+   nRC = ActivateOI_FromFile( OldDialog, "TZWDLGSO", SourceLPLR, SourceFileName, 8192 )   // 8192 is zIGNORE_ATTRIB_ERRORS
+   IF nRC < 0
+      RETURN nRC
+   END
    NAME VIEW OldDialog "OldDialog"
 
    // Make sure that TZDLG_List exists.
@@ -1550,7 +1573,13 @@ DialogMigrate( VIEW          NewDialog  BASED ON LOD TZWDLGSO,
    FOR EACH OldDialog.Window
       SET CURSOR FIRST NewDialog.Window WHERE NewDialog.Window.Tag = OldDialog.Window.Tag
       IF RESULT >= zCURSOR_SET
-         MergeWebMenus( NewDialog, OldDialog, vSubtask )
+         nRC = MergeWebMenus( NewDialog, OldDialog, vSubtask )
+         IF nRC = -2
+            MessageSend( vSubtask, "", "LPLR Migrate",
+                         "Because of Copy Menu errors, this function is aborted. See Merge Errors window for more detail.", 
+                         zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            RETURN -2
+         END
       END
    END
 

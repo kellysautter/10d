@@ -68,19 +68,19 @@ GOTO_AutodesignCRMSubdialog( VIEW ViewToWindow )
    VIEW AD_Base     BASED ON LOD  TZWDLGSO
    VIEW TZZOLFLO    BASED ON LOD  TZCMLPLO
    VIEW mConListLOD BASED ON LOD  TZZOLODO
+   STRING ( 300 ) szAutodesignLPLR_Directory
+   STRING ( 300 ) szMsg
    SHORT nRC
    
    // Make sure an Auto Design Base dialog can be loaded.
    GET VIEW AD_Base NAMED "AD_Base"
    IF RESULT < 0
       // The AD_Base object isn't in memory, so load it.
-      TraceLineS( "*** Start of ActivateAD_Base", "" )
       nRC = ActivateAD_BaseL( AD_Base, ViewToWindow )
       IF nRC < 0
          RETURN nRC
       END
       NAME VIEW AD_Base "AD_Base"
-      TraceLineS( "*** After of ActivateAD_Base", "" )
    END
    
    // Make sure that the TZZOLFLO object of Meta LOD entries exists.
@@ -113,6 +113,7 @@ GOTO_AutodesignCRMSubdialog( VIEW ViewToWindow )
    CREATE ENTITY TZADWWKO.AutodesignSubdialog 
    TZADWWKO.AutodesignSubdialog.FindType = "CRM"
    CREATE ENTITY TZADWWKO.EntitySubGroup  
+   InitializeL_SymbolType( TZADWWKO )
    
    // First activate the mConList Object.
    nRC = ActivateMetaOI_ByName( ViewToWindow, mConListLOD, 0, zREFER_LOD_META, zSINGLE, "mConList", 0 )
@@ -135,19 +136,19 @@ GOTO_AutodesignObjectFindSubdlg( VIEW ViewToWindow )
    VIEW AD_Base  BASED ON LOD  TZWDLGSO
    VIEW TZZOLFLO BASED ON LOD  TZCMLPLO
    VIEW TZADWWKO BASED ON LOD  TZADWWKO
+   STRING ( 300 ) szAutodesignLPLR_Directory
+   STRING ( 300 ) szMsg
    SHORT nRC
    
    // Make sure an Auto Design Base dialog can be loaded.
    GET VIEW AD_Base NAMED "AD_Base"
    IF RESULT < 0
       // The AD_Base object isn't in memory, so load it.
-      TraceLineS( "*** Start of ActivateAD_Base", "" )
       nRC = ActivateAD_BaseL( AD_Base, ViewToWindow )
       IF nRC < 0
          RETURN nRC
       END
       NAME VIEW AD_Base "AD_Base"
-      TraceLineS( "*** After of ActivateAD_Base", "" )
    END
    
    // The TZADWWKO object  should be created new.
@@ -161,6 +162,7 @@ GOTO_AutodesignObjectFindSubdlg( VIEW ViewToWindow )
    CREATE ENTITY TZADWWKO.AutodesignSubdialog 
    TZADWWKO.AutodesignSubdialog.AD_AreaSuffix = "Object"
    CREATE ENTITY TZADWWKO.EntitySubGroup 
+   InitializeL_SymbolType( TZADWWKO )
    
    // Make sure that the TZZOLFLO object of Meta LOD entries exists.
    GET VIEW TZZOLFLO NAMED "TZZOLFLO"
@@ -174,11 +176,11 @@ END
 
 /*************************************************************************************************
 **    
-**    OPERATION: PostbuildAutodesignFindSubdialog
+**    OPERATION: PostbuildAutodesignCRM_Subdialog
 **    
 *************************************************************************************************/
 DIALOG OPERATION
-PostbuildAutodesignFindSubdialog( VIEW ViewToWindow )
+PostbuildAutodesignCRM_Subdialog( VIEW ViewToWindow )
 
    VIEW TZWINDOWL   REGISTERED AS TZWINDOWL
    VIEW TZADWWKO    BASED ON LOD  TZADWWKO
@@ -199,6 +201,7 @@ PostbuildAutodesignFindSubdialog( VIEW ViewToWindow )
       CREATE ENTITY TZADWWKO.AutoDesignWork 
       CREATE ENTITY TZADWWKO.AutodesignSubdialog 
       CREATE ENTITY TZADWWKO.EntitySubGroup  
+      InitializeL_SymbolType( TZADWWKO )
       
       // Remove any existing Autodesign entries from TZWINDOWL.
       IF TZWINDOWL.AutoDesignWindow EXISTS
@@ -236,6 +239,59 @@ PostbuildAutodesignFindSubdialog( VIEW ViewToWindow )
       DropObjectInstance( CL_Domain )
    END
    SET CURSOR FIRST TZADWWKO.ContactListTypeDomain
+   
+   // If an update LOD exists, make sure that we also name it TZZOLODO_Desc for the combobox.
+   GET VIEW UpdateLOD NAMED "TZZOLODO_Update"
+   IF RESULT >= 0
+      NAME VIEW UpdateLOD "TZZOLODO_Desc"     // We need this named view for the Root select combobox.
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: PostbuildAutodesignFindSubdialog
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+PostbuildAutodesignFindSubdialog( VIEW ViewToWindow )
+
+   VIEW TZWINDOWL   REGISTERED AS TZWINDOWL
+   VIEW TZADWWKO    BASED ON LOD  TZADWWKO
+   VIEW CL_Domain   BASED ON LOD  TZDGSRCO
+   VIEW UpdateLOD   BASED ON LOD  TZZOLODO
+   SHORT nRC
+
+   // Set up work data necessary for autodesigning an AutodesignSubdialog.
+   
+   // Make sure TZADWWKO and the related autodesign objects exist in memory.
+   GET VIEW TZADWWKO NAMED "TZADWWKO"
+   IF RESULT < 0
+      // The autodesign work objects need to be set up.
+      
+      // The TZADWWKO itself
+      ACTIVATE TZADWWKO EMPTY 
+      NAME VIEW TZADWWKO "TZADWWKO"
+      CREATE ENTITY TZADWWKO.AutoDesignWork 
+      CREATE ENTITY TZADWWKO.AutodesignSubdialog 
+      CREATE ENTITY TZADWWKO.EntitySubGroup  
+      InitializeL_SymbolType( TZADWWKO )
+      
+      // Remove any existing Autodesign entries from TZWINDOWL.
+      IF TZWINDOWL.AutoDesignWindow EXISTS
+         DELETE ENTITY TZWINDOWL.AutoDesignWindow  
+      END
+      CREATE ENTITY TZWINDOWL.AutoDesignWindow 
+      CREATE ENTITY TZWINDOWL.AutoDesignGroup  
+      
+   ELSE
+      // The Object exists, also make sure the AutoDesignWork entries exist.
+      SET CURSOR FIRST TZADWWKO.AutoDesignWork
+      IF RESULT < zCURSOR_SET
+         CREATE ENTITY TZADWWKO.AutoDesignWork 
+         CREATE ENTITY TZADWWKO.AutodesignSubdialog
+      END
+   END
    
    // If an update LOD exists, make sure that we also name it TZZOLODO_Desc for the combobox.
    GET VIEW UpdateLOD NAMED "TZZOLODO_Update"
@@ -287,6 +343,12 @@ SELECT_FindSearchObject( VIEW ViewToWindow )
    // Clear any existing TZADWWKO.ESG_FlatListPotentialAttribute entries and rebuild them from selected object.
    szEntityName = SearchLOD.LOD_EntityParent.Name 
    BuildAD_GroupPotAttrList( TZADWWKO, SearchLOD, szEntityName, "" )
+   
+   // Clear any existing TZADWWKO.PotentialExactMatchAttribute entries and rebuild them from the root Entity.
+   SET CURSOR FIRST SearchLOD.LOD_Entity WHERE SearchLOD.LOD_Entity.ZKey = SearchLOD.LOD_EntityParent.ZKey  
+   FOR EACH SearchLOD.LOD_Attribute 
+      INCLUDE TZADWWKO.PotentialExactMatchAttribute FROM SearchLOD.LOD_Attribute 
+   END
 
 END
 
@@ -343,6 +405,39 @@ SELECT_FindDetailObject( VIEW ViewToWindow )
    nRC = ActivateMetaOI_ByName( ViewToWindow, UpdateLOD, 0, zREFER_LOD_META, zSINGLE, szLOD_Name, 0 )
    NAME VIEW UpdateLOD "TZZOLODO_Update"
    NAME VIEW UpdateLOD "TZZOLODO_Desc"     // We need this named view for the Root select combobox.
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: SELECT_ExactMatchAttribute
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+SELECT_ExactMatchAttribute( VIEW ViewToWindow )
+
+   VIEW TZADWWKO REGISTERED AS TZADWWKO
+   
+   // Include the selected ExactMatch Attribute and set its name.
+   IF TZADWWKO.SelectedExactMatchAttribute EXISTS
+      EXCLUDE TZADWWKO.SelectedExactMatchAttribute  
+   END
+   INCLUDE TZADWWKO.SelectedExactMatchAttribute FROM TZADWWKO.PotentialExactMatchAttribute 
+   TZADWWKO.SelectedExactMatchAttribute.wAttributeName = TZADWWKO.PotentialExactMatchER_Attribute.Name 
+   
+   // Also add the Attribute to the selected list.
+   // Make sure that it's the first in the list
+   SET CURSOR FIRST TZADWWKO.ESG_FlatLOD_Attribute WITHIN TZADWWKO.AutoDesignWork 
+              WHERE TZADWWKO.ESG_FlatLOD_Attribute.ZKey = TZADWWKO.SelectedExactMatchAttribute.ZKey 
+   IF TZADWWKO.FlatSelectedSearchAttribute EXISTS
+      SET CURSOR FIRST TZADWWKO.FlatSelectedSearchAttribute
+      CREATE ENTITY TZADWWKO.FlatSelectedSearchAttribute BEFORE 
+   ELSE
+      CREATE ENTITY TZADWWKO.FlatSelectedSearchAttribute
+   END
+   SetMatchingAttributesByName( TZADWWKO, "FlatSelectedSearchAttribute", TZADWWKO, "ESG_FlatListPotentialAttribute", zSET_ALL )
+   TZADWWKO.FlatSelectedSearchAttribute.DataType = TZADWWKO.ESG_FlatDomain.DataType 
+   INCLUDE TZADWWKO.FlatSearchLOD_Attribute FROM TZADWWKO.ESG_FlatLOD_Attribute 
 
 END
 
@@ -841,10 +936,6 @@ SELECT_ESGL_DetailPotAttributes( VIEW ViewToWindow )
             ELSE
                TZADWWKO.ESG_DetailLOD_Attribute.ControlType = "Text"
             END
-            IF TZADWWKO.CSS_ClassPageGroup EXISTS
-               TZADWWKO.ESG_DetailLOD_Attribute.CSS_ClassForPrompt  = TZADWWKO.CSS_ClassPageGroup.CSS_ClassPromptValue 
-               TZADWWKO.ESG_DetailLOD_Attribute.CSS_ClassForControl = TZADWWKO.CSS_ClassPageGroup.CSS_ClassControlValue 
-            END
          END
          SetSelectStateOfEntity( TZADWWKO, "ESG_FlatListPotentialAttribute", 0 )
       END
@@ -916,8 +1007,8 @@ GOTO_AD_GroupUpdate( VIEW ViewToWindow )
    IF szGroupType = "ListGroupwFindInclude"
       SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupListwFindIncludeSpec" )
    ELSE
-   IF szGroupType = "ListGroupwFindInclude"
-      SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupListwFindIncludeSpec" )
+   IF szGroupType = "ListGroupwInclude"
+      SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupListwIncludeSpec" )
    ELSE
    IF szGroupType = "ListGroupwMGP"
       SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupListwMGP_Spec" )
@@ -953,20 +1044,16 @@ GOTO_AD_GroupUpdate( VIEW ViewToWindow )
       GET VIEW UpdateLOD NAMED "TZZOLODO_Update"
    END
    IF szGroupType = "ListGroupWIncludePage"
-      InitializeUpdateGroupsForCSS( AD_Base, TZADWWKO, "GroupListInclude", "GroupSearchBy" )
       SETUP_ESGL_MainIncludeObject( ViewToWindow )
    ELSE
       IF szGroupType = "ListGroupWUpdatePage" OR szGroupType = "ListGroupWDetailPage"
          IF TZADWWKO.EntitySubGroup.SavedGroupType = ""
-            InitializeUpdateGroupsForCSS( AD_Base, TZADWWKO, "GroupListUpdate", "GroupDetail" )
             BuildAD_GroupPotAttrList( TZADWWKO, UpdateLOD, TZADWWKO.ESG_LOD_Entity.Name, "" )
          END
       ELSE
          IF szGroupType = "ListGroupwMGP"
-            InitializeUpdateGroupsForCSS( AD_Base, TZADWWKO, "ObjectUpdateGroups", "GroupDetail" )
             BuildAD_GroupPotAttrList( TZADWWKO, UpdateLOD, TZADWWKO.ESG_LOD_Entity.Name, "" )
          ELSE 
-            InitializeUpdateGroupsForCSS( AD_Base, TZADWWKO, "ObjectUpdateGroups", "GroupDetail" )
             BuildAD_GroupPotAttrList( TZADWWKO, UpdateLOD, TZADWWKO.ESG_LOD_Entity.Name, "" )
          END
       END
@@ -1166,20 +1253,27 @@ AUTODESIGN_NewGroup( VIEW ViewToWindow )
    VIEW UpdateLOD   BASED ON LOD  TZZOLODO
    STRING ( 50 ) szGroupType
    STRING ( 50 ) szAD_Area
+   STRING ( 50 )  szTemplateWindow
+   STRING ( 200 ) szMsg
    SHORT nRC
    
    // Reuse the GenEntitySubGroup operation to build the Group and an optional, subpage, depending on the Group Type.
    
    // Also activate AD_Base to pick up reusable data values.
-   nRC = ActivateAD_Base( TZADWWKO, AD_Base )
+   nRC = ActivateAD_BaseL( AD_Base, ViewToWindow )
    IF nRC < 0
       RETURN nRC
    END
    NAME VIEW AD_Base "AD_Base" 
-   SET CURSOR FIRST AD_Base.Window WHERE AD_Base.Window.Tag = "ObjectUpdateGroups"
+   IF TZADWWKO.AutoDesignWork.SelectedListboxSymbolType = "Icons"
+      szTemplateWindow = "ObjectUpdateGroupsIcons" 
+   ELSE
+      szTemplateWindow = "ObjectUpdateGroups"
+   END
+   SET CURSOR FIRST AD_Base.Window WHERE AD_Base.Window.Tag = szTemplateWindow
    IF RESULT < zCURSOR_SET
-      MessageSend( TZADWWKO, "", "Autodesign Subdialog",
-                   "ObjectUpdateGroups Window doesn't exist.",
+      szMsg = "The template window, " + szTemplateWindow + ", could not be found in AD_Base."
+      MessageSend( ViewToWindow, "", "Autodesign Subdialog", szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
       SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
       RETURN -2
@@ -1360,6 +1454,8 @@ AUTODESIGN_MPG_Pages( VIEW ViewToWindow )
    STRING ( 50 )  szMainE
    STRING ( 50 )  szAD_UpdE
    STRING ( 50 )  szControlType
+   STRING ( 50 )  szTemplateWindow
+   STRING ( 200 ) szMsg
    STRING ( 256 ) szSourceDirectory
    STRING ( 256 ) szOriginalVML
    STRING ( 256 ) szVML_Statement
@@ -1468,7 +1564,7 @@ AUTODESIGN_MPG_Pages( VIEW ViewToWindow )
       DropObjectInstance( TZWDVORO )
    END 
    
-   // The Clone above creates the Save/Cancel  or Return Actions and Operations, but they need to have their names converted.
+   // The Clone above creates the Save/Cancel or Return Actions and Operations, but they need to have their names converted.
    FOR EACH TZWINDOWL.Action 
       szActionName = TZWINDOWL.Action.Tag
       zSearchAndReplace( szActionName, 50, "_AD_Area", szAD_Area )
@@ -1531,20 +1627,12 @@ AUTODESIGN_MPG_Pages( VIEW ViewToWindow )
    IF nFileIn > 0   // Don't continue if the VML hasn't been created yet.
       nRC = zSysReadLine( TZWINDOW, szVML_Statement, nFileIn, 256 )
       LOOP WHILE nRC = 1 AND nRC2 != 0
-         //zstrncpy( szCompare, szVML_Statement, nLength )
-         ZeidonStringCopy( szCompare /* Target String */,
-                     1 /* Target offset */,
-                     nLength /* Max chars to receive */,
-                     szVML_Statement /* Source string */,
-                     1 /* Source offset */,
-                     nLength /* Max chars to copy */,
-                     256 /* Target max length */ )
+         zstrncpy( szCompare, szVML_Statement, nLength )
          nRC2 = zstrcmp( szCompare, szCheckForOperation )
          nRC = zSysReadLine( TZWINDOW, szVML_Statement, nFileIn, 256 )
       END
       SysCloseFile( TZWINDOW, nFileIn, 0 )
    END
-
    
    IF nRC2 != 0     // Operation was not found.
       // The Operation was not found in the target Source File, so copy the VML
@@ -1627,10 +1715,15 @@ AUTODESIGN_MPG_Pages( VIEW ViewToWindow )
    // MAIN WINDOW GENERATION
    
    // Build each Group based on the SubGroup type and content.
-   SET CURSOR FIRST AD_Base.Window WHERE AD_Base.Window.Tag = "ObjectUpdateGroups"
+   IF TZADWWKO.AutoDesignWork.SelectedListboxSymbolType = "Icons"
+      szTemplateWindow = "ObjectUpdateGroupsIcons" 
+   ELSE
+      szTemplateWindow = "ObjectUpdateGroups"
+   END
+   SET CURSOR FIRST AD_Base.Window WHERE AD_Base.Window.Tag = szTemplateWindow
    IF RESULT < zCURSOR_SET
-      MessageSend( ViewToWindow, "", "Autodesign Subdialog",
-                   "ObjectUpdateGroups Window doesn't exist.",
+      szMsg = "The template window, " + szTemplateWindow + ", could not be found in AD_Base."
+      MessageSend( ViewToWindow, "", "Autodesign Subdialog", szMsg,
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
       SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
       RETURN -2
@@ -1640,36 +1733,40 @@ AUTODESIGN_MPG_Pages( VIEW ViewToWindow )
    CreateViewFromView( AD_BaseCtl, AD_Base )
    NAME VIEW  AD_BaseCtl "AD_BaseCtl"
    
-   // We are assuming Bootstrap and must step down 2 levels to the Accordian level and then position on the last Control.
-   // The Bootstrap Group structure follows for the first 4 levels.
-   //   1. - container-fluid
-   //     2 - header (includes the buttons)
-   //     2 - accordion
-   //       3 - card  (exists for each Area Group)
-   //         4 = card-header
-   //         4 - collapse show  
+   // We are assuming Bootstrap and must step down to the level which contain the SubGroups from GenEntitySubGroup.
+   // Position on the last and innermost Group, which will contain the Subgroups.
+   // We assume there is always at least one Group
+   SET CURSOR LAST TZCONTROL.Control
+   nRC = SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
+   SET CURSOR LAST TZCONTROL.Control
+   IF TZCONTROL.CtrlCtrl EXISTS
+     nRC = SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
+      SET CURSOR LAST TZCONTROL.Control
+      IF TZCONTROL.CtrlCtrl EXISTS
+         nRC = SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
+         SET CURSOR LAST TZCONTROL.Control
+         IF TZCONTROL.CtrlCtrl EXISTS
+            nRC = SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
+            SET CURSOR LAST TZCONTROL.Control
+         END
+      END
+   END
+   SetViewToSubobject( TZCONTROL, "CtrlCtrl" )   // We need to go down one additional level.
    
    FOR EACH TZADWWKO.EntitySubGroup 
       szGroupType = TZADWWKO.EntitySubGroup.GroupType
 TraceLineS( "*** szGroupType: ", szGroupType )
 
-      // We are assuming Bootstrap, which means we must step down 2 levels.
-      nRC = SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
-      SET CURSOR LAST TZCONTROL.Control
-      nRC = SetViewToSubobject( TZCONTROL, "CtrlCtrl" )
-      SET CURSOR LAST TZCONTROL.Control 
-      
       // Use reusable operation, GenEntitySubGroup, to build out the Group.
       nRC = GenEntitySubGroup( TZADWWKO, TZCONTROL, TZWINDOWL, AD_Base, szGroupType, szAD_Area )
       IF nRC < 0
          RETURN nRC
       END
-      
-      // Always reset to top Group.
-      nRC = ResetViewFromSubobject( TZCONTROL )    // Make sure we reset view to the top.
-      LOOP WHILE nRC = 0
-         nRC = ResetViewFromSubobject( TZCONTROL )
-      END
+   END
+   // Always reset to top Group.
+   nRC = ResetViewFromSubobject( TZCONTROL )    // Make sure we reset view to the top.
+   LOOP WHILE nRC = 0
+      nRC = ResetViewFromSubobject( TZCONTROL )
    END
    
    // Reposition and Resize all Group Controls.
@@ -1719,6 +1816,10 @@ TraceLineS( "*** szGroupType: ", szGroupType )
    IF RESULT < 0
       DropObjectInstance( UpdateLOD )
    END
+   
+   MessageSend( ViewToWindow, "", "Autodesign Subdialog",
+                "Generate MultiGroup pages is complete.",
+                zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
    
 END
 
@@ -2157,16 +2258,27 @@ ACCEPT_GroupListWInclude( VIEW ViewToWindow )
    VIEW UpdateLOD BASED ON LOD  TZZOLODO
    VIEW AD_Base   BASED ON LOD  TZWDLGSO
    INTEGER nRC
-
-   // Make sure that both the Search and Include MetaDef entries have been selected.
-   IF TZADWWKO.ESG_ListSearchW_MetaDef DOES NOT EXIST OR 
-      TZADWWKO.ESG_ListIncludeW_MetaDef DOES NOT EXIST
-      
-      MessageSend( ViewToWindow, "", "Autodesign Subdialog",
-                   "Both a Search and Include object must be selected.",
-                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
-      RETURN -2
+   
+   // For ListGroupwInclude Type, make sure Include MetaDef entr been selected.
+   IF TZADWWKO.AutoDesignWork.SelectedGroupType = "ListGroupwInclude"
+      IF TZADWWKO.ESG_ListIncludeW_MetaDef DOES NOT EXIST
+         MessageSend( ViewToWindow, "", "Autodesign Subdialog",
+                      "An Include object must be selected.",
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
+         RETURN -2
+      END
+   ELSE
+      // For the others, make sure that both the Search and Include MetaDef entries have been selected.
+      IF TZADWWKO.ESG_ListSearchW_MetaDef DOES NOT EXIST OR 
+         TZADWWKO.ESG_ListIncludeW_MetaDef DOES NOT EXIST
+         
+         MessageSend( ViewToWindow, "", "Autodesign Subdialog",
+                      "Both a Search and Include object must be selected.",
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
+         RETURN -2
+      END
    END
    
    // Make sure both Group Area Name and Area Title have been selected because they are required for Bootstrap.
@@ -2343,6 +2455,7 @@ PostbuildAD_MultiGroupPage( VIEW ViewToWindow )
       NAME VIEW TZADWWKO "TZADWWKO"
       CREATE ENTITY TZADWWKO.AutoDesignWork 
       CREATE ENTITY TZADWWKO.AutodesignSubdialog 
+      InitializeL_SymbolType( TZADWWKO ) 
       
       // Remove any existing Autodesign entries from TZWINDOWL.
       IF TZWINDOWL.AutoDesignWindow EXISTS
@@ -2352,7 +2465,7 @@ PostbuildAD_MultiGroupPage( VIEW ViewToWindow )
       CREATE ENTITY TZWINDOWL.AutoDesignGroup  
       
       // Also activate AD_Base to pick up reusable data values.
-      nRC = ActivateAD_Base( TZADWWKO, AD_Base )
+      nRC = ActivateAD_BaseL( AD_Base, ViewToWindow )
       IF nRC < 0
          RETURN nRC
       END
@@ -2556,6 +2669,7 @@ PostbuildAutodesignGroup( VIEW ViewToWindow )
    VIEW TZZOLFLO   BASED ON LOD  TZCMLPLO
    VIEW TZADWWKO   BASED ON LOD  TZADWWKO
    VIEW AD_Base    BASED ON LOD  TZWDLGSO
+   STRING ( 50 ) szListboxSymbol
    SHORT   nRC
 
 
@@ -2564,6 +2678,7 @@ PostbuildAutodesignGroup( VIEW ViewToWindow )
    // Force recreation of the work object.
    GET VIEW TZADWWKO NAMED "TZADWWKO"
    IF RESULT >= 0
+      szListboxSymbol = TZADWWKO.AutoDesignWork.SelectedListboxSymbolType    // Save the symbol value.
       DropObjectInstance( TZADWWKO )
    END
   
@@ -2574,7 +2689,9 @@ PostbuildAutodesignGroup( VIEW ViewToWindow )
    NAME VIEW TZADWWKO "TZADWWKO"
    CREATE ENTITY TZADWWKO.AutoDesignWork 
    CREATE ENTITY TZADWWKO.AutodesignSubdialog 
-   CREATE ENTITY TZADWWKO.EntitySubGroup  
+   CREATE ENTITY TZADWWKO.EntitySubGroup 
+   InitializeL_SymbolType( TZADWWKO ) 
+   TZADWWKO.AutoDesignWork.SelectedListboxSymbolType = szListboxSymbol   // Restore the original symbol value.
    
    // Default state will be resize and reposition top Groups.
    TZADWWKO.AutoDesignWork.RepositionGroupFlag = "Y"
@@ -2590,7 +2707,7 @@ PostbuildAutodesignGroup( VIEW ViewToWindow )
    // Make sure AD_Base dialog is loaded.
    GET VIEW AD_Base NAMED "AD_Base"
    IF RESULT < 0
-      nRC = ActivateAD_Base( TZADWWKO, AD_Base )
+      nRC = ActivateAD_BaseL( AD_Base, ViewToWindow )
       IF nRC < 0
          RETURN nRC
       END
@@ -2634,6 +2751,7 @@ PostbuildAutodesignSubgroup( VIEW ViewToWindow )
    STRING ( 50 ) szWebCtrlLabelLink
    STRING ( 1 )  szMappingCompleteFlag
    STRING ( 1 )  szContainsGridFlag
+   STRING ( 1 )  szDetailFound
    SHORT   nRC
    SHORT   lReturnedLevel
    SHORT   lInitialLevel
@@ -2679,7 +2797,7 @@ PostbuildAutodesignSubgroup( VIEW ViewToWindow )
    // Make sure AD_Base dialog is loaded.
    GET VIEW AD_Base NAMED "AD_Base"
    IF RESULT < 0
-      nRC = ActivateAD_Base( TZADWWKO, AD_Base )
+      nRC = ActivateAD_BaseL( AD_Base, ViewToWindow )
       IF nRC < 0
          RETURN nRC
       END
@@ -2815,25 +2933,40 @@ PostbuildAutodesignSubgroup( VIEW ViewToWindow )
                   CreateViewFromView( TZCtlCopy, TZCtlHier )
                   NAME VIEW TZCtlCopy "TZCtlCopy"
                   szPromptValue = TZCtlCopy.Control.Text 
-                  SET CURSOR NEXT TZCtlCopy.Control    // Position on related mapping Control
-                  IF TZCtlCopy.CtrlMap EXISTS
-                     INCLUDE TZADWWKO.ESG_ListLOD_Attribute FROM TZCtlCopy.CtrlMapLOD_Attribute 
-                     TZADWWKO.ESG_ListLOD_Attribute.PromptValue = szPromptValue
-                     TZADWWKO.ESG_ListLOD_Attribute.ControlType = TZCtlCopy.ControlDef.Tag 
-                     
-                     // If necessary, activate the current VOR and LOD LOD which are used for potential mapping.
-                     // Also include Update VOR in TZADWWKO.
-                     GET VIEW CurrentVOR NAMED "UpdateObjectViewRef"
-                     IF RESULT < 0
-                        SET CURSOR FIRST TZZOLFLO.W_MetaDef WHERE TZZOLFLO.W_MetaDef.Name = TZCtlCopy.CtrlMapView.Name  
-                        INCLUDE TZADWWKO.W_MetaDefUpdateView FROM TZZOLFLO.W_MetaDef
-                        nRC = ActivateMetaOI_ByName( ViewToWindow, CurrentVOR, 0, zREFER_VOR_META, zSINGLE, TZADWWKO.W_MetaDefUpdateView.Name, 0 )
-                        NAME VIEW CurrentVOR "UpdateObjectViewRef"
-                        nRC = ActivateMetaOI_ByName( ViewToWindow, CurrentLOD, 0, zREFER_LOD_META, zSINGLE, CurrentVOR.LOD.Name, 0 )
-                        NAME VIEW CurrentLOD "TZZOLODO_Update"
-                     END
-                  END
                   DropView( TZCtlCopy )
+                  
+                  // Continue Hier Loop looking for the Detail Control.
+                  nRC = SetCursorNextEntityHierarchical( lReturnedLevel, szReturnedEntityName, TZCtlHier )
+                  szDetailFound = ""
+                  LOOP WHILE nRC >= zCURSOR_SET AND lReturnedLevel >= lInitialLevel AND szDetailFound = ""
+                     IF nRC = zCURSOR_SET_RECURSIVECHILD
+                        SetViewToSubobject( TZCtlHier, "CtrlCtrl" )
+                        
+                        // Check if this is a Control with mapping.
+                        CreateViewFromView( TZCtlCopy, TZCtlHier )
+                        NAME VIEW TZCtlCopy "TZCtlCopy"
+                        IF TZCtlCopy.CtrlMap EXISTS
+                           szDetailFound = "F"
+                           INCLUDE TZADWWKO.ESG_ListLOD_Attribute FROM TZCtlCopy.CtrlMapLOD_Attribute 
+                           TZADWWKO.ESG_ListLOD_Attribute.PromptValue = szPromptValue
+                           TZADWWKO.ESG_ListLOD_Attribute.ControlType = TZCtlCopy.ControlDef.Tag 
+                           
+                           // If necessary, activate the current VOR and LOD LOD which are used for potential mapping.
+                           // Also include Update VOR in TZADWWKO.
+                           GET VIEW CurrentVOR NAMED "UpdateObjectViewRef"
+                           IF RESULT < 0
+                              SET CURSOR FIRST TZZOLFLO.W_MetaDef WHERE TZZOLFLO.W_MetaDef.Name = TZCtlCopy.CtrlMapView.Name  
+                              INCLUDE TZADWWKO.W_MetaDefUpdateView FROM TZZOLFLO.W_MetaDef
+                              nRC = ActivateMetaOI_ByName( ViewToWindow, CurrentVOR, 0, zREFER_VOR_META, zSINGLE, TZADWWKO.W_MetaDefUpdateView.Name, 0 )
+                              NAME VIEW CurrentVOR "UpdateObjectViewRef"
+                              nRC = ActivateMetaOI_ByName( ViewToWindow, CurrentLOD, 0, zREFER_LOD_META, zSINGLE, CurrentVOR.LOD.Name, 0 )
+                              NAME VIEW CurrentLOD "TZZOLODO_Update"
+                           END
+                        END
+                        DropView( TZCtlCopy )
+                     END
+                     nRC = SetCursorNextEntityHierarchical( lReturnedLevel, szReturnedEntityName, TZCtlHier )
+                  END 
                END
             END
          END
@@ -3106,7 +3239,8 @@ AUTODESIGN_Group( VIEW ViewToWindow )
    DropObjectInstance( CurrentLOD )
    
    // Reposition and Resize all Group Controls.
-   ResizeReposGroupBoxes( TZADWWKO, TZWINDOWL )
+   // Resize should be done above.
+   //ResizeReposGroupBoxes( TZADWWKO, TZWINDOWL )
    
    // Rename some Controls to avoid duplicate Tags.
    SET CURSOR FIRST TZWINDOWL.Control
@@ -3278,73 +3412,6 @@ SET_CtrlCSS_ClassForAttributes( VIEW ViewToWindow )
    szCSS_ClassValue = TZADWWKO.EntitySubGroup.CSS_Class 
    FOR EACH TZADWWKO.ESG_ListLOD_Attribute 
       TZADWWKO.ESG_ListLOD_Attribute.CSS_ClassForControl = szCSS_ClassValue
-   END
-
-END
-
-/*************************************************************************************************
-**    
-**    OPERATION: InitializeUpdateGroupsForCSS
-**    
-*************************************************************************************************/
-LOCAL OPERATION
-InitializeUpdateGroupsForCSS( VIEW AD_Base  BASED ON LOD TZWDLGSO,
-                              VIEW TZADWWKO BASED ON LOD TZADWWKO,
-                              STRING ( 50 ) szBaseWindowName,
-                              STRING ( 50 ) szBaseGroupName )
-
-   VIEW AD_BaseCtl BASED ON LOD TZWDLGSO
-   INTEGER nRC
-   
-   // DonC Comment on 11/20/2013
-   // This operation may no longer be necessary because the setting of CSS_Class in GenDetailGrpBootstrap does not use it.
-
-   // Initialize CSS_Class work areas in TZADWWKO for a particular AD_Base Template Window.
-   // The Template Window and GroupBox names are passed to this operation. 
-   // If an entry for them already exists, no action is taken.
-   // If an entry doesn't exist, then the work area is created and the existing Text and EditBox in the AD_Base Template in memory
-   // are deleted so that they won't create a problem when the Control is cloned later in processing.
-   
-   SET CURSOR FIRST TZADWWKO.CSS_ClassPageGroup
-              WHERE TZADWWKO.CSS_ClassPageGroup.WindowName   = szBaseWindowName
-                AND TZADWWKO.CSS_ClassPageGroup.GroupBoxName = szBaseGroupName
-   IF RESULT < zCURSOR_SET
-      // We need to create the entry.
-      CreateViewFromView( AD_BaseCtl, AD_Base )
-      NAME VIEW  AD_BaseCtl "AD_BaseCtl"
-      CREATE ENTITY TZADWWKO.CSS_ClassPageGroup 
-      TZADWWKO.CSS_ClassPageGroup.WindowName   = szBaseWindowName
-      TZADWWKO.CSS_ClassPageGroup.GroupBoxName = szBaseGroupName
-      SET CURSOR FIRST AD_BaseCtl.Window  WHERE AD_BaseCtl.Window.Tag  = szBaseWindowName
-      SET CURSOR FIRST AD_BaseCtl.Control WHERE AD_BaseCtl.Control.Tag = szBaseGroupName
-      IF AD_BaseCtl.CtrlCtrl EXISTS
-         // There is a subgroup, so look for Text and Control GroupListUpdatetemplate controls.
-         SetViewToSubobject( AD_BaseCtl, "CtrlCtrl" )
-         IF AD_BaseCtl.CtrlCtrl EXISTS
-            SetViewToSubobject( AD_BaseCtl, "CtrlCtrl" )
-            IF AD_BaseCtl.CtrlCtrl EXISTS
-               SetViewToSubobject( AD_BaseCtl, "CtrlCtrl" )
-               IF AD_BaseCtl.CtrlCtrl EXISTS
-                  SetViewToSubobject( AD_BaseCtl, "CtrlCtrl" )
-               END
-            END
-         END
-         
-         // We should be at the level of the Text and EditBox controls if they exist.
-         // Set the CSS values as necessary and delete the base Controls.
-         FOR EACH AD_BaseCtl.Control
-            IF AD_BaseCtl.ControlDef.Tag = "Text"
-               TZADWWKO.CSS_ClassPageGroup.CSS_ClassPromptValue = AD_BaseCtl.Control.CSS_Class 
-               DELETE ENTITY AD_BaseCtl.Control NONE
-            ELSE
-               IF AD_BaseCtl.ControlDef.Tag = "EditBox"
-                  TZADWWKO.CSS_ClassPageGroup.CSS_ClassControlValue = AD_BaseCtl.Control.CSS_Class 
-                  DELETE ENTITY AD_BaseCtl.Control NONE
-               END
-            END
-         END
-      END
-      DropView( AD_BaseCtl )
    END
 
 END
@@ -4029,175 +4096,6 @@ END
 
 /*************************************************************************************************
 **    
-**    OPERATION: PostbuildAD_DetailSpecBootstrap
-**    
-*************************************************************************************************/
-DIALOG OPERATION
-PostbuildAD_DetailSpecBootstrap( VIEW ViewToWindow )
-
-   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
-   VIEW TZCONTROL REGISTERED AS TZCONTROL
-   VIEW TaskLPLR  REGISTERED AS TaskLPLR
-   VIEW TZADWWKO  REGISTERED AS TZADWWKO
-   VIEW TempCtrl  BASED ON LOD  TZWDLGSO
-   VIEW TempCtrl2 BASED ON LOD  TZWDLGSO
-   VIEW TZZOLFLO  BASED ON LOD  TZCMLPLO
-   VIEW UpdateLOD BASED ON LOD  TZZOLODO
-   VIEW UpdateVOR BASED ON LOD  TZWDVORO
-   VIEW AD_Base   BASED ON LOD  TZWDLGSO
-   STRING ( 20 ) szControlDefTag
-   STRING ( 20 ) szControlType
-   STRING ( 50 ) szViewName
-   STRING ( 50 ) szLOD_Name
-   STRING ( 50 ) szTextPrompt
-   STRING ( 50 ) szTextCSS_Class
-   STRING ( 4 )  szSubControlType
-   INTEGER Count
-   INTEGER RowCount
-   INTEGER SubRowCount
-   SHORT   nRC
-
-   // Set up work data necessary for autodesigning an AutodesignSubdialog.
-   
-   // Make sure TZADWWKO and the related autodesign objects exist in memory.
-   GET VIEW TZADWWKO NAMED "TZADWWKO"
-   IF RESULT < 0
-      // The autodesign work objects need to be set up.
-      
-      // The TZADWWKO itself
-      ACTIVATE TZADWWKO EMPTY 
-      NAME VIEW TZADWWKO "TZADWWKO"
-      CREATE ENTITY TZADWWKO.AutoDesignWork 
-      CREATE ENTITY TZADWWKO.AutodesignSubdialog 
-      CREATE ENTITY TZADWWKO.EntitySubGroup  
-      
-      // Default state will be resize and reposition top Groups.
-      TZADWWKO.AutoDesignWork.RepositionGroupFlag = "Y"
-
-      // Remove any existing Autodesign entries from TZWINDOWL.
-      IF TZWINDOWL.AutoDesignWindow EXISTS
-         DELETE ENTITY TZWINDOWL.AutoDesignWindow  
-      END
-      CREATE ENTITY TZWINDOWL.AutoDesignWindow 
-      CREATE ENTITY TZWINDOWL.AutoDesignGroup  
-      
-         IF szSubControlType = "Updt"
-IssueError( ViewToWindow,0,0, "Before Updt Code" )
-      // The layout for Bootstrap assumes the Prompt and target control pairs are set within an outer "row" Group and an
-      // inner "col-X" or null Group. The "row" Groups will be counted to determine the row value for initial mapping entries.
-      
-      // Find the first update/display control to get object mapping information.
-      CreateViewFromView( TempCtrl2, TempCtrl )
-      NAME VIEW TempCtrl2 "TempCtrl2"
-      SetViewToSubobject( TempCtrl2, "CtrlCtrl" )   // Position on Row Group.
-      SetViewToSubobject( TempCtrl2, "CtrlCtrl" )   // Position on Pairing Group
-      SetViewToSubobject( TempCtrl2, "CtrlCtrl" )   // Position on Prompt Control.
-      SET CURSOR NEXT TempCtrl2.Control             // Position on update/display Control with mapping. 
-      IF TempCtrl2.CtrlMap DOES NOT EXIST
-         MessageSend( ViewToWindow, "", "Autodesign Group",
-                      "The update/display mapping entry is missing.",
-                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-         SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
-         RETURN -2
-      END
-IssueError( ViewToWindow,0,0, "After SetViews" )
-      
-      // Set up the Mapping Object from the Control Mapping.
-      TZADWWKO.AutoDesignWork.AutodesignGroupCtrlsExistFlag = "Y"
-      TZADWWKO.EntitySubGroup.GroupType                     = "DetailGroupUpdate"
-      TZADWWKO.EntitySubGroup.AutodesignGroupTemplateName   = "GroupDetail"
-      CREATE ENTITY TZADWWKO.AutodesignGroupTemplate 
-      TZADWWKO.AutodesignGroupTemplate.GroupName = "GroupDetail"
-      
-      // Activate Object View and LOD.
-      szViewName = TempCtrl2.CtrlMapView.Name 
-      nRC = ActivateMetaOI_ByName( ViewToWindow, UpdateVOR, 0, zREFER_VOR_META, zSINGLE, szViewName, 0 )
-      NAME VIEW UpdateVOR "UpdateObjectViewRef"
-      IF TZADWWKO.W_MetaDefUpdateView EXISTS
-         EXCLUDE TZADWWKO.W_MetaDefUpdateView  
-      END 
-      SET CURSOR FIRST TaskLPLR.W_MetaType WHERE TaskLPLR.W_MetaType.Type = 9   // Read view of Registered View
-      SET CURSOR FIRST TaskLPLR.W_MetaDef  WHERE TaskLPLR.W_MetaDef.Name  = UpdateVOR.ViewObjRef.Name  
-      INCLUDE TZADWWKO.W_MetaDefUpdateView  FROM TaskLPLR.W_MetaDef 
-      szLOD_Name = UpdateVOR.LOD.Name 
-      nRC = ActivateMetaOI_ByName( ViewToWindow, UpdateLOD, 0, zREFER_LOD_META, zSINGLE, szLOD_Name, 0 )
-      NAME VIEW UpdateLOD "TZZOLODO_Update"
-      SET CURSOR FIRST TaskLPLR.W_MetaType  WHERE TaskLPLR.W_MetaType.Type = 7   // Read view of LOD
-      SET CURSOR FIRST TaskLPLR.W_MetaDef   WHERE TaskLPLR.W_MetaDef.Name  = UpdateLOD.LOD.Name   
-      INCLUDE TZADWWKO.W_MetaDefUpdateObject FROM TaskLPLR.W_MetaDef
-      
-      // Loop through each row Group and then each detail pair Group within the row.
-      RowCount = 0
-      SetViewToSubobject( TempCtrl, "CtrlCtrl" )
-IssueError( ViewToWindow,0,0, "Before Updt Loop" )
-      FOR EACH TempCtrl.Control 
-         IF TempCtrl.Control.CSS_Class != "row"
-            MessageSend( ViewToWindow, "", "Autodesign Group",
-                         "Invalid subcontrol encountered. Row Class expected..",
-                         zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-            SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 )
-            DropView( TempCtrl )
-            RETURN -2
-         END
-         RowCount = RowCount + 1
-         
-         // Step down to detail pair Groups that contains each Prompt plus Control with mapping.
-         SetViewToSubobject( TempCtrl, "CtrlCtrl" )
-         SubRowCount = 0
-         FOR EACH TempCtrl.Control
-            SubRowCount = SubRowCount + 1
-TraceLineI( "*** SubRowCount: ", SubRowCount )
-IssueError( ViewToWindow,0,0, "Inside Detail Loop" )
-            SetViewToSubobject( TempCtrl, "CtrlCtrl" )
-            // Prompt
-            szTextPrompt = TempCtrl.Control.Text
-            SET CURSOR NEXT TempCtrl.Control    // Step to mapping control
-            // Mapping Control
-            IF TempCtrl.CtrlMapLOD_Attribute DOES NOT EXIST
-               IssueError( ViewToWindow,0,0, "The Group layout is not valid. You must Cancel the Autodesign process." ) 
-               RETURN
-            END
-            INCLUDE TZADWWKO.ESG_DetailLOD_Attribute FROM TempCtrl.CtrlMapLOD_Attribute 
-            TZADWWKO.ESG_DetailLOD_Attribute.PromptValue         = szTextPrompt
-            TZADWWKO.ESG_DetailLOD_Attribute.ControlType         = TempCtrl.ControlDef.Tag
-IssueError( ViewToWindow,0,0, "Inside Detail Loop End" )
-            ResetViewFromSubobject( TempCtrl )
-         END
-         
-      END
-      ResetViewFromSubobject( TempCtrl )
-      
-      // Delete any current potential attributes and then go to build them.
-      BuildAD_GroupPotAttrList( TZADWWKO, UpdateLOD, UpdateLOD.LOD_EntityParent.Name, "" )
-   END
-
-   END
-   
-   // Make sure AD_Base dialog is loaded.
-   GET VIEW AD_Base NAMED "AD_Base"
-   IF RESULT < 0
-      nRC = ActivateAD_Base( TZADWWKO, AD_Base )
-      IF nRC < 0
-         RETURN nRC
-      END
-      NAME VIEW AD_Base "AD_Base" 
-   END
-   
-   // Make sure that the TZZOLFLO object of Meta ViewObjRef entries exists.
-   GET VIEW TZZOLFLO NAMED "TZZOLFLO"
-   IF RESULT < 0
-      CreateViewFromView( TZZOLFLO, TaskLPLR )
-      NAME VIEW TZZOLFLO "TZZOLFLO"
-      SET CURSOR FIRST TZZOLFLO.W_MetaType WHERE TZZOLFLO.W_MetaType.Type = 9   // 9 is read view of Registered View 
-   END
-   
-   // Accept the current Control because it is the GroupBox that should be versioned.
-   AcceptSubobject( TZCONTROL, "Control" )
-
-END
-
-/*************************************************************************************************
-**    
 **    OPERATION: ActivateAD_BaseL
 **    
 *************************************************************************************************/
@@ -4205,12 +4103,19 @@ LOCAL OPERATION
 ActivateAD_BaseL( VIEW RetAD_BaseView,
                   VIEW ViewToWindow )
 
-   VIEW TZWINDOWL BASED ON LOD TZWDLGSO
+   VIEW TaskLPLR  REGISTERED AS TaskLPLR
+   STRING ( 300 ) szAutodesignLPLR_Directory
    INTEGER nRC
    
    // Activate correct AD_Base dialog based on Generation type.
    // For now, only activate the Bootstrap AD_Base.
-   nRC = ActivateOI_FromFile( RetAD_BaseView, "TZWDLGSO", ViewToWindow, "C:\LPLR\AD_Base\AD_Base.PWD", zSINGLE )
+   IF TaskLPLR.LPLR.AutodesignBase = ""
+      szAutodesignLPLR_Directory = "C:\LPLR\AD_Base"                // Use default
+   ELSE
+      szAutodesignLPLR_Directory = TaskLPLR.LPLR.AutodesignBase     // Use specified directory
+   END
+   szAutodesignLPLR_Directory = szAutodesignLPLR_Directory + "\AD_Base.PWD"
+   nRC = ActivateOI_FromFile( RetAD_BaseView, "TZWDLGSO", ViewToWindow, szAutodesignLPLR_Directory, zSINGLE )
    
    IF nRC < 0
       MessageSend( ViewToWindow, "", "Autodesign Window Group",

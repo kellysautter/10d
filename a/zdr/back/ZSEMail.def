@@ -1,0 +1,12 @@
+; ZSEMail.def : Declares the module parameters for the DLL.
+
+LIBRARY      "ZSEMail"
+
+;;
+;; Maximum Ordinal value in this "OPERATION" section is > @1014 <
+;;
+
+EXPORTS
+   CreateSmtpConnection                                                 @1001
+   CreateSmtpMessage                                                    @1002
+   CloseSmtpConnection                                                  @1003

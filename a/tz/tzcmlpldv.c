@@ -72,6 +72,10 @@ o_CopyContentsOfDirectory( zVIEW     ViewToWindow,
                            zPCHAR    szCopyFiles );
 
 
+zOPER_EXPORT zSHORT OPERATION
+GOTO_Migrate( zVIEW     ViewToWindow );
+
+
 //:DIALOG OPERATION
 //:PostbuildNewLPLR( VIEW ViewToWindow )
 
@@ -1855,6 +1859,21 @@ o_CopyContentsOfDirectory( zVIEW     ViewToWindow,
    } 
 
    //:END
+   return( 0 );
+// END
+} 
+
+
+//:DIALOG OPERATION
+//:GOTO_Migrate( VIEW ViewToWindow )
+
+
+
+//:END
+zOPER_EXPORT zSHORT OPERATION
+GOTO_Migrate( zVIEW     ViewToWindow )
+{
+
    return( 0 );
 // END
 } 

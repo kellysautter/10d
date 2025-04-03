@@ -7064,7 +7064,7 @@ fnWriteOI_ToTextStream( zVIEW          lpView,
    {
       zBOOL  bEntityIsCompressed;
       zPCHAR pchBufferEnd;
-      zBOOL  bValuesStored;
+      zBOOL  bValuesStored = TRUE;
 
       lpViewEntity = zGETPTR( lpEntityInstance->hViewEntity );
 

@@ -197,10 +197,8 @@ BuildMainNavSection( VIEW vDialog,
       IF ActionType = zWAB_LinkToHTML_Address
          szHTML_Address = ""
          IF vDialogRoot.OptAct EXISTS
-            //SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialogRoot.OptAct.ZKey
-            // KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
-            //szHTML_Address = vDialogRoot.OptAct.WebHTML_TransferAddress
-            szHTML_Address = ""
+            SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialogRoot.OptAct.ZKey
+            szHTML_Address = vDialogRoot.OptAct.WebHTML_TransferAddress
          END
       END
       IF ActionType = zWAB_LinkToHTML_Address AND szStyleIsBootstrap = ""
@@ -3643,11 +3641,8 @@ GenJSPJ_CrteSideMenuRecurs( VIEW vDialog,
       // szHTML_Name = szDialogName + vDialogMenu.OptAct.WindowName + ".jsp"
       IF vDialogMenu.OptAct EXISTS
          IF vDialogMenu.OptAct.Type = 45    // Type 45 is Hyperlink Action.
-            // KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
-            //szLinkName = vDialogMenu.OptAct.WebHTML_TransferAddress
-            //szActionName = "target=^_blank^"
-            szLinkName = ""
-            szActionName = ""
+            szLinkName = vDialogMenu.OptAct.WebHTML_TransferAddress
+            szActionName = "target=^_blank^"
          ELSE
             // Because the menu actions can be created on separate windows from the control
             // actions, we need to make sure these actions are unique.  We will prefix a
@@ -4028,10 +4023,8 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
       IF ActionType = zWAB_LinkToHTML_Address
          szHTML_Address = ""
          IF vDialogMenu.OptAct EXISTS
-            //SET CURSOR FIRST vDialogMenu.Action WHERE vDialogMenu.Action.ZKey = vDialogMenu.OptAct.ZKey
-            // KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
-            //szHTML_Address = vDialogMenu.OptAct.WebHTML_TransferAddress
-            szHTML_Address = ""
+            SET CURSOR FIRST vDialogMenu.Action WHERE vDialogMenu.Action.ZKey = vDialogMenu.OptAct.ZKey
+            szHTML_Address = vDialogMenu.OptAct.WebHTML_TransferAddress
          END
       END
       IF ActionType = zWAB_LinkToHTML_Address AND ( szStyleIsBootstrap = "" ) //OR ( szStyleIsBootstrap = "Y" AND szMenuStyle = "Horizontal" AND szHasBanner = "Y") ) // KJS 05/24/22 - added szHasBanner

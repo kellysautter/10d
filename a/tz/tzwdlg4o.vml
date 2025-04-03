@@ -2247,23 +2247,27 @@ DKS_TRACE_END */
    szWriteBuffer = "// _DisableFormElements( false );"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
+   // KJS 07/10/24 - Ken Paynter said that 'eval(' statement is not safe. I don't think we need this because we can
+   // create javascript on the page. Not necessary for the web.
+   /*
    szWriteBuffer = "   var szFocusCtrl = document." + szFormName + ".zFocusCtrl.value;"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "   if ( szFocusCtrl != ^^ )"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   if ( szFocusCtrl != ^^ && szFocusCtrl != ^null^ && szFocusCtrl != null )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      eval( 'document." + szFormName + ".' + szFocusCtrl + '.focus( )' );"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
 
    // Need to know "first" tab index by the time we get here!
    IF szFocusCtrlTag != ""
       szWriteBuffer = "   else"
-      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
       szWriteBuffer = "      document." + szFormName + "." + szFocusCtrlTag + ".focus( );"
-      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    END
 
    szWriteBuffer = ""
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 ) // add a blank line
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 ) // add a blank line
+   */
    szWriteBuffer = "   // This is where we put out a message from the previous iteration on this window"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   var szMsg = document." + szFormName + ".zError.value;"

@@ -7696,15 +7696,8 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       END
       szWriteBuffer = "      if ( strURL.equals( ^^ ) )"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      //szWriteBuffer = "         strURL = response.encodeRedirectURL( ^" + szLogout + "^ );"
       szWriteBuffer = "         strURL = response.encodeRedirectURL( ^" + szLogout + "^ );"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      /*
-      szWriteBuffer = "      response.sendRedirect( strURL );"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "      return;"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      */ 
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "      response.sendRedirect( strURL );"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "      return;"

@@ -1067,18 +1067,33 @@ ERD_Migrate(  VIEW  NewERD     BASED ON LOD TZEREMDO,
    STRING ( 32 )  DomainGroupName
    STRING ( 32 )  DomainName
    STRING ( 1 )   NewEntityFlag
+   INTEGER ZKeyInitialization
    INTEGER FoundInd
    INTEGER nRC
 
    // Activate existing source meta OldERD
    SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + SourceLPLR.W_MetaDef.Name + ".PMD"
-   ActivateOI_FromFile( OldERD, "TZEREMDO", SourceLPLR, SourceFileName, 8192 )
+   nRC = ActivateOI_FromFile( OldERD, "TZEREMDO", SourceLPLR, SourceFileName, 8192 )
+   IF nRC < 0
+      RETURN -2
+   END
    // 8192 IS zIGNORE_ATTRIB_ERRORS
    NAME VIEW OldERD "OldERD"
 
    IF NewERD.EntpER_Model DOES NOT EXIST
       CreateMetaEntity( vSubtask, NewERD, "EntpER_Model", zPOS_AFTER )
       SetMatchingAttributesByName ( NewERD, "EntpER_Model", OldERD, "EntpER_Model", zSET_NULL )
+      
+      // DonC Change 6/4/2024
+      // We need to adjust the NextZKeyToAssign value because migrating work attributes for a LOD can generate the 
+      // same ZKey for an ER_Attribute, which causes problems on relink of the LOD when the LOD is activated.
+      ZKeyInitialization = NewERD.EntpER_Model.NextZKeyToAssign
+      ZKeyInitialization = ZKeyInitialization - 100000000
+      IF ZKeyInitialization < 0
+         ZKeyInitialization = NewERD.EntpER_Model.NextZKeyToAssign
+         ZKeyInitialization = ZKeyInitialization + 100000000
+      END
+      NewERD.EntpER_Model.NextZKeyToAssign = ZKeyInitialization
    END
 
    RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META )
@@ -2530,25 +2545,39 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
    VIEW TaskLPLR       REGISTERED AS TaskLPLR
    VIEW SourceLPLR     BASED ON LOD  TZCMLPLO
    VIEW ERD_LPLR       BASED ON LOD  TZCMLPLO
-   VIEW OpenMetasLPLR  BASED ON LOD  TZCMLPLO
-   VIEW ZeidonCM      
+   VIEW OpenMetasLPLR  BASED ON LOD  TZCMLPLO   
    VIEW NewDomain      BASED ON LOD TZDGSRCO
-   STRING ( 200 ) szFileName
-   STRING ( 300 ) szMsg
+   VIEW SourceLPLR_DG  BASED ON LOD  TZCMLPLO
+   VIEW TargetLPLR_DG  BASED ON LOD  TZCMLPLO
+   VIEW NewDomainGroup BASED ON LOD  TZDGSRCO
+   STRING ( 500 ) szSourceFileName
+   STRING ( 50 )  szMetaName
+   STRING ( 900 ) szMsg
    STRING ( 32 )  szDomainName
    STRING ( 90 )  szEntityName
    STRING ( 90 )  szRelationshipName
    STRING ( 1 )   szErrorFlag
+   INTEGER        nNewCount
    SHORT          nRC
    INTEGER        MetaID
    INTEGER        MaxYPos
    INTEGER        NewYPos
    INTEGER        NewXPos
+   INTEGER        TmpEntity1PosX
+   INTEGER        TmpEntity1PosY
+   INTEGER        Entity1PosX
    INTEGER        Entity1PosY
+   INTEGER        Entity2PosX
    INTEGER        Entity2PosY
    INTEGER        EntityNewPosX
    INTEGER        EntityOldPosXleft
    INTEGER        EntityOldPosXright
+   INTEGER        E1X
+   INTEGER        E1Y
+   INTEGER        E2X
+   INTEGER        E2Y
+   INTEGER        BendX
+   INTEGER        BendY       
 
    // Merge the SourceERD into the TargetERD based on the selection specified in the
    // CompareEntityResult and CompareOperationResult subobjects in TargetERD.
@@ -2575,6 +2604,54 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
    FOR EACH CurrentLPLR.ErrorMessage 
       DELETE ENTITY CurrentLPLR.ErrorMessage NONE  
    END
+   
+   // Activate SourceLPLR for DomainGroup Merge setup below.
+   // We can't use the current merge SourceLPLR because it doesn't contain Domain Groups.
+   szSourceFileName = SourceLPLR.LPLR.ExecDir + "\" + SourceLPLR.LPLR.Name + ".XLP"
+   ActivateOI_FromFile( SourceLPLR_DG, "TZCMLPLO", vSubtask,
+                        szSourceFileName, zSINGLE )
+   NAME VIEW SourceLPLR_DG "SourceLPLR_DG"
+   
+   // Determine if there are any PDG (Domain Group) entries in the source LPLR that are not in the target LPLR.
+   // If so, ask if they should be merged.
+   nNewCount = 0
+   szMsg = "The following Domain Groups exist in the Source LPLR but not in the Target." + NEW_LINE
+   CreateViewFromView( TargetLPLR_DG, TaskLPLR )
+   NAME VIEW TargetLPLR_DG "TargetLPLR_DG"
+   SET CURSOR FIRST SourceLPLR_DG.W_MetaType WHERE SourceLPLR_DG.W_MetaType.Type = 2013  // Position on Domain Group of source.
+   SET CURSOR FIRST TargetLPLR_DG.W_MetaType WHERE TargetLPLR_DG.W_MetaType.Type = 2013  // Position on Domain Group of target.
+   FOR EACH SourceLPLR_DG.W_MetaDef 
+      SET CURSOR FIRST TargetLPLR_DG.W_MetaDef WHERE TargetLPLR_DG.W_MetaDef.Name = SourceLPLR_DG.W_MetaDef.Name 
+      IF RESULT < zCURSOR_SET
+         nNewCount = nNewCount + 1
+         szMsg = szMsg + SourceLPLR_DG.W_MetaDef.Name + NEW_LINE
+      END  
+   END
+   IF nNewCount > 0
+      // Send the User the message and ask if they want to copy the new Domain Groups to the target.
+      szMsg = szMsg + "Do you want them copied to the new LPLR?"
+      nRC = MessagePrompt( vSubtask, "", "Merge ER",
+                           szMsg, 1,         zBUTTONS_YESNO,
+                           zRESPONSE_YES  ,  0 )
+      IF nRC = zRESPONSE_YES
+         // Migrate the new Domain Groups.
+         SET CURSOR FIRST TargetLPLR_DG.W_MetaDef WHERE TargetLPLR_DG.W_MetaDef.Name = SourceLPLR_DG.W_MetaDef.Name 
+         IF RESULT < zCURSOR_SET
+            // Migrate the entry.
+            szMetaName = SourceLPLR_DG.W_MetaDef.Name 
+            ActivateEmptyMetaOI( vSubtask, NewDomainGroup, zSOURCE_DOMAINGRP_META, zSINGLE )
+            nRC = DomainGrpMigrate( NewDomainGroup, szMetaName, SourceLPLR_DG, vSubtask )
+            IF nRC < 0
+               szMsg = "Domain Group(" + szMetaName + ") could not be copied. The function is aborted."
+               MessageSend( vSubtask, "", "LPLR Migrate", szMsg, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+               RETURN -1
+            END
+            DropObjectInstance( NewDomainGroup )
+         END
+      END
+   END
+   DropObjectInstance( SourceLPLR_DG )
+   DropView( TargetLPLR_DG )
    
    // Make sure there is a TZCMLPLO view named "TZERMFLO" because it looks like the ERD tool needs it.
    GET VIEW ERD_LPLR NAMED "TZERMFLO"
@@ -2814,12 +2891,13 @@ ERD_Merge( VIEW TargetERD BASED ON LOD TZEREMDO,
    END
 
    // We will handle Relationships in a separate pass, because we may need to add the ER_Entities above.
+   TaskLPLR.LPLR.wMergeMetaType = "Rel"
+   TaskLPLR.LPLR.wMergeMetaName = ""
    FOR EACH TargetERD.DisplayCompareResult
       IF TargetERD.DisplayCompareResult.SelectedFlag = "Y"
          // Relationship Type.
          IF TargetERD.DisplayCompareResult.CompareResultType = "Rel"
             szErrorFlag = ""
-TraceLineS( "*** Selected Rel: ", TargetERD.DisplayCompareResult.SourceRelationshipName )
 
             // First position on the Relationship to be copied in the Source ERD.
             SET CURSOR FIRST SourceERD.ER_RelType WHERE SourceERD.ER_RelType.ZKey = TargetERD.DisplayCompareResult.MetaID
@@ -2832,7 +2910,7 @@ TraceLineS( "*** Selected Rel: ", TargetERD.DisplayCompareResult.SourceRelations
             SET CURSOR FIRST TargetERD.ER_Entity WHERE TargetERD.ER_Entity.Name = SourceERD.ER_Entity_2.Name
             IF RESULT < zCURSOR_SET
                szMsg = "Entity, " + SourceERD.ER_Entity_2.Name + ", of Relationship, '" + TargetERD.DisplayCompareResult.SourceRelationshipName + 
-                       "', does not exist and will not be copied."
+                       "', does not exist. The Relationship will not be copied."
                CreateErrorMessage( TaskLPLR, szMsg )
                szErrorFlag = "Y"
             END
@@ -2876,176 +2954,181 @@ TraceLineS( "*** Selected Rel: ", TargetERD.DisplayCompareResult.SourceRelations
                INCLUDE TargetERD.ER_Entity_2 FROM TargetERD2.ER_Entity
                   
                // RESETTING RELTYPE POSITIONS         
-               //   DonC changes 4/8/2022
+               //   DonC changes /26/20247
                /*   All ER_RelType positions must be reevaluated because of the new positions of Entities as follows:
+                    (In understanding the increments below, it is helpful to know that a box width and height are considered 8 and 3,)
                
-               In determining the RelType position values, there are 3 separate conditions:
-               1. Both entities in the relationship belong to the original targer ER and they're not modified at all.
-               2. Both entities in the relationship belong to the new source ER and the Y values are incremented.
-               3. One entity is from the source and one the target, so all positions must be re-evaluated.
+               The E1PosX and E2PosX values depend on the position of the first ER_Entity2 entry relative to the second.
+               Note that the Entity Pos values are the upper left corner of the box.
                
-               Re-evaluate all positions as follows:
-                   (In understanding the increments below, it is helpful to know that a box width and height are considered 8 and 3,)
-               
-               The E1PosX and E2PosX values depend on whether the ER_Entity2 entries are old or new.
-               There are 6 conditions for this with processing as follows:
-               1. The first Entity is the New Entity
-                  a. The Old Entity is to left of New Entity. (up then left)
-                     E1X = New Entity PosX + 4 (half-way across box)
-                     E1Y = New Entity PosY - 1 (top of box)
-                     E2X = Old Entity PosX + 9 (right side of box)
-                     E2Y = Old Entity PosY + 2 (half-way down box)
-                     BendX = E1X
-                     BendY = E2Y
-                  b. The Old Entity is to right of New Entity. (up then right)
-                     E1X = New Entity PosX + 4 (half-way across box) 
-                     E1Y = New Entity PosY - 1 (top of box)
-                     E2X = Old Entity PosX - 1 (left side of box)
-                     E2Y = Old Entity PosY + 2 (half-way down box)
-                     BendX = E1X
-                     BendY = E2Y
-                  c. The Old Entity is above New Entity
-                     E1X = New Entity PosX + 4 (half-way across box)
-                     E1Y = New Entity PosY - 1 (top of box)
-                     E2X = New Entity PosX + 4 (old X is same as new X)
-                     E2Y = Old Entity PosY + 5 (bottom of box)
-                     BendX = 0
-                     BendY = 0
-               
-               2. The first Entity is the Old Entity
-                  a. The Old Entity is to left of New Entity.   (up then left)
-                     E1X = Old Entity PosX + 9 (right side of box)
-                     E1Y = Old Entity PosY + 2 (half-way down box)
-                     E2X = New Entity PosX + 4 (half-way across box)
-                     E2Y = New Entity PosY - 1 (top of box)
-                     BendX = E1X
-                     BendY = E2Y
-                  b. The Old Entity is to right of New Entity.  (up then right)
-                     E1X = Old Entity PosX - 1 (left side of box)
-                     E1Y = Old Entity PosY + 2 (half-way down box)
-                     E2X = New Entity PosX + 4 (half-way across box) 
-                     E2Y = New Entity PosY - 1 (top of box)
-                     BendX = E1X
-                     BendY = E2Y
-                  c. The Old Entity is above New Entity
-                     E2X = New Entity PosX + 4 (half-way across box)
-                     E2Y = New Entity PosY - 1 (top of box)
-                     E1X = New Entity PosX + 4 (old X is same as new X)
-                     E1Y = Old Entity PosY + 5 (bottom of box)
-                     BendX = 0
-                     BendY = 0
+               There are 8 conditions for this with processing as follows:
+                  1. The 1st Entity is up and to the left of the 2nd Entity. 
+                  2. The 1st Entity is directly to the left of the 2nd Entity. 
+                  3. The 1st Entity is down and to the left of the 2nd Entity. 
+                  4. The 1st Entity is directly below the 2nd Entity.
+                  5. The 1st Entity is down and to the right of the 2nd Entity.
+                  6. The 1st Entity is directly to the right of the 2nd Entity.
+                  7. The 1st Entity is up and to the right of the 2nd Entity.
+                  8. The 1st Entity is directly above the 2nd Entity.
                */
                
-               // We'll determine whether an entity is new or old depending on its Y position.
+               // Get X and Y positions of both Entities.
                SET CURSOR FIRST TargetERD.ER_RelLink_2 
+               Entity1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX
                Entity1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY
                SET CURSOR NEXT TargetERD.ER_RelLink_2 
+               Entity2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX
                Entity2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY
                
-               IF Entity1PosY < MaxYPos AND Entity2PosY < MaxYPos
+               // Set Relationship positions based on 8 conditions above.
+               // We'll first check Y positions and then X positions within them.
+               // We will consider Y positions at the same level if 1st Entity PosY is within 5 positions of 2nd Entity PosY.
                
-                  // Both entities are old, so don'modify RelType positions.
-               ELSE
-                  IF Entity1PosY > MaxYPos AND Entity2PosY > MaxYPos
-                  
-                     // Both entities are new, so just increment Y positions by MaxYPos, except for BendY when it's zero.
-                     TargetERD.ER_RelType.ER_DiagramE1PosY   = TargetERD.ER_RelType.ER_DiagramE1PosY   + MaxYPos
-                     TargetERD.ER_RelType.ER_DiagramE2PosY   = TargetERD.ER_RelType.ER_DiagramE2PosY   + MaxYPos
-                     IF TargetERD.ER_RelType.ER_DiagramBendPosY != 0
-                        TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramBendPosY + MaxYPos
-                     END
-                     
+               TmpEntity1PosY = Entity1PosY + 5
+               IF TmpEntity1PosY < Entity2PosY
+                  // Entity1 is above Entity2
+                  TmpEntity1PosX = Entity1PosX - 9
+                  IF TmpEntity1PosX > Entity2PosX
+                     // Entity1 is to the right of Entity2
+                     // The 1st Entity is up and to the right of the 2nd Entity.
+                     E1X = Entity1PosX + 4 // (half-way across box)
+                     E1Y = Entity1PosY + 5 // (bottom of box)
+                     E2X = Entity2PosX + 9 // (right side of box)
+                     E2Y = Entity2PosY + 2 // (half-way down box)
+                     BendX = E1X
+                     BendY = E2Y 
                   ELSE
-                     // Entities are a combination and all positions must be reevaluated.
-                     
-                     IF Entity1PosY > MaxYPos
-                        // 1. The first Entity is the New Entity
-                        SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                        EntityNewPosX = TargetERD.ER_Entity_2.ER_DiagramPosX 
-                        SET CURSOR NEXT TargetERD.ER_RelLink_2 
-                        EntityOldPosXleft  = TargetERD.ER_Entity_2.ER_DiagramPosX + 8
-                        EntityOldPosXright = TargetERD.ER_Entity_2.ER_DiagramPosX - 8
-                        
-                        IF EntityOldPosXleft < EntityNewPosX     // + 8 makes sure old entity is at least a box width left
-                           // a. The Old Entity is to left of New Entity. (up then left)
-                           SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                           SET CURSOR NEXT TargetERD.ER_RelLink_2  
-                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 9 // (right side of box)
-                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
-                           TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
-                           TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY 
-                        ELSE
-                        IF EntityOldPosXright > EntityNewPosX     // - 8 makes sure old entity is at least a box width right
-                           // b. The Old Entity is to right of New Entity. (up then right)
-                           SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                           SET CURSOR NEXT TargetERD.ER_RelLink_2  
-                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX - 1 // (left side of box)
-                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
-                           TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
-                           TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY
-                        ELSE
-                           // c. The Old Entity is above New Entity
-                           SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                           SET CURSOR NEXT TargetERD.ER_RelLink_2  
-                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_RelType.ER_DiagramE1PosX    // (old X is same as new X)
-                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 5 // (bottom of box)
-                           TargetERD.ER_RelType.ER_DiagramBendPosX = 0 // No Bend
-                           TargetERD.ER_RelType.ER_DiagramBendPosY = 0 // No Bend
-                        END
-                        END
-                        
+                  TmpEntity1PosX = Entity1PosX + 9
+                  IF TmpEntity1PosX < Entity2PosX
+                     // Entity1 is to the left of Entity2
+                     // The 1st Entity is up and to the left of the 2nd Entity. 
+                     E1X = Entity1PosX + 4 // (half-way across box) 
+                     E1Y = Entity1PosY + 5 // (bottom of box)
+                     E2X = Entity2PosX - 1 // (left side of box)
+                     E2Y = Entity2PosY + 2 // (half-way down box)
+                     BendX = E1X
+                     BendY = E2Y
+                  ELSE
+                     // Entity1 is directly above Entity2
+                     // The 1st Entity is directly above the 2nd Entity.
+                     // If they are slightly NOT aligned, we will position on the end of Entity 1.
+                     // The Y positions aren't affected.
+                     E1Y = Entity1PosY + 5 // (bottom of box)
+                     E2Y = Entity2PosY - 1 // (top of box)
+                     IF Entity1PosX = Entity2PosX
+                        E1X = Entity1PosX + 4 // (middle of box)
                      ELSE
-                        // 2. The first Entity is the Old Entity
-                        SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                        EntityOldPosXleft  = TargetERD.ER_Entity_2.ER_DiagramPosX + 8
-                        EntityOldPosXright = TargetERD.ER_Entity_2.ER_DiagramPosX - 8
-                        SET CURSOR NEXT TargetERD.ER_RelLink_2
-                        EntityNewPosX = TargetERD.ER_Entity_2.ER_DiagramPosX
-                        
-                        IF EntityOldPosXleft < EntityNewPosX     // + 8 makes sure old entity is at least a box width left
-                           // a. The Old Entity is to left of New Entity.   (up then left)
-                           SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 9 // (right side of box)
-                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
-                           SET CURSOR NEXT TargetERD.ER_RelLink_2  
-                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                           TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE1PosX 
-                           TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE2PosY 
+                        IF Entity1PosX < Entity2PosX
+                           E1X = Entity1PosX + 7 // (right end of box)
                         ELSE
-                        IF EntityOldPosXright > EntityNewPosX     // - 8 makes sure old entity is at least a box width right
-                           // b. The Old Entity is to right of New Entity.  (up then right)
-                           SET CURSOR FIRST TargetERD.ER_RelLink_2  
-                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_Entity_2.ER_DiagramPosX - 1 // (left side of box)
-                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 2 // (half-way down box)
-                           SET CURSOR NEXT TargetERD.ER_RelLink_2  
-                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                           TargetERD.ER_RelType.ER_DiagramBendPosX = TargetERD.ER_RelType.ER_DiagramE2PosX 
-                           TargetERD.ER_RelType.ER_DiagramBendPosY = TargetERD.ER_RelType.ER_DiagramE1PosY
-                        ELSE
-                           // c. The Old Entity is above New Entity
-                           SET CURSOR FIRST TargetERD.ER_RelLink_2 
-                           SET CURSOR NEXT TargetERD.ER_RelLink_2    // Position on New Entity
-                           TargetERD.ER_RelType.ER_DiagramE2PosX = TargetERD.ER_Entity_2.ER_DiagramPosX + 4 // (half-way across box)
-                           TargetERD.ER_RelType.ER_DiagramE2PosY = TargetERD.ER_Entity_2.ER_DiagramPosY - 1 // (top of box)
-                           SET CURSOR FIRST TargetERD.ER_RelLink_2   // Reposition on Old Entity
-                           TargetERD.ER_RelType.ER_DiagramE1PosX = TargetERD.ER_RelType.ER_DiagramE2PosX    // (old X is same as new X)
-                           TargetERD.ER_RelType.ER_DiagramE1PosY = TargetERD.ER_Entity_2.ER_DiagramPosY + 5 // (bottom of box)
-                           TargetERD.ER_RelType.ER_DiagramBendPosX = 0 // No Bend
-                           TargetERD.ER_RelType.ER_DiagramBendPosY = 0 // No Bend
+                           E1X = Entity1PosX + 1 // (left end of box)
                         END
-                        END
-   
                      END
+                     E2X = E1X  // X positions are the same.
+                     BendX = 0
+                     BendY = 0
                   END
-               END       
+                  END
+               ELSE
+               TmpEntity1PosY = Entity1PosY - 5
+               IF TmpEntity1PosY > Entity2PosY
+                  // Entity1 is below Entity2
+                  TmpEntity1PosX = Entity1PosX - 9
+                  IF TmpEntity1PosX > Entity2PosX
+                     // Entity1 is to the right of Entity2
+                     // The 1st Entity is down and to the right of the 2nd Entity.
+                     E1X = Entity1PosX + 4 // (half-way across box)
+                     E1Y = Entity1PosY - 1 // (top of box)
+                     E2X = Entity2PosX + 9 // (right side of box)
+                     E2Y = Entity2PosY + 2 // (half-way down box)
+                     BendX = E1X
+                     BendY = E2Y 
+                  ELSE
+                  TmpEntity1PosX = Entity1PosX + 9
+                  IF TmpEntity1PosX < Entity2PosX
+                     // Entity1 is to the left of Entity2
+                     // The 1st Entity is down and to the left of the 2nd Entity. 
+                     E1X = Entity1PosX + 4 // (half-way across box) 
+                     E1Y = Entity1PosY - 1 // (top of box)
+                     E2X = Entity2PosX - 1 // (left side of box)
+                     E2Y = Entity2PosY + 2 // (half-way down box)
+                     BendX = E1X
+                     BendY = E2Y
+                  ELSE
+                     // Entity1 is directly below Entity2
+                     // The 1st Entity is directly below the 2nd Entity.
+                     // If they are slightly NOT aligned, we will position on the end of Entity 1.
+                     // The Y positions aren't affected.
+                     E1Y = Entity1PosY - 1 // (top of box)
+                     E2Y = Entity2PosY + 5 // (bottom of box)
+                     IF Entity1PosX = Entity2PosX
+                        E1X = Entity1PosX + 4 // (middle of box)
+                     ELSE
+                        IF Entity1PosX < Entity2PosX
+                           E1X = Entity1PosX + 7 // (right end of box)
+                        ELSE
+                           E1X = Entity1PosX + 1 // (left end of box)
+                        END
+                     END
+                     E2X = E1X  // X positions are the same.
+                     BendX = 0
+                     BendY = 0
+                  END
+                  END
+               ELSE
+                  // Entity1 is at same level as Entity2
+                 TmpEntity1PosX = Entity1PosX - 9
+                 IF TmpEntity1PosX > Entity2PosX
+                     // Entity1 is to the right of Entity2
+                     // The 1st Entity is directly to the right of the 2nd Entity.
+                     // If they are slightly NOT aligned, we will position on the end of Entity 1.
+                     // The X positions aren't affected.
+                     E1X = Entity1PosX - 1 // (left side of box)
+                     E2X = Entity2PosX + 9 // (right side of box)
+                     IF Entity1PosY = Entity2PosY
+                        E1Y = Entity1PosY + 2 // (half-way down box)
+                     ELSE
+                        IF Entity1PosY < Entity2PosY
+                           E1Y = Entity1PosY + 4 // (bottom end of box)
+                        ELSE
+                           E1Y = Entity1PosY     // (top end of box)
+                        END
+                     END
+                     E2Y = E1Y    // Y positions are the same for both Entities
+                     BendX = 0
+                     BendY = 0
+                  ELSE
+                     // Entity1 is to the left of Entity2
+                     // The 1st Entity is directly to the left of the 2nd Entity.
+                     // If they are slightly NOT aligned, we will position on the end of Entity 1.
+                     // The X positions aren't affected.
+                     E1X = Entity1PosX + 9 // (right side of box)
+                     E2X = Entity2PosX - 1 // (left side of box)
+                     IF Entity1PosY = Entity2PosY
+                        E1Y = Entity1PosY + 2 // (half-way down box)
+                     ELSE
+                        IF Entity1PosY < Entity2PosY
+                           E1Y = Entity1PosY + 4 // (bottom end of box)
+                        ELSE
+                           E1Y = Entity1PosY     // (top end of box)
+                        END
+                     END
+                     E2Y = E1Y    // Y postions are the same for both Entities
+                     BendX = 0
+                     BendY = 0
+                 END
+               END
+               END
+               
+               // Set the values determined above.
+               SET CURSOR FIRST TargetERD.ER_RelLink_2  
+               TargetERD.ER_RelType.ER_DiagramE1PosX   = E1X
+               TargetERD.ER_RelType.ER_DiagramE1PosY   = E1Y
+               SET CURSOR NEXT TargetERD.ER_RelLink_2  
+               TargetERD.ER_RelType.ER_DiagramE2PosX   = E2X
+               TargetERD.ER_RelType.ER_DiagramE2PosY   = E2Y
+               TargetERD.ER_RelType.ER_DiagramBendPosX = BendX
+               TargetERD.ER_RelType.ER_DiagramBendPosY = BendY  
 
                // Now include the lower level substructures.
                // We will first have to position TargetERD2 on the new RelType and on the first RelLink for that type.

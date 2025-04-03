@@ -63,6 +63,7 @@ BuildMainNavSection( zVIEW     vDialog,
    zSHORT    lTempInteger_1; 
    zCHAR     szTempString_6[ 33 ]; 
    zSHORT    lTempInteger_2; 
+   zLONG     lTempInteger_3; 
    zCHAR     szTempString_7[ 255 ]; 
 
 
@@ -393,11 +394,11 @@ BuildMainNavSection( zVIEW     vDialog,
          lTempInteger_2 = CheckExistenceOfEntity( vDialogRoot, "OptAct" );
          if ( lTempInteger_2 == 0 )
          { 
-            //://SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialogRoot.OptAct.ZKey
-            //:// KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
-            //://szHTML_Address = vDialogRoot.OptAct.WebHTML_TransferAddress
-            //:szHTML_Address = ""
-            ZeidonStringCopy( szHTML_Address, 1, 0, "", 1, 0, 257 );
+            //:SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialogRoot.OptAct.ZKey
+            GetIntegerFromAttribute( &lTempInteger_3, vDialogRoot, "OptAct", "ZKey" );
+            RESULT = SetCursorFirstEntityByInteger( vDialogRoot, "Action", "ZKey", lTempInteger_3, "" );
+            //:szHTML_Address = vDialogRoot.OptAct.WebHTML_TransferAddress
+            GetVariableFromAttribute( szHTML_Address, 0, 'S', 257, vDialogRoot, "OptAct", "WebHTML_TransferAddress", "", 0 );
          } 
 
          //:END
@@ -1102,6 +1103,7 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
    zSHORT    lTempInteger_4; 
    zCHAR     szTempString_13[ 33 ]; 
    zSHORT    lTempInteger_5; 
+   zLONG     lTempInteger_6; 
 
 
    //:// KJS 12/16/16 - I switched "WL_QC( vDialogMenu" to "WL_QC( vDialog".
@@ -1668,11 +1670,11 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
          lTempInteger_5 = CheckExistenceOfEntity( vDialogMenu, "OptAct" );
          if ( lTempInteger_5 == 0 )
          { 
-            //://SET CURSOR FIRST vDialogMenu.Action WHERE vDialogMenu.Action.ZKey = vDialogMenu.OptAct.ZKey
-            //:// KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
-            //://szHTML_Address = vDialogMenu.OptAct.WebHTML_TransferAddress
-            //:szHTML_Address = ""
-            ZeidonStringCopy( szHTML_Address, 1, 0, "", 1, 0, 257 );
+            //:SET CURSOR FIRST vDialogMenu.Action WHERE vDialogMenu.Action.ZKey = vDialogMenu.OptAct.ZKey
+            GetIntegerFromAttribute( &lTempInteger_6, vDialogMenu, "OptAct", "ZKey" );
+            RESULT = SetCursorFirstEntityByInteger( vDialogMenu, "Action", "ZKey", lTempInteger_6, "" );
+            //:szHTML_Address = vDialogMenu.OptAct.WebHTML_TransferAddress
+            GetVariableFromAttribute( szHTML_Address, 0, 'S', 257, vDialogMenu, "OptAct", "WebHTML_TransferAddress", "", 0 );
          } 
 
          //:END
@@ -2176,13 +2178,10 @@ GenJSPJ_CrteSideMenuRecurs( zVIEW     vDialog,
          //:IF vDialogMenu.OptAct.Type = 45    // Type 45 is Hyperlink Action.
          if ( CompareAttributeToInteger( vDialogMenu, "OptAct", "Type", 45 ) == 0 )
          { 
-            //:// KJS 10/20/23 - commenting this out because of incompatiblilies, I took off WebHTML_TransferAddress from OptAct.
-            //://szLinkName = vDialogMenu.OptAct.WebHTML_TransferAddress
-            //://szActionName = "target=^_blank^"
-            //:szLinkName = ""
-            ZeidonStringCopy( szLinkName, 1, 0, "", 1, 0, 257 );
-            //:szActionName = ""
-            ZeidonStringCopy( szActionName, 1, 0, "", 1, 0, 101 );
+            //:szLinkName = vDialogMenu.OptAct.WebHTML_TransferAddress
+            GetVariableFromAttribute( szLinkName, 0, 'S', 257, vDialogMenu, "OptAct", "WebHTML_TransferAddress", "", 0 );
+            //:szActionName = "target=^_blank^"
+            ZeidonStringCopy( szActionName, 1, 0, "target=^_blank^", 1, 0, 101 );
             //:ELSE
          } 
          else

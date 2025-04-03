@@ -51,7 +51,7 @@ from here old version
 */
 
 DIALOG OPERATION
-MigrateMeta( VIEW vSubtask )
+MigrateMetaOld( VIEW vSubtask )
 
    VIEW SourceLPLR         BASED ON LOD TZCMLPLO
    VIEW SourceVOR_LPLR     BASED ON LOD TZCMLPLO
@@ -154,7 +154,7 @@ MigrateMeta( VIEW vSubtask )
 
          MG_ErrorMessage = "Migrating Global Operation Group: " + MetaName
          MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
-         nRC = GlobalOperGrpMigrate( NewOperationGroup, MetaName, SourceLPLR, vSubtask )
+         nRC = GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, vSubtask )
          IF nRC < 0
             MG_ErrorMessage = "Global Operation Group(" + MetaName + ") aborted."
             MessageSend( vSubtask, "CM01001", "Configuration Management",
@@ -583,55 +583,42 @@ SelectLPLR( VIEW vSubtask )
    INTEGER        TempType
 
    GET VIEW vCM NAMED "TZCMWKSO"
+   
+   // Check if an ERD alread exists in the current LPLR. If so, the Migrate function cannot be used.
+   GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+   SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 4
+   IF CurrentLPLR.W_MetaDef EXISTS 
+      MessageSend( vSubtask, "", "LPLR Migrate",
+                   "The Current LPLR already has an ER, so the Migrate function cannot be used.", 
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -2
+   END
 
    // Activate OI and View to the source LPLR
    SourceFileName = vCM.LPLR.Name
    TruncatedName = SourceFileName [1:32]
-   SourceFileName = vCM.LPLR.ExecDir + "\" +
-                    TruncatedName + ".XLP"
-   ActivateOI_FromFile( OrigLPLR, "TZCMLPLO", vSubtask,
-                        SourceFileName, zSINGLE )
+   SourceFileName = vCM.LPLR.ExecDir + "\" + TruncatedName + ".XLP"
+   ActivateOI_FromFile( OrigLPLR, "TZCMLPLO", vSubtask, SourceFileName, zSINGLE )
    NAME VIEW OrigLPLR "OrigLPLR"
 
-   // Create the views that will be positioned on the list of VOR's for VOR migration.
-   CreateViewFromView( VOR_LPLR, OrigLPLR )
-   NAME VIEW VOR_LPLR "SourceVOR_LPLR"
-   SET CURSOR FIRST VOR_LPLR.W_MetaType WHERE VOR_LPLR.W_MetaType.Type = 2009  // 2009 is the VOR.
-   GET VIEW CurrentLPLR NAMED "TaskLPLR"
-   CreateViewFromView( VOR_LPLR, CurrentLPLR )
-   NAME VIEW VOR_LPLR "TargetVOR_LPLR"
-   SET CURSOR FIRST VOR_LPLR.W_MetaType WHERE VOR_LPLR.W_MetaType.Type = 2009  // 2009 is the VOR.
-   
-   // Reposition work station view on original LPLR so that any ZKeys generated during migration will
-   // be created using the correct next ZKey.
-   SET CURSOR FIRST vCM.LPLR WHERE vCM.LPLR.Name = CurrentLPLR.LPLR.Name 
-
-   // Copy the Orig members with Type >= 2000 to Source
+   // Copy the Orig Dialog members to Source since they are the only entries to be selectable in the list.
    ACTIVATE SourceLPLR EMPTY
    NAME VIEW SourceLPLR "SourceLPLR"
 
    CREATE ENTITY SourceLPLR.LPLR
    SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL )
    FOR EACH OrigLPLR.W_MetaType WHERE
-            OrigLPLR.W_MetaType.Type >= 2000
-
-      // Do not include Domains (2003), Global Operations (2002) or
-      // Registered Views (2009) in the list.
-      IF OrigLPLR.W_MetaType.Type != 2002 AND
-         OrigLPLR.W_MetaType.Type != 2003 AND
-         OrigLPLR.W_MetaType.Type != 2009
-
-         CREATE ENTITY SourceLPLR.W_MetaType
-         // This code has to use a work integer in setting SourceLPLR.W_MetaType.Type to
-         // OrigLPLR.W_MetaType.Type, because the domain on Type, CM_Type, seems to always
-         // convert a REFER value to a SOURCE value.  This is an error in the table domain
-         // and should eventually get corrected.
-         TempType = OrigLPLR.W_MetaType.Type
-         SourceLPLR.W_MetaType.Type = TempType
-         FOR EACH OrigLPLR.W_MetaDef
-            CREATE ENTITY SourceLPLR.W_MetaDef
-            SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL )
-         END
+            OrigLPLR.W_MetaType.Type = 2011
+      CREATE ENTITY SourceLPLR.W_MetaType
+      // This code has to use a work integer in setting SourceLPLR.W_MetaType.Type to
+      // OrigLPLR.W_MetaType.Type, because the domain on Type, CM_Type, seems to always
+      // convert a REFER value to a SOURCE value.  This is an error in the table domain
+      // and should eventually get corrected.
+      TempType = OrigLPLR.W_MetaType.Type
+      SourceLPLR.W_MetaType.Type = TempType
+      FOR EACH OrigLPLR.W_MetaDef
+         CREATE ENTITY SourceLPLR.W_MetaDef
+         SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL )
       END
    END
 
@@ -648,8 +635,6 @@ SelectLPLR_ForMerge( VIEW vSubtask )
    INTEGER        TempType
    STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
    STRING ( 32 )  TruncatedName
-   
-   TraceLineS( "*********** Trace 6/2 9:11", "" )
    
    // Make sure there is currently no TargetLPLR view as that will be created later in postbuild of merge window.
    GET VIEW TargetLPLR NAMED "TargetLPLR"
@@ -1697,7 +1682,28 @@ DIALOG OPERATION
 MERGE_AllLPLR_Metas( VIEW ViewToWindow )
 
    VIEW SourceLPLR REGISTERED AS SourceLPLR
+   VIEW TaskLPLR   REGISTERED AS TaskLPLR
+   STRING ( 500 ) PromptMessage 
    SHORT nRC
+   
+   // Prompt User to make sure they are aware of the extence of this function.
+   PromptMessage = "Note that this function will ignore any selections and will merge ALL entries into the target LPLR. " + NEW_LINE
+   IF TaskLPLR.LPLR.wMergeAllLOD_ER_EntriesFlag = "Y"
+      PromptMessage = PromptMessage + "Also, the 'Merge LOD ER Data' option IS selected so any LOD entities/attributes tied to the ER in " +
+                                      "the source LPLR will generate new entity/attributes into the target LPLR." + NEW_LINE
+   ELSE
+      PromptMessage = PromptMessage + "Also, the 'Merge LOD ER Data' option is NOT selected so any LOD entities/attributes tied to " +
+                                      "the ER in the source LPLR will NOT be merged into the target LPLR." + NEW_LINE
+   END
+   PromptMessage = PromptMessage + "Do you want to continue Merging All Entries?"
+   nRC = MessagePrompt( ViewToWindow, "", "Merge Entries",
+                        PromptMessage, 1,         zBUTTONS_YESNO,
+                        zRESPONSE_YES  ,  0 )
+   IF nRC = zRESPONSE_NO
+      MessageSend( ViewToWindow, "", "Merge Entries",
+                   "The Merge function is aborted.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      RETURN -1
+   END
    
    // Select all entries in SourceLPLR and call the MERGE_SelectedLMergeoperation.
    // Note we will not select the AD_Base PWD as its mapping can create errors and we don't want 
@@ -1789,7 +1795,7 @@ MERGE_SelectedLPLR_Metas( VIEW ViewToWindow )
 
          MG_ErrorMessage = "Migrating Global Operation Group: " + MetaName
          MB_SetMessage( ViewToWindow, 1, MG_ErrorMessage )
-         nRC = GlobalOperGrpMigrate( NewOperationGroup, MetaName, SourceLPLR, ViewToWindow )
+         nRC = GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, ViewToWindow )
          IF nRC < 0
             MG_ErrorMessage = "Global Operation Group(" + MetaName + ") aborted."
             MessageSend( ViewToWindow, "CM01001", "Configuration Management",
@@ -1955,13 +1961,13 @@ END
 DIALOG OPERATION
 GOTO_MergeERDs( VIEW vSubtask )
 
-   VIEW vTaskLPLR REGISTERED AS TaskLPLR
+   VIEW vTaskLPLR      REGISTERED AS TaskLPLR
 
    // Initialize the TaskLPLR ErrorMessage subobject before executing ERD_Merge.
    FOR EACH vTaskLPLR.ErrorMessage 
       DELETE ENTITY vTaskLPLR.ErrorMessage NONE  
    END
-
+    
 END
 
 /*************************************************************************************************
@@ -1986,11 +1992,12 @@ END
 LOCAL OPERATION
 MergeAllObjectViews( VIEW ViewToWindow )
 
-   VIEW TaskLPLR   REGISTERED AS TaskLPLR
-   VIEW SourceLPLR BASED ON LOD  TZCMLPLO
-   VIEW TZWDVOROS  BASED ON LOD TZWDVORO
-   VIEW TZWDVOROT  BASED ON LOD TZWDVORO
-   VIEW TZZOLODO   BASED ON LOD TZZOLODO
+   VIEW TaskLPLR    REGISTERED AS TaskLPLR
+   VIEW SourceLPLR  BASED ON LOD  TZCMLPLO
+   VIEW CurrentLPLR BASED ON LOD  TZCMLPLO
+   VIEW TZWDVOROS   BASED ON LOD  TZWDVORO
+   VIEW TZWDVOROT   BASED ON LOD  TZWDVORO
+   VIEW TZZOLODO    BASED ON LOD  TZZOLODO
    STRING ( 50 )  szLOD_Name
    STRING ( 50 )  szMetaName
    STRING ( 200 ) szSourceDirectoryName
@@ -2001,7 +2008,8 @@ MergeAllObjectViews( VIEW ViewToWindow )
    
    // Make sure that an ObjectView exists in the TaskLPLR (the current LPLR) for every ObjectView in the Source LPLR.
    
-   GET VIEW SourceLPLR NAMED "OrigLPLR"
+   GET VIEW SourceLPLR  NAMED "OrigLPLR"
+   GET VIEW CurrentLPLR NAMED "TaskLPLR"
    
    // Note that update Registered View is W_MetaType 2009.  
    SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2009
@@ -2032,11 +2040,340 @@ MergeAllObjectViews( VIEW ViewToWindow )
             CommitMetaOI( ViewToWindow, TZWDVOROT, zSOURCE_VOR_META )
             DropObjectInstance( TZWDVOROT )
             DropObjectInstance( TZZOLODO )
-            szMsg = "Registered View, " + TZWDVOROS.ViewObjRef.Name + ", copied."
+            
+            // Create Registered View Copied message.  (Modified by DonC, 7/12/2024)
+            szMsg = "Copied."
+            CurrentLPLR.LPLR.wMergeMetaType = "Registered View"
+            CurrentLPLR.LPLR.wMergeMetaName = TZWDVOROS.ViewObjRef.Name
             CreateErrorMessage( TaskLPLR, szMsg )
          END
          DropObjectInstance( TZWDVOROS )
       END 
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: MigrateMeta
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+MigrateMeta( VIEW vSubtask )
+
+   VIEW SourceLPLR         BASED ON LOD TZCMLPLO
+   VIEW SourceLPLR_Dialog  BASED ON LOD TZCMLPLO
+   VIEW TempLPLR           BASED ON LOD TZCMLPLO
+   VIEW TargetLPLR         BASED ON LOD TZCMLPLO
+   VIEW CurrentLPLR        BASED ON LOD TZCMLPLO
+   VIEW NewERD             BASED ON LOD TZEREMDO
+   VIEW ReturnedSA         BASED ON LOD TZERSASO
+   VIEW ReturnedTE         BASED ON LOD TZTENVRO
+   VIEW NewLOD             BASED ON LOD TZZOLODO
+   VIEW ReturnedPPE        BASED ON LOD TZPESRCO
+   VIEW NewDialog          BASED ON LOD TZWDLGSO
+   VIEW ReturnedDialogSpec BASED ON LOD TZADCSDO
+   VIEW ReturnedReport     BASED ON LOD TZRPSRCO
+   VIEW ReturnedXSLT       BASED ON LOD TZXSLTSO
+   VIEW NewDomainGroup     BASED ON LOD TZDGSRCO
+   VIEW NewOperationGroup  BASED ON LOD TZOGSRCO
+   VIEW ReturnedHeader     BASED ON LOD TZOPHDRO
+   VIEW vPE                BASED ON LOD TZPESRCO
+   VIEW vVOR               BASED ON LOD TZWDVORO
+   STRING (32)  MetaName
+   STRING (250) MG_ErrorMessage
+   STRING (513) SourceDirectoryName       // zMAX_FILESPEC_LTH+1
+   STRING (513) SourceFileName            // zMAX_FILESPEC_LTH+1
+   STRING ( 1 ) szReExecuteFlag
+   SHORT        nRC
+   SHORT        nRC1
+   
+   // Copy all metas in the Source LPLR to create entries in the Current LPLR.
+   // The metas will be copied over in the following order.
+   // 2000 - Header
+   // 2001 - Source
+   // 2002 - Global Operations
+   // 2003 - Domain Groups
+   // 2004 - ERD
+   // 2005 - Subject Area
+   // 2006 - TE
+   // 2007 - LOD
+   // 2008 - POD
+   // 2009 - PVR (VOR)
+   // 2010 - PE
+   // 2011 - Dialog
+   // 2012 - UIS
+   // 2013 - Domain Group / PDG
+   // 2014 - Global Operation Group
+   // 2015 - Report
+   // 2016 - XSLT
+   // The ones that will be processed here are as follows and will be copied over in the following order.
+   // 2010 - PE
+   // 2014 - Global Operation Group
+   // 2013 - Domain Group
+   // 2004 - ERD
+   // 2006 - TE
+   // 2007 - LOD
+   // 2009 - PVR (VOR)
+   // 2011 - Dialog
+
+   GET VIEW SourceLPLR  NAMED "OrigLPLR"   // We want the full LPLR, not the edited list currently stored as SourceLPLR.
+   GET VIEW CurrentLPLR NAMED "TaskLPLR"
+   GET VIEW TargetLPLR  NAMED "TargetLPLR"
+   
+   // Set Flag so that error messages will be written to ErrorMessage entities rather displayed immediately to the user.
+   CurrentLPLR.LPLR.MergeType = "L"
+   
+   // Check if this is a repeat of migrate for additional selected Dialog entries. We know this because of the existence.
+   // of the ERD.
+   szReExecuteFlag = ""
+   GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+   SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 4
+   IF CurrentLPLR.W_MetaDef EXISTS 
+      szReExecuteFlag = "Y"
+   END
+   
+   // Migrate non Dialog entries if we're not re-exeuting this function.
+   IF szReExecuteFlag = ""
+   
+      // Process the Domain Groups and the Operation Groups first, since they must exist before
+      // other metas can be processed, and their numbers put them at the end of the list.
+      
+      // PE
+      // We are not migrating the PE since it is not used for Web apps.
+   
+      // Operation Groups
+      SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2014 
+      SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2014 
+      IF RESULT < 0
+         CREATE ENTITY TargetLPLR.W_MetaType
+         TargetLPLR.W_MetaType.Type = 2014
+      END
+      FOR EACH SourceLPLR.W_MetaDef 
+         MetaName = SourceLPLR.W_MetaDef.Name 
+         ActivateEmptyMetaOI( vSubtask, NewOperationGroup, zSOURCE_GOPGRP_META, zSINGLE )
+         MG_ErrorMessage = "Migrating Global Operation Group: " + MetaName
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         nRC = GlobalOperGrpMigrate( NewOperationGroup, MetaName, SourceLPLR, vSubtask )
+         IF nRC < 0
+            MG_ErrorMessage = "Global Operation Group(" + MetaName + ") aborted."
+            MessageSend( vSubtask, "", "LPLR Migrate",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         ELSE
+            CREATE ENTITY TargetLPLR.W_MetaDef
+            TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+         END
+         DropObjectInstance( NewOperationGroup )
+      END
+      
+      // Domain Groups
+      SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2013
+      SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2013
+      IF RESULT < 0
+         CREATE ENTITY TargetLPLR.W_MetaType
+         TargetLPLR.W_MetaType.Type = 2013
+      END
+      FOR EACH SourceLPLR.W_MetaDef 
+         MetaName = SourceLPLR.W_MetaDef.Name 
+         ActivateEmptyMetaOI( vSubtask, NewDomainGroup, zSOURCE_DOMAINGRP_META, zSINGLE )
+         MG_ErrorMessage = "Migrating Domain Group: " + MetaName
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         nRC = DomainGrpMigrate( NewDomainGroup, MetaName, SourceLPLR, vSubtask )
+         IF nRC < 0
+            MG_ErrorMessage = "Domain Group(" + MetaName + ") aborted."
+            MessageSend( vSubtask, "", "LPLR Migrate",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         ELSE
+            CREATE ENTITY TargetLPLR.W_MetaDef
+            TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+         END
+         DropObjectInstance( NewDomainGroup )
+      END
+   
+      // ERD
+      SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2004
+      SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2004
+      IF RESULT < 0
+         CREATE ENTITY TargetLPLR.W_MetaType
+         TargetLPLR.W_MetaType.Type = 2004
+      END
+      IF SourceLPLR.W_MetaDef EXISTS
+         // Migrate the Source ERD to the Current LPLR.
+         // We have already checked that the Current LPLR does not have an ER.
+         
+         // Check that ERD name is same as LPLR name.
+         IF SourceLPLR.W_MetaDef.Name != SourceLPLR.LPLR.Name 
+            MG_ErrorMessage = "ERD Name of " + SourceLPLR.W_MetaDef.Name + " does not match LPLR Name of " + SourceLPLR.LPLR.Name + "," +
+                              "Migrate will be aborted."
+            MessageSend( vSubtask, "", "LPLR Migrate",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            RETURN nRC
+         END
+         
+         GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+         MetaName = CurrentLPLR.LPLR.Name
+         ActivateEmptyMetaOI( vSubtask, NewERD, zSOURCE_ERD_META, zSINGLE )
+         NAME VIEW NewERD "NewERD"
+   
+         MG_ErrorMessage = "Migrating ERD: " + MetaName
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         nRC = ERD_Migrate( NewERD, SourceLPLR, vSubtask )
+         IF nRC < 0
+            MG_ErrorMessage = "ERD aborted because of problems migrating it."
+            MessageSend( vSubtask, "", "LPLR Migrate",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            RETURN nRC
+         ELSE
+            CREATE ENTITY TargetLPLR.W_MetaDef
+            TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+         END
+         DropMetaOI( vSubtask, NewERD )
+      END
+      
+      // Subject Area
+      // We are not migrating Subject Areas as they are no longer of significant importance and the previous Migrate
+      // did not copy them either.
+   
+      // Technical Environment
+      SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2006
+      SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2006
+      IF RESULT < 0
+         CREATE ENTITY TargetLPLR.W_MetaType
+         TargetLPLR.W_MetaType.Type = 2006
+      END
+      FOR EACH SourceLPLR.W_MetaDef 
+         MetaName = SourceLPLR.W_MetaDef.Name 
+         //nRC = ActivateMetaOI_ByName( vSubtask, ReturnedTE, 0, zREFER_DTE_META, zSINGLE, NewTE_Name, 0 )
+         ActivateEmptyMetaOI( vSubtask, ReturnedTE, zREFER_DTE_META, zSINGLE )
+         MG_ErrorMessage = "Migrating TE: " + MetaName
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         nRC = TE_Migrate( ReturnedTE, MetaName, SourceLPLR, vSubtask )
+         IF nRC < 0
+            MG_ErrorMessage = "TE (" + MetaName + ") aborted."
+            MessageSend( vSubtask, "", "LPLR Migrate",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         ELSE
+            CREATE ENTITY TargetLPLR.W_MetaDef
+            TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+         END
+         DropObjectInstance( ReturnedTE )
+      END
+         
+      // LOD
+      SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2007
+      SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2007
+      IF RESULT < 0
+         CREATE ENTITY TargetLPLR.W_MetaType
+         TargetLPLR.W_MetaType.Type = 2007
+      END
+      FOR EACH SourceLPLR.W_MetaDef 
+         MetaName = SourceLPLR.W_MetaDef.Name 
+         ActivateEmptyMetaOI( vSubtask, NewLOD, zSOURCE_LOD_META, zSINGLE )
+         MG_ErrorMessage = "Migrating LOD: " + MetaName
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         nRC = LOD_Migrate( NewLOD, MetaName, SourceLPLR, vSubtask )
+         IF nRC < 0
+            MG_ErrorMessage = "LOD (" + MetaName + ") aborted."
+            MessageSend( vSubtask, "", "LPLR Migrate",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         ELSE
+            CREATE ENTITY TargetLPLR.W_MetaDef
+            TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+         END
+         DropObjectInstance( NewLOD )
+      END
+      
+      // Reports
+      SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2015
+      SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2015
+      IF RESULT < 0
+         CREATE ENTITY TargetLPLR.W_MetaType
+         TargetLPLR.W_MetaType.Type = 2015
+      END
+      FOR EACH SourceLPLR.W_MetaDef 
+         MetaName = SourceLPLR.W_MetaDef.Name 
+         ActivateEmptyMetaOI( vSubtask, ReturnedReport, zREFER_REPORT_META, zSINGLE )
+         MG_ErrorMessage = "Migrating Report: " + MetaName
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         nRC = ReportMigrate( ReturnedReport, MetaName, SourceLPLR, vSubtask )
+         IF nRC < 0
+            MG_ErrorMessage = "Report(" + MetaName + ") aborted."
+            MessageSend( vSubtask, "", "LPLR Migrate",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         ELSE
+            CREATE ENTITY TargetLPLR.W_MetaDef
+            TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+         END
+         DropObjectInstance( ReturnedReport )
+      END
+   END
+
+   // Dialog
+   // For Dialogs, we will use the Source LPLR OI where Dialog entries are selected.
+   // Note that we actually pass SourceLPLR, which contains all metas, to DialogMigrate.
+   GET VIEW SourceLPLR_Dialog NAMED "SourceLPLR"
+   SET CURSOR FIRST SourceLPLR_Dialog.W_MetaType WHERE SourceLPLR_Dialog.W_MetaType.Type = 2011
+   SET CURSOR FIRST TargetLPLR.W_MetaType        WHERE TargetLPLR.W_MetaType.Type = 2011
+   IF RESULT < 0
+      CREATE ENTITY TargetLPLR.W_MetaType
+      TargetLPLR.W_MetaType.Type = 2011
+   END
+   FOR EACH SourceLPLR_Dialog.W_MetaDef 
+      nRC = GetSelectStateOfEntity( SourceLPLR_Dialog, "W_MetaDef" )
+      IF nRC = 1
+         MetaName = SourceLPLR_Dialog.W_MetaDef.Name 
+         ActivateEmptyMetaOI( vSubtask, NewDialog, zSOURCE_DIALOG_META, zSINGLE )
+         MG_ErrorMessage = "Migrating Dialog: " + MetaName
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         CreateViewFromView( TempLPLR, SourceLPLR )   // Use temporary view because DialogMigrate sometimes alters position.
+         nRC = DialogMigrate( NewDialog, MetaName, TempLPLR, vSubtask )
+         DropView( TempLPLR )
+         IF nRC >= 0
+            // Delete the Dialog entry from the list.
+            CREATE ENTITY TargetLPLR.W_MetaDef
+            TargetLPLR.W_MetaDef.Name = SourceLPLR_Dialog.W_MetaDef.Name
+            DELETE ENTITY SourceLPLR_Dialog.W_MetaDef NONE
+         ELSE
+            MG_ErrorMessage = "Dialog (" + MetaName + ") has not been migrated."
+            MessageSend( vSubtask, "", "LPLR Migrate",
+                         MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         END
+         DropObjectInstance( NewDialog )
+      END
+   END
+   
+   // UIS
+   // We will not copy User Interface Specifications as they are no longer used.
+
+   // XSLT
+   // We will not copy XSLT entries as they appear to no longer be used.
+   
+   // If there are any error messages, transfer to the window to display them.
+   // Otherwise, send a message to the user that the migrate function completed without error.
+   IF CurrentLPLR.ErrorMessage EXISTS 
+      SetWindowActionBehavior( vSubtask, ZWAB_StartModalSubwindow, "TZCMLPMD", "MetaLPLR_MergeErrors" )
+   ELSE
+      MessageSend( vSubtask, "", 
+                   "Configuration Management",
+                   "LPLR Migrate has completed without error.",
+                   zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+   END
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: CLOSE_LPLR_MergeErrors
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+CLOSE_LPLR_MergeErrors( VIEW ViewToWindow )
+
+   VIEW TaskLPLR REGISTERED AS TaskLPLR
+   
+   // Delete current entries in TaskLPLR.ErrorMessage.
+   FOR EACH TaskLPLR.ErrorMessage 
+      DELETE ENTITY TaskLPLR.ErrorMessage NONE  
    END
 
 END

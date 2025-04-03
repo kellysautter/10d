@@ -1,6 +1,7 @@
-z1000-Zeidon    TZOGSRCO TZZOLODO 10/27/15   15:16:45 1.0b0    
+z1000-Zeidon    TZOGSRCO TZZOLODO 07/16/24   14:59:10 1.0b0    
 eLOD       1
 aZKey      1326765
+aNextZKeyToAssign 110003550
 aName      TZOGSRCO
 aDesc      Global Operation Group source object
 aDLL_Name  TZLODOPR
@@ -148,13 +149,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 7
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 5
@@ -167,6 +165,14 @@ aZKey      1321124
 aDesc      Temporary visible sequencing attribute
 
 eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eER_EntityRec 5
 aName      Parameter
@@ -193,20 +199,6 @@ aER_DiagramE1PosX 453
 aER_DiagramE1PosY 220
 aER_DiagramE2PosX 512
 aER_DiagramE2PosY 251
-
-eLOD_EntityConstraintOperRec 5
-aName      AcceptParameter
-aZKey      89241276
-aClass     0
-aType      E
-aReturnDataType N
-
-eSourceFileForECOperRec 6
-aZKey      1326766
-aName      TZOGSRCO
-aOwnerType O
-aLanguageType V
-aExtension VML
 
 eLOD_AttributeRec 4
 aZKey      1326780
@@ -890,10 +882,6 @@ eER_RelLink 3
 
 eER_RelType 4
 
-eLOD_EntityConstraintOper 3
-
-eSourceFileForECOper 4
-
 eLOD_Entity 2
 
 eLOD_Attribute 3
@@ -945,9 +933,14 @@ eER_RelLink 3
 eER_RelType 4
 
 eSourceFile 2
+aZKey      1326766
+aName      TZOGSRCO
+aExtension VML
+aOwnerType O
+aLanguageType V
 
 eOperation 3
-aName      GlobalOperGrpMigrate
+aName      GlobalOperGrpMerge
 aZKey      1326767
 aDesc      Migrate a Global Operation Group Meta
 aType      T
@@ -979,37 +972,43 @@ aUFlag     N
 aZKey      1025705
 
 eOperation 3
-
-eParameter 4
-aShortDesc View to Instance
-aDataType  V
-aZKey      89241277
-
-eParameter 4
-aShortDesc Entity Name
-aDataType  S
-aZKey      89241278
-
-eParameter 4
-aShortDesc Event
-aDataType  N
-aZKey      89241279
-
-eParameter 4
-aShortDesc State
-aDataType  N
-aZKey      89241280
-
-eOperation 3
 aName      GenerateXOG
-aZKey      110002076
+aZKey      110003544
 aType      T
 aReturnDataType N
+aClass     0
 
 eParameter 4
 aShortDesc View To Instance
 aDataType  V
-aZKey      110002077
+aZKey      110003545
+
+eOperation 3
+aName      GlobalOperGrpMigrate
+aZKey      110003546
+aType      T
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc NewOperGrp
+aDataType  V
+aZKey      110003547
+
+eParameter 4
+aShortDesc OperGroupMetaName
+aDataType  S
+aZKey      110003548
+
+eParameter 4
+aShortDesc SourceLPLR
+aDataType  V
+aZKey      110003549
+
+eParameter 4
+aShortDesc vSubtask
+aDataType  V
+aZKey      110003550
 
 eZ_MetaDef 2
 aName      TZOGSRCO
@@ -1032,146 +1031,141 @@ eOperationList 2
 eOperSourceFile 3
 
 i15        12
-i21        18
-i32        18
-i41        6
-i44        9
-i47        18
-i50        18
-i53        12
-i56        12
-i59        6
-i66        6
-i69        18
-i78        75
-i81        35
-i87        18
-i90        18
-i93        29
-i96        35
-i102       6
-i105       6
-i111       6
-i116       1
-i117       85
+i30        18
+i39        6
+i42        9
+i45        21
+i48        21
+i51        12
+i54        12
+i57        6
+i64        6
+i67        18
+i76        73
+i79        33
+i85        18
+i88        21
+i91        27
+i94        33
+i100       6
+i103       6
+i109       6
+i114       1
+i115       83
+i116       84
+i117       18
 i118       86
-i119       18
-i120       88
+i119       87
+i120       21
 i121       89
-i122       18
-i123       91
+i122       90
+i123       27
 i124       92
-i125       29
-i126       94
+i125       93
+i126       33
 i127       95
-i128       35
+i128       96
 i129       97
 i130       98
 i131       99
-i132       100
+i132       6
 i133       101
-i134       6
-i135       103
+i134       102
+i135       6
 i136       104
-i137       6
+i137       105
 i138       106
 i139       107
 i140       108
-i141       109
+i141       6
 i142       110
-i143       6
+i143       111
 i144       112
 i145       113
-i146       114
-i147       115
-i148       2
+i146       2
+i147       25
+i148       26
 i149       27
 i150       28
 i151       29
-i152       30
+i152       18
 i153       31
-i154       18
+i154       32
 i155       33
 i156       34
 i157       35
 i158       36
 i159       37
 i160       38
-i161       39
+i161       6
 i162       40
-i163       6
-i164       42
+i163       41
+i164       9
 i165       43
-i166       9
-i167       45
+i166       44
+i167       21
 i168       46
-i169       18
-i170       48
+i169       47
+i170       21
 i171       49
-i172       18
-i173       51
+i172       50
+i173       12
 i174       52
-i175       12
-i176       54
+i175       53
+i176       12
 i177       55
-i178       12
-i179       57
+i178       56
+i179       6
 i180       58
-i181       6
+i181       59
 i182       60
-i183       61
-i184       62
-i185       3
-i186       4
-i187       5
-i188       6
-i189       7
-i190       8
-i191       9
-i192       10
-i193       11
-i194       12
-i195       13
-i196       14
-i197       12
-i198       16
-i199       17
-i200       18
-i201       19
-i202       20
-i203       18
-i204       22
-i205       23
-i206       24
-i207       25
-i208       26
-i209       63
-i210       64
-i211       65
-i212       6
-i213       67
-i214       68
-i215       18
-i216       70
-i217       71
-i218       72
-i219       73
-i220       74
-i221       75
-i222       76
-i223       77
-i224       75
-i225       79
-i226       80
-i227       35
-i228       82
-i229       83
-i230       84
-i231       26
-i237       25
-i245       25
-i246       26
-i247       242
-i248       26
-i249       232
-i250       26
+i183       3
+i184       4
+i185       5
+i186       6
+i187       7
+i188       8
+i189       9
+i190       10
+i191       11
+i192       12
+i193       13
+i194       14
+i195       12
+i196       16
+i197       17
+i198       18
+i199       19
+i200       20
+i201       21
+i202       22
+i203       23
+i204       24
+i205       61
+i206       62
+i207       63
+i208       6
+i209       65
+i210       66
+i211       18
+i212       68
+i213       69
+i214       70
+i215       71
+i216       72
+i217       73
+i218       74
+i219       75
+i220       73
+i221       77
+i222       78
+i223       33
+i224       80
+i225       81
+i226       82
+i241       233
+i242       227
+i243       228
+i244       227
+i245       235
+i246       227

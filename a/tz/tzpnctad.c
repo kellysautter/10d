@@ -204,6 +204,9 @@ UpdateRadioSubcontrol( zVIEW vSubtask );
 zOPER_EXPORT zSHORT OPERATION
 PrebuildSpreadSheet( zVIEW vSubtask );
 
+zOPER_EXPORT zSHORT OPERATION
+UPD_ACT_SelectDialogOpers(zVIEW vSubtask);
+
 zOPER_EXPORT zSHORT OPERATION CtrlContextMappingInit( zVIEW vSubtask );
 zOPER_EXPORT zSHORT OPERATION fnSetupEventList( zVIEW vSubtask, zVIEW vDialog );
 zOPER_EXPORT zSHORT OPERATION fnSearchForEntityRecursively( zVIEW vLOD, zLONG lZKey,
@@ -4875,6 +4878,17 @@ LIST_ACT_UpdateAction( zVIEW vSubtask )
    zVIEW    vDialogW;
    zVIEW    vWork;
 
+   // KJS 05/08/24
+   // I tried taking this out of LoadOperations (which then gets called a million times). And put it only on updating the action.
+   // Operation List is a modeless Window, if an Operation is updated or
+   // newly created, then refresh the Operation combobox.
+   MapCtrl(vSubtask, "OtherOpers");
+
+   UPD_ACT_SelectDialogOpers(vSubtask);
+
+   RefreshCtrl(vSubtask, "OtherOpers");
+   // END KJS 05/08/24
+
    GetViewByName( &vDialogW, "TZWINDOW", vSubtask, zLEVEL_TASK );
    GetViewByName( &vWork, "TZPNCTWO", vSubtask, zLEVEL_TASK );
    SetAttributeFromString( vWork, "TZPNCTWO", "ParentIsSelectAction", "N" );
@@ -5028,11 +5042,46 @@ UPD_ACT_SelectDialogOpers( zVIEW vSubtask )
                                             "Type", "D", "Dialog" );
       }
 
-      CB_SetDisplaySelectSet( vSubtask, "OtherOpers", 2 );
-      //-- jeff end, to select only dlg operations
+	  CB_SetDisplaySelectSet( vSubtask, "OtherOpers", 2 );
+	  //-- jeff end, to select only dlg operations
    }
 
    return( 0 );
+}
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// ENTRY:    UPD_ACT_UnSelectDialogOpers
+//
+// PURPOSE:  KJS 05/08/24 - I added this because of the issue with WebCtrlProperties and
+//           calling CB_SetDisplaySelectSet in UPD_ACT_SelectDialogOpers
+//           I see that the error was with SetSelectStateForView and not setting that back to 1
+//           but I'll keep this for now.
+//           I won't add to 10c for now.
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT OPERATION
+UPD_ACT_UnSelectDialogOpers(zVIEW vSubtask)
+{
+	zVIEW    vOperList;
+	zSHORT   nRC;
+
+	//-- jeff, to select only dlg operations
+	nRC = GetViewByName(&vOperList, "TZWINDOW", vSubtask, zLEVEL_TASK);
+
+	if (nRC > 0)
+	{
+		SetAllSelStatesForEntityForSet(vOperList, "Operation", 0, 2, 0);
+
+		// KJS 05/08/24 - I do not understand the correlation, but when we call CB_SetDisplaySelectSet,
+		// When we then try to assign a WebCtrlProperty for a control, it won't assign. Seems unrelated and
+		// yet it seems like it might be.
+		CB_SetDisplaySelectSet(vSubtask, "OtherOpers", 0);
+		//-- jeff end, to select only dlg operations
+	}
+
+	return(0);
 }
 
 void
@@ -5713,6 +5762,8 @@ UPD_ACT_Cancel( zVIEW vSubtask )
          }
       }
    }
+   // KJS 05/08/24
+   UPD_ACT_UnSelectDialogOpers(vSubtask);
 
    // Reset flag.
    SetAttributeFromString( vWork, "TZPNCTWO", "ParentIsSelectAction", "" );
@@ -9614,14 +9665,18 @@ zwTZPNCTAD_DeleteAllActions( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 LoadOperations( zVIEW vSubtask )
 {
+	// KJS 05/08/24 - I have removed these lines from here and I have put them in 
+	// LIST_ACT_UpdateAction. It seems like LoadOperations gets called for every operation? 
+	// I'm not sure that needs to happen so many times. So far, that seems to be working.
    // Operation List is a modeless Window, if an Operation is updated or
    // newly created, then refresh the Operation combobox.
+	/*
    MapCtrl( vSubtask, "OtherOpers" );
 
    UPD_ACT_SelectDialogOpers( vSubtask );
 
    RefreshCtrl( vSubtask, "OtherOpers" );
-
+   */
    return( 0 );
 }
 

@@ -107,7 +107,9 @@ FlagUsedViewsGetFocusJ( VIEW vDialog     BASED ON LOD TZWDLGSO,
          END
       END
       IF szControlType = "EditBox" OR
+         szControlType = "GridEditCtl" OR
          szControlType = "ComboBox" OR
+         szControlType = "GridComboCtl" OR
          szControlType = "Text" OR
          szControlType = "CheckBox" OR
          szControlType = "ListBox" OR
@@ -128,7 +130,7 @@ FlagUsedViewsGetFocusJ( VIEW vDialog     BASED ON LOD TZWDLGSO,
                vDialogRoot.ViewObjRef.wWindowUseFlag = "Y"
             END
 
-            IF szControlType = "ComboBox"
+            IF szControlType = "ComboBox" OR szControlType = "GridComboCtl"
                SET CURSOR NEXT vDialog.CtrlMap
                IF vDialog.CtrlMapView EXISTS
                   SET CURSOR FIRST vDialogRoot.ViewObjRef
@@ -177,7 +179,7 @@ FlagUsedViewsGetFocusJ( VIEW vDialog     BASED ON LOD TZWDLGSO,
          END
 
          // 4.(above) Create entry for ComboBox.
-         IF szControlType = "ComboBox"
+         IF szControlType = "ComboBox" OR szControlType = "GridComboCtl"
             lSubtype = vDialog.Control.Subtype
             nRC = AreBitsSetInFlag( lSubtype, 61440 ) // 0x0000F000
             IF nRC = 0   // IF vDialog.Control.Subtype < 12000  ==> Domain Combobox
@@ -1053,7 +1055,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )     szHasFileUpload
    STRING ( 1 )     szDateTimeFileUpload
    STRING ( 10 )    szTimeout
-   STRING ( 10 )    szDOCTYPE
+   STRING ( 10 )    szTOMCAT10
    STRING ( 18 )    szDateTime
    STRING ( 20 )    szTimestamp
    INTEGER          lActionType
@@ -1074,6 +1076,8 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    INTEGER          lAutoSubAction
 // INTEGER          lFloat
    STRING ( 32 )    szWysiwygEditor
+   STRING ( 32 )    lReusableDialogTag
+   STRING ( 32 )    lReusableWindowTag
    INTEGER          lReusableDialogZKey
    INTEGER          lReusableWindowZKey
    DECIMAL          dDLUnits
@@ -1124,7 +1128,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    SysReadZeidonIni( -1, szSystemIniApplName, "WebKeyRole", szKeyRole )
    SysReadZeidonIni( -1, szSystemIniApplName, "WebDynamicBanner", szDynamicBanner )
    SysReadZeidonIni( -1, szSystemIniApplName, "JSPTraceLevel", szTrace )
-   SysReadZeidonIni( -1, szSystemIniApplName, "DOCTYPE", szDOCTYPE )
+   SysReadZeidonIni( -1, szSystemIniApplName, "TOMCAT10", szTOMCAT10 )
    SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonTaskTimeout", szZeidonTaskTimeout )
    SysReadZeidonIni( -1, szSystemIniApplName, "NoMonitorTaskLogout", szNoMonitorTaskLogout )
    SysReadZeidonIni( -1, szSystemIniApplName, "UsesLanguageConversion", szLangConvFlag )
@@ -1298,22 +1302,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    END
 
    // JSP HEADER
-
-   // KJS 05/29/08 - We need to add a DOCTYPE to the jsp page.  Not exactly sure
-   // which one to add and how often this might need to change (wondering if this should
-   // be kept in the .ini file or something but for now I'll put it here.
-   // Here is a website with a little info http://www.alistapart.com/stories/doctype/
-   // Also this one http://htmlhelp.com/tools/validator/doctype.html
-   // KJS 10/03/12 - Jeff wants to use HTML5 instead of 4.01. I am putting this in the zeidon.ini at least for now because
-   // I'm not sure if we want to use 5 or not...
-   // I think we should always be HTML5 now...
-   //IF szDOCTYPE = "" OR szDOCTYPE = "4.01"
-   //   szWriteBuffer = "<!DOCTYPE HTML PUBLIC ^-//W3C//DTD HTML 4.01 Transitional//EN^ ^http://www.w3.org/TR/html4/loose.dtd^>"
-   //ELSE
-   //IF szDOCTYPE = "5"
-      szWriteBuffer = "<!DOCTYPE HTML>"
-   //END
-   //END
+   szWriteBuffer = "<!DOCTYPE HTML>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
    SysGetDateTime( szTimestamp )
@@ -1396,17 +1385,21 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
       szreCAPTCHAImport = ",net.tanesha.recaptcha.*"
    END
 
-// szWriteBuffer = "<%@ page import=^java.util.*,javax.servlet.*,javax.servlet.http.*,org.apache.commons.lang3.*," +
-//                 "com.quinsoft.zeidon.*,com.quinsoft.zeidon.standardoe.*," +
-//                 "com.quinsoft.zeidon.utils.*,com.quinsoft.zeidon.vml.*,com.quinsoft.zeidon.domains.*" + szAppImport +
-//                 szIOImport + szreCAPTCHAImport + "^ %>"
-// WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    szWriteBuffer = "<%@ page import=^java.util.*^ %>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "<%@ page import=^javax.servlet.*^ %>"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "<%@ page import=^javax.servlet.http.*^ %>"
-   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   // KJS 01/31/25 With tomcat versions 10 and above, the name was changed to jakarta (from javax).
+   // Currently having a zeidon.ini setting for this.
+   IF szTOMCAT10 = "Y"
+      szWriteBuffer = "<%@ page import=^jakarta.servlet.*^ %>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "<%@ page import=^jakarta.servlet.http.*^ %>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   ELSE
+      szWriteBuffer = "<%@ page import=^javax.servlet.*^ %>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "<%@ page import=^javax.servlet.http.*^ %>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   END
    szWriteBuffer = "<%@ page import=^org.apache.commons.lang3.*^ %>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "<%@ page import=^com.quinsoft.zeidon.*^ %>"
@@ -1811,7 +1804,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    // KJS 09/04/14 - Setting a logout date, to try and determine if a user tries to log into application when they already have a session open.
    // It looks like users write over data when they have a couple of browser sessions open.
    /*
-   IF szRegisterZeidon = "Y" AND szNoMonitorTaskLogout = ""
+   IF szRegisterZeidon = "Y" AND (szNoMonitorTaskLogout = "" OR  OR szNoMonitorTaskLogout = "N")
       szWriteBuffer = "Date dLogin = (Date) session.getAttribute( ^ZeidonTaskLoginDate^ );"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "Date dLogout = (Date) session.getAttribute( ^ZeidonTaskLogoutDate^ );"
@@ -1855,7 +1848,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    END
 
    /*
-   IF szRegisterZeidon = "Y" AND szNoMonitorTaskLogout = ""
+   IF szRegisterZeidon = "Y" AND (szNoMonitorTaskLogout = "" OR szNoMonitorTaskLogout = "N")
       szWriteBuffer = "   // We are trying to determine on login, if a user is already logged into the task, and if so, then do not allow them to log in again. "
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   if ( dLogin != null && dLogout != null ) "
@@ -1879,7 +1872,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "{"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   IF szRegisterZeidon = "Y" AND szNoMonitorTaskLogout = ""
+   IF szRegisterZeidon = "Y" AND (szNoMonitorTaskLogout = "" OR szNoMonitorTaskLogout = "N")
       szWriteBuffer = "   strURL = response.encodeRedirectURL( ^loggedintotask.jsp^ );"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   response.sendRedirect( strURL );"
@@ -2180,37 +2173,16 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    // If the Window has a reusable side menu, add the actions from that menu.
    IF vDialog.ReusableSideWindow EXISTS
-      IF vDialog.ReusableSideDialog.ZKey = vDialog.Dialog.ZKey
+      //IF vDialog.ReusableSideDialog.ZKey = vDialog.Dialog.ZKey
+      IF vDialog.ReusableSideDialog.Tag = vDialog.Dialog.Tag  // KJS 07/19/24
          CreateViewFromView( vDialogTemp, vDialog )
          CreateViewFromView( vDialogTemp2, vDialog )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+         //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = vDialog.ReusableSideWindow.Tag  // KJS 07/19/24
          IF RESULT >= zCURSOR_SET
-            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+            //SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.Tag = vDialog.ReusableSideWindow.Tag  // KJS 07/19/24
             nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "sm" )
-            /*
-            FOR EACH vDialogTemp.Option
-               IF vDialogTemp.OptAct EXISTS
-                  SET CURSOR FIRST vDialogTemp.Action WHERE vDialogTemp.Action.ZKey = vDialogTemp.OptAct.ZKey
-                  IF RESULT >= zCURSOR_SET
-                     IF vDialogTemp.Action.Type != zWAB_ExitDialogTask
-                        //Because the menu actions can be created on separate windows from the control
-                        //actions, we need to make sure these actions are unique.  We will prefix a
-                        //"m" to the main menu actions and prefix a "sm" to the side menu actions.
-                        szAction = "sm" + vDialogTemp.Action.Tag
-                        lLth = zstrlen( szAction )
-                        //IF lLth > 32
-                        //   MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
-                        //                szAction,
-                        //                zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-                        //END
-                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-                        IF nRC != 0
-                           nSystemSort = nRC
-                        END
-                     END
-                  END
-               END
-            END */
          END
          DropView( vDialogTemp )
          DropView( vDialogTemp2 )
@@ -2219,34 +2191,12 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          CreateViewFromView( vDialogTemp2, vDialogTemp )
       // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, vDialog.ReusableSideDialog.Tag, 0, 0,
       //                                         0, plListHandle )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+         //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = vDialog.ReusableSideWindow.Tag
          IF RESULT >= zCURSOR_SET
-            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+            //SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = vDialog.ReusableSideWindow.ZKey
+            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.Tag = vDialog.ReusableSideWindow.Tag
             nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "sm" )
-            /*
-            FOR EACH vDialogTemp.Option
-               IF vDialogTemp.OptAct EXISTS
-                  SET CURSOR FIRST vDialogTemp.Action WHERE vDialogTemp.Action.ZKey = vDialogTemp.OptAct.ZKey
-                  IF RESULT >= zCURSOR_SET
-                     IF vDialogTemp.Action.Type != zWAB_ExitDialogTask
-                        //Because the menu actions can be created on separate windows from the control
-                        //actions, we need to make sure these actions are unique.  We will prefix a
-                        //"m" to the main menu actions and prefix a "sm" to the side menu actions.
-                        szAction = "sm" + vDialogTemp.Action.Tag
-                        lLth = zstrlen( szAction )
-                        //IF lLth > 32
-                        //   MessageSend( vDialog, "", "Reusable Menu Action Name Length > 32",
-                        //                szAction,
-                        //                zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
-                        //END
-                        nRC = GenJSPJ_Action( vDialogTemp, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szAction, lTrace )
-            IF nRC != 0
-               nSystemSort = nRC
-            END
-                     END
-                  END
-               END
-            END */
          END
          DropObjectInstance( vDialogTemp )
       END
@@ -2255,32 +2205,44 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    // If the Window or Dialog has a reusable main menu, add the actions from that menu.
    lReusableDialogZKey = 0
    lReusableWindowZKey = 0
+   lReusableDialogTag = ""
+   lReusableWindowTag = ""
    IF vDialog.ReusableMainWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableMainDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableMainWindow.ZKey
+      lReusableDialogTag  = vDialog.ReusableMainDialog.Tag
+      lReusableWindowTag  = vDialog.ReusableMainWindow.Tag
    ELSE
       IF vDialog.DefaultReusableMainWindow EXISTS
          lReusableDialogZKey = vDialog.DefaultReusableMainDialog.ZKey
          lReusableWindowZKey = vDialog.DefaultReusableMainWindow.ZKey
+         lReusableDialogTag  = vDialog.DefaultReusableMainDialog.Tag
+         lReusableWindowTag  = vDialog.DefaultReusableMainWindow.Tag
       END
    END
    IF lReusableDialogZKey != 0  // dks
-      IF lReusableDialogZKey = vDialog.Dialog.ZKey
+      //IF lReusableDialogZKey = vDialog.Dialog.ZKey
+      IF lReusableDialogTag = vDialog.Dialog.Tag
          CreateViewFromView( vDialogTemp, vDialog )
          CreateViewFromView( vDialogTemp2, vDialogTemp )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
          IF RESULT >= zCURSOR_SET
-            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+            //SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.Tag = lReusableWindowTag
             nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "m" )
          END
          DropView( vDialogTemp )
          DropView( vDialogTemp2 )
       ELSE
-         IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+         //IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+         IF ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogTag, 0 ) >= 0
             CreateViewFromView( vDialogTemp2, vDialogTemp )
-            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
             IF RESULT >= zCURSOR_SET
-               SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+               //SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+               SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.Tag = lReusableWindowTag
                nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "m" )
             END
             DropObjectInstance( vDialogTemp )
@@ -2293,32 +2255,44 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    // If the Window or Dialog has a reusable main menu for actions only, add the actions from that menu.
    lReusableDialogZKey = 0
    lReusableWindowZKey = 0
+   lReusableDialogTag = ""
+   lReusableWindowTag = ""
    IF vDialog.ReusableActionWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableActionDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableActionWindow.ZKey
+      lReusableDialogTag  = vDialog.ReusableActionDialog.Tag
+      lReusableWindowTag  = vDialog.ReusableActionWindow.Tag
    ELSE
       IF vDialog.DefaultReusableActionWindow EXISTS
          lReusableDialogZKey = vDialog.DefaultReusableActionDialog.ZKey
          lReusableWindowZKey = vDialog.DefaultReusableActionWindow.ZKey
+         lReusableDialogTag  = vDialog.DefaultReusableActionDialog.Tag
+         lReusableWindowTag  = vDialog.DefaultReusableActionWindow.Tag
       END
    END
    IF lReusableDialogZKey != 0  // dks
-      IF lReusableDialogZKey = vDialog.Dialog.ZKey
+      //IF lReusableDialogZKey = vDialog.Dialog.ZKey
+      IF lReusableDialogTag = vDialog.Dialog.Tag
          CreateViewFromView( vDialogTemp, vDialog )
          CreateViewFromView( vDialogTemp2, vDialog )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
          IF RESULT >= zCURSOR_SET
-            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+            //SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+            SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.Tag = lReusableWindowTag
             nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "ma" )
          END
          DropView( vDialogTemp )
          DropView( vDialogTemp2 )
       ELSE
-         IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+         //IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+         IF ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogTag, 0 ) >= 0
             CreateViewFromView( vDialogTemp2, vDialogTemp )
-            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
             IF RESULT >= zCURSOR_SET
-               SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+               //SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.ZKey = lReusableWindowZKey
+               SET CURSOR FIRST vDialogTemp2.Window WHERE vDialogTemp2.Window.Tag = lReusableWindowTag
                nRC = GenJSPJ_ActionRecurs( vDialogTemp, vDialogTemp2, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, lTrace, "ma" )
             END
             DropObjectInstance( vDialogTemp )
@@ -3331,13 +3305,15 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    szWriteBuffer = "// _DisableFormElements( false );"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
 
+   // KJS 07/10/24 - Ken Paynter said that 'eval(' statement is not safe. I don't think we need this because we can
+   // create javascript on the page. Not necessary for the web.
+   /*
    szWriteBuffer = "   var szFocusCtrl = document." + szFormName + ".zFocusCtrl.value;"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   if ( szFocusCtrl != ^^ && szFocusCtrl != ^null^ && szFocusCtrl != null )"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      eval( 'document." + szFormName + ".' + szFocusCtrl + '.focus( )' );"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-
    // Need to know "first" tab index by the time we get here!
    IF szFocusCtrlTag != ""
       szWriteBuffer = "   else"
@@ -3345,9 +3321,9 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
       szWriteBuffer = "      document." + szFormName + "." + szFocusCtrlTag + ".focus( );"
       WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    END
-
    szWriteBuffer = ""
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 ) // add a blank line
+   */
    szWriteBuffer = "   // This is where we put out a message from the previous iteration on this window"
    WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   var szMsg = document." + szFormName + ".zError.value;"
@@ -4234,19 +4210,27 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    // If the Window has a reusable main menu, add functions for each action from that menu.
    lReusableDialogZKey = 0
    lReusableWindowZKey = 0
+   lReusableDialogTag  = ""
+   lReusableWindowTag  = ""
    IF vDialog.ReusableMainWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableMainDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableMainWindow.ZKey
+      lReusableDialogTag  = vDialog.ReusableMainDialog.Tag
+      lReusableWindowTag  = vDialog.ReusableMainWindow.Tag
    ELSE
       IF vDialog.DefaultReusableMainWindow EXISTS
          lReusableDialogZKey = vDialog.DefaultReusableMainDialog.ZKey
          lReusableWindowZKey = vDialog.DefaultReusableMainWindow.ZKey
+         lReusableDialogTag  = vDialog.DefaultReusableMainDialog.Tag
+         lReusableWindowTag  = vDialog.DefaultReusableMainWindow.Tag
       END
    END
    IF lReusableDialogZKey != 0  // dks
-      IF lReusableDialogZKey = vDialog.Dialog.ZKey
+      //IF lReusableDialogZKey = vDialog.Dialog.ZKey
+      IF lReusableDialogTag = vDialog.Dialog.Tag
          CreateViewFromView( vDialogTemp, vDialog )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
          IF RESULT >= zCURSOR_SET
             //Because the menu actions can be created on separate windows from the control
             //actions, we need to make sure these actions are unique.  We will prefix a
@@ -4255,8 +4239,10 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          END
          DropView( vDialogTemp )
       ELSE
-         IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
-            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         //IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+         IF ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogTag, 0 ) >= 0
+            //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
             IF RESULT >= zCURSOR_SET
                //Because the menu actions can be created on separate windows from the control
                //actions, we need to make sure these actions are unique.  We will prefix a
@@ -4273,19 +4259,27 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    // If the Window has a reusable menu for the actions only, add functions for each action from that menu.
    lReusableDialogZKey = 0
    lReusableWindowZKey = 0
+   lReusableDialogTag  = ""
+   lReusableWindowTag  = ""
    IF vDialog.ReusableActionWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableActionDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableActionWindow.ZKey
+      lReusableDialogTag  = vDialog.ReusableActionDialog.Tag
+      lReusableWindowTag  = vDialog.ReusableActionWindow.Tag
    ELSE
       IF vDialog.DefaultReusableActionWindow EXISTS
          lReusableDialogZKey = vDialog.DefaultReusableActionDialog.ZKey
          lReusableWindowZKey = vDialog.DefaultReusableActionWindow.ZKey
+         lReusableDialogTag  = vDialog.DefaultReusableActionDialog.Tag
+         lReusableWindowTag  = vDialog.DefaultReusableActionWindow.Tag
       END
    END
    IF lReusableDialogZKey != 0  // dks
-      IF lReusableDialogZKey = vDialog.Dialog.ZKey
+      //IF lReusableDialogZKey = vDialog.Dialog.ZKey
+      IF lReusableDialogTag = vDialog.Dialog.Tag
          CreateViewFromView( vDialogTemp, vDialog )
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
          IF RESULT >= zCURSOR_SET
             // Because the menu actions can be created on separate windows from the control
             // actions, we need to make sure these actions are unique.  We will prefix a
@@ -4296,8 +4290,10 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          END
          DropView( vDialogTemp )
       ELSE
-         IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
-            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         //IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+         IF ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogTag, 0 ) >= 0
+            //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
             IF RESULT >= zCURSOR_SET
                // Because the menu actions can be created on separate windows from the control
                // actions, we need to make sure these actions are unique.  We will prefix a
@@ -4487,13 +4483,19 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    // Generate Main Navigation Bar
    lReusableDialogZKey = 0
    lReusableWindowZKey = 0
+   lReusableDialogTag  = ""
+   lReusableWindowTag  = ""
    IF vDialog.ReusableMainWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableMainDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableMainWindow.ZKey
+      lReusableDialogTag  = vDialog.ReusableMainDialog.Tag
+      lReusableWindowTag  = vDialog.ReusableMainWindow.Tag
    ELSE
       IF vDialog.DefaultReusableMainWindow EXISTS AND szDialogWindowDiff = ""
          lReusableDialogZKey = vDialog.DefaultReusableMainDialog.ZKey
          lReusableWindowZKey = vDialog.DefaultReusableMainWindow.ZKey
+         lReusableDialogTag  = vDialog.DefaultReusableMainDialog.Tag
+         lReusableWindowTag  = vDialog.DefaultReusableMainWindow.Tag
       END
    END
 
@@ -4501,18 +4503,22 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    // If the style we are generating is Bootstrap... then it seems like want the main navigation to be after the side navigation...
    IF szStyleIsBootstrap = ""
       IF ( lReusableDialogZKey != 0 AND szShowTopMenu = "Y" )  // dks
-         IF lReusableDialogZKey = vDialog.Dialog.ZKey
+         //IF lReusableDialogZKey = vDialog.Dialog.ZKey
+         IF lReusableDialogTag = vDialog.Dialog.Tag
             CreateViewFromView( vDialogTemp, vDialog )
-            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
             IF RESULT >= zCURSOR_SET
                BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
             END
             DropView( vDialogTemp )
          ELSE
-            IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+            //IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+            IF ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogTag, 0 ) >= 0
             // plListHandle = ActivateMetaOI_KeepList( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, 0, lReusableDialogZKey, 0,
             //                                         1, plListHandle )
-               SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+               //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+               SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
                IF RESULT >= zCURSOR_SET
                   BuildMainNavSection( vDialog, vDialogTemp, lFileJSP )
                END
@@ -4546,13 +4552,19 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    // Generate Main Navigation Bar
    lReusableDialogZKey = 0
    lReusableWindowZKey = 0
+   lReusableDialogTag  = ""
+   lReusableWindowTag  = ""
    IF vDialog.ReusableSideWindow EXISTS
       lReusableDialogZKey = vDialog.ReusableSideDialog.ZKey
       lReusableWindowZKey = vDialog.ReusableSideWindow.ZKey
+      lReusableDialogTag  = vDialog.ReusableSideDialog.Tag
+      lReusableWindowTag  = vDialog.ReusableSideWindow.Tag
    ELSE
       IF vDialog.DefaultReusableSideWindow EXISTS AND szDialogWindowDiff = ""
          lReusableDialogZKey = vDialog.DefaultReusableSideDialog.ZKey
          lReusableWindowZKey = vDialog.DefaultReusableSideWindow.ZKey
+         lReusableDialogTag  = vDialog.DefaultReusableSideDialog.Tag
+         lReusableWindowTag  = vDialog.DefaultReusableSideWindow.Tag
       END
    END  
    
@@ -4561,14 +4573,17 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    //IF vDialog.ReusableSideWindow EXISTS AND szShowSideMenu = "Y"
    IF lReusableWindowZKey != 0 AND szShowSideMenu = "Y"
 
-      IF vDialog.DfltMenu EXISTS AND lReusableWindowZKey != vDialog.Window.ZKey
+      //IF vDialog.DfltMenu EXISTS AND lReusableWindowZKey != vDialog.Window.ZKey
+      IF vDialog.DfltMenu EXISTS AND lReusableWindowTag != vDialog.Window.Tag
          // KJS 08/31/21 - Jeff created a defltmenu but he is using that menu as the top menu, not the side menu. So, do we really want to
          // do this if there is already a side menu stated and it is not this window?
          // I suppose this is to have both the side menu and this default menu created. I am trying to think of where we might do that (have a side menu and then
          // also have the default menu items created as a side menu).
          // side menu, then we don't want to use this default menu...
-         IF ( vDialog.ReusableMainWindow EXISTS AND vDialog.ReusableMainWindow.ZKey = vDialog.Window.ZKey ) OR
-            ( vDialog.DefaultReusableMainWindow EXISTS AND vDialog.DefaultReusableMainWindow.ZKey = vDialog.Window.ZKey )
+         //IF ( vDialog.ReusableMainWindow EXISTS AND vDialog.ReusableMainWindow.ZKey = vDialog.Window.ZKey ) OR
+         //   ( vDialog.DefaultReusableMainWindow EXISTS AND vDialog.DefaultReusableMainWindow.ZKey = vDialog.Window.ZKey )
+         IF ( vDialog.ReusableMainWindow EXISTS AND vDialog.ReusableMainWindow.Tag = vDialog.Window.Tag ) OR
+            ( vDialog.DefaultReusableMainWindow EXISTS AND vDialog.DefaultReusableMainWindow.Tag = vDialog.Window.Tag )
             vDfltMenu = 0
          ELSE
             vDfltMenu = vDialog
@@ -4577,19 +4592,22 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          vDfltMenu = 0
       END
 
-      IF lReusableDialogZKey = vDialog.Dialog.ZKey
+      //IF lReusableDialogZKey = vDialog.Dialog.ZKey
+      IF lReusableDialogTag = vDialog.Dialog.Tag
          CreateViewFromView( vDialogTemp, vDialog )
          //NAME VIEW vDialogTemp "DialogREUS"
-         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
          IF RESULT >= zCURSOR_SET
             BuildSideNavSectionJ( vDialog, vDialogTemp, lFileJSP, "Y", vDfltMenu )  // dks ... want Reusable + Default
             szSideMenuExists = "Y"
          END
          DropView( vDialogTemp )
       ELSE
-         //ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META,  zSINGLE, vDialog.ReusableSideDialog.Tag, 0 )
-         IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
-            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+         //IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+         IF ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogTag, 0 ) >= 0
+            //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
             IF RESULT >= zCURSOR_SET
                BuildSideNavSectionJ( vDialog, vDialogTemp, lFileJSP, "Y", vDfltMenu )  // dks ... want Reusable + Default
                szSideMenuExists = "Y"
@@ -4611,8 +4629,10 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          vDialog.DefaultReusableSideWindow DOES NOT EXIST 
          
          // If this 
-         IF ( vDialog.ReusableMainWindow DOES NOT EXIST OR (vDialog.ReusableMainWindow EXISTS AND vDialog.ReusableMainWindow.ZKey != vDialog.Window.ZKey ) ) AND
-            ( vDialog.DefaultReusableMainWindow DOES NOT EXIST OR ( vDialog.DefaultReusableMainWindow EXISTS AND vDialog.DefaultReusableMainWindow.ZKey != vDialog.Window.ZKey ) )
+         //IF ( vDialog.ReusableMainWindow DOES NOT EXIST OR (vDialog.ReusableMainWindow EXISTS AND vDialog.ReusableMainWindow.ZKey != vDialog.Window.ZKey ) ) AND
+         //   ( vDialog.DefaultReusableMainWindow DOES NOT EXIST OR ( vDialog.DefaultReusableMainWindow EXISTS AND vDialog.DefaultReusableMainWindow.ZKey != vDialog.Window.ZKey ) )
+         IF ( vDialog.ReusableMainWindow DOES NOT EXIST OR (vDialog.ReusableMainWindow EXISTS AND vDialog.ReusableMainWindow.Tag != vDialog.Window.Tag ) ) AND
+            ( vDialog.DefaultReusableMainWindow DOES NOT EXIST OR ( vDialog.DefaultReusableMainWindow EXISTS AND vDialog.DefaultReusableMainWindow.Tag != vDialog.Window.Tag ) )
 
             BuildSideNavSectionJ( vDialog, vDialogRoot, lFileJSP, "N", 0 )
             szSideMenuExists = "Y"
@@ -4628,28 +4648,38 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    
       lReusableDialogZKey = 0
       lReusableWindowZKey = 0
+      lReusableDialogTag  = ""
+      lReusableWindowTag  = ""
       IF vDialog.ReusableMainWindow EXISTS
          lReusableDialogZKey = vDialog.ReusableMainDialog.ZKey
          lReusableWindowZKey = vDialog.ReusableMainWindow.ZKey
+         lReusableDialogTag  = vDialog.ReusableMainDialog.Tag
+         lReusableWindowTag  = vDialog.ReusableMainWindow.Tag
       ELSE
          IF vDialog.DefaultReusableMainWindow EXISTS AND szDialogWindowDiff = ""
             lReusableDialogZKey = vDialog.DefaultReusableMainDialog.ZKey
             lReusableWindowZKey = vDialog.DefaultReusableMainWindow.ZKey
+            lReusableDialogTag  = vDialog.DefaultReusableMainDialog.Tag
+            lReusableWindowTag  = vDialog.DefaultReusableMainWindow.Tag
          END
       END
       IF ( lReusableDialogZKey != 0 AND szShowTopMenu = "Y" )  // dks
-         IF lReusableDialogZKey = vDialog.Dialog.ZKey
+         //IF lReusableDialogZKey = vDialog.Dialog.ZKey
+         IF lReusableDialogTag = vDialog.Dialog.Tag
             CreateViewFromView( vDialogTemp, vDialog )
             //NAME VIEW vDialogTemp "DialogREUS"
-            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+            SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
             IF RESULT >= zCURSOR_SET
                BuildMainNavSectionBootstrap( vDialog, vDialogTemp, lFileJSP, szSideMenuExists )
             END
             DropView( vDialogTemp )
          ELSE
-            IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+            //IF ActivateMetaOI_ByZKey( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogZKey, 0 ) >= 0
+            IF ActivateMetaOI_ByName( vSubtask, vDialogTemp, 0, zREFER_DIALOG_META, zSINGLE, lReusableDialogTag, 0 ) >= 0
                //NAME VIEW vDialogTemp "DialogREUS"
-               SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+               //SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.ZKey = lReusableWindowZKey
+               SET CURSOR FIRST vDialogTemp.Window WHERE vDialogTemp.Window.Tag = lReusableWindowTag
                IF RESULT >= zCURSOR_SET
                   BuildMainNavSectionBootstrap( vDialog, vDialogTemp, lFileJSP, szSideMenuExists )
                END

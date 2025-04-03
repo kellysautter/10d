@@ -2132,8 +2132,9 @@ FormatString( zPCHAR pchOutputString )
    zPCHAR  pch1;
    zCHAR   szTemp[ 12000 ];
    zSHORT  nMargin = 0;    // size of left margin
-// zSHORT k;
+   zSHORT k;
 
+   k = zstrlen(pchOutputString);
    if ( zstrlen( pchOutputString ) < 254 )
       return;
 

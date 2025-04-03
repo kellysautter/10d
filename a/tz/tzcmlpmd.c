@@ -36,10 +36,6 @@ SelectLPLR_ForMerge( zVIEW     vSubtask );
 
 
 zOPER_EXPORT zSHORT OPERATION
-MigrateCompilerSubobjects( zVIEW     vSubtask );
-
-
-zOPER_EXPORT zSHORT OPERATION
 CommitTZWDLCVO( zVIEW     vSubtask );
 
 
@@ -55,6 +51,10 @@ o_InitializeControlSubobject( zVIEW     vTZWDLCVO,
 static zSHORT
 o_InitializeOptionSubobject( zVIEW     vTZWDLCVO,
                              zVIEW     vDialog );
+
+
+zOPER_EXPORT zSHORT OPERATION
+MigrateMetaOld( zVIEW     vSubtask );
 
 
 zOPER_EXPORT zSHORT OPERATION
@@ -118,6 +118,10 @@ BuildTargetLPLR_ListForMerge( zVIEW     vSubtask );
 
 
 zOPER_EXPORT zSHORT OPERATION
+MigrateCompilerSubobjects( zVIEW     vSubtask );
+
+
+zOPER_EXPORT zSHORT OPERATION
 WRITE_MergeMessagesToFile( zVIEW     ViewToWindow );
 
 
@@ -127,6 +131,10 @@ MERGE_AllLPLR_Metas( zVIEW     ViewToWindow );
 
 static zVOID
 o_MergeAllObjectViews( zVIEW     ViewToWindow );
+
+
+zOPER_EXPORT zSHORT OPERATION
+CLOSE_LPLR_MergeErrors( zVIEW     ViewToWindow );
 
 
 //:DIALOG OPERATION
@@ -431,8 +439,8 @@ MERGE_SelectedLPLR_Metas( zVIEW     ViewToWindow )
          ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
          //:MB_SetMessage( ViewToWindow, 1, MG_ErrorMessage )
          MB_SetMessage( ViewToWindow, 1, MG_ErrorMessage );
-         //:nRC = GlobalOperGrpMigrate( NewOperationGroup, MetaName, SourceLPLR, ViewToWindow )
-         nRC = oTZOGSRCO_GlobalOperGrpMigrate( NewOperationGroup, MetaName, SourceLPLR, ViewToWindow );
+         //:nRC = GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, ViewToWindow )
+         nRC = oTZOGSRCO_GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, ViewToWindow );
          //:IF nRC < 0
          if ( nRC < 0 )
          { 
@@ -901,6 +909,1176 @@ zOPER_EXPORT zSHORT OPERATION
 MigrateMeta( zVIEW     vSubtask )
 {
    zVIEW     SourceLPLR = 0; 
+   //:VIEW SourceLPLR_Dialog  BASED ON LOD TZCMLPLO
+   zVIEW     SourceLPLR_Dialog = 0; 
+   //:VIEW TempLPLR           BASED ON LOD TZCMLPLO
+   zVIEW     TempLPLR = 0; 
+   //:VIEW TargetLPLR         BASED ON LOD TZCMLPLO
+   zVIEW     TargetLPLR = 0; 
+   //:VIEW CurrentLPLR        BASED ON LOD TZCMLPLO
+   zVIEW     CurrentLPLR = 0; 
+   //:VIEW NewERD             BASED ON LOD TZEREMDO
+   zVIEW     NewERD = 0; 
+   //:VIEW ReturnedSA         BASED ON LOD TZERSASO
+   zVIEW     ReturnedSA = 0; 
+   //:VIEW ReturnedTE         BASED ON LOD TZTENVRO
+   zVIEW     ReturnedTE = 0; 
+   //:VIEW NewLOD             BASED ON LOD TZZOLODO
+   zVIEW     NewLOD = 0; 
+   //:VIEW ReturnedPPE        BASED ON LOD TZPESRCO
+   zVIEW     ReturnedPPE = 0; 
+   //:VIEW NewDialog          BASED ON LOD TZWDLGSO
+   zVIEW     NewDialog = 0; 
+   //:VIEW ReturnedDialogSpec BASED ON LOD TZADCSDO
+   zVIEW     ReturnedDialogSpec = 0; 
+   //:VIEW ReturnedReport     BASED ON LOD TZRPSRCO
+   zVIEW     ReturnedReport = 0; 
+   //:VIEW ReturnedXSLT       BASED ON LOD TZXSLTSO
+   zVIEW     ReturnedXSLT = 0; 
+   //:VIEW NewDomainGroup     BASED ON LOD TZDGSRCO
+   zVIEW     NewDomainGroup = 0; 
+   //:VIEW NewOperationGroup  BASED ON LOD TZOGSRCO
+   zVIEW     NewOperationGroup = 0; 
+   //:VIEW ReturnedHeader     BASED ON LOD TZOPHDRO
+   zVIEW     ReturnedHeader = 0; 
+   //:VIEW vPE                BASED ON LOD TZPESRCO
+   zVIEW     vPE = 0; 
+   //:VIEW vVOR               BASED ON LOD TZWDVORO
+   zVIEW     vVOR = 0; 
+   //:STRING (32)  MetaName
+   zCHAR     MetaName[ 33 ] = { 0 }; 
+   //:STRING (250) MG_ErrorMessage
+   zCHAR     MG_ErrorMessage[ 251 ] = { 0 }; 
+   //:STRING (513) SourceDirectoryName       // zMAX_FILESPEC_LTH+1
+   zCHAR     SourceDirectoryName[ 514 ] = { 0 }; 
+   //:STRING (513) SourceFileName            // zMAX_FILESPEC_LTH+1
+   zCHAR     SourceFileName[ 514 ] = { 0 }; 
+   //:STRING ( 1 ) szReExecuteFlag
+   zCHAR     szReExecuteFlag[ 2 ] = { 0 }; 
+   //:SHORT        nRC
+   zSHORT    nRC = 0; 
+   //:SHORT        nRC1
+   zSHORT    nRC1 = 0; 
+   zSHORT    RESULT; 
+   zSHORT    lTempInteger_0; 
+   zSHORT    lTempInteger_1; 
+   zCHAR     szTempString_0[ 33 ]; 
+   zCHAR     szTempString_1[ 33 ]; 
+   zSHORT    lTempInteger_2; 
+
+
+   //:// Copy all metas in the Source LPLR to create entries in the Current LPLR.
+   //:// The metas will be copied over in the following order.
+   //:// 2000 - Header
+   //:// 2001 - Source
+   //:// 2002 - Global Operations
+   //:// 2003 - Domain Groups
+   //:// 2004 - ERD
+   //:// 2005 - Subject Area
+   //:// 2006 - TE
+   //:// 2007 - LOD
+   //:// 2008 - POD
+   //:// 2009 - PVR (VOR)
+   //:// 2010 - PE
+   //:// 2011 - Dialog
+   //:// 2012 - UIS
+   //:// 2013 - Domain Group / PDG
+   //:// 2014 - Global Operation Group
+   //:// 2015 - Report
+   //:// 2016 - XSLT
+   //:// The ones that will be processed here are as follows and will be copied over in the following order.
+   //:// 2010 - PE
+   //:// 2014 - Global Operation Group
+   //:// 2013 - Domain Group
+   //:// 2004 - ERD
+   //:// 2006 - TE
+   //:// 2007 - LOD
+   //:// 2009 - PVR (VOR)
+   //:// 2011 - Dialog
+
+   //:GET VIEW SourceLPLR  NAMED "OrigLPLR"   // We want the full LPLR, not the edited list currently stored as SourceLPLR.
+   RESULT = GetViewByName( &SourceLPLR, "OrigLPLR", vSubtask, zLEVEL_TASK );
+   //:GET VIEW CurrentLPLR NAMED "TaskLPLR"
+   RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+   //:GET VIEW TargetLPLR  NAMED "TargetLPLR"
+   RESULT = GetViewByName( &TargetLPLR, "TargetLPLR", vSubtask, zLEVEL_TASK );
+
+   //:// Set Flag so that error messages will be written to ErrorMessage entities rather displayed immediately to the user.
+   //:CurrentLPLR.LPLR.MergeType = "L"
+   SetAttributeFromString( CurrentLPLR, "LPLR", "MergeType", "L" );
+
+   //:// Check if this is a repeat of migrate for additional selected Dialog entries. We know this because of the existence.
+   //:// of the ERD.
+   //:szReExecuteFlag = ""
+   ZeidonStringCopy( szReExecuteFlag, 1, 0, "", 1, 0, 2 );
+   //:GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+   RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+   //:SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 4
+   RESULT = SetCursorFirstEntityByInteger( CurrentLPLR, "W_MetaType", "Type", 4, "" );
+   //:IF CurrentLPLR.W_MetaDef EXISTS 
+   lTempInteger_0 = CheckExistenceOfEntity( CurrentLPLR, "W_MetaDef" );
+   if ( lTempInteger_0 == 0 )
+   { 
+      //:szReExecuteFlag = "Y"
+      ZeidonStringCopy( szReExecuteFlag, 1, 0, "Y", 1, 0, 2 );
+   } 
+
+   //:END
+
+   //:// Migrate non Dialog entries if we're not re-exeuting this function.
+   //:IF szReExecuteFlag = ""
+   if ( ZeidonStringCompare( szReExecuteFlag, 1, 0, "", 1, 0, 2 ) == 0 )
+   { 
+
+      //:// Process the Domain Groups and the Operation Groups first, since they must exist before
+      //:// other metas can be processed, and their numbers put them at the end of the list.
+
+      //:// PE
+      //:// We are not migrating the PE since it is not used for Web apps.
+
+      //:// Operation Groups
+      //:SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2014 
+      RESULT = SetCursorFirstEntityByInteger( SourceLPLR, "W_MetaType", "Type", 2014, "" );
+      //:SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2014 
+      RESULT = SetCursorFirstEntityByInteger( TargetLPLR, "W_MetaType", "Type", 2014, "" );
+      //:IF RESULT < 0
+      if ( RESULT < 0 )
+      { 
+         //:CREATE ENTITY TargetLPLR.W_MetaType
+         RESULT = CreateEntity( TargetLPLR, "W_MetaType", zPOS_AFTER );
+         //:TargetLPLR.W_MetaType.Type = 2014
+         SetAttributeFromInteger( TargetLPLR, "W_MetaType", "Type", 2014 );
+      } 
+
+      //:END
+      //:FOR EACH SourceLPLR.W_MetaDef 
+      RESULT = SetCursorFirstEntity( SourceLPLR, "W_MetaDef", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //:MetaName = SourceLPLR.W_MetaDef.Name 
+         GetVariableFromAttribute( MetaName, 0, 'S', 33, SourceLPLR, "W_MetaDef", "Name", "", 0 );
+         //:ActivateEmptyMetaOI( vSubtask, NewOperationGroup, zSOURCE_GOPGRP_META, zSINGLE )
+         ActivateEmptyMetaOI( vSubtask, &NewOperationGroup, zSOURCE_GOPGRP_META, zSINGLE );
+         //:MG_ErrorMessage = "Migrating Global Operation Group: " + MetaName
+         ZeidonStringCopy( MG_ErrorMessage, 1, 0, "Migrating Global Operation Group: ", 1, 0, 251 );
+         ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+         //:MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage );
+         //:nRC = GlobalOperGrpMigrate( NewOperationGroup, MetaName, SourceLPLR, vSubtask )
+         nRC = oTZOGSRCO_GlobalOperGrpMigrate( NewOperationGroup, MetaName, SourceLPLR, vSubtask );
+         //:IF nRC < 0
+         if ( nRC < 0 )
+         { 
+            //:MG_ErrorMessage = "Global Operation Group(" + MetaName + ") aborted."
+            ZeidonStringCopy( MG_ErrorMessage, 1, 0, "Global Operation Group(", 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, ") aborted.", 1, 0, 251 );
+            //:MessageSend( vSubtask, "", "LPLR Migrate",
+            //:             MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            MessageSend( vSubtask, "", "LPLR Migrate", MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:CREATE ENTITY TargetLPLR.W_MetaDef
+            RESULT = CreateEntity( TargetLPLR, "W_MetaDef", zPOS_AFTER );
+            //:TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+            SetAttributeFromAttribute( TargetLPLR, "W_MetaDef", "Name", SourceLPLR, "W_MetaDef", "Name" );
+         } 
+
+         //:END
+         //:DropObjectInstance( NewOperationGroup )
+         DropObjectInstance( NewOperationGroup );
+         RESULT = SetCursorNextEntity( SourceLPLR, "W_MetaDef", "" );
+      } 
+
+      //:END
+
+      //:// Domain Groups
+      //:SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2013
+      RESULT = SetCursorFirstEntityByInteger( SourceLPLR, "W_MetaType", "Type", 2013, "" );
+      //:SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2013
+      RESULT = SetCursorFirstEntityByInteger( TargetLPLR, "W_MetaType", "Type", 2013, "" );
+      //:IF RESULT < 0
+      if ( RESULT < 0 )
+      { 
+         //:CREATE ENTITY TargetLPLR.W_MetaType
+         RESULT = CreateEntity( TargetLPLR, "W_MetaType", zPOS_AFTER );
+         //:TargetLPLR.W_MetaType.Type = 2013
+         SetAttributeFromInteger( TargetLPLR, "W_MetaType", "Type", 2013 );
+      } 
+
+      //:END
+      //:FOR EACH SourceLPLR.W_MetaDef 
+      RESULT = SetCursorFirstEntity( SourceLPLR, "W_MetaDef", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //:MetaName = SourceLPLR.W_MetaDef.Name 
+         GetVariableFromAttribute( MetaName, 0, 'S', 33, SourceLPLR, "W_MetaDef", "Name", "", 0 );
+         //:ActivateEmptyMetaOI( vSubtask, NewDomainGroup, zSOURCE_DOMAINGRP_META, zSINGLE )
+         ActivateEmptyMetaOI( vSubtask, &NewDomainGroup, zSOURCE_DOMAINGRP_META, zSINGLE );
+         //:MG_ErrorMessage = "Migrating Domain Group: " + MetaName
+         ZeidonStringCopy( MG_ErrorMessage, 1, 0, "Migrating Domain Group: ", 1, 0, 251 );
+         ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+         //:MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage );
+         //:nRC = DomainGrpMigrate( NewDomainGroup, MetaName, SourceLPLR, vSubtask )
+         nRC = oTZDGSRCO_DomainGrpMigrate( NewDomainGroup, MetaName, SourceLPLR, vSubtask );
+         //:IF nRC < 0
+         if ( nRC < 0 )
+         { 
+            //:MG_ErrorMessage = "Domain Group(" + MetaName + ") aborted."
+            ZeidonStringCopy( MG_ErrorMessage, 1, 0, "Domain Group(", 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, ") aborted.", 1, 0, 251 );
+            //:MessageSend( vSubtask, "", "LPLR Migrate",
+            //:             MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            MessageSend( vSubtask, "", "LPLR Migrate", MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:CREATE ENTITY TargetLPLR.W_MetaDef
+            RESULT = CreateEntity( TargetLPLR, "W_MetaDef", zPOS_AFTER );
+            //:TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+            SetAttributeFromAttribute( TargetLPLR, "W_MetaDef", "Name", SourceLPLR, "W_MetaDef", "Name" );
+         } 
+
+         //:END
+         //:DropObjectInstance( NewDomainGroup )
+         DropObjectInstance( NewDomainGroup );
+         RESULT = SetCursorNextEntity( SourceLPLR, "W_MetaDef", "" );
+      } 
+
+      //:END
+
+      //:// ERD
+      //:SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2004
+      RESULT = SetCursorFirstEntityByInteger( SourceLPLR, "W_MetaType", "Type", 2004, "" );
+      //:SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2004
+      RESULT = SetCursorFirstEntityByInteger( TargetLPLR, "W_MetaType", "Type", 2004, "" );
+      //:IF RESULT < 0
+      if ( RESULT < 0 )
+      { 
+         //:CREATE ENTITY TargetLPLR.W_MetaType
+         RESULT = CreateEntity( TargetLPLR, "W_MetaType", zPOS_AFTER );
+         //:TargetLPLR.W_MetaType.Type = 2004
+         SetAttributeFromInteger( TargetLPLR, "W_MetaType", "Type", 2004 );
+      } 
+
+      //:END
+      //:IF SourceLPLR.W_MetaDef EXISTS
+      lTempInteger_1 = CheckExistenceOfEntity( SourceLPLR, "W_MetaDef" );
+      if ( lTempInteger_1 == 0 )
+      { 
+         //:// Migrate the Source ERD to the Current LPLR.
+         //:// We have already checked that the Current LPLR does not have an ER.
+
+         //:// Check that ERD name is same as LPLR name.
+         //:IF SourceLPLR.W_MetaDef.Name != SourceLPLR.LPLR.Name 
+         if ( CompareAttributeToAttribute( SourceLPLR, "W_MetaDef", "Name", SourceLPLR, "LPLR", "Name" ) != 0 )
+         { 
+            //:MG_ErrorMessage = "ERD Name of " + SourceLPLR.W_MetaDef.Name + " does not match LPLR Name of " + SourceLPLR.LPLR.Name + "," +
+            //:                  "Migrate will be aborted."
+            GetVariableFromAttribute( szTempString_0, 0, 'S', 33, SourceLPLR, "W_MetaDef", "Name", "", 0 );
+            ZeidonStringCopy( MG_ErrorMessage, 1, 0, "ERD Name of ", 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, szTempString_0, 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, " does not match LPLR Name of ", 1, 0, 251 );
+            GetVariableFromAttribute( szTempString_1, 0, 'S', 33, SourceLPLR, "LPLR", "Name", "", 0 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, szTempString_1, 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, ",", 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, "Migrate will be aborted.", 1, 0, 251 );
+            //:MessageSend( vSubtask, "", "LPLR Migrate",
+            //:             MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            MessageSend( vSubtask, "", "LPLR Migrate", MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+            //:RETURN nRC
+            return( nRC );
+         } 
+
+         //:END
+
+         //:GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+         RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+         //:MetaName = CurrentLPLR.LPLR.Name
+         GetVariableFromAttribute( MetaName, 0, 'S', 33, CurrentLPLR, "LPLR", "Name", "", 0 );
+         //:ActivateEmptyMetaOI( vSubtask, NewERD, zSOURCE_ERD_META, zSINGLE )
+         ActivateEmptyMetaOI( vSubtask, &NewERD, zSOURCE_ERD_META, zSINGLE );
+         //:NAME VIEW NewERD "NewERD"
+         SetNameForView( NewERD, "NewERD", 0, zLEVEL_TASK );
+
+         //:MG_ErrorMessage = "Migrating ERD: " + MetaName
+         ZeidonStringCopy( MG_ErrorMessage, 1, 0, "Migrating ERD: ", 1, 0, 251 );
+         ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+         //:MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage );
+         //:nRC = ERD_Migrate( NewERD, SourceLPLR, vSubtask )
+         nRC = oTZEREMDO_ERD_Migrate( NewERD, &SourceLPLR, vSubtask );
+         //:IF nRC < 0
+         if ( nRC < 0 )
+         { 
+            //:MG_ErrorMessage = "ERD aborted because of problems migrating it."
+            ZeidonStringCopy( MG_ErrorMessage, 1, 0, "ERD aborted because of problems migrating it.", 1, 0, 251 );
+            //:MessageSend( vSubtask, "", "LPLR Migrate",
+            //:             MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            MessageSend( vSubtask, "", "LPLR Migrate", MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+            //:RETURN nRC
+            return( nRC );
+            //:ELSE
+         } 
+         else
+         { 
+            //:CREATE ENTITY TargetLPLR.W_MetaDef
+            RESULT = CreateEntity( TargetLPLR, "W_MetaDef", zPOS_AFTER );
+            //:TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+            SetAttributeFromAttribute( TargetLPLR, "W_MetaDef", "Name", SourceLPLR, "W_MetaDef", "Name" );
+         } 
+
+         //:END
+         //:DropMetaOI( vSubtask, NewERD )
+         DropMetaOI( vSubtask, NewERD );
+      } 
+
+      //:END
+
+      //:// Subject Area
+      //:// We are not migrating Subject Areas as they are no longer of significant importance and the previous Migrate
+      //:// did not copy them either.
+
+      //:// Technical Environment
+      //:SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2006
+      RESULT = SetCursorFirstEntityByInteger( SourceLPLR, "W_MetaType", "Type", 2006, "" );
+      //:SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2006
+      RESULT = SetCursorFirstEntityByInteger( TargetLPLR, "W_MetaType", "Type", 2006, "" );
+      //:IF RESULT < 0
+      if ( RESULT < 0 )
+      { 
+         //:CREATE ENTITY TargetLPLR.W_MetaType
+         RESULT = CreateEntity( TargetLPLR, "W_MetaType", zPOS_AFTER );
+         //:TargetLPLR.W_MetaType.Type = 2006
+         SetAttributeFromInteger( TargetLPLR, "W_MetaType", "Type", 2006 );
+      } 
+
+      //:END
+      //:FOR EACH SourceLPLR.W_MetaDef 
+      RESULT = SetCursorFirstEntity( SourceLPLR, "W_MetaDef", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //:MetaName = SourceLPLR.W_MetaDef.Name 
+         GetVariableFromAttribute( MetaName, 0, 'S', 33, SourceLPLR, "W_MetaDef", "Name", "", 0 );
+         //://nRC = ActivateMetaOI_ByName( vSubtask, ReturnedTE, 0, zREFER_DTE_META, zSINGLE, NewTE_Name, 0 )
+         //:ActivateEmptyMetaOI( vSubtask, ReturnedTE, zREFER_DTE_META, zSINGLE )
+         ActivateEmptyMetaOI( vSubtask, &ReturnedTE, zREFER_DTE_META, zSINGLE );
+         //:MG_ErrorMessage = "Migrating TE: " + MetaName
+         ZeidonStringCopy( MG_ErrorMessage, 1, 0, "Migrating TE: ", 1, 0, 251 );
+         ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+         //:MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage );
+         //:nRC = TE_Migrate( ReturnedTE, MetaName, SourceLPLR, vSubtask )
+         nRC = oTZTENVRO_TE_Migrate( &ReturnedTE, MetaName, SourceLPLR, vSubtask );
+         //:IF nRC < 0
+         if ( nRC < 0 )
+         { 
+            //:MG_ErrorMessage = "TE (" + MetaName + ") aborted."
+            ZeidonStringCopy( MG_ErrorMessage, 1, 0, "TE (", 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, ") aborted.", 1, 0, 251 );
+            //:MessageSend( vSubtask, "", "LPLR Migrate",
+            //:             MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            MessageSend( vSubtask, "", "LPLR Migrate", MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:CREATE ENTITY TargetLPLR.W_MetaDef
+            RESULT = CreateEntity( TargetLPLR, "W_MetaDef", zPOS_AFTER );
+            //:TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+            SetAttributeFromAttribute( TargetLPLR, "W_MetaDef", "Name", SourceLPLR, "W_MetaDef", "Name" );
+         } 
+
+         //:END
+         //:DropObjectInstance( ReturnedTE )
+         DropObjectInstance( ReturnedTE );
+         RESULT = SetCursorNextEntity( SourceLPLR, "W_MetaDef", "" );
+      } 
+
+      //:END
+      //:   
+      //:// LOD
+      //:SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2007
+      RESULT = SetCursorFirstEntityByInteger( SourceLPLR, "W_MetaType", "Type", 2007, "" );
+      //:SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2007
+      RESULT = SetCursorFirstEntityByInteger( TargetLPLR, "W_MetaType", "Type", 2007, "" );
+      //:IF RESULT < 0
+      if ( RESULT < 0 )
+      { 
+         //:CREATE ENTITY TargetLPLR.W_MetaType
+         RESULT = CreateEntity( TargetLPLR, "W_MetaType", zPOS_AFTER );
+         //:TargetLPLR.W_MetaType.Type = 2007
+         SetAttributeFromInteger( TargetLPLR, "W_MetaType", "Type", 2007 );
+      } 
+
+      //:END
+      //:FOR EACH SourceLPLR.W_MetaDef 
+      RESULT = SetCursorFirstEntity( SourceLPLR, "W_MetaDef", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //:MetaName = SourceLPLR.W_MetaDef.Name 
+         GetVariableFromAttribute( MetaName, 0, 'S', 33, SourceLPLR, "W_MetaDef", "Name", "", 0 );
+         //:ActivateEmptyMetaOI( vSubtask, NewLOD, zSOURCE_LOD_META, zSINGLE )
+         ActivateEmptyMetaOI( vSubtask, &NewLOD, zSOURCE_LOD_META, zSINGLE );
+         //:MG_ErrorMessage = "Migrating LOD: " + MetaName
+         ZeidonStringCopy( MG_ErrorMessage, 1, 0, "Migrating LOD: ", 1, 0, 251 );
+         ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+         //:MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage );
+         //:nRC = LOD_Migrate( NewLOD, MetaName, SourceLPLR, vSubtask )
+         nRC = oTZZOLODO_LOD_Migrate( NewLOD, MetaName, SourceLPLR, vSubtask );
+         //:IF nRC < 0
+         if ( nRC < 0 )
+         { 
+            //:MG_ErrorMessage = "LOD (" + MetaName + ") aborted."
+            ZeidonStringCopy( MG_ErrorMessage, 1, 0, "LOD (", 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, ") aborted.", 1, 0, 251 );
+            //:MessageSend( vSubtask, "", "LPLR Migrate",
+            //:             MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            MessageSend( vSubtask, "", "LPLR Migrate", MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:CREATE ENTITY TargetLPLR.W_MetaDef
+            RESULT = CreateEntity( TargetLPLR, "W_MetaDef", zPOS_AFTER );
+            //:TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+            SetAttributeFromAttribute( TargetLPLR, "W_MetaDef", "Name", SourceLPLR, "W_MetaDef", "Name" );
+         } 
+
+         //:END
+         //:DropObjectInstance( NewLOD )
+         DropObjectInstance( NewLOD );
+         RESULT = SetCursorNextEntity( SourceLPLR, "W_MetaDef", "" );
+      } 
+
+      //:END
+
+      //:// Reports
+      //:SET CURSOR FIRST SourceLPLR.W_MetaType WHERE SourceLPLR.W_MetaType.Type = 2015
+      RESULT = SetCursorFirstEntityByInteger( SourceLPLR, "W_MetaType", "Type", 2015, "" );
+      //:SET CURSOR FIRST TargetLPLR.W_MetaType WHERE TargetLPLR.W_MetaType.Type = 2015
+      RESULT = SetCursorFirstEntityByInteger( TargetLPLR, "W_MetaType", "Type", 2015, "" );
+      //:IF RESULT < 0
+      if ( RESULT < 0 )
+      { 
+         //:CREATE ENTITY TargetLPLR.W_MetaType
+         RESULT = CreateEntity( TargetLPLR, "W_MetaType", zPOS_AFTER );
+         //:TargetLPLR.W_MetaType.Type = 2015
+         SetAttributeFromInteger( TargetLPLR, "W_MetaType", "Type", 2015 );
+      } 
+
+      //:END
+      //:FOR EACH SourceLPLR.W_MetaDef 
+      RESULT = SetCursorFirstEntity( SourceLPLR, "W_MetaDef", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //:MetaName = SourceLPLR.W_MetaDef.Name 
+         GetVariableFromAttribute( MetaName, 0, 'S', 33, SourceLPLR, "W_MetaDef", "Name", "", 0 );
+         //:ActivateEmptyMetaOI( vSubtask, ReturnedReport, zREFER_REPORT_META, zSINGLE )
+         ActivateEmptyMetaOI( vSubtask, &ReturnedReport, zREFER_REPORT_META, zSINGLE );
+         //:MG_ErrorMessage = "Migrating Report: " + MetaName
+         ZeidonStringCopy( MG_ErrorMessage, 1, 0, "Migrating Report: ", 1, 0, 251 );
+         ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+         //:MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage );
+         //:nRC = ReportMigrate( ReturnedReport, MetaName, SourceLPLR, vSubtask )
+         nRC = oTZRPSRCO_ReportMigrate( &ReturnedReport, MetaName, SourceLPLR, vSubtask );
+         //:IF nRC < 0
+         if ( nRC < 0 )
+         { 
+            //:MG_ErrorMessage = "Report(" + MetaName + ") aborted."
+            ZeidonStringCopy( MG_ErrorMessage, 1, 0, "Report(", 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, ") aborted.", 1, 0, 251 );
+            //:MessageSend( vSubtask, "", "LPLR Migrate",
+            //:             MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            MessageSend( vSubtask, "", "LPLR Migrate", MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:CREATE ENTITY TargetLPLR.W_MetaDef
+            RESULT = CreateEntity( TargetLPLR, "W_MetaDef", zPOS_AFTER );
+            //:TargetLPLR.W_MetaDef.Name = SourceLPLR.W_MetaDef.Name
+            SetAttributeFromAttribute( TargetLPLR, "W_MetaDef", "Name", SourceLPLR, "W_MetaDef", "Name" );
+         } 
+
+         //:END
+         //:DropObjectInstance( ReturnedReport )
+         DropObjectInstance( ReturnedReport );
+         RESULT = SetCursorNextEntity( SourceLPLR, "W_MetaDef", "" );
+      } 
+
+      //:END
+   } 
+
+   //:END
+
+   //:// Dialog
+   //:// For Dialogs, we will use the Source LPLR OI where Dialog entries are selected.
+   //:// Note that we actually pass SourceLPLR, which contains all metas, to DialogMigrate.
+   //:GET VIEW SourceLPLR_Dialog NAMED "SourceLPLR"
+   RESULT = GetViewByName( &SourceLPLR_Dialog, "SourceLPLR", vSubtask, zLEVEL_TASK );
+   //:SET CURSOR FIRST SourceLPLR_Dialog.W_MetaType WHERE SourceLPLR_Dialog.W_MetaType.Type = 2011
+   RESULT = SetCursorFirstEntityByInteger( SourceLPLR_Dialog, "W_MetaType", "Type", 2011, "" );
+   //:SET CURSOR FIRST TargetLPLR.W_MetaType        WHERE TargetLPLR.W_MetaType.Type = 2011
+   RESULT = SetCursorFirstEntityByInteger( TargetLPLR, "W_MetaType", "Type", 2011, "" );
+   //:IF RESULT < 0
+   if ( RESULT < 0 )
+   { 
+      //:CREATE ENTITY TargetLPLR.W_MetaType
+      RESULT = CreateEntity( TargetLPLR, "W_MetaType", zPOS_AFTER );
+      //:TargetLPLR.W_MetaType.Type = 2011
+      SetAttributeFromInteger( TargetLPLR, "W_MetaType", "Type", 2011 );
+   } 
+
+   //:END
+   //:FOR EACH SourceLPLR_Dialog.W_MetaDef 
+   RESULT = SetCursorFirstEntity( SourceLPLR_Dialog, "W_MetaDef", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:nRC = GetSelectStateOfEntity( SourceLPLR_Dialog, "W_MetaDef" )
+      nRC = GetSelectStateOfEntity( SourceLPLR_Dialog, "W_MetaDef" );
+      //:IF nRC = 1
+      if ( nRC == 1 )
+      { 
+         //:MetaName = SourceLPLR_Dialog.W_MetaDef.Name 
+         GetVariableFromAttribute( MetaName, 0, 'S', 33, SourceLPLR_Dialog, "W_MetaDef", "Name", "", 0 );
+         //:ActivateEmptyMetaOI( vSubtask, NewDialog, zSOURCE_DIALOG_META, zSINGLE )
+         ActivateEmptyMetaOI( vSubtask, &NewDialog, zSOURCE_DIALOG_META, zSINGLE );
+         //:MG_ErrorMessage = "Migrating Dialog: " + MetaName
+         ZeidonStringCopy( MG_ErrorMessage, 1, 0, "Migrating Dialog: ", 1, 0, 251 );
+         ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+         //:MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
+         MB_SetMessage( vSubtask, 1, MG_ErrorMessage );
+         //:CreateViewFromView( TempLPLR, SourceLPLR )   // Use temporary view because DialogMigrate sometimes alters position.
+         CreateViewFromView( &TempLPLR, SourceLPLR );
+         //:nRC = DialogMigrate( NewDialog, MetaName, TempLPLR, vSubtask )
+         nRC = oTZWDLGSO_DialogMigrate( NewDialog, MetaName, TempLPLR, vSubtask );
+         //:DropView( TempLPLR )
+         DropView( TempLPLR );
+         //:IF nRC >= 0
+         if ( nRC >= 0 )
+         { 
+            //:// Delete the Dialog entry from the list.
+            //:CREATE ENTITY TargetLPLR.W_MetaDef
+            RESULT = CreateEntity( TargetLPLR, "W_MetaDef", zPOS_AFTER );
+            //:TargetLPLR.W_MetaDef.Name = SourceLPLR_Dialog.W_MetaDef.Name
+            SetAttributeFromAttribute( TargetLPLR, "W_MetaDef", "Name", SourceLPLR_Dialog, "W_MetaDef", "Name" );
+            //:DELETE ENTITY SourceLPLR_Dialog.W_MetaDef NONE
+            RESULT = DeleteEntity( SourceLPLR_Dialog, "W_MetaDef", zREPOS_NONE );
+            //:ELSE
+         } 
+         else
+         { 
+            //:MG_ErrorMessage = "Dialog (" + MetaName + ") has not been migrated."
+            ZeidonStringCopy( MG_ErrorMessage, 1, 0, "Dialog (", 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
+            ZeidonStringConcat( MG_ErrorMessage, 1, 0, ") has not been migrated.", 1, 0, 251 );
+            //:MessageSend( vSubtask, "", "LPLR Migrate",
+            //:             MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+            MessageSend( vSubtask, "", "LPLR Migrate", MG_ErrorMessage, zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+         } 
+
+         //:END
+         //:DropObjectInstance( NewDialog )
+         DropObjectInstance( NewDialog );
+      } 
+
+      RESULT = SetCursorNextEntity( SourceLPLR_Dialog, "W_MetaDef", "" );
+      //:END
+   } 
+
+   //:END
+
+   //:// UIS
+   //:// We will not copy User Interface Specifications as they are no longer used.
+
+   //:// XSLT
+   //:// We will not copy XSLT entries as they appear to no longer be used.
+
+   //:// If there are any error messages, transfer to the window to display them.
+   //:// Otherwise, send a message to the user that the migrate function completed without error.
+   //:IF CurrentLPLR.ErrorMessage EXISTS 
+   lTempInteger_2 = CheckExistenceOfEntity( CurrentLPLR, "ErrorMessage" );
+   if ( lTempInteger_2 == 0 )
+   { 
+      //:SetWindowActionBehavior( vSubtask, ZWAB_StartModalSubwindow, "TZCMLPMD", "MetaLPLR_MergeErrors" )
+      SetWindowActionBehavior( vSubtask, zWAB_StartModalSubwindow, "TZCMLPMD", "MetaLPLR_MergeErrors" );
+      //:ELSE
+   } 
+   else
+   { 
+      //:MessageSend( vSubtask, "", 
+      //:             "Configuration Management",
+      //:             "LPLR Migrate has completed without error.",
+      //:             zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      MessageSend( vSubtask, "", "Configuration Management", "LPLR Migrate has completed without error.", zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
+   } 
+
+   //:END
+   return( 0 );
+// END
+} 
+
+
+//:DIALOG OPERATION
+//:SelectLPLR( VIEW vSubtask )
+
+//:   VIEW vCM         BASED ON LOD TZCMWKSO
+zOPER_EXPORT zSHORT OPERATION
+SelectLPLR( zVIEW     vSubtask )
+{
+   zVIEW     vCM = 0; 
+   //:VIEW SourceLPLR  BASED ON LOD TZCMLPLO
+   zVIEW     SourceLPLR = 0; 
+   //:VIEW OrigLPLR    BASED ON LOD TZCMLPLO
+   zVIEW     OrigLPLR = 0; 
+   //:VIEW VOR_LPLR    BASED ON LOD TZCMLPLO
+   zVIEW     VOR_LPLR = 0; 
+   //:VIEW CurrentLPLR BASED ON LOD TZCMLPLO
+   zVIEW     CurrentLPLR = 0; 
+
+   //:STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
+   zCHAR     SourceFileName[ 514 ] = { 0 }; 
+   //:STRING ( 32 )  TruncatedName
+   zCHAR     TruncatedName[ 33 ] = { 0 }; 
+   //:INTEGER        TempType
+   zLONG     TempType = 0; 
+   zSHORT    RESULT; 
+   zSHORT    lTempInteger_0; 
+
+
+   //:GET VIEW vCM NAMED "TZCMWKSO"
+   RESULT = GetViewByName( &vCM, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+
+   //:// Check if an ERD alread exists in the current LPLR. If so, the Migrate function cannot be used.
+   //:GET VIEW  CurrentLPLR NAMED "TaskLPLR"
+   RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+   //:SET CURSOR FIRST CurrentLPLR.W_MetaType WHERE CurrentLPLR.W_MetaType.Type = 4
+   RESULT = SetCursorFirstEntityByInteger( CurrentLPLR, "W_MetaType", "Type", 4, "" );
+   //:IF CurrentLPLR.W_MetaDef EXISTS 
+   lTempInteger_0 = CheckExistenceOfEntity( CurrentLPLR, "W_MetaDef" );
+   if ( lTempInteger_0 == 0 )
+   { 
+      //:MessageSend( vSubtask, "", "LPLR Migrate",
+      //:             "The Current LPLR already has an ER, so the Migrate function cannot be used.", 
+      //:             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      MessageSend( vSubtask, "", "LPLR Migrate", "The Current LPLR already has an ER, so the Migrate function cannot be used.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      //:SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 )                   
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );
+      //:RETURN -1
+      return( -1 );
+   } 
+
+   //:END
+
+   //:// Activate OI and View to the source LPLR
+   //:SourceFileName = vCM.LPLR.Name
+   GetVariableFromAttribute( SourceFileName, 0, 'S', 514, vCM, "LPLR", "Name", "", 0 );
+   //:TruncatedName = SourceFileName [1:32]
+   ZeidonStringCopy( TruncatedName, 1, 0, SourceFileName, 1, 32, 33 );
+   //:SourceFileName = vCM.LPLR.ExecDir + "\" + TruncatedName + ".XLP"
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), vCM, "LPLR", "ExecDir" );
+   ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
+   ZeidonStringConcat( SourceFileName, 1, 0, TruncatedName, 1, 0, 514 );
+   ZeidonStringConcat( SourceFileName, 1, 0, ".XLP", 1, 0, 514 );
+   //:ActivateOI_FromFile( OrigLPLR, "TZCMLPLO", vSubtask, SourceFileName, zSINGLE )
+   ActivateOI_FromFile( &OrigLPLR, "TZCMLPLO", vSubtask, SourceFileName, zSINGLE );
+   //:NAME VIEW OrigLPLR "OrigLPLR"
+   SetNameForView( OrigLPLR, "OrigLPLR", 0, zLEVEL_TASK );
+
+   //:// Copy the Orig Dialog members to Source since they are the only entries to be selectable in the list.
+   //:ACTIVATE SourceLPLR EMPTY
+   RESULT = ActivateEmptyObjectInstance( &SourceLPLR, "TZCMLPLO", vSubtask, zSINGLE );
+   //:NAME VIEW SourceLPLR "SourceLPLR"
+   SetNameForView( SourceLPLR, "SourceLPLR", 0, zLEVEL_TASK );
+
+   //:CREATE ENTITY SourceLPLR.LPLR
+   RESULT = CreateEntity( SourceLPLR, "LPLR", zPOS_AFTER );
+   //:SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL )
+   SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL );
+   //:FOR EACH OrigLPLR.W_MetaType WHERE
+   //:         OrigLPLR.W_MetaType.Type = 2011
+   RESULT = SetCursorFirstEntityByInteger( OrigLPLR, "W_MetaType", "Type", 2011, "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:CREATE ENTITY SourceLPLR.W_MetaType
+      RESULT = CreateEntity( SourceLPLR, "W_MetaType", zPOS_AFTER );
+      //:// This code has to use a work integer in setting SourceLPLR.W_MetaType.Type to
+      //:// OrigLPLR.W_MetaType.Type, because the domain on Type, CM_Type, seems to always
+      //:// convert a REFER value to a SOURCE value.  This is an error in the table domain
+      //:// and should eventually get corrected.
+      //:TempType = OrigLPLR.W_MetaType.Type
+      GetIntegerFromAttribute( &TempType, OrigLPLR, "W_MetaType", "Type" );
+      //:SourceLPLR.W_MetaType.Type = TempType
+      SetAttributeFromInteger( SourceLPLR, "W_MetaType", "Type", TempType );
+      //:FOR EACH OrigLPLR.W_MetaDef
+      RESULT = SetCursorFirstEntity( OrigLPLR, "W_MetaDef", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //:CREATE ENTITY SourceLPLR.W_MetaDef
+         RESULT = CreateEntity( SourceLPLR, "W_MetaDef", zPOS_AFTER );
+         //:SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL )
+         SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL );
+         RESULT = SetCursorNextEntity( OrigLPLR, "W_MetaDef", "" );
+      } 
+
+      RESULT = SetCursorNextEntityByInteger( OrigLPLR, "W_MetaType", "Type", 2011, "" );
+      //:END
+   } 
+
+   //:END
+   return( 0 );
+// END
+} 
+
+
+//:DIALOG OPERATION
+//:SelectLPLR_ForMerge( VIEW vSubtask )
+
+//:   VIEW vCM         REGISTERED AS TZCMWKSO
+zOPER_EXPORT zSHORT OPERATION
+SelectLPLR_ForMerge( zVIEW     vSubtask )
+{
+   zVIEW     vCM = 0; 
+   zSHORT    RESULT; 
+   //:VIEW TaskLPLR    REGISTERED AS TaskLPLR
+   zVIEW     TaskLPLR = 0; 
+   //:VIEW SourceLPLR  BASED ON LOD  TZCMLPLO
+   zVIEW     SourceLPLR = 0; 
+   //:VIEW TargetLPLR  BASED ON LOD  TZCMLPLO
+   zVIEW     TargetLPLR = 0; 
+   //:VIEW OrigLPLR    BASED ON LOD  TZCMLPLO
+   zVIEW     OrigLPLR = 0; 
+   //:INTEGER        TempType
+   zLONG     TempType = 0; 
+   //:STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
+   zCHAR     SourceFileName[ 514 ] = { 0 }; 
+   //:STRING ( 32 )  TruncatedName
+   zCHAR     TruncatedName[ 33 ] = { 0 }; 
+   zCHAR     szTempString_0[ 33 ]; 
+
+   RESULT = GetViewByName( &vCM, "TZCMWKSO", vSubtask, zLEVEL_TASK );
+   RESULT = GetViewByName( &TaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+
+   //:// Make sure there is currently no TargetLPLR view as that will be created later in postbuild of merge window.
+   //:GET VIEW TargetLPLR NAMED "TargetLPLR"
+   RESULT = GetViewByName( &TargetLPLR, "TargetLPLR", vSubtask, zLEVEL_TASK );
+   //:IF RESULT > 0
+   if ( RESULT > 0 )
+   { 
+      //:DropObjectInstance( TargetLPLR )
+      DropObjectInstance( TargetLPLR );
+   } 
+
+   //:END
+
+   //:// Activate the selected OI and View to be the base for the Source LPLR, which will be created below.
+   //:SourceFileName = vCM.LPLR.Name
+   GetVariableFromAttribute( SourceFileName, 0, 'S', 514, vCM, "LPLR", "Name", "", 0 );
+   //:TruncatedName = SourceFileName [1:32]
+   ZeidonStringCopy( TruncatedName, 1, 0, SourceFileName, 1, 32, 33 );
+   //:SourceFileName = vCM.LPLR.ExecDir + "\" +
+   //:                 TruncatedName + ".XLP"
+   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), vCM, "LPLR", "ExecDir" );
+   ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
+   ZeidonStringConcat( SourceFileName, 1, 0, TruncatedName, 1, 0, 514 );
+   ZeidonStringConcat( SourceFileName, 1, 0, ".XLP", 1, 0, 514 );
+   //:ActivateOI_FromFile( OrigLPLR, "TZCMLPLO", vSubtask,
+   //:                     SourceFileName, zSINGLE )
+   ActivateOI_FromFile( &OrigLPLR, "TZCMLPLO", vSubtask, SourceFileName, zSINGLE );
+   //:NAME VIEW OrigLPLR "OrigLPLR"
+   SetNameForView( OrigLPLR, "OrigLPLR", 0, zLEVEL_TASK );
+
+   //:// Reposition work station view on original LPLR so that any ZKeys generated during migration will
+   //:// be created using the correct next ZKey.
+   //:SET CURSOR FIRST vCM.LPLR WHERE vCM.LPLR.Name = TaskLPLR.LPLR.Name 
+   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TaskLPLR, "LPLR", "Name" );
+   RESULT = SetCursorFirstEntityByString( vCM, "LPLR", "Name", szTempString_0, "" );
+
+   //:// Copy the Orig meta entries that can be selected for merge, which are:
+   //://    2007 - LODs
+   //://    2011 - Dialogs
+   //://    2015 - Reports
+   //://    2014 - Global Operations
+
+   //:ACTIVATE SourceLPLR EMPTY
+   RESULT = ActivateEmptyObjectInstance( &SourceLPLR, "TZCMLPLO", vSubtask, zSINGLE );
+   //:NAME VIEW SourceLPLR "SourceLPLR"
+   SetNameForView( SourceLPLR, "SourceLPLR", 0, zLEVEL_TASK );
+
+   //:CREATE ENTITY SourceLPLR.LPLR
+   RESULT = CreateEntity( SourceLPLR, "LPLR", zPOS_AFTER );
+   //:SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL )
+   SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL );
+   //:FOR EACH OrigLPLR.W_MetaType 
+   RESULT = SetCursorFirstEntity( OrigLPLR, "W_MetaType", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:IF OrigLPLR.W_MetaType.Type = 2007 OR
+      //:   OrigLPLR.W_MetaType.Type = 2011 OR
+      //:   OrigLPLR.W_MetaType.Type = 2014 OR
+      //:   OrigLPLR.W_MetaType.Type = 2015 
+      if ( CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2007 ) == 0 || CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2011 ) == 0 || CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2014 ) == 0 ||
+           CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2015 ) == 0 )
+      { 
+
+         //:CREATE ENTITY SourceLPLR.W_MetaType
+         RESULT = CreateEntity( SourceLPLR, "W_MetaType", zPOS_AFTER );
+         //:TempType = OrigLPLR.W_MetaType.Type
+         GetIntegerFromAttribute( &TempType, OrigLPLR, "W_MetaType", "Type" );
+         //:SourceLPLR.W_MetaType.Type = TempType
+         SetAttributeFromInteger( SourceLPLR, "W_MetaType", "Type", TempType );
+         //:FOR EACH OrigLPLR.W_MetaDef
+         RESULT = SetCursorFirstEntity( OrigLPLR, "W_MetaDef", "" );
+         while ( RESULT > zCURSOR_UNCHANGED )
+         { 
+            //:CREATE ENTITY SourceLPLR.W_MetaDef
+            RESULT = CreateEntity( SourceLPLR, "W_MetaDef", zPOS_AFTER );
+            //:SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL )
+            SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL );
+            RESULT = SetCursorNextEntity( OrigLPLR, "W_MetaDef", "" );
+         } 
+
+         //:END
+      } 
+
+      RESULT = SetCursorNextEntity( OrigLPLR, "W_MetaType", "" );
+      //:END
+   } 
+
+   //:END
+   return( 0 );
+// END
+} 
+
+
+//:DIALOG OPERATION
+//:CommitTZWDLCVO( VIEW vSubtask )
+
+//:   // Commit the Language object using directory information from the LPLR.
+//:   // The file name is ZEIDON.LNG.
+
+//:   VIEW vTZWDLCVO BASED ON LOD TZWDLCVO
+zOPER_EXPORT zSHORT OPERATION
+CommitTZWDLCVO( zVIEW     vSubtask )
+{
+   zVIEW     vTZWDLCVO = 0; 
+   //:VIEW vLPLR   BASED ON LOD TZCMLPLO
+   zVIEW     vLPLR = 0; 
+
+   //:STRING ( 513 ) szFileName                // zMAX_FILESPEC_LTH+1
+   zCHAR     szFileName[ 514 ] = { 0 }; 
+   zSHORT    RESULT; 
+
+
+   //:GET VIEW vLPLR NAMED "TaskLPLR"
+   RESULT = GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+   //:GET VIEW vTZWDLCVO NAMED "TZWDLCVO"
+   RESULT = GetViewByName( &vTZWDLCVO, "TZWDLCVO", vSubtask, zLEVEL_TASK );
+
+   //:// Before committing the object, remove all the SelectedNLS_Text entity
+   //:// entries so that they won't take up room on the file.
+   //:FOR EACH vTZWDLCVO.SelectedNLS_Text WITHIN vTZWDLCVO.OriginalLanguage
+   RESULT = SetCursorFirstEntity( vTZWDLCVO, "SelectedNLS_Text", "OriginalLanguage" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:EXCLUDE vTZWDLCVO.SelectedNLS_Text NONE
+      RESULT = ExcludeEntity( vTZWDLCVO, "SelectedNLS_Text", zREPOS_NONE );
+      RESULT = SetCursorNextEntity( vTZWDLCVO, "SelectedNLS_Text", "OriginalLanguage" );
+   } 
+
+   //:END
+
+   //:szFileName = vLPLR.LPLR.ExecDir + "\ZEIDON.LNG"
+   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "ExecDir" );
+   ZeidonStringConcat( szFileName, 1, 0, "\\ZEIDON.LNG", 1, 0, 514 );
+   //:CommitOI_ToFile( vTZWDLCVO, szFileName, zASCII )
+   CommitOI_ToFile( vTZWDLCVO, szFileName, zASCII );
+   return( 0 );
+// END
+} 
+
+
+//:DIALOG OPERATION
+//:InitializeTZWDLCVO( VIEW vSubtask )
+
+//:   VIEW vTZWDLCVO BASED ON LOD TZWDLCVO
+zOPER_EXPORT zSHORT OPERATION
+InitializeTZWDLCVO( zVIEW     vSubtask )
+{
+   zVIEW     vTZWDLCVO = 0; 
+   //:VIEW vDialog   BASED ON LOD TZWDLGSO
+   zVIEW     vDialog = 0; 
+   //:VIEW vLPLR     BASED ON LOD TZCMLPLO
+   zVIEW     vLPLR = 0; 
+
+   //:STRING (64) szMsg
+   zCHAR     szMsg[ 65 ] = { 0 }; 
+   zSHORT    RESULT; 
+   zCHAR     szTempString_0[ 33 ]; 
+   zCHAR     szTempString_1[ 255 ]; 
+
+
+   //:GET VIEW vTZWDLCVO NAMED "TZWDLCVO"
+   RESULT = GetViewByName( &vTZWDLCVO, "TZWDLCVO", vSubtask, zLEVEL_TASK );
+   //:RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_DIALOG_META )
+   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_DIALOG_META );
+
+   //:// Now loop through all the dialogs, creating new OriginalText entries if
+   //:// they don't already exist.
+
+   //:FOR EACH vLPLR.W_MetaDef
+   RESULT = SetCursorFirstEntity( vLPLR, "W_MetaDef", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:  ActivateMetaOI( vSubtask, vDialog, vLPLR, zREFER_DIALOG_META, zSINGLE )
+      ActivateMetaOI( vSubtask, &vDialog, vLPLR, zREFER_DIALOG_META, zSINGLE );
+
+      //:szMsg = "Initializing Dialog: " + vDialog.Dialog.Tag
+      GetVariableFromAttribute( szTempString_0, 0, 'S', 33, vDialog, "Dialog", "Tag", "", 0 );
+      ZeidonStringCopy( szMsg, 1, 0, "Initializing Dialog: ", 1, 0, 65 );
+      ZeidonStringConcat( szMsg, 1, 0, szTempString_0, 1, 0, 65 );
+      //:MB_SetMessage( vSubtask, 1, szMsg )
+      MB_SetMessage( vSubtask, 1, szMsg );
+
+      //:FOR EACH vDialog.Window
+      RESULT = SetCursorFirstEntity( vDialog, "Window", "" );
+      while ( RESULT > zCURSOR_UNCHANGED )
+      { 
+         //:// First process Caption entries for each Window.
+         //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+         //:    vTZWDLCVO.OriginalText.Value = vDialog.Window.Caption
+         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Window", "Caption" );
+         RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
+         //:IF RESULT < zCURSOR_SET AND vDialog.Window.Caption != ""
+         if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Window", "Caption", "" ) != 0 )
+         { 
+            //:CREATE ENTITY vTZWDLCVO.OriginalText
+            RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
+            //:vTZWDLCVO.OriginalText.Value = vDialog.Window.Caption
+            SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Window", "Caption" );
+         } 
+
+         //:END
+
+         //:// Next process Option Text entries for each Option.  This requires
+         //:// a recursive call.
+         //:FOR EACH vDialog.Option
+         RESULT = SetCursorFirstEntity( vDialog, "Option", "" );
+         while ( RESULT > zCURSOR_UNCHANGED )
+         { 
+            //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+            //:     vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Option", "Text" );
+            RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
+            //:IF RESULT < zCURSOR_SET AND vDialog.Option.Text != ""
+            if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Option", "Text", "" ) != 0 )
+            { 
+               //:CREATE ENTITY vTZWDLCVO.OriginalText
+               RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
+               //:vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
+               SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Option", "Text" );
+               //:// Call recursive subobject
+               //:InitializeOptionSubobject( vTZWDLCVO, vDialog )
+               o_InitializeOptionSubobject( vTZWDLCVO, vDialog );
+            } 
+
+            RESULT = SetCursorNextEntity( vDialog, "Option", "" );
+            //:END
+         } 
+
+         //:END
+
+         //:// Next process Control Text entries for each Control.  This requires
+         //:// a recursive call.
+         //:FOR EACH vDialog.Control
+         RESULT = SetCursorFirstEntity( vDialog, "Control", "" );
+         while ( RESULT > zCURSOR_UNCHANGED )
+         { 
+            //:// First process Text
+            //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+            //:     vTZWDLCVO.OriginalText.Value =vDialog.Control.Text
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Control", "Text" );
+            RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
+            //:IF RESULT < zCURSOR_SET AND vDialog.Control.Text != ""
+            if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "Text", "" ) != 0 )
+            { 
+               //:CREATE ENTITY vTZWDLCVO.OriginalText
+               RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
+               //:vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
+               SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Control", "Text" );
+            } 
+
+            //:END
+            //:// Next process DIL_Text
+            //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+            //:     vTZWDLCVO.OriginalText.Value =vDialog.Control.DIL_Text
+            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Control", "DIL_Text" );
+            RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
+            //:IF RESULT < zCURSOR_SET AND vDialog.Control.DIL_Text != ""
+            if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "DIL_Text", "" ) != 0 )
+            { 
+               //:CREATE ENTITY vTZWDLCVO.OriginalText
+               RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
+               //:vTZWDLCVO.OriginalText.Value = vDialog.Control.DIL_Text
+               SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Control", "DIL_Text" );
+            } 
+
+            //:END
+
+            //:// Call recursive subobject
+            //:InitializeControlSubobject( vTZWDLCVO, vDialog )
+            o_InitializeControlSubobject( vTZWDLCVO, vDialog );
+            RESULT = SetCursorNextEntity( vDialog, "Control", "" );
+         } 
+
+         RESULT = SetCursorNextEntity( vDialog, "Window", "" );
+         //:END
+      } 
+
+      //:END
+      //:DropObjectInstance( vDialog )
+      DropObjectInstance( vDialog );
+      RESULT = SetCursorNextEntity( vLPLR, "W_MetaDef", "" );
+   } 
+
+   //:END
+
+   //:// Now sort them in alphabetical order.
+   //:OrderEntityForView( vTZWDLCVO, "OriginalText", "Value A" )
+   OrderEntityForView( vTZWDLCVO, "OriginalText", "Value A" );
+   return( 0 );
+// END
+} 
+
+
+//:LOCAL OPERATION
+static zSHORT
+o_InitializeControlSubobject( zVIEW     vTZWDLCVO,
+                              zVIEW     vDialog )
+{
+   zSHORT    RESULT; 
+   zCHAR     szTempString_0[ 255 ]; 
+
+   //:InitializeControlSubobject( VIEW vTZWDLCVO BASED ON LOD TZWDLCVO,
+   //:                         VIEW vDialog BASED ON LOD TZWDLGSO )
+
+   //:// Initialize the OriginalText values for subcontrols.
+   //:SetViewToSubobject( vDialog, "CtrlCtrl" )
+   SetViewToSubobject( vDialog, "CtrlCtrl" );
+   //:FOR EACH vDialog.Control
+   RESULT = SetCursorFirstEntity( vDialog, "Control", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:// First process Text
+      //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+      //:      vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Control", "Text" );
+      RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
+      //:IF RESULT < zCURSOR_SET AND vDialog.Control.Text != ""
+      if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "Text", "" ) != 0 )
+      { 
+         //:CREATE ENTITY vTZWDLCVO.OriginalText
+         RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
+         //:vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
+         SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Control", "Text" );
+         //:// Call recursive subobject
+         //:InitializeControlSubobject( vTZWDLCVO, vDialog )
+         o_InitializeControlSubobject( vTZWDLCVO, vDialog );
+      } 
+
+      //:END
+      //:// Next process DIL_Text
+      //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+      //:      vTZWDLCVO.OriginalText.Value =vDialog.Control.DIL_Text
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Control", "DIL_Text" );
+      RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
+      //:IF RESULT < zCURSOR_SET AND vDialog.Control.DIL_Text != ""
+      if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "DIL_Text", "" ) != 0 )
+      { 
+         //:CREATE ENTITY vTZWDLCVO.OriginalText
+         RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
+         //:vTZWDLCVO.OriginalText.Value = vDialog.Control.DIL_Text
+         SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Control", "DIL_Text" );
+      } 
+
+      RESULT = SetCursorNextEntity( vDialog, "Control", "" );
+      //:END
+   } 
+
+
+   //:END
+   //:ResetViewFromSubobject( vDialog )
+   ResetViewFromSubobject( vDialog );
+   return( 0 );
+// END
+} 
+
+
+//:LOCAL OPERATION
+static zSHORT
+o_InitializeOptionSubobject( zVIEW     vTZWDLCVO,
+                             zVIEW     vDialog )
+{
+   zSHORT    RESULT; 
+   zCHAR     szTempString_0[ 33 ]; 
+
+   //:InitializeOptionSubobject( VIEW vTZWDLCVO BASED ON LOD TZWDLCVO,
+   //:                  VIEW vDialog BASED ON LOD TZWDLGSO )
+
+   //:// Initialize the OriginalText values for subcontrols.
+   //:SetViewToSubobject( vDialog, "OptOpt" )
+   SetViewToSubobject( vDialog, "OptOpt" );
+   //:FOR EACH vDialog.Option
+   RESULT = SetCursorFirstEntity( vDialog, "Option", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
+      //:      vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
+      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Option", "Text" );
+      RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
+      //:IF RESULT < zCURSOR_SET AND vDialog.Option.Text != ""
+      if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Option", "Text", "" ) != 0 )
+      { 
+         //:CREATE ENTITY vTZWDLCVO.OriginalText
+         RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
+         //:vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
+         SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Option", "Text" );
+         //:// Call recursive subobject
+         //:InitializeOptionSubobject( vTZWDLCVO, vDialog )
+         o_InitializeOptionSubobject( vTZWDLCVO, vDialog );
+      } 
+
+      RESULT = SetCursorNextEntity( vDialog, "Option", "" );
+      //:END
+   } 
+
+   //:END
+   //:ResetViewFromSubobject( vDialog )
+   ResetViewFromSubobject( vDialog );
+   return( 0 );
+// END
+} 
+
+
+//:DIALOG OPERATION
+//:MigrateMetaOld( VIEW vSubtask )
+
+//:   VIEW SourceLPLR         BASED ON LOD TZCMLPLO
+zOPER_EXPORT zSHORT OPERATION
+MigrateMetaOld( zVIEW     vSubtask )
+{
+   zVIEW     SourceLPLR = 0; 
    //:VIEW SourceVOR_LPLR     BASED ON LOD TZCMLPLO
    zVIEW     SourceVOR_LPLR = 0; 
    //:VIEW TargetVOR_LPLR     BASED ON LOD TZCMLPLO
@@ -1098,8 +2276,8 @@ MigrateMeta( zVIEW     vSubtask )
          ZeidonStringConcat( MG_ErrorMessage, 1, 0, MetaName, 1, 0, 251 );
          //:MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
          MB_SetMessage( vSubtask, 1, MG_ErrorMessage );
-         //:nRC = GlobalOperGrpMigrate( NewOperationGroup, MetaName, SourceLPLR, vSubtask )
-         nRC = oTZOGSRCO_GlobalOperGrpMigrate( NewOperationGroup, MetaName, SourceLPLR, vSubtask );
+         //:nRC = GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, vSubtask )
+         nRC = oTZOGSRCO_GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, vSubtask );
          //:IF nRC < 0
          if ( nRC < 0 )
          { 
@@ -1969,594 +3147,6 @@ MigrateMeta( zVIEW     vSubtask )
 
    //:MB_SetMessage( vSubtask, 1, "Migration Complete" )
    MB_SetMessage( vSubtask, 1, "Migration Complete" );
-   return( 0 );
-// END
-} 
-
-
-//:DIALOG OPERATION
-//:SelectLPLR( VIEW vSubtask )
-
-//:   VIEW vCM         BASED ON LOD TZCMWKSO
-zOPER_EXPORT zSHORT OPERATION
-SelectLPLR( zVIEW     vSubtask )
-{
-   zVIEW     vCM = 0; 
-   //:VIEW SourceLPLR  BASED ON LOD TZCMLPLO
-   zVIEW     SourceLPLR = 0; 
-   //:VIEW OrigLPLR    BASED ON LOD TZCMLPLO
-   zVIEW     OrigLPLR = 0; 
-   //:VIEW VOR_LPLR    BASED ON LOD TZCMLPLO
-   zVIEW     VOR_LPLR = 0; 
-   //:VIEW CurrentLPLR BASED ON LOD TZCMLPLO
-   zVIEW     CurrentLPLR = 0; 
-
-   //:STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
-   zCHAR     SourceFileName[ 514 ] = { 0 }; 
-   //:STRING ( 32 )  TruncatedName
-   zCHAR     TruncatedName[ 33 ] = { 0 }; 
-   //:INTEGER        TempType
-   zLONG     TempType = 0; 
-   zSHORT    RESULT; 
-   zCHAR     szTempString_0[ 33 ]; 
-
-
-   //:GET VIEW vCM NAMED "TZCMWKSO"
-   RESULT = GetViewByName( &vCM, "TZCMWKSO", vSubtask, zLEVEL_TASK );
-
-   //:// Activate OI and View to the source LPLR
-   //:SourceFileName = vCM.LPLR.Name
-   GetVariableFromAttribute( SourceFileName, 0, 'S', 514, vCM, "LPLR", "Name", "", 0 );
-   //:TruncatedName = SourceFileName [1:32]
-   ZeidonStringCopy( TruncatedName, 1, 0, SourceFileName, 1, 32, 33 );
-   //:SourceFileName = vCM.LPLR.ExecDir + "\" +
-   //:                 TruncatedName + ".XLP"
-   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), vCM, "LPLR", "ExecDir" );
-   ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
-   ZeidonStringConcat( SourceFileName, 1, 0, TruncatedName, 1, 0, 514 );
-   ZeidonStringConcat( SourceFileName, 1, 0, ".XLP", 1, 0, 514 );
-   //:ActivateOI_FromFile( OrigLPLR, "TZCMLPLO", vSubtask,
-   //:                     SourceFileName, zSINGLE )
-   ActivateOI_FromFile( &OrigLPLR, "TZCMLPLO", vSubtask, SourceFileName, zSINGLE );
-   //:NAME VIEW OrigLPLR "OrigLPLR"
-   SetNameForView( OrigLPLR, "OrigLPLR", 0, zLEVEL_TASK );
-
-   //:// Create the views that will be positioned on the list of VOR's for VOR migration.
-   //:CreateViewFromView( VOR_LPLR, OrigLPLR )
-   CreateViewFromView( &VOR_LPLR, OrigLPLR );
-   //:NAME VIEW VOR_LPLR "SourceVOR_LPLR"
-   SetNameForView( VOR_LPLR, "SourceVOR_LPLR", 0, zLEVEL_TASK );
-   //:SET CURSOR FIRST VOR_LPLR.W_MetaType WHERE VOR_LPLR.W_MetaType.Type = 2009  // 2009 is the VOR.
-   RESULT = SetCursorFirstEntityByInteger( VOR_LPLR, "W_MetaType", "Type", 2009, "" );
-   //:GET VIEW CurrentLPLR NAMED "TaskLPLR"
-   RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   //:CreateViewFromView( VOR_LPLR, CurrentLPLR )
-   CreateViewFromView( &VOR_LPLR, CurrentLPLR );
-   //:NAME VIEW VOR_LPLR "TargetVOR_LPLR"
-   SetNameForView( VOR_LPLR, "TargetVOR_LPLR", 0, zLEVEL_TASK );
-   //:SET CURSOR FIRST VOR_LPLR.W_MetaType WHERE VOR_LPLR.W_MetaType.Type = 2009  // 2009 is the VOR.
-   RESULT = SetCursorFirstEntityByInteger( VOR_LPLR, "W_MetaType", "Type", 2009, "" );
-
-   //:// Reposition work station view on original LPLR so that any ZKeys generated during migration will
-   //:// be created using the correct next ZKey.
-   //:SET CURSOR FIRST vCM.LPLR WHERE vCM.LPLR.Name = CurrentLPLR.LPLR.Name 
-   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), CurrentLPLR, "LPLR", "Name" );
-   RESULT = SetCursorFirstEntityByString( vCM, "LPLR", "Name", szTempString_0, "" );
-
-   //:// Copy the Orig members with Type >= 2000 to Source
-   //:ACTIVATE SourceLPLR EMPTY
-   RESULT = ActivateEmptyObjectInstance( &SourceLPLR, "TZCMLPLO", vSubtask, zSINGLE );
-   //:NAME VIEW SourceLPLR "SourceLPLR"
-   SetNameForView( SourceLPLR, "SourceLPLR", 0, zLEVEL_TASK );
-
-   //:CREATE ENTITY SourceLPLR.LPLR
-   RESULT = CreateEntity( SourceLPLR, "LPLR", zPOS_AFTER );
-   //:SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL )
-   SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL );
-   //:FOR EACH OrigLPLR.W_MetaType WHERE
-   //:         OrigLPLR.W_MetaType.Type >= 2000
-   RESULT = SetCursorFirstEntity( OrigLPLR, "W_MetaType", "" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      if ( CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2000 ) >= 0 )
-      { 
-
-         //:// Do not include Domains (2003), Global Operations (2002) or
-         //:// Registered Views (2009) in the list.
-         //:IF OrigLPLR.W_MetaType.Type != 2002 AND
-         //:OrigLPLR.W_MetaType.Type != 2003 AND
-         //:OrigLPLR.W_MetaType.Type != 2009
-         if ( CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2002 ) != 0 && CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2003 ) != 0 && CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2009 ) != 0 )
-         { 
-
-            //:CREATE ENTITY SourceLPLR.W_MetaType
-            RESULT = CreateEntity( SourceLPLR, "W_MetaType", zPOS_AFTER );
-            //:// This code has to use a work integer in setting SourceLPLR.W_MetaType.Type to
-            //:// OrigLPLR.W_MetaType.Type, because the domain on Type, CM_Type, seems to always
-            //:// convert a REFER value to a SOURCE value.  This is an error in the table domain
-            //:// and should eventually get corrected.
-            //:TempType = OrigLPLR.W_MetaType.Type
-            GetIntegerFromAttribute( &TempType, OrigLPLR, "W_MetaType", "Type" );
-            //:SourceLPLR.W_MetaType.Type = TempType
-            SetAttributeFromInteger( SourceLPLR, "W_MetaType", "Type", TempType );
-            //:FOR EACH OrigLPLR.W_MetaDef
-            RESULT = SetCursorFirstEntity( OrigLPLR, "W_MetaDef", "" );
-            while ( RESULT > zCURSOR_UNCHANGED )
-            { 
-               //:CREATE ENTITY SourceLPLR.W_MetaDef
-               RESULT = CreateEntity( SourceLPLR, "W_MetaDef", zPOS_AFTER );
-               //:SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL )
-               SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL );
-               RESULT = SetCursorNextEntity( OrigLPLR, "W_MetaDef", "" );
-            } 
-
-            //:END
-         } 
-
-      } 
-
-      RESULT = SetCursorNextEntity( OrigLPLR, "W_MetaType", "" );
-      //:END
-   } 
-
-   //:END
-   return( 0 );
-// END
-} 
-
-
-//:DIALOG OPERATION
-//:SelectLPLR_ForMerge( VIEW vSubtask )
-
-//:   VIEW vCM         REGISTERED AS TZCMWKSO
-zOPER_EXPORT zSHORT OPERATION
-SelectLPLR_ForMerge( zVIEW     vSubtask )
-{
-   zVIEW     vCM = 0; 
-   zSHORT    RESULT; 
-   //:VIEW TaskLPLR    REGISTERED AS TaskLPLR
-   zVIEW     TaskLPLR = 0; 
-   //:VIEW SourceLPLR  BASED ON LOD  TZCMLPLO
-   zVIEW     SourceLPLR = 0; 
-   //:VIEW TargetLPLR  BASED ON LOD  TZCMLPLO
-   zVIEW     TargetLPLR = 0; 
-   //:VIEW OrigLPLR    BASED ON LOD  TZCMLPLO
-   zVIEW     OrigLPLR = 0; 
-   //:INTEGER        TempType
-   zLONG     TempType = 0; 
-   //:STRING ( 513 ) SourceFileName            // zMAX_FILESPEC_LTH+1
-   zCHAR     SourceFileName[ 514 ] = { 0 }; 
-   //:STRING ( 32 )  TruncatedName
-   zCHAR     TruncatedName[ 33 ] = { 0 }; 
-   zCHAR     szTempString_0[ 33 ]; 
-
-   RESULT = GetViewByName( &vCM, "TZCMWKSO", vSubtask, zLEVEL_TASK );
-   RESULT = GetViewByName( &TaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-
-   //:TraceLineS( "*********** Trace 6/2 9:11", "" )
-   TraceLineS( "*********** Trace 6/2 9:11", "" );
-
-   //:// Make sure there is currently no TargetLPLR view as that will be created later in postbuild of merge window.
-   //:GET VIEW TargetLPLR NAMED "TargetLPLR"
-   RESULT = GetViewByName( &TargetLPLR, "TargetLPLR", vSubtask, zLEVEL_TASK );
-   //:IF RESULT > 0
-   if ( RESULT > 0 )
-   { 
-      //:DropObjectInstance( TargetLPLR )
-      DropObjectInstance( TargetLPLR );
-   } 
-
-   //:END
-
-   //:// Activate the selected OI and View to be the base for the Source LPLR, which will be created below.
-   //:SourceFileName = vCM.LPLR.Name
-   GetVariableFromAttribute( SourceFileName, 0, 'S', 514, vCM, "LPLR", "Name", "", 0 );
-   //:TruncatedName = SourceFileName [1:32]
-   ZeidonStringCopy( TruncatedName, 1, 0, SourceFileName, 1, 32, 33 );
-   //:SourceFileName = vCM.LPLR.ExecDir + "\" +
-   //:                 TruncatedName + ".XLP"
-   GetStringFromAttribute( SourceFileName, zsizeof( SourceFileName ), vCM, "LPLR", "ExecDir" );
-   ZeidonStringConcat( SourceFileName, 1, 0, "\\", 1, 0, 514 );
-   ZeidonStringConcat( SourceFileName, 1, 0, TruncatedName, 1, 0, 514 );
-   ZeidonStringConcat( SourceFileName, 1, 0, ".XLP", 1, 0, 514 );
-   //:ActivateOI_FromFile( OrigLPLR, "TZCMLPLO", vSubtask,
-   //:                     SourceFileName, zSINGLE )
-   ActivateOI_FromFile( &OrigLPLR, "TZCMLPLO", vSubtask, SourceFileName, zSINGLE );
-   //:NAME VIEW OrigLPLR "OrigLPLR"
-   SetNameForView( OrigLPLR, "OrigLPLR", 0, zLEVEL_TASK );
-
-   //:// Reposition work station view on original LPLR so that any ZKeys generated during migration will
-   //:// be created using the correct next ZKey.
-   //:SET CURSOR FIRST vCM.LPLR WHERE vCM.LPLR.Name = TaskLPLR.LPLR.Name 
-   GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), TaskLPLR, "LPLR", "Name" );
-   RESULT = SetCursorFirstEntityByString( vCM, "LPLR", "Name", szTempString_0, "" );
-
-   //:// Copy the Orig meta entries that can be selected for merge, which are:
-   //://    2007 - LODs
-   //://    2011 - Dialogs
-   //://    2015 - Reports
-   //://    2014 - Global Operations
-
-   //:ACTIVATE SourceLPLR EMPTY
-   RESULT = ActivateEmptyObjectInstance( &SourceLPLR, "TZCMLPLO", vSubtask, zSINGLE );
-   //:NAME VIEW SourceLPLR "SourceLPLR"
-   SetNameForView( SourceLPLR, "SourceLPLR", 0, zLEVEL_TASK );
-
-   //:CREATE ENTITY SourceLPLR.LPLR
-   RESULT = CreateEntity( SourceLPLR, "LPLR", zPOS_AFTER );
-   //:SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL )
-   SetMatchingAttributesByName( SourceLPLR, "LPLR", OrigLPLR, "LPLR", zSET_ALL );
-   //:FOR EACH OrigLPLR.W_MetaType 
-   RESULT = SetCursorFirstEntity( OrigLPLR, "W_MetaType", "" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //:IF OrigLPLR.W_MetaType.Type = 2007 OR
-      //:   OrigLPLR.W_MetaType.Type = 2011 OR
-      //:   OrigLPLR.W_MetaType.Type = 2014 OR
-      //:   OrigLPLR.W_MetaType.Type = 2015 
-      if ( CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2007 ) == 0 || CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2011 ) == 0 || CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2014 ) == 0 ||
-           CompareAttributeToInteger( OrigLPLR, "W_MetaType", "Type", 2015 ) == 0 )
-      { 
-
-         //:CREATE ENTITY SourceLPLR.W_MetaType
-         RESULT = CreateEntity( SourceLPLR, "W_MetaType", zPOS_AFTER );
-         //:TempType = OrigLPLR.W_MetaType.Type
-         GetIntegerFromAttribute( &TempType, OrigLPLR, "W_MetaType", "Type" );
-         //:SourceLPLR.W_MetaType.Type = TempType
-         SetAttributeFromInteger( SourceLPLR, "W_MetaType", "Type", TempType );
-         //:FOR EACH OrigLPLR.W_MetaDef
-         RESULT = SetCursorFirstEntity( OrigLPLR, "W_MetaDef", "" );
-         while ( RESULT > zCURSOR_UNCHANGED )
-         { 
-            //:CREATE ENTITY SourceLPLR.W_MetaDef
-            RESULT = CreateEntity( SourceLPLR, "W_MetaDef", zPOS_AFTER );
-            //:SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL )
-            SetMatchingAttributesByName( SourceLPLR, "W_MetaDef", OrigLPLR, "W_MetaDef", zSET_ALL );
-            RESULT = SetCursorNextEntity( OrigLPLR, "W_MetaDef", "" );
-         } 
-
-         //:END
-      } 
-
-      RESULT = SetCursorNextEntity( OrigLPLR, "W_MetaType", "" );
-      //:END
-   } 
-
-   //:END
-   return( 0 );
-// END
-} 
-
-
-//:DIALOG OPERATION
-//:MigrateCompilerSubobjects( VIEW vSubtask )
-
-//:   VIEW SourceLPLR    BASED ON LOD TZCMLPLO
-zOPER_EXPORT zSHORT OPERATION
-MigrateCompilerSubobjects( zVIEW     vSubtask )
-{
-   zVIEW     SourceLPLR = 0; 
-   //:VIEW CurrentLPLR   BASED ON LOD TZCMLPLO
-   zVIEW     CurrentLPLR = 0; 
-   zSHORT    RESULT; 
-
-
-   //:GET VIEW SourceLPLR  NAMED "OrigLPLR"
-   RESULT = GetViewByName( &SourceLPLR, "OrigLPLR", vSubtask, zLEVEL_TASK );
-   //:GET VIEW CurrentLPLR NAMED "TaskLPLR"
-   RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-
-   //:CompilerMigrate( CurrentLPLR, SourceLPLR, vSubtask )
-   oTZCMLPLO_CompilerMigrate( CurrentLPLR, SourceLPLR, vSubtask );
-   return( 0 );
-// END
-} 
-
-
-//:DIALOG OPERATION
-//:CommitTZWDLCVO( VIEW vSubtask )
-
-//:   // Commit the Language object using directory information from the LPLR.
-//:   // The file name is ZEIDON.LNG.
-
-//:   VIEW vTZWDLCVO BASED ON LOD TZWDLCVO
-zOPER_EXPORT zSHORT OPERATION
-CommitTZWDLCVO( zVIEW     vSubtask )
-{
-   zVIEW     vTZWDLCVO = 0; 
-   //:VIEW vLPLR   BASED ON LOD TZCMLPLO
-   zVIEW     vLPLR = 0; 
-
-   //:STRING ( 513 ) szFileName                // zMAX_FILESPEC_LTH+1
-   zCHAR     szFileName[ 514 ] = { 0 }; 
-   zSHORT    RESULT; 
-
-
-   //:GET VIEW vLPLR NAMED "TaskLPLR"
-   RESULT = GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
-   //:GET VIEW vTZWDLCVO NAMED "TZWDLCVO"
-   RESULT = GetViewByName( &vTZWDLCVO, "TZWDLCVO", vSubtask, zLEVEL_TASK );
-
-   //:// Before committing the object, remove all the SelectedNLS_Text entity
-   //:// entries so that they won't take up room on the file.
-   //:FOR EACH vTZWDLCVO.SelectedNLS_Text WITHIN vTZWDLCVO.OriginalLanguage
-   RESULT = SetCursorFirstEntity( vTZWDLCVO, "SelectedNLS_Text", "OriginalLanguage" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //:EXCLUDE vTZWDLCVO.SelectedNLS_Text NONE
-      RESULT = ExcludeEntity( vTZWDLCVO, "SelectedNLS_Text", zREPOS_NONE );
-      RESULT = SetCursorNextEntity( vTZWDLCVO, "SelectedNLS_Text", "OriginalLanguage" );
-   } 
-
-   //:END
-
-   //:szFileName = vLPLR.LPLR.ExecDir + "\ZEIDON.LNG"
-   GetStringFromAttribute( szFileName, zsizeof( szFileName ), vLPLR, "LPLR", "ExecDir" );
-   ZeidonStringConcat( szFileName, 1, 0, "\\ZEIDON.LNG", 1, 0, 514 );
-   //:CommitOI_ToFile( vTZWDLCVO, szFileName, zASCII )
-   CommitOI_ToFile( vTZWDLCVO, szFileName, zASCII );
-   return( 0 );
-// END
-} 
-
-
-//:DIALOG OPERATION
-//:InitializeTZWDLCVO( VIEW vSubtask )
-
-//:   VIEW vTZWDLCVO BASED ON LOD TZWDLCVO
-zOPER_EXPORT zSHORT OPERATION
-InitializeTZWDLCVO( zVIEW     vSubtask )
-{
-   zVIEW     vTZWDLCVO = 0; 
-   //:VIEW vDialog   BASED ON LOD TZWDLGSO
-   zVIEW     vDialog = 0; 
-   //:VIEW vLPLR     BASED ON LOD TZCMLPLO
-   zVIEW     vLPLR = 0; 
-
-   //:STRING (64) szMsg
-   zCHAR     szMsg[ 65 ] = { 0 }; 
-   zSHORT    RESULT; 
-   zCHAR     szTempString_0[ 33 ]; 
-   zCHAR     szTempString_1[ 255 ]; 
-
-
-   //:GET VIEW vTZWDLCVO NAMED "TZWDLCVO"
-   RESULT = GetViewByName( &vTZWDLCVO, "TZWDLCVO", vSubtask, zLEVEL_TASK );
-   //:RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_DIALOG_META )
-   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_DIALOG_META );
-
-   //:// Now loop through all the dialogs, creating new OriginalText entries if
-   //:// they don't already exist.
-
-   //:FOR EACH vLPLR.W_MetaDef
-   RESULT = SetCursorFirstEntity( vLPLR, "W_MetaDef", "" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //:  ActivateMetaOI( vSubtask, vDialog, vLPLR, zREFER_DIALOG_META, zSINGLE )
-      ActivateMetaOI( vSubtask, &vDialog, vLPLR, zREFER_DIALOG_META, zSINGLE );
-
-      //:szMsg = "Initializing Dialog: " + vDialog.Dialog.Tag
-      GetVariableFromAttribute( szTempString_0, 0, 'S', 33, vDialog, "Dialog", "Tag", "", 0 );
-      ZeidonStringCopy( szMsg, 1, 0, "Initializing Dialog: ", 1, 0, 65 );
-      ZeidonStringConcat( szMsg, 1, 0, szTempString_0, 1, 0, 65 );
-      //:MB_SetMessage( vSubtask, 1, szMsg )
-      MB_SetMessage( vSubtask, 1, szMsg );
-
-      //:FOR EACH vDialog.Window
-      RESULT = SetCursorFirstEntity( vDialog, "Window", "" );
-      while ( RESULT > zCURSOR_UNCHANGED )
-      { 
-         //:// First process Caption entries for each Window.
-         //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
-         //:    vTZWDLCVO.OriginalText.Value = vDialog.Window.Caption
-         GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Window", "Caption" );
-         RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
-         //:IF RESULT < zCURSOR_SET AND vDialog.Window.Caption != ""
-         if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Window", "Caption", "" ) != 0 )
-         { 
-            //:CREATE ENTITY vTZWDLCVO.OriginalText
-            RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
-            //:vTZWDLCVO.OriginalText.Value = vDialog.Window.Caption
-            SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Window", "Caption" );
-         } 
-
-         //:END
-
-         //:// Next process Option Text entries for each Option.  This requires
-         //:// a recursive call.
-         //:FOR EACH vDialog.Option
-         RESULT = SetCursorFirstEntity( vDialog, "Option", "" );
-         while ( RESULT > zCURSOR_UNCHANGED )
-         { 
-            //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
-            //:     vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
-            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Option", "Text" );
-            RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
-            //:IF RESULT < zCURSOR_SET AND vDialog.Option.Text != ""
-            if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Option", "Text", "" ) != 0 )
-            { 
-               //:CREATE ENTITY vTZWDLCVO.OriginalText
-               RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
-               //:vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
-               SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Option", "Text" );
-               //:// Call recursive subobject
-               //:InitializeOptionSubobject( vTZWDLCVO, vDialog )
-               o_InitializeOptionSubobject( vTZWDLCVO, vDialog );
-            } 
-
-            RESULT = SetCursorNextEntity( vDialog, "Option", "" );
-            //:END
-         } 
-
-         //:END
-
-         //:// Next process Control Text entries for each Control.  This requires
-         //:// a recursive call.
-         //:FOR EACH vDialog.Control
-         RESULT = SetCursorFirstEntity( vDialog, "Control", "" );
-         while ( RESULT > zCURSOR_UNCHANGED )
-         { 
-            //:// First process Text
-            //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
-            //:     vTZWDLCVO.OriginalText.Value =vDialog.Control.Text
-            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Control", "Text" );
-            RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
-            //:IF RESULT < zCURSOR_SET AND vDialog.Control.Text != ""
-            if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "Text", "" ) != 0 )
-            { 
-               //:CREATE ENTITY vTZWDLCVO.OriginalText
-               RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
-               //:vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
-               SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Control", "Text" );
-            } 
-
-            //:END
-            //:// Next process DIL_Text
-            //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
-            //:     vTZWDLCVO.OriginalText.Value =vDialog.Control.DIL_Text
-            GetStringFromAttribute( szTempString_1, zsizeof( szTempString_1 ), vDialog, "Control", "DIL_Text" );
-            RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_1, "" );
-            //:IF RESULT < zCURSOR_SET AND vDialog.Control.DIL_Text != ""
-            if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "DIL_Text", "" ) != 0 )
-            { 
-               //:CREATE ENTITY vTZWDLCVO.OriginalText
-               RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
-               //:vTZWDLCVO.OriginalText.Value = vDialog.Control.DIL_Text
-               SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Control", "DIL_Text" );
-            } 
-
-            //:END
-
-            //:// Call recursive subobject
-            //:InitializeControlSubobject( vTZWDLCVO, vDialog )
-            o_InitializeControlSubobject( vTZWDLCVO, vDialog );
-            RESULT = SetCursorNextEntity( vDialog, "Control", "" );
-         } 
-
-         RESULT = SetCursorNextEntity( vDialog, "Window", "" );
-         //:END
-      } 
-
-      //:END
-      //:DropObjectInstance( vDialog )
-      DropObjectInstance( vDialog );
-      RESULT = SetCursorNextEntity( vLPLR, "W_MetaDef", "" );
-   } 
-
-   //:END
-
-   //:// Now sort them in alphabetical order.
-   //:OrderEntityForView( vTZWDLCVO, "OriginalText", "Value A" )
-   OrderEntityForView( vTZWDLCVO, "OriginalText", "Value A" );
-   return( 0 );
-// END
-} 
-
-
-//:LOCAL OPERATION
-static zSHORT
-o_InitializeControlSubobject( zVIEW     vTZWDLCVO,
-                              zVIEW     vDialog )
-{
-   zSHORT    RESULT; 
-   zCHAR     szTempString_0[ 255 ]; 
-
-   //:InitializeControlSubobject( VIEW vTZWDLCVO BASED ON LOD TZWDLCVO,
-   //:                         VIEW vDialog BASED ON LOD TZWDLGSO )
-
-   //:// Initialize the OriginalText values for subcontrols.
-   //:SetViewToSubobject( vDialog, "CtrlCtrl" )
-   SetViewToSubobject( vDialog, "CtrlCtrl" );
-   //:FOR EACH vDialog.Control
-   RESULT = SetCursorFirstEntity( vDialog, "Control", "" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //:// First process Text
-      //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
-      //:      vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
-      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Control", "Text" );
-      RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
-      //:IF RESULT < zCURSOR_SET AND vDialog.Control.Text != ""
-      if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "Text", "" ) != 0 )
-      { 
-         //:CREATE ENTITY vTZWDLCVO.OriginalText
-         RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
-         //:vTZWDLCVO.OriginalText.Value = vDialog.Control.Text
-         SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Control", "Text" );
-         //:// Call recursive subobject
-         //:InitializeControlSubobject( vTZWDLCVO, vDialog )
-         o_InitializeControlSubobject( vTZWDLCVO, vDialog );
-      } 
-
-      //:END
-      //:// Next process DIL_Text
-      //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
-      //:      vTZWDLCVO.OriginalText.Value =vDialog.Control.DIL_Text
-      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Control", "DIL_Text" );
-      RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
-      //:IF RESULT < zCURSOR_SET AND vDialog.Control.DIL_Text != ""
-      if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Control", "DIL_Text", "" ) != 0 )
-      { 
-         //:CREATE ENTITY vTZWDLCVO.OriginalText
-         RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
-         //:vTZWDLCVO.OriginalText.Value = vDialog.Control.DIL_Text
-         SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Control", "DIL_Text" );
-      } 
-
-      RESULT = SetCursorNextEntity( vDialog, "Control", "" );
-      //:END
-   } 
-
-
-   //:END
-   //:ResetViewFromSubobject( vDialog )
-   ResetViewFromSubobject( vDialog );
-   return( 0 );
-// END
-} 
-
-
-//:LOCAL OPERATION
-static zSHORT
-o_InitializeOptionSubobject( zVIEW     vTZWDLCVO,
-                             zVIEW     vDialog )
-{
-   zSHORT    RESULT; 
-   zCHAR     szTempString_0[ 33 ]; 
-
-   //:InitializeOptionSubobject( VIEW vTZWDLCVO BASED ON LOD TZWDLCVO,
-   //:                  VIEW vDialog BASED ON LOD TZWDLGSO )
-
-   //:// Initialize the OriginalText values for subcontrols.
-   //:SetViewToSubobject( vDialog, "OptOpt" )
-   SetViewToSubobject( vDialog, "OptOpt" );
-   //:FOR EACH vDialog.Option
-   RESULT = SetCursorFirstEntity( vDialog, "Option", "" );
-   while ( RESULT > zCURSOR_UNCHANGED )
-   { 
-      //:SET CURSOR FIRST vTZWDLCVO.OriginalText WHERE
-      //:      vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
-      GetStringFromAttribute( szTempString_0, zsizeof( szTempString_0 ), vDialog, "Option", "Text" );
-      RESULT = SetCursorFirstEntityByString( vTZWDLCVO, "OriginalText", "Value", szTempString_0, "" );
-      //:IF RESULT < zCURSOR_SET AND vDialog.Option.Text != ""
-      if ( RESULT < zCURSOR_SET && CompareAttributeToString( vDialog, "Option", "Text", "" ) != 0 )
-      { 
-         //:CREATE ENTITY vTZWDLCVO.OriginalText
-         RESULT = CreateEntity( vTZWDLCVO, "OriginalText", zPOS_AFTER );
-         //:vTZWDLCVO.OriginalText.Value = vDialog.Option.Text
-         SetAttributeFromAttribute( vTZWDLCVO, "OriginalText", "Value", vDialog, "Option", "Text" );
-         //:// Call recursive subobject
-         //:InitializeOptionSubobject( vTZWDLCVO, vDialog )
-         o_InitializeOptionSubobject( vTZWDLCVO, vDialog );
-      } 
-
-      RESULT = SetCursorNextEntity( vDialog, "Option", "" );
-      //:END
-   } 
-
-   //:END
-   //:ResetViewFromSubobject( vDialog )
-   ResetViewFromSubobject( vDialog );
    return( 0 );
 // END
 } 
@@ -3920,6 +4510,31 @@ BuildTargetLPLR_ListForMerge( zVIEW     vSubtask )
 
 
 //:DIALOG OPERATION
+//:MigrateCompilerSubobjects( VIEW vSubtask )
+
+//:   VIEW SourceLPLR    BASED ON LOD TZCMLPLO
+zOPER_EXPORT zSHORT OPERATION
+MigrateCompilerSubobjects( zVIEW     vSubtask )
+{
+   zVIEW     SourceLPLR = 0; 
+   //:VIEW CurrentLPLR   BASED ON LOD TZCMLPLO
+   zVIEW     CurrentLPLR = 0; 
+   zSHORT    RESULT; 
+
+
+   //:GET VIEW SourceLPLR  NAMED "OrigLPLR"
+   RESULT = GetViewByName( &SourceLPLR, "OrigLPLR", vSubtask, zLEVEL_TASK );
+   //:GET VIEW CurrentLPLR NAMED "TaskLPLR"
+   RESULT = GetViewByName( &CurrentLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
+
+   //:CompilerMigrate( CurrentLPLR, SourceLPLR, vSubtask )
+   oTZCMLPLO_CompilerMigrate( CurrentLPLR, SourceLPLR, vSubtask );
+   return( 0 );
+// END
+} 
+
+
+//:DIALOG OPERATION
 //:WRITE_MergeMessagesToFile( VIEW ViewToWindow )
 
 //:   VIEW TaskLPLR REGISTERED AS TaskLPLR  
@@ -4106,6 +4721,34 @@ o_MergeAllObjectViews( zVIEW     ViewToWindow )
 
    //:END
    return;
+// END
+} 
+
+
+//:DIALOG OPERATION
+//:CLOSE_LPLR_MergeErrors( VIEW ViewToWindow )
+
+//:   VIEW TaskLPLR REGISTERED AS TaskLPLR
+zOPER_EXPORT zSHORT OPERATION
+CLOSE_LPLR_MergeErrors( zVIEW     ViewToWindow )
+{
+   zVIEW     TaskLPLR = 0; 
+   zSHORT    RESULT; 
+
+   RESULT = GetViewByName( &TaskLPLR, "TaskLPLR", ViewToWindow, zLEVEL_TASK );
+
+   //:// Delete current entries in TaskLPLR.ErrorMessage.
+   //:FOR EACH TaskLPLR.ErrorMessage 
+   RESULT = SetCursorFirstEntity( TaskLPLR, "ErrorMessage", "" );
+   while ( RESULT > zCURSOR_UNCHANGED )
+   { 
+      //:DELETE ENTITY TaskLPLR.ErrorMessage NONE  
+      RESULT = DeleteEntity( TaskLPLR, "ErrorMessage", zREPOS_NONE );
+      RESULT = SetCursorNextEntity( TaskLPLR, "ErrorMessage", "" );
+   } 
+
+   //:END
+   return( 0 );
 // END
 } 
 
