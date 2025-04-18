@@ -1,4 +1,4 @@
-z1000-Zeidon    TZAPDMAB TZDGSRCO 09/26/14   12:33:15 1.0a2    
+z1000-Zeidon    TZAPDMAB TZDGSRCO 10/17/24   14:53:42 1.0a2    
 eDomainGroup 1
 aZKey      90000048
 aName      TZAPDMAB
@@ -8,11 +8,11 @@ aDomainAndGlobalOpGroupName TZAPDMAA
 aWorkNumeric 12
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.DateDomain
 aZKey      90000052
 aName      Date
 aDesc      This domain manipulates the date portion of DateTime
 aDomainType A
+aJavaClass com.quinsoft.zeidon.domains.DateDomain
 aDataType  T
 aContextRestriction N
 
@@ -27,7 +27,7 @@ aZKey      90000068
 aDesc      Arithmetic operations on day portion of DateTime
 aName      Day
 aEditString D
-aJavaEditString D
+aJavaEditString e
 
 eContext   3
 aZKey      90000074
@@ -39,7 +39,7 @@ eContext   3
 aZKey      90000073
 aName      DayOfWeek
 aEditString Dddd
-aJavaEditString dddd
+aJavaEditString EEEE
 
 eContext   3
 aZKey      90000075
@@ -183,11 +183,11 @@ aType      M
 aReturnDataType N
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      1051178
 aName      Month
 aDesc      Number of month in year (e.g.  November is 11)
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  L
 aContextRestriction N
 
@@ -260,10 +260,10 @@ aExternalValue December
 aInternalValue 12
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.DateDomain
 aZKey      90000078
 aName      Time
 aDomainType A
+aJavaClass com.quinsoft.zeidon.domains.DateDomain
 aDataType  T
 aContextRestriction N
 
@@ -335,11 +335,11 @@ aType      M
 aReturnDataType N
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.DateDomain
 aZKey      90000089
 aName      DateTime
 aDesc      Basic Timestamp Domain
 aDomainType A
+aJavaClass com.quinsoft.zeidon.domains.DateDomain
 aDataType  T
 aMaxStringLth 20
 aContextRestriction N
@@ -360,8 +360,8 @@ aDIL_Text  Basic Timestamp Domain
 eContext   3
 aZKey      90000109
 aName      Day
-aEditString Dddd
-aJavaEditString dddd
+aEditString D
+aJavaEditString e
 
 eContext   3
 aZKey      90000115
@@ -373,7 +373,7 @@ eContext   3
 aZKey      90000114
 aName      DayOfWeek
 aEditString Dddd
-aJavaEditString dddd
+aJavaEditString EEEE
 
 eContext   3
 aZKey      90000116
@@ -537,7 +537,7 @@ eContext   3
 aZKey      123030441
 aDesc      62
 accepts any reasonable input
-output formatting is dd.mm.yyyy·
+output formatting is dd.mm.yyyy 
 aName      UserFriendlyGerman
 aEditString dd.mm.YYYY
 aJavaEditString dd.mm.yyyy

@@ -4741,16 +4741,20 @@ GenJSPJ_Action( zVIEW     vDialog,
             ZeidonStringCopy( szWriteBuffer, 1, 0, "            String contenttype = ^application/octet-stream^;  ", 1, 0, 10001 );
             //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
+            //:szWriteBuffer = "            ServletOutputStream outStream = response.getOutputStream( );"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "            ServletOutputStream outStream = response.getOutputStream( );", 1, 0, 10001 );
+            //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
+            //:szWriteBuffer = "            response.reset( );"
+            ZeidonStringCopy( szWriteBuffer, 1, 0, "            response.reset( );", 1, 0, 10001 );
+            //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
             //:szWriteBuffer = "            response.setContentType(contenttype);"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "            response.setContentType(contenttype);", 1, 0, 10001 );
             //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
             //:szWriteBuffer = "            response.setHeader( ^Content-Disposition^, ^attachment; filename=\^^ + sSourceFileNameOnly + ^\^;^ );"
             ZeidonStringCopy( szWriteBuffer, 1, 0, "            response.setHeader( ^Content-Disposition^, ^attachment; filename=\\^^ + sSourceFileNameOnly + ^\\^;^ );", 1, 0, 10001 );
-            //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "            ServletOutputStream outStream = response.getOutputStream( );"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "            ServletOutputStream outStream = response.getOutputStream( );", 1, 0, 10001 );
             //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
             //:szWriteBuffer = "            int c = 0;"
@@ -4909,6 +4913,14 @@ GenJSPJ_Action( zVIEW     vDialog,
       ZeidonStringCopy( szWriteBuffer, 1, 0, "               file = net.sf.jasperreports.engine.JasperExportManager.exportReportToPdf(jasperPrint);", 1, 0, 10001 );
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "               ServletOutputStream outStream = response.getOutputStream();"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "               ServletOutputStream outStream = response.getOutputStream();", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "               response.reset();"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "               response.reset();", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
       //:szWriteBuffer = "               response.setContentType(^application/pdf^);"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "               response.setContentType(^application/pdf^);", 1, 0, 10001 );
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -4940,16 +4952,16 @@ GenJSPJ_Action( zVIEW     vDialog,
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 );
       //:        
-      //:szWriteBuffer = "               response.getOutputStream().write(file);"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "               response.getOutputStream().write(file);", 1, 0, 10001 );
+      //:szWriteBuffer = "               outStream.write(file);"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "               outStream.write(file);", 1, 0, 10001 );
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "               response.getOutputStream().flush();"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "               response.getOutputStream().flush();", 1, 0, 10001 );
+      //:szWriteBuffer = "               outStream.flush();"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "               outStream.flush();", 1, 0, 10001 );
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "               response.getOutputStream().close();"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "               response.getOutputStream().close();", 1, 0, 10001 );
+      //:szWriteBuffer = "               outStream.close();"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "               outStream.close();", 1, 0, 10001 );
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
       //:szWriteBuffer = "            }"
@@ -5134,6 +5146,10 @@ GenJSPJ_Action( zVIEW     vDialog,
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
       //:szWriteBuffer = "               ServletOutputStream outStream = response.getOutputStream();"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "               ServletOutputStream outStream = response.getOutputStream();", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "               response.reset();"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "               response.reset();", 1, 0, 10001 );
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
       //:szWriteBuffer = "               response.setContentType(^application/vnd.ms-excel^);"
@@ -17329,10 +17345,16 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
    zCHAR     szStyle[ 301 ] = { 0 }; 
    //:STRING ( 256 ) szClass
    zCHAR     szClass[ 257 ] = { 0 }; 
+   //:STRING ( 256 ) szClass2
+   zCHAR     szClass2[ 257 ] = { 0 }; 
    //:STRING ( 256 ) szTitle
    zCHAR     szTitle[ 257 ] = { 0 }; 
    //:STRING ( 256 ) szTitleHTML
    zCHAR     szTitleHTML[ 257 ] = { 0 }; 
+   //:STRING ( 265 ) szHTML5Attr
+   zCHAR     szHTML5Attr[ 266 ] = { 0 }; 
+   //:STRING ( 265 ) szHTML5Attr2
+   zCHAR     szHTML5Attr2[ 266 ] = { 0 }; 
    //:STRING ( 100 ) szDisabled
    zCHAR     szDisabled[ 101 ] = { 0 }; 
    //:STRING ( 300 ) szPosition
@@ -17368,11 +17390,15 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
    zCHAR     szTempString_7[ 33 ]; 
    zCHAR     szTempString_8[ 33 ]; 
    zCHAR     szTempString_9[ 51 ]; 
+   zCHAR     szTempString_10[ 255 ]; 
+   zCHAR     szTempString_11[ 255 ]; 
+   zCHAR     szTempString_12[ 255 ]; 
+   zCHAR     szTempString_13[ 255 ]; 
    zSHORT    lTempInteger_1; 
-   zCHAR     szTempString_10[ 51 ]; 
-   zCHAR     szTempString_11[ 33 ]; 
-   zCHAR     szTempString_12[ 33 ]; 
-   zCHAR     szTempString_13[ 51 ]; 
+   zCHAR     szTempString_14[ 51 ]; 
+   zCHAR     szTempString_15[ 33 ]; 
+   zCHAR     szTempString_16[ 33 ]; 
+   zCHAR     szTempString_17[ 51 ]; 
 
 
    //:GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
@@ -17602,11 +17628,68 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
 
    //:END
 
+   //:// CSS_Class2 and WebHTML5Attribute will be for the text portion.
+   //:szClass = ""
+   ZeidonStringCopy( szClass, 1, 0, "", 1, 0, 257 );
+   //:IF vDialog.Control.CSS_Class != ""
+   if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) != 0 )
+   { 
+      //:szClass = " class=^" + vDialog.Control.CSS_Class + "^ " 
+      GetVariableFromAttribute( szTempString_10, 0, 'S', 255, vDialog, "Control", "CSS_Class", "", 0 );
+      ZeidonStringCopy( szClass, 1, 0, " class=^", 1, 0, 257 );
+      ZeidonStringConcat( szClass, 1, 0, szTempString_10, 1, 0, 257 );
+      ZeidonStringConcat( szClass, 1, 0, "^ ", 1, 0, 257 );
+   } 
+
+   //:END
+   //:szHTML5Attr = ""
+   ZeidonStringCopy( szHTML5Attr, 1, 0, "", 1, 0, 266 );
+   //:IF vDialog.Control.WebHTML5Attribute != ""
+   if ( CompareAttributeToString( vDialog, "Control", "WebHTML5Attribute", "" ) != 0 )
+   { 
+      //:szHTML5Attr = " " + vDialog.Control.WebHTML5Attribute + " "
+      GetVariableFromAttribute( szTempString_11, 0, 'S', 255, vDialog, "Control", "WebHTML5Attribute", "", 0 );
+      ZeidonStringCopy( szHTML5Attr, 1, 0, " ", 1, 0, 266 );
+      ZeidonStringConcat( szHTML5Attr, 1, 0, szTempString_11, 1, 0, 266 );
+      ZeidonStringConcat( szHTML5Attr, 1, 0, " ", 1, 0, 266 );
+   } 
+
+   //:END
+
+   //:// CSS_Class2 and WebHTML5Attribute2 will be for the checkbox portion.
+   //:szClass2 = ""
+   ZeidonStringCopy( szClass2, 1, 0, "", 1, 0, 257 );
+   //:IF vDialog.Control.CSS_Class2 != ""
+   if ( CompareAttributeToString( vDialog, "Control", "CSS_Class2", "" ) != 0 )
+   { 
+      //:szClass2 = " class=^" + vDialog.Control.CSS_Class2 + "^ " 
+      GetVariableFromAttribute( szTempString_12, 0, 'S', 255, vDialog, "Control", "CSS_Class2", "", 0 );
+      ZeidonStringCopy( szClass2, 1, 0, " class=^", 1, 0, 257 );
+      ZeidonStringConcat( szClass2, 1, 0, szTempString_12, 1, 0, 257 );
+      ZeidonStringConcat( szClass2, 1, 0, "^ ", 1, 0, 257 );
+   } 
+
+   //:END
+   //:szHTML5Attr2 = ""
+   ZeidonStringCopy( szHTML5Attr2, 1, 0, "", 1, 0, 266 );
+   //:IF vDialog.Control.WebHTML5Attribute2 != ""
+   if ( CompareAttributeToString( vDialog, "Control", "WebHTML5Attribute2", "" ) != 0 )
+   { 
+      //:szHTML5Attr2 = " " + vDialog.Control.WebHTML5Attribute2 + " "
+      GetVariableFromAttribute( szTempString_13, 0, 'S', 255, vDialog, "Control", "WebHTML5Attribute2", "", 0 );
+      ZeidonStringCopy( szHTML5Attr2, 1, 0, " ", 1, 0, 266 );
+      ZeidonStringConcat( szHTML5Attr2, 1, 0, szTempString_13, 1, 0, 266 );
+      ZeidonStringConcat( szHTML5Attr2, 1, 0, " ", 1, 0, 266 );
+   } 
+
+   //:END
+
    //:IF vDialog.EventAct EXISTS
    lTempInteger_1 = CheckExistenceOfEntity( vDialog, "EventAct" );
    if ( lTempInteger_1 == 0 )
    { 
-      //:szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
+      //:szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^" +
+      //:                szClass2 + szHTML5Attr2 + " <%=strDisabled%> " + szDisabled +
       //:                " value=^" + vDialog.Control.RadioOrCheckboxValue
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<input type=^checkbox^ name=^", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
@@ -17614,11 +17697,14 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strDisabled%> ", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szClass2, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szHTML5Attr2, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, " <%=strDisabled%> ", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, " value=^", 1, 0, 10001 );
-      GetVariableFromAttribute( szTempString_10, 0, 'S', 51, vDialog, "Control", "RadioOrCheckboxValue", "", 0 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_10, 1, 0, 10001 );
+      GetVariableFromAttribute( szTempString_14, 0, 'S', 51, vDialog, "Control", "RadioOrCheckboxValue", "", 0 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_14, 1, 0, 10001 );
       //:IF szRepeatGrpKey = ""
       if ( ZeidonStringCompare( szRepeatGrpKey, 1, 0, "", 1, 0, 101 ) == 0 )
       { 
@@ -17627,8 +17713,8 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, " onclick=^", 1, 0, 10001 );
-         GetVariableFromAttribute( szTempString_11, 0, 'S', 33, vDialog, "EventAct", "Tag", "", 0 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_11, 1, 0, 10001 );
+         GetVariableFromAttribute( szTempString_15, 0, 'S', 33, vDialog, "EventAct", "Tag", "", 0 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_15, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "( )^>", 1, 0, 10001 );
          //:ELSE
       } 
@@ -17639,8 +17725,8 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
          ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, " onclick=^", 1, 0, 10001 );
-         GetVariableFromAttribute( szTempString_12, 0, 'S', 33, vDialog, "EventAct", "Tag", "", 0 );
-         ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_12, 1, 0, 10001 );
+         GetVariableFromAttribute( szTempString_16, 0, 'S', 33, vDialog, "EventAct", "Tag", "", 0 );
+         ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_16, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, "( '", 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
          ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
@@ -17652,7 +17738,8 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
    } 
    else
    { 
-      //:szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
+      //:szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^" + 
+      //:                szClass2 + szHTML5Attr2 + " <%=strDisabled%> " + szDisabled +
       //:                " value=^" + vDialog.Control.RadioOrCheckboxValue +
       //:                "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + ">"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<input type=^checkbox^ name=^", 1, 0, 10001 );
@@ -17661,11 +17748,14 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strDisabled%> ", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szClass2, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szHTML5Attr2, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, " <%=strDisabled%> ", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, " value=^", 1, 0, 10001 );
-      GetVariableFromAttribute( szTempString_13, 0, 'S', 51, vDialog, "Control", "RadioOrCheckboxValue", "", 0 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_13, 1, 0, 10001 );
+      GetVariableFromAttribute( szTempString_17, 0, 'S', 51, vDialog, "Control", "RadioOrCheckboxValue", "", 0 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_17, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strErrorMapValue%> ", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
@@ -17675,13 +17765,14 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
    //:END
    //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-   //:szWriteBuffer = "<input type=^hidden^ name=^zhidden" + szCtrlTag + szRepeatGrpKey + "^ id=^zhidden" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled + " value=^^ >"
+   //:szWriteBuffer = "<input type=^hidden^ name=^zhidden" + szCtrlTag + szRepeatGrpKey + "^ id=^zhidden" + szCtrlTag + szRepeatGrpKey + szHTML5Attr + "^ <%=strDisabled%> " + szDisabled + " value=^^ >"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "<input type=^hidden^ name=^zhidden", 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^zhidden", 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szHTML5Attr, 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, "^ <%=strDisabled%> ", 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, szDisabled, 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, " value=^^ >", 1, 0, 10001 );
@@ -17724,8 +17815,6 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
    } 
 
    //:END
-   //:szClass = vDialog.Control.CSS_Class
-   GetVariableFromAttribute( szClass, 0, 'S', 257, vDialog, "Control", "CSS_Class", "", 0 );
 
 
    //:// KJS 09/30/16 - Language Conversion.
@@ -17778,46 +17867,23 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
 
    //:END   
 
-   //:IF szClass = ""
-   if ( ZeidonStringCompare( szClass, 1, 0, "", 1, 0, 257 ) == 0 )
-   { 
-      //:szWriteBuffer = "<span name=^span" + szCtrlTag + szRepeatGrpKey + "^ id=^span" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML + szStyle + ">" + szSpaces + szText + "</span>"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "<span name=^span", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^span", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szSpaces, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "</span>", 1, 0, 10001 );
-      //:ELSE
-   } 
-   else
-   { 
-      //:szWriteBuffer = "<span name=^span" + szCtrlTag + szRepeatGrpKey + "^ id=^span" + szCtrlTag + szRepeatGrpKey + "^ class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + szSpaces + szText + "</span>"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "<span name=^span", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^span", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ class=^", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szSpaces, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "</span>", 1, 0, 10001 );
-   } 
-
-   //:END
+   //:szWriteBuffer = "<span name=^span" + szCtrlTag + szRepeatGrpKey + "^ id=^span" + szCtrlTag + szRepeatGrpKey +  "^ " +
+   //:                szClass + szHTML5Attr + szTitleHTML + szStyle + ">" + szSpaces + szText + "</span>"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "<span name=^span", 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, "^ id=^span", 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szCtrlTag, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szRepeatGrpKey, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ", 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szHTML5Attr, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szTitleHTML, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szStyle, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szSpaces, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
+   ZeidonStringConcat( szWriteBuffer, 1, 0, "</span>", 1, 0, 10001 );
    //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
    return;

@@ -400,6 +400,10 @@ zOPER_EXPORT zSHORT OPERATION
 SELECT_ExactMatchAttribute( zVIEW     ViewToWindow );
 
 
+zOPER_EXPORT zSHORT OPERATION
+ACCEPT_DashboardGroup( zVIEW     ViewToWindow );
+
+
 //:LOCAL OPERATION
 //:InitializeAD_WorkObjectReg( VIEW ViewToWindow )
 
@@ -1208,31 +1212,76 @@ ACCEPT_GroupListWInclude( zVIEW     ViewToWindow )
    zVIEW     UpdateLOD = 0; 
    //:VIEW AD_Base   BASED ON LOD  TZWDLGSO
    zVIEW     AD_Base = 0; 
+   //:STRING ( 50 ) szGroupType
+   zCHAR     szGroupType[ 51 ] = { 0 }; 
    //:INTEGER nRC
    zLONG     nRC = 0; 
    zSHORT    lTempInteger_0; 
    zSHORT    lTempInteger_1; 
+   zSHORT    lTempInteger_2; 
 
    RESULT = GetViewByName( &TZADWWKO, "TZADWWKO", ViewToWindow, zLEVEL_TASK );
    RESULT = GetViewByName( &TZCONTROL, "TZCONTROL", ViewToWindow, zLEVEL_TASK );
    RESULT = GetViewByName( &TZWINDOWL, "TZWINDOWL", ViewToWindow, zLEVEL_TASK );
 
-   //:// Make sure that both the Search and Include MetaDef entries have been selected.
-   //:IF TZADWWKO.ESG_ListSearchW_MetaDef DOES NOT EXIST OR 
-   lTempInteger_0 = CheckExistenceOfEntity( TZADWWKO, "ESG_ListSearchW_MetaDef" );
-   //:   TZADWWKO.ESG_ListIncludeW_MetaDef DOES NOT EXIST
-   lTempInteger_1 = CheckExistenceOfEntity( TZADWWKO, "ESG_ListIncludeW_MetaDef" );
-   if ( lTempInteger_0 != 0 || lTempInteger_1 != 0 )
+   //:// For ListGroupwInclude Type, make sure Include MetaDef entry has been selected.
+   //:IF TZADWWKO.AutoDesignWork.SelectedGroupType = ""
+   if ( CompareAttributeToString( TZADWWKO, "AutoDesignWork", "SelectedGroupType", "" ) == 0 )
    { 
+      //:// Group Type is specified in EntitySubGroup.GroupType.
+      //:szGroupType = TZADWWKO.EntitySubGroup.GroupType 
+      GetVariableFromAttribute( szGroupType, 0, 'S', 51, TZADWWKO, "EntitySubGroup", "GroupType", "", 0 );
+      //:ELSE
+   } 
+   else
+   { 
+      //:// Group Type is specified in AutoDesignWork.SelectedGroupType.
+      //:szGroupType = TZADWWKO.AutoDesignWork.SelectedGroupType 
+      GetVariableFromAttribute( szGroupType, 0, 'S', 51, TZADWWKO, "AutoDesignWork", "SelectedGroupType", "", 0 );
+   } 
 
-      //:MessageSend( ViewToWindow, "", "Autodesign Subdialog",
-      //:             "Both a Search and Include object must be selected.",
-      //:             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-      MessageSend( ViewToWindow, "", "Autodesign Subdialog", "Both a Search and Include object must be selected.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
-      //:SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
-      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 );
-      //:RETURN -2
-      return( -2 );
+   //:END
+   //:IF szGroupType = "ListGroupwInclude"
+   if ( ZeidonStringCompare( szGroupType, 1, 0, "ListGroupwInclude", 1, 0, 51 ) == 0 )
+   { 
+      //:IF TZADWWKO.ESG_ListIncludeW_MetaDef DOES NOT EXIST
+      lTempInteger_0 = CheckExistenceOfEntity( TZADWWKO, "ESG_ListIncludeW_MetaDef" );
+      if ( lTempInteger_0 != 0 )
+      { 
+         //:MessageSend( ViewToWindow, "", "Autodesign Subdialog",
+         //:             "An Include object must be selected.",
+         //:             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         MessageSend( ViewToWindow, "", "Autodesign Subdialog", "An Include object must be selected.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+         //:SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
+         SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 );
+         //:RETURN -2
+         return( -2 );
+      } 
+
+      //:END
+      //:ELSE
+   } 
+   else
+   { 
+      //:// For the others, make sure that both the Search and Include MetaDef entries have been selected.
+      //:IF TZADWWKO.ESG_ListSearchW_MetaDef DOES NOT EXIST OR 
+      lTempInteger_1 = CheckExistenceOfEntity( TZADWWKO, "ESG_ListSearchW_MetaDef" );
+      //:   TZADWWKO.ESG_ListIncludeW_MetaDef DOES NOT EXIST
+      lTempInteger_2 = CheckExistenceOfEntity( TZADWWKO, "ESG_ListIncludeW_MetaDef" );
+      if ( lTempInteger_1 != 0 || lTempInteger_2 != 0 )
+      { 
+
+         //:MessageSend( ViewToWindow, "", "Autodesign Subdialog",
+         //:             "Both a Search and Include object must be selected.",
+         //:             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         MessageSend( ViewToWindow, "", "Autodesign Subdialog", "Both a Search and Include object must be selected.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+         //:SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
+         SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 );
+         //:RETURN -2
+         return( -2 );
+      } 
+
+      //:END
    } 
 
    //:END
@@ -2511,6 +2560,10 @@ GOTO_AutodesignCRMSubdialog( zVIEW     ViewToWindow )
    zVIEW     TZZOLFLO = 0; 
    //:VIEW mConListLOD BASED ON LOD  TZZOLODO
    zVIEW     mConListLOD = 0; 
+   //:STRING ( 300 ) szAutodesignLPLR_Directory
+   zCHAR     szAutodesignLPLR_Directory[ 301 ] = { 0 }; 
+   //:STRING ( 300 ) szMsg
+   zCHAR     szMsg[ 301 ] = { 0 }; 
    //:SHORT nRC
    zSHORT    nRC = 0; 
 
@@ -3172,8 +3225,8 @@ SELECT_ESGL_ListPotAttributes( zVIEW     ViewToWindow )
       if ( nRC == 1 )
       { 
          //:SET CURSOR FIRST TZADWWKO.ESG_ListLOD_Attribute  
-         //:           WHERE TZADWWKO.ESG_ListLOD_Attribute.ZKey = TZADWWKO.ESG_FlatListPotentialAttribute.ZKey
-         GetIntegerFromAttribute( &lTempInteger_0, TZADWWKO, "ESG_FlatListPotentialAttribute", "ZKey" );
+         //:           WHERE TZADWWKO.ESG_ListLOD_Attribute.ZKey = TZADWWKO.ESG_FlatLOD_Attribute.ZKey
+         GetIntegerFromAttribute( &lTempInteger_0, TZADWWKO, "ESG_FlatLOD_Attribute", "ZKey" );
          RESULT = SetCursorFirstEntityByInteger( TZADWWKO, "ESG_ListLOD_Attribute", "ZKey", lTempInteger_0, "" );
          //:IF RESULT < zCURSOR_SET
          if ( RESULT < zCURSOR_SET )
@@ -3552,6 +3605,8 @@ AUTODESIGN_MPG_Pages( zVIEW     ViewToWindow )
    zCHAR     szAD_RetE[ 51 ] = { 0 }; 
    //:STRING ( 50 )  szAD_UpdObj
    zCHAR     szAD_UpdObj[ 51 ] = { 0 }; 
+   //:STRING ( 50 )  szAD_ID
+   zCHAR     szAD_ID[ 51 ] = { 0 }; 
    //:STRING ( 50 )  szMainV
    zCHAR     szMainV[ 51 ] = { 0 }; 
    //:STRING ( 50 )  szMainE
@@ -3789,7 +3844,7 @@ AUTODESIGN_MPG_Pages( zVIEW     ViewToWindow )
 
    //:END 
 
-   //:// The Clone above creates the Save/Cancel  or Return Actions and Operations, but they need to have their names converted.
+   //:// The Clone above creates the Save/Cancel or Return Actions and Operations, but they need to have their names converted.
    //:FOR EACH TZWINDOWL.Action 
    RESULT = SetCursorFirstEntity( TZWINDOWL, "Action", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
@@ -3940,7 +3995,7 @@ AUTODESIGN_MPG_Pages( zVIEW     ViewToWindow )
       while ( nRC == 1 && nRC2 != 0 )
       { 
          //:zstrncpy( szCompare, szVML_Statement, nLength )
-         zstrncpy( szCompare, szVML_Statement, nLength );
+         strncpy_s( szCompare,  zsizeof( szCompare ), szVML_Statement, nLength );
          //:nRC2 = zstrcmp( szCompare, szCheckForOperation )
          nRC2 = zstrcmp( szCompare, szCheckForOperation );
          //:nRC = zSysReadLine( TZWINDOW, szVML_Statement, nFileIn, 256 )
@@ -4064,6 +4119,8 @@ AUTODESIGN_MPG_Pages( zVIEW     ViewToWindow )
       } 
 
       //:END
+      //:ReturnID_NameForEntity( TZADWWKO, szAD_ID, szAD_UpdE, UpdateLOD )  // Get Identifier Name for UpdateLOD LOD & Entity szAD_UpdE
+      oTZADWWKO_ReturnID_NameForEntity( TZADWWKO, szAD_ID, szAD_UpdE, UpdateLOD );
 
       //:// Copy the source VML to the end of the Find VML, converting the variable characters in the process.
       //:nFileIn   = SysOpenFile( TZWINDOW, szOriginalVML, COREFILE_READ ) 
@@ -4091,6 +4148,8 @@ AUTODESIGN_MPG_Pages( zVIEW     ViewToWindow )
          zSearchAndReplace( szVML_Statement, 256, "_AD_UpdE", szAD_UpdE );
          //:zSearchAndReplace( szVML_Statement, 256, "_AD_Suff",  szAD_Suffix )  // The Root Entity of the MGP Update LOD.
          zSearchAndReplace( szVML_Statement, 256, "_AD_Suff", szAD_Suffix );
+         //:zSearchAndReplace( szVML_Statement, 256, "_AD_ID",    szAD_ID )      // Update Identifier Name for object and entity above.
+         zSearchAndReplace( szVML_Statement, 256, "_AD_ID", szAD_ID );
 
          //:SysWriteLine( TZWINDOW, nFileOut, szVML_Statement )
          SysWriteLine( TZWINDOW, nFileOut, szVML_Statement );
@@ -4249,7 +4308,8 @@ AUTODESIGN_MPG_Pages( zVIEW     ViewToWindow )
    //:// Go to rename some Controls to avoid duplicate Tags.
    //:SET CURSOR FIRST TZWINDOWL.Control
    RESULT = SetCursorFirstEntity( TZWINDOWL, "Control", "" );
-   //://   RenameAD_Controls( TZADWWKO, TZWINDOWL ) 
+   //:RenameAD_Controls( TZADWWKO, TZWINDOWL ) 
+   oTZADWWKO_RenameAD_Controls( TZADWWKO, TZWINDOWL );
 
    //:DropView( TZCONTROL )
    DropView( TZCONTROL );
@@ -4418,11 +4478,11 @@ GOTO_AD_GroupUpdate( zVIEW     ViewToWindow )
                   } 
                   else
                   { 
-                     //:IF szGroupType = "ListGroupwFindInclude"
-                     if ( ZeidonStringCompare( szGroupType, 1, 0, "ListGroupwFindInclude", 1, 0, 31 ) == 0 )
+                     //:IF szGroupType = "ListGroupwInclude"
+                     if ( ZeidonStringCompare( szGroupType, 1, 0, "ListGroupwInclude", 1, 0, 31 ) == 0 )
                      { 
-                        //:SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupListwFindIncludeSpec" )
-                        SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupListwFindIncludeSpec" );
+                        //:SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupListwIncludeSpec" )
+                        SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupListwIncludeSpec" );
                         //:ELSE
                      } 
                      else
@@ -4436,7 +4496,6 @@ GOTO_AD_GroupUpdate( zVIEW     ViewToWindow )
                         } 
                         else
                         { 
-
                            //:MessageSend( ViewToWindow, "", "Autodesign Subdialog",
                            //:"A Valid Type must be selected.",
                            //:zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
@@ -6261,6 +6320,10 @@ GOTO_AutodesignObjectFindSubdlg( zVIEW     ViewToWindow )
    zVIEW     TZZOLFLO = 0; 
    //:VIEW TZADWWKO BASED ON LOD  TZADWWKO
    zVIEW     TZADWWKO = 0; 
+   //:STRING ( 300 ) szAutodesignLPLR_Directory
+   zCHAR     szAutodesignLPLR_Directory[ 301 ] = { 0 }; 
+   //:STRING ( 300 ) szMsg
+   zCHAR     szMsg[ 301 ] = { 0 }; 
    //:SHORT nRC
    zSHORT    nRC = 0; 
 
@@ -8475,9 +8538,33 @@ GOTO_AD_GroupSpecification( zVIEW     ViewToWindow )
 
    RESULT = GetViewByName( &TZADWWKO, "TZADWWKO", ViewToWindow, zLEVEL_TASK );
 
+   //:// The Groupd for Dashboard Entry has no mapping, so we'll skip the initialization code that the other Groups use.
+   //:IF TZADWWKO.EntitySubGroup.GroupType = "DetailGroupDBE"
+   if ( CompareAttributeToString( TZADWWKO, "EntitySubGroup", "GroupType", "DetailGroupDBE" ) == 0 )
+   { 
+      //:CreateTemporalSubobjectVersion( TZADWWKO, "EntitySubGroup" )
+      CreateTemporalSubobjectVersion( TZADWWKO, "EntitySubGroup" );
+      //:SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupDashboardSpec" )
+      SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupDashboardSpec" );
+      //:RETURN 
+      return( 0 );
+   } 
+
+   //:END
+
+   //:// Set up work areas for Groups other than Dashboard Entry.
+
    //:// Reuse the operation from Multi-Group Page.
-   //:GOTO_AD_GroupUpdate( ViewToWindow )
-   GOTO_AD_GroupUpdate( ViewToWindow );
+   //:nRC = GOTO_AD_GroupUpdate( ViewToWindow )
+   nRC = GOTO_AD_GroupUpdate( ViewToWindow );
+   //:IF nRC < 0
+   if ( nRC < 0 )
+   { 
+      //:RETURN 
+      return( 0 );
+   } 
+
+   //:END
 
    //:CreateTemporalSubobjectVersion( TZADWWKO, "EntitySubGroup" )
    CreateTemporalSubobjectVersion( TZADWWKO, "EntitySubGroup" );
@@ -8564,6 +8651,9 @@ AUTODESIGN_NewGroup( zVIEW     ViewToWindow )
 
    //:// Reuse the GenEntitySubGroup operation to build the Group and an optional, subpage, depending on the Group Type.
 
+   //:szGroupType = TZADWWKO.EntitySubGroup.GroupType 
+   GetVariableFromAttribute( szGroupType, 0, 'S', 51, TZADWWKO, "EntitySubGroup", "GroupType", "", 0 );
+
    //:// Also activate AD_Base to pick up reusable data values.
    //:nRC = ActivateAD_BaseL( AD_Base, ViewToWindow )
    nRC = o_ActivateAD_BaseL( &AD_Base, ViewToWindow );
@@ -8611,28 +8701,32 @@ AUTODESIGN_NewGroup( zVIEW     ViewToWindow )
 
    //:END
 
-   //:// Check for Update LOD.
-   //:GET VIEW UpdateLOD NAMED "TZZOLODO_Update"
-   RESULT = GetViewByName( &UpdateLOD, "TZZOLODO_Update", ViewToWindow, zLEVEL_TASK );
-   //:IF RESULT < 0
-   if ( RESULT < 0 )
+   //:// Check for Update LOD, unless the Group is a DashboardEntry.
+   //:IF szGroupType != "DetailGroupDBE"
+   if ( ZeidonStringCompare( szGroupType, 1, 0, "DetailGroupDBE", 1, 0, 51 ) != 0 )
    { 
-      //:MessageSend( ViewToWindow, "", "Autodesign Subdialog",
-      //:             "The Update Object has not been selected.",
-      //:             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-      MessageSend( ViewToWindow, "", "Autodesign Subdialog", "The Update Object has not been selected.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
-      //:SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
-      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 );
-      //:RETURN -2
-      return( -2 );
+      //:GET VIEW UpdateLOD NAMED "TZZOLODO_Update"
+      RESULT = GetViewByName( &UpdateLOD, "TZZOLODO_Update", ViewToWindow, zLEVEL_TASK );
+      //:IF RESULT < 0
+      if ( RESULT < 0 )
+      { 
+         //:MessageSend( ViewToWindow, "", "Autodesign Subdialog",
+         //:             "The Update Object has not been selected.",
+         //:             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         MessageSend( ViewToWindow, "", "Autodesign Subdialog", "The Update Object has not been selected.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+         //:SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
+         SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 );
+         //:RETURN -2
+         return( -2 );
+      } 
+
+      //:END
    } 
 
    //:END
 
    //:// Make sure that Mapping wasn't skipped. 
    //:// Note that we're not making sure all mapping entries have been selected, but just that the User has gone to mapping.
-   //:szGroupType = TZADWWKO.EntitySubGroup.GroupType 
-   GetVariableFromAttribute( szGroupType, 0, 'S', 51, TZADWWKO, "EntitySubGroup", "GroupType", "", 0 );
    //:IF szGroupType = "ListGroupOnly"         OR 
    //:   szGroupType = "ListGroupWDetailPage"  OR 
    //:   szGroupType = "ListGroupWUpdatePage"  OR
@@ -8731,6 +8825,8 @@ AUTODESIGN_NewGroup( zVIEW     ViewToWindow )
    RESULT = SetCursorFirstEntity( TZWINDOWL, "Control", "" );
    //:RenameAD_Controls( TZADWWKO, TZWINDOWL ) 
    oTZADWWKO_RenameAD_Controls( TZADWWKO, TZWINDOWL );
+
+   //:// SUBWINDOWS FOR SELECTED GROUP TYPES
 
    //:// Next, build the subwindow if there is one for the Group Type.
    //:IF szGroupType = "ListGroupWUpdatePage" OR szGroupType = "ListGroupWDetailPage"
@@ -9556,6 +9652,88 @@ SELECT_ExactMatchAttribute( zVIEW     ViewToWindow )
    SetAttributeFromAttribute( TZADWWKO, "FlatSelectedSearchAttribute", "DataType", TZADWWKO, "ESG_FlatDomain", "DataType" );
    //:INCLUDE TZADWWKO.FlatSearchLOD_Attribute FROM TZADWWKO.ESG_FlatLOD_Attribute 
    RESULT = IncludeSubobjectFromSubobject( TZADWWKO, "FlatSearchLOD_Attribute", TZADWWKO, "ESG_FlatLOD_Attribute", zPOS_AFTER );
+   return( 0 );
+// END
+} 
+
+
+//:DIALOG OPERATION
+//:ACCEPT_DashboardGroup( VIEW ViewToWindow )
+
+//:   VIEW TZADWWKO  REGISTERED AS TZADWWKO
+zOPER_EXPORT zSHORT OPERATION
+ACCEPT_DashboardGroup( zVIEW     ViewToWindow )
+{
+   zVIEW     TZADWWKO = 0; 
+   zSHORT    RESULT; 
+   //:VIEW TZCONTROL REGISTERED AS TZCONTROL
+   zVIEW     TZCONTROL = 0; 
+   //:VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+   zVIEW     TZWINDOWL = 0; 
+   //:VIEW UpdateLOD BASED ON LOD  TZZOLODO
+   zVIEW     UpdateLOD = 0; 
+   //:VIEW AD_Base   BASED ON LOD  TZWDLGSO
+   zVIEW     AD_Base = 0; 
+   //:STRING ( 5 ) szSuffix
+   zCHAR     szSuffix[ 6 ] = { 0 }; 
+   //:INTEGER nRC
+   zLONG     nRC = 0; 
+
+   RESULT = GetViewByName( &TZADWWKO, "TZADWWKO", ViewToWindow, zLEVEL_TASK );
+   RESULT = GetViewByName( &TZCONTROL, "TZCONTROL", ViewToWindow, zLEVEL_TASK );
+   RESULT = GetViewByName( &TZWINDOWL, "TZWINDOWL", ViewToWindow, zLEVEL_TASK );
+
+   //:// Make sure both Group Area Name and Area Title and Suffix have been entered
+   //:IF TZADWWKO.EntitySubGroup.GroupAreaName          = "" OR 
+   //:   TZADWWKO.EntitySubGroup.GroupAreaTitle         = "" OR 
+   //:   TZADWWKO.EntitySubGroup.DashboardRunTimeSuffix = ""
+   if ( CompareAttributeToString( TZADWWKO, "EntitySubGroup", "GroupAreaName", "" ) == 0 || CompareAttributeToString( TZADWWKO, "EntitySubGroup", "GroupAreaTitle", "" ) == 0 ||
+        CompareAttributeToString( TZADWWKO, "EntitySubGroup", "DashboardRunTimeSuffix", "" ) == 0 )
+   { 
+
+      //:MessageSend( ViewToWindow, "", "Autodesign Subdialog",
+      //:             "A Group Area Name, Title and Run Time Suffix must all be specified.",
+      //:             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      MessageSend( ViewToWindow, "", "Autodesign Subdialog", "A Group Area Name, Title and Run Time Suffix must all be specified.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      //:SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
+      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 );
+      //:RETURN -2
+      return( -2 );
+   } 
+
+   //:END
+
+   //:// Make sure the suffix is a number from 1 to 5.
+   //:szSuffix = TZADWWKO.EntitySubGroup.DashboardRunTimeSuffix 
+   GetVariableFromAttribute( szSuffix, 0, 'S', 6, TZADWWKO, "EntitySubGroup", "DashboardRunTimeSuffix", "", 0 );
+   //:IF szSuffix != "1" AND   
+   //:   szSuffix != "2" AND 
+   //:   szSuffix != "3" AND 
+   //:   szSuffix != "4" AND 
+   //:   szSuffix != "5" AND 
+   //:   szSuffix != "6" 
+   if ( ZeidonStringCompare( szSuffix, 1, 0, "1", 1, 0, 6 ) != 0 && ZeidonStringCompare( szSuffix, 1, 0, "2", 1, 0, 6 ) != 0 && ZeidonStringCompare( szSuffix, 1, 0, "3", 1, 0, 6 ) != 0 && ZeidonStringCompare( szSuffix, 1, 0, "4", 1, 0, 6 ) != 0 &&
+        ZeidonStringCompare( szSuffix, 1, 0, "5", 1, 0, 6 ) != 0 && ZeidonStringCompare( szSuffix, 1, 0, "6", 1, 0, 6 ) != 0 )
+   { 
+
+      //:MessageSend( ViewToWindow, "", "Autodesign Subdialog",
+      //:             "The Run DateTime Suffix must be an integer from 1 to 6.",
+      //:             zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      MessageSend( ViewToWindow, "", "Autodesign Subdialog", "The Run DateTime Suffix must be an integer from 1 to 6.", zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 );
+      //:SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
+      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0, 0 );
+      //:RETURN -2
+      return( -2 );
+   } 
+
+   //:END
+
+   //:AcceptSubobject( TZADWWKO, "EntitySubGroup" )
+   AcceptSubobject( TZADWWKO, "EntitySubGroup" );
+
+   //:// The Action/Operation Suffix will be the same as the Group Area Name, at least for now.
+   //:TZADWWKO.EntitySubGroup.IncludeOperationSuffix = TZADWWKO.EntitySubGroup.GroupAreaName 
+   SetAttributeFromAttribute( TZADWWKO, "EntitySubGroup", "IncludeOperationSuffix", TZADWWKO, "EntitySubGroup", "GroupAreaName" );
    return( 0 );
 // END
 } 

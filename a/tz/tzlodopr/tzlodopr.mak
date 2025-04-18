@@ -75,6 +75,7 @@ CPP_OBJS       = $(Z_OBJ)\tzrpsrco.obj \
                  $(Z_OBJ)\tzwdlg4o.obj \
                  $(Z_OBJ)\tzwdlg6o.obj \
                  $(Z_OBJ)\tzerem2o.obj \
+                 $(Z_OBJ)\tzadwwko.obj \
                  $(Z_OBJ)\TZVSRTOO.obj
 
 # Extra options

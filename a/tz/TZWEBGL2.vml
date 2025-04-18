@@ -80,7 +80,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 2 )   szSuffix
    STRING ( 10 )  szMaxStringLth
    STRING ( 200 ) szItemTableHeader
+   STRING ( 300 ) szSortOnClick
    STRING ( 50 )  szParentWebType
+   STRING ( 64 )  szParentEntityName
    STRING ( 1 )   szRepeatingGroupFlag
    STRING ( 1 )   szSurveyGroupFlag
    STRING ( 1 )   szGroupBoxAbsPosFlag
@@ -128,6 +130,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 100 ) szRepeatingGroupKey
    STRING ( 100 ) szInListCtrlTag
    STRING ( 200 ) szMsg
+   STRING ( 64 )  szSystemIniApplName
+   STRING ( 1 )   szUseVMLGridSort
+   STRING ( 1 )   szShowHideControl
    DECIMAL        dDLUnits
    INTEGER        LastY_Pos
    INTEGER        LastY_Height
@@ -158,6 +163,14 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    INTEGER        lIndexStrLth
    SHORT          bResetToPlaceHolder
    SHORT          nRC
+
+
+   // KJS 03/05/25
+   // Initialize Output JSP File.
+   GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
+   szLPLR_Name = vLPLR.LPLR.Name
+   szSystemIniApplName = "[App." + szLPLR_Name + "]"
+   SysReadZeidonIni( -1, szSystemIniApplName, "UseVMLGridSort", szUseVMLGridSort )
 
    PIX_PER_DU( vDialog, dDLUnits )
    
@@ -587,6 +600,13 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             szMenuActionFlag = "Y"
          END
          
+         // A groupbox might want the children to be absolutely positioned.  Allow for this.
+         szShowHideControl = ""
+         SET CURSOR FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Show/Hide Group Box"
+         IF RESULT >= zCURSOR_SET AND vDialogRoot.Dialog.wWebUsesControlActions = "Y" AND szToggleFlag != "Y" AND szToggleFlag2 != "Y"
+            szShowHideControl = "Y"
+         END
+         
          // If we are generating to bootstrap with a zeidon.ini setting of BootstrapOuterCard=Y, and we are on the most outer group box,
          // we are going to surround that <div> with a <div class='card card-body mb-2'. This is so that the developer does not have
          // to create so many divs within divs on the page.
@@ -609,6 +629,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          END
 
       END  // End of "GroupBox"
+      
+      // KJS 03/07/25
+      IF szShowHideControl = "Y"
+         szWriteBuffer = "<% if (ctrlActs.hideControl( vKZXMLPGO, ^" + szCtrlTag + "^) < 0) { %>"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      END
 
       // Initialize the szAbsoluteStyle variable with X and Y values.
       IF szNoPositioning = "Y"
@@ -632,21 +658,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                szAbsoluteStyle = "  style=^float:left;position:relative; width:" + szWidth + "px; height:" + szHeight + "px;^"
             END                      
          ELSE 
-         //IF szControlType = "GroupBox" AND szNoHeightFlag = "Y" AND szNoWidthFlag = "Y"
-         //   szAbsoluteStyle = ""
-         //ELSE
-         //IF szControlType = "GroupBox" AND szNoHeightFlag = "Y"
-         //   // We might not want the groupbox to have a height (so it grows)
-         //   szAbsoluteStyle = "style=^width:" + szWidth + "px;^"
-         //ELSE
-         //IF szControlType = "GroupBox" AND szNoWidthFlag = "Y"
-            // We might not want the groupbox to have a width (so it grows)
-         //   szAbsoluteStyle = "style=^height:" + szHeight + "px;^"
-         //ELSE
             CreateNoPosStyleString( vDialog, szAbsoluteStyle, "" )
-         //END
-         //END
-         //END
          END
       ELSE
       IF szNoPositioning = "S" // We are not creating any style information.
@@ -789,6 +801,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
       END
 
       IF szControlType = "GroupBox" AND szRepeatingGroupFlag = "" AND szFileTransferFlag = "" AND szGroupIsTable = "" AND szGridGroupingFlag = "" AND szSurveyGroupFlag = ""
+      
+         // 03/07/25
+         
 
          // Is this clear even working???!!!
          IF szWebCtrlType = "Clear"
@@ -1621,6 +1636,13 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          IF szGroupBoxAbsPosFlag = "Y"
             szNoPositioning = szNoPositioningHold
          END
+         
+         IF szShowHideControl = "Y"
+            // KJS 03/07/25
+            szWriteBuffer = "<% } %>"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         END
+         
       ELSE  // Not a groupbox
          IF szControlType = "Text"  // TEXT
             IF szStyleIsBootstrap = "Y" AND vDialog.Control.WebCtrlLabelLink != "" AND vDialog.Control.CSS_Class != ""
@@ -2567,6 +2589,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             lSort = IsFlagSequenceSet( lSubtypeX, 262144 )
             IF lSort = 0
                lSort = IsFlagSequenceSet( lSubtypeX, 131072 )
+               IF lSort = 1
+                  // KJS 03/18/25 - Want to differentiate between the two SS Sort options.
+                  // lSort2 means that we are submitting the web page and calling OrderEntityForView for the view.entity.attribue <th> field.
+                  lSort = 2
+               END
             END
 
             lTableRowCnt = lTableRowCnt + 1   // Set up iTableRowCnt variable suffix.
@@ -2777,6 +2804,16 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                END
 
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+               
+//kkkkkkkkkkkk grid parent entity
+               CreateViewFromView( vDialog2, vDialog )
+               SET CURSOR NEXT vDialog2.CtrlMap
+               IF vDialog2.CtrlMapLOD_Entity EXISTS
+                  szParentEntityName = vDialog2.CtrlMapLOD_Entity.Name
+               ELSE
+                  szParentEntityName = vDialog.CtrlMapLOD_Entity.Name
+               END   
+               DropView( vDialog2 )            
 
                OrderEntityForView( vDialog, "CtrlCtrl", "PSDLG_X A" )
                SetViewToSubobject( vDialog, "CtrlCtrl" )  // vDialog positioned on sub-controls
@@ -2802,6 +2839,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                   ELSE
                      bResetToPlaceHolder = 0
                   END
+            
+                  szClass = ""
 
                   //KJS 2/12/2008
                   SET CURSOR  FIRST vDialog.WebControlProperty WHERE vDialog.WebControlProperty.Name = "Hidden"
@@ -2893,10 +2932,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         ELSE
                            szText = "<%=strErrorMapValue%>"
                         END
-                        //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk KJS 09/08/23
+
                         // KJS 09/08/23 - The variable header, didn't have the "text-right". I want to add that.
                         // Need to set on the mapping that is not the header. To see the domain type.
-                        SET CURSOR FIRST vDialog.CtrlMap WHERE vDialog.CtrlMap.Tag != "Variable Header"                        
+                        SET CURSOR FIRST vDialog.CtrlMap WHERE vDialog.CtrlMap.Tag = ""                        
                         IF szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Domain EXISTS AND 
                            ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
                            IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-left" ) <= 0
@@ -2905,17 +2944,38 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         ELSE
                            szClass = ""
                         END  
-                       //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+                        //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+                        // KJS 03/04/25 // this is the first occurance
+                        szSortOnClick = ""
+                        IF lSort = 2 AND vDialog.CtrlMapLOD_Attribute EXISTS //AND szStyleIsBootstrap = "Y"  AND szUseVMLGridSort = "Y"
+                           // MAKE SURE WE ARE POSITIONED ON THE CORRECT MAPPING (in care there is more than one)
+                           //szSortOnClick = " id=^" + vDialog.Control.Tag + 
+                           IF szParentEntityName != vDialog.CtrlMapRelatedEntity.Name
+                              //szSortOnClick = " id=^" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + 
+                              //                "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + "' )^"
+                              szSortOnClick = " id=^" + vDialog.Control.Tag + "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + 
+                                              vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + "' )^"
+                                              //"^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + szParentEntityName + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
+                           ELSE
+                              //szSortOnClick = " id=^" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + 
+                              //                "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + szParentEntityName + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
+                              szSortOnClick = " id=^" + vDialog.Control.Tag + "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + 
+                                              vDialog.CtrlMapView.Name + "." + szParentEntityName + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
+                                              //"^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
+                           END
+                        END
                         IF szAbsoluteWidth = ""
                            IF szClass = ""
                               szWriteBuffer = "   <th"
                            ELSE
                               szWriteBuffer = "   <th class=^" + szClass + "^"
                            END
-                           szWriteBuffer = szWriteBuffer + "><%=strErrorMapValue%></th>"
+                           //szWriteBuffer = szWriteBuffer + "><%=strErrorMapValue%></th>"
                         ELSE
-                           szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^><%=strErrorMapValue%></th>"
+                           szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^"//><%=strErrorMapValue%></th>"
                         END
+                        szWriteBuffer = szWriteBuffer + szSortOnClick
+                        szWriteBuffer = szWriteBuffer + "><%=strErrorMapValue%></th>"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         szWriteBuffer = "<%"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2928,7 +2988,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         // but we won't write it out.
                         szWriteBuffer = "   }"
                         //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     ELSE
+                     ELSE  // vDialog.CtrlMap.Tag = "Variable Header"
+                     
+                        // KJS 03/05/25 Should we be positioning on the view that has no tag???
+                        SET CURSOR FIRST vDialog.CtrlMap WHERE vDialog.CtrlMap.Tag = ""
+                     
                         // The Title is a constant.
                         IF szWriteBuffer = "   }"
                            // The last entry was a variable text, so create the "%>" statement.
@@ -2966,6 +3030,27 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            szClass = ""
                         END  
                         
+                        //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+                        // KJS 03/04/25  // this is second occurance
+                        szSortOnClick = ""
+                        IF lSort = 2 AND vDialog.CtrlMapLOD_Attribute EXISTS //AND szStyleIsBootstrap = "Y" AND szUseVMLGridSort = "Y"
+                           // MAKE SURE WE ARE POSITIONED ON THE CORRECT MAPPING (in care there is more than one)
+                           IF szParentEntityName != vDialog.CtrlMapRelatedEntity.Name
+                              //szSortOnClick = " id=^" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + 
+                              //                "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + "' )^"
+                              szSortOnClick = " id=^" + vDialog.Control.Tag + "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + 
+                                              vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + "' )^"
+                                              //"^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + szParentEntityName + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
+                           ELSE
+                              //szSortOnClick = " id=^" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + 
+                              //                "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + szParentEntityName + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
+                              szSortOnClick = " id=^" + vDialog.Control.Tag + "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + 
+                                              vDialog.CtrlMapView.Name + "." + szParentEntityName + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
+                                              //"^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
+                           END
+                        END
+                        //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+                        
                         IF szStyleIsBootstrap = "" OR vDialog.CtrlMapER_Attribute DOES NOT EXIST OR
                            ( szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Attribute EXISTS AND vDialog.CtrlMapER_Attribute.Name != "wHide")
                            // If this is sortable and this is a pushbutton on the grid...
@@ -2999,7 +3084,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               IF vDialog.Control.Text = "" AND ( vDialog.ControlDef.Tag = "GridCheckCtl" OR vDialog.ControlDef.Tag = "CheckBox" )
                                  szWriteBuffer = szWriteBuffer + " class=^gridheading^"
                               END
-   
+                              
+                              szWriteBuffer = szWriteBuffer + szSortOnClick
+                                 
                               //Put the ending on the tag and the text if there is any.
                               szWriteBuffer = szWriteBuffer + ">" + szText
                            END
@@ -3090,7 +3177,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "{"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            
+                        
             IF vDialog.CtrlMapView EXISTS
 
                szWriteBuffer = "   iTableRowCnt = 0;"
@@ -3466,7 +3553,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                         ELSE   
                         IF szCtrlCtrlType = "GridCheckCtl" OR szCtrlCtrlType = "CheckBox" OR szCtrlCtrlType = "RadioGrp" 
-                           // KJS 03/19/21 - In a grid, the checbox and radio buttons should be getting internal value, not external.                           szWriteBuffer = "            " + szControlTag + " = " + szGridView +
+                           // KJS 03/19/21 - In a grid, the checbox and radio buttons should be getting internal value, not external.
                            szWriteBuffer = "            " + szControlTag + " = " + szGridView +
                                      ".cursor( ^" + vDialog.CtrlMapRelatedEntity.Name +
                                      "^ ).getAttribute( ^" + vDialog.CtrlMapER_Attribute.Name + "^ ).getString( );"
@@ -3765,6 +3852,17 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      //KJS 10/19/07 - Added title
                      IF szTitle != "" AND szCtrlCtrlType != "PushBtn"  // Don't add title here for Push Button.
                         szItemTableHeader = szItemTableHeader + szTitleHTML
+                     END
+
+                     //If we put a title on the control, when the mouse is hovered over the control, this text will display.
+                     szHTML5Attr = ""
+                     IF vDialog.Control.WebHTML5Attribute != ""
+                        szHTML5Attr = " " + vDialog.Control.WebHTML5Attribute
+                     END
+
+                     //KJS 01/14/25 - Added HTML5
+                     IF szHTML5Attr != "" AND szCtrlCtrlType != "PushBtn"  // Don't add title here for Push Button.
+                        szItemTableHeader = szItemTableHeader + szHTML5Attr
                      END
 
                      IF szCtrlCtrlType = "PushBtn"

@@ -1,7 +1,7 @@
-z1000-Zeidon    KZXMLPGO TZZOLODO 01/05/18   15:44:28 1.0a2    
+z1000-Zeidon    KZXMLPGO TZZOLODO 03/12/25   15:12:48 1.0a2    
 eLOD       1
 aZKey      91301926
-aNextZKeyToAssign 93078029
+aNextZKeyToAssign 93078036
 aName      KZXMLPGO
 aDesc      XML for window controls
 aDLL_Name  KZRPSRCO
@@ -684,6 +684,60 @@ aZKey      4120679
 
 eDomainRec 6
 
+eLOD_EntityChild 3
+aName      WindowDomainContext
+aIndentName    WindowDomainContext
+aIndentLvl 3
+aZKey      93078030
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 4
+aZKey      93078031
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      CurrentPageName
+aZKey      93078032
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      93078033
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      DomainName
+aZKey      93078034
+
+eDomainRec 6
+
+eLOD_AttributeRec 4
+aZKey      93078035
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 5
+aName      ContextName
+aZKey      93078036
+
+eDomainRec 6
+
 eLOD_AttributeRec 3
 aZKey      91301958
 aWork      Y
@@ -1109,61 +1163,35 @@ eER_Attribute 4
 
 eDomain    5
 
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
 eSourceFile 2
 aZKey      91301960
 aName      KZXMLPGO
 aExtension VML
 aLanguageType V
-
-eOperation 3
-aName      InitWebSessionObject
-aZKey      91301961
-aType      T
-aReturnDataType N
-aClass     0
-
-eParameter 4
-aShortDesc View To Instance
-aDataType  V
-aPFlag     Y
-aUFlag     N
-aZKey      91301962
-
-eParameter 4
-aShortDesc AnyView
-aDataType  V
-aPFlag     N
-aUFlag     N
-aZKey      91301963
-
-eParameter 4
-aShortDesc UserID
-aDataType  S
-aPFlag     N
-aUFlag     N
-aZKey      91301964
-
-eOperation 3
-aName      InitWebPage
-aZKey      91301965
-aType      T
-aReturnDataType N
-aClass     0
-
-eParameter 4
-aShortDesc vKZXMLWDO
-aDataType  V
-aZKey      91301966
-
-eParameter 4
-aShortDesc DialogName
-aDataType  S
-aZKey      91301967
-
-eParameter 4
-aShortDesc WindowName
-aDataType  S
-aZKey      91301968
 
 eOperation 3
 aName      AddWebControlSubobject
@@ -1226,6 +1254,56 @@ aPFlag     N
 aUFlag     N
 aZKey      91301977
 
+eOperation 3
+aName      InitWebPage
+aZKey      91301965
+aType      T
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc vKZXMLWDO
+aDataType  V
+aZKey      91301966
+
+eParameter 4
+aShortDesc DialogName
+aDataType  S
+aZKey      91301967
+
+eParameter 4
+aShortDesc WindowName
+aDataType  S
+aZKey      91301968
+
+eOperation 3
+aName      InitWebSessionObject
+aZKey      91301961
+aType      T
+aReturnDataType N
+aClass     0
+
+eParameter 4
+aShortDesc View To Instance
+aDataType  V
+aPFlag     Y
+aUFlag     N
+aZKey      91301962
+
+eParameter 4
+aShortDesc AnyView
+aDataType  V
+aPFlag     N
+aUFlag     N
+aZKey      91301963
+
+eParameter 4
+aShortDesc UserID
+aDataType  S
+aPFlag     N
+aUFlag     N
+aZKey      91301964
+
 eOperationList 2
 
 eOperSourceFile 3
@@ -1261,144 +1339,157 @@ i91        18
 i95        18
 i98        18
 i101       18
-i104       18
-i107       18
-i113       110
-i116       33
-i122       18
-i125       18
-i128       18
-i129       1
-i130       102
-i131       103
+i105       18
+i108       18
+i111       18
+i114       18
+i117       18
+i123       120
+i126       33
 i132       18
-i133       105
-i134       106
 i135       18
-i136       108
-i137       109
-i138       110
-i139       111
+i138       18
+i139       1
 i140       112
-i141       110
-i142       114
+i141       113
+i142       18
 i143       115
-i144       33
-i145       117
+i144       116
+i145       18
 i146       118
 i147       119
 i148       120
 i149       121
-i150       18
-i151       123
+i150       122
+i151       120
 i152       124
-i153       18
-i154       126
+i153       125
+i154       33
 i155       127
-i156       18
-i157       2
-i158       37
-i159       38
-i160       11
-i161       40
-i162       41
-i163       11
-i164       3
-i165       4
-i166       28
-i167       29
-i168       11
-i169       31
-i170       32
-i171       33
-i172       34
-i173       35
-i174       36
-i175       5
-i176       6
-i177       19
-i178       20
-i179       11
-i180       22
-i181       23
-i182       18
-i183       25
-i184       26
-i185       14
-i186       7
-i187       8
-i188       9
-i189       10
-i190       11
-i191       12
-i192       13
-i193       14
-i194       15
-i195       16
-i196       17
-i197       18
-i198       43
-i199       44
-i200       45
-i201       18
-i202       47
-i203       48
-i204       49
-i205       18
-i206       51
-i207       52
-i208       18
-i209       54
-i210       55
+i156       128
+i157       129
+i158       130
+i159       131
+i160       18
+i161       133
+i162       134
+i163       18
+i164       136
+i165       137
+i166       18
+i167       2
+i168       37
+i169       38
+i170       11
+i171       40
+i172       41
+i173       11
+i174       3
+i175       4
+i176       28
+i177       29
+i178       11
+i179       31
+i180       32
+i181       33
+i182       34
+i183       35
+i184       36
+i185       5
+i186       6
+i187       19
+i188       20
+i189       11
+i190       22
+i191       23
+i192       18
+i193       25
+i194       26
+i195       14
+i196       7
+i197       8
+i198       9
+i199       10
+i200       11
+i201       12
+i202       13
+i203       14
+i204       15
+i205       16
+i206       17
+i207       18
+i208       43
+i209       44
+i210       45
 i211       18
-i212       57
-i213       58
-i214       59
+i212       47
+i213       48
+i214       49
 i215       18
-i216       61
-i217       62
+i216       51
+i217       52
 i218       18
-i219       64
-i220       72
-i221       73
-i222       11
-i223       65
-i224       66
-i225       67
-i226       11
-i227       69
-i228       70
-i229       18
-i230       75
-i231       76
-i232       77
-i233       18
-i234       79
-i235       80
-i236       18
-i237       82
-i238       89
-i239       90
-i240       18
-i241       83
-i242       84
+i219       54
+i220       55
+i221       18
+i222       57
+i223       58
+i224       59
+i225       18
+i226       61
+i227       62
+i228       18
+i229       64
+i230       72
+i231       73
+i232       11
+i233       65
+i234       66
+i235       67
+i236       11
+i237       69
+i238       70
+i239       18
+i240       75
+i241       76
+i242       77
 i243       18
-i244       86
-i245       87
+i244       79
+i245       80
 i246       18
-i247       92
-i248       99
-i249       100
+i247       82
+i248       89
+i249       90
 i250       18
-i251       93
-i252       94
+i251       83
+i252       84
 i253       18
-i254       96
-i255       97
+i254       86
+i255       87
 i256       18
-i275       266
-i276       257
-i277       262
-i278       257
-i279       258
-i280       257
+i257       92
+i258       99
+i259       100
+i260       18
+i261       93
+i262       94
+i263       18
+i264       96
+i265       97
+i266       18
+i267       102
+i268       103
+i269       104
+i270       18
+i271       106
+i272       107
+i273       18
+i274       109
+i275       110
+i276       18
+i295       278
+i296       277
+i297       287
+i298       277
+i299       291
+i300       277

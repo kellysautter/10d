@@ -859,8 +859,11 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    VIEW vDialogRoot BASED ON LOD TZWDLGSO
    STRING ( 300 ) szStyle
    STRING ( 256 ) szClass
+   STRING ( 256 ) szClass2
    STRING ( 256 ) szTitle
    STRING ( 256 ) szTitleHTML
+   STRING ( 265 ) szHTML5Attr
+   STRING ( 265 ) szHTML5Attr2
    STRING ( 100 ) szDisabled
    STRING ( 300 ) szPosition
    STRING ( 16 )  szTabIndex
@@ -989,9 +992,30 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    ELSE
       szTitleHTML = " title=^" + szTitle + "^ "
    END
+   
+   // CSS_Class2 and WebHTML5Attribute will be for the text portion.
+   szClass = ""
+   IF vDialog.Control.CSS_Class != ""
+      szClass = " class=^" + vDialog.Control.CSS_Class + "^ " 
+   END
+   szHTML5Attr = ""
+   IF vDialog.Control.WebHTML5Attribute != ""
+      szHTML5Attr = " " + vDialog.Control.WebHTML5Attribute + " "
+   END
+
+   // CSS_Class2 and WebHTML5Attribute2 will be for the checkbox portion.
+   szClass2 = ""
+   IF vDialog.Control.CSS_Class2 != ""
+      szClass2 = " class=^" + vDialog.Control.CSS_Class2 + "^ " 
+   END
+   szHTML5Attr2 = ""
+   IF vDialog.Control.WebHTML5Attribute2 != ""
+      szHTML5Attr2 = " " + vDialog.Control.WebHTML5Attribute2 + " "
+   END
 
    IF vDialog.EventAct EXISTS
-      szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
+      szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^" +
+                      szClass2 + szHTML5Attr2 + " <%=strDisabled%> " + szDisabled +
                       " value=^" + vDialog.Control.RadioOrCheckboxValue
       IF szRepeatGrpKey = ""
          szWriteBuffer = szWriteBuffer + "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + " onclick=^" + vDialog.EventAct.Tag + "( )^>"
@@ -999,12 +1023,13 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
          szWriteBuffer = szWriteBuffer + "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + " onclick=^" + vDialog.EventAct.Tag + "( '" + szCtrlTag + szRepeatGrpKey + "' )^>"
       END
    ELSE
-      szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled +
+      szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^" + 
+                      szClass2 + szHTML5Attr2 + " <%=strDisabled%> " + szDisabled +
                       " value=^" + vDialog.Control.RadioOrCheckboxValue +
                       "^ <%=strErrorMapValue%> " + szTitleHTML + szStyle + ">"
    END
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-   szWriteBuffer = "<input type=^hidden^ name=^zhidden" + szCtrlTag + szRepeatGrpKey + "^ id=^zhidden" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled + " value=^^ >"
+   szWriteBuffer = "<input type=^hidden^ name=^zhidden" + szCtrlTag + szRepeatGrpKey + "^ id=^zhidden" + szCtrlTag + szRepeatGrpKey + szHTML5Attr + "^ <%=strDisabled%> " + szDisabled + " value=^^ >"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
    // If this window is being generated with no positioning then
@@ -1023,7 +1048,6 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
       szSpaces = ""
    END
    END
-   szClass = vDialog.Control.CSS_Class
    
 
    // KJS 09/30/16 - Language Conversion.
@@ -1046,11 +1070,8 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
       szText = vDialog.Control.Text
    END   
 
-   IF szClass = ""
-      szWriteBuffer = "<span name=^span" + szCtrlTag + szRepeatGrpKey + "^ id=^span" + szCtrlTag + szRepeatGrpKey + "^ " + szTitleHTML + szStyle + ">" + szSpaces + szText + "</span>"
-   ELSE
-      szWriteBuffer = "<span name=^span" + szCtrlTag + szRepeatGrpKey + "^ id=^span" + szCtrlTag + szRepeatGrpKey + "^ class=^" + szClass + "^ " + szTitleHTML + szStyle + ">" + szSpaces + szText + "</span>"
-   END
+   szWriteBuffer = "<span name=^span" + szCtrlTag + szRepeatGrpKey + "^ id=^span" + szCtrlTag + szRepeatGrpKey +  "^ " +
+                   szClass + szHTML5Attr + szTitleHTML + szStyle + ">" + szSpaces + szText + "</span>"
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
 END
@@ -7907,11 +7928,13 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
             szWriteBuffer = "            String contenttype = ^application/octet-stream^;  "
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            ServletOutputStream outStream = response.getOutputStream( );"
+            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "            response.reset( );"
+            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            response.setContentType(contenttype);"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            response.setHeader( ^Content-Disposition^, ^attachment; filename=\^^ + sSourceFileNameOnly + ^\^;^ );"
-            WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "            ServletOutputStream outStream = response.getOutputStream( );"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "            int c = 0;"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -7991,6 +8014,10 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "               file = net.sf.jasperreports.engine.JasperExportManager.exportReportToPdf(jasperPrint);"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "               ServletOutputStream outStream = response.getOutputStream();"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "               response.reset();"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "               response.setContentType(^application/pdf^);"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "               response.setContentLength(file.length);"
@@ -8008,11 +8035,11 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       szWriteBuffer = "               response.setHeader(^Content-disposition^, strParam);"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
               
-      szWriteBuffer = "               response.getOutputStream().write(file);"
+      szWriteBuffer = "               outStream.write(file);"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "               response.getOutputStream().flush();"
+      szWriteBuffer = "               outStream.flush();"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "               response.getOutputStream().close();"
+      szWriteBuffer = "               outStream.close();"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "            }"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
@@ -8109,6 +8136,8 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       szWriteBuffer = "               FileInputStream fin = new FileInputStream(f);"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "               ServletOutputStream outStream = response.getOutputStream();"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "               response.reset();"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "               response.setContentType(^application/vnd.ms-excel^);"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )

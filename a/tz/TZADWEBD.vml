@@ -846,7 +846,7 @@ SELECT_ESGL_ListPotAttributes( VIEW ViewToWindow )
 
    VIEW TZADWWKO  REGISTERED AS TZADWWKO
    SHORT   nRC
-   
+
    // Add each selected ESG_FlatListPotentialAttribute entry as a selected ESG List Attribute.
    // We will add them sequentially to the current ESG_ListLOD_Attribute position 
    
@@ -854,7 +854,7 @@ SELECT_ESGL_ListPotAttributes( VIEW ViewToWindow )
       nRC = GetSelectStateOfEntity( TZADWWKO, "ESG_FlatListPotentialAttribute" )
       IF nRC = 1
          SET CURSOR FIRST TZADWWKO.ESG_ListLOD_Attribute  
-                    WHERE TZADWWKO.ESG_ListLOD_Attribute.ZKey = TZADWWKO.ESG_FlatListPotentialAttribute.ZKey
+                    WHERE TZADWWKO.ESG_ListLOD_Attribute.ZKey = TZADWWKO.ESG_FlatLOD_Attribute.ZKey
          IF RESULT < zCURSOR_SET
             INCLUDE TZADWWKO.ESG_ListLOD_Attribute FROM TZADWWKO.ESG_FlatLOD_Attribute 
             // We will use the list title value if it exists. Otherwise, we will use the Prompt value.
@@ -1013,7 +1013,6 @@ GOTO_AD_GroupUpdate( VIEW ViewToWindow )
    IF szGroupType = "ListGroupwMGP"
       SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupListwMGP_Spec" )
    ELSE
-
       MessageSend( ViewToWindow, "", "Autodesign Subdialog",
                    "A Valid Type must be selected.",
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
@@ -1259,6 +1258,8 @@ AUTODESIGN_NewGroup( VIEW ViewToWindow )
    
    // Reuse the GenEntitySubGroup operation to build the Group and an optional, subpage, depending on the Group Type.
    
+   szGroupType = TZADWWKO.EntitySubGroup.GroupType 
+   
    // Also activate AD_Base to pick up reusable data values.
    nRC = ActivateAD_BaseL( AD_Base, ViewToWindow )
    IF nRC < 0
@@ -1279,19 +1280,20 @@ AUTODESIGN_NewGroup( VIEW ViewToWindow )
       RETURN -2
    END
    
-   // Check for Update LOD.
-   GET VIEW UpdateLOD NAMED "TZZOLODO_Update"
-   IF RESULT < 0
-      MessageSend( ViewToWindow, "", "Autodesign Subdialog",
-                   "The Update Object has not been selected.",
-                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
-      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
-      RETURN -2
+   // Check for Update LOD, unless the Group is a DashboardEntry.
+   IF szGroupType != "DetailGroupDBE"
+      GET VIEW UpdateLOD NAMED "TZZOLODO_Update"
+      IF RESULT < 0
+         MessageSend( ViewToWindow, "", "Autodesign Subdialog",
+                      "The Update Object has not been selected.",
+                      zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+         SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
+         RETURN -2
+      END
    END
    
    // Make sure that Mapping wasn't skipped. 
    // Note that we're not making sure all mapping entries have been selected, but just that the User has gone to mapping.
-   szGroupType = TZADWWKO.EntitySubGroup.GroupType 
    IF szGroupType = "ListGroupOnly"         OR 
       szGroupType = "ListGroupWDetailPage"  OR 
       szGroupType = "ListGroupWUpdatePage"  OR
@@ -1347,6 +1349,8 @@ AUTODESIGN_NewGroup( VIEW ViewToWindow )
    SET CURSOR FIRST TZWINDOWL.Control
    RenameAD_Controls( TZADWWKO, TZWINDOWL ) 
    
+   // SUBWINDOWS FOR SELECTED GROUP TYPES
+   
    // Next, build the subwindow if there is one for the Group Type.
    IF szGroupType = "ListGroupWUpdatePage" OR szGroupType = "ListGroupWDetailPage"
    
@@ -1386,7 +1390,7 @@ AUTODESIGN_NewGroup( VIEW ViewToWindow )
       AUTODESIGN_MPG_Pages( ViewToWindow )
       
       DropObjectInstance( TZADWWKO )
-   
+      
    END
    END
    END
@@ -1450,6 +1454,7 @@ AUTODESIGN_MPG_Pages( VIEW ViewToWindow )
    STRING ( 50 )  szAD_RetO 
    STRING ( 50 )  szAD_RetE 
    STRING ( 50 )  szAD_UpdObj
+   STRING ( 50 )  szAD_ID
    STRING ( 50 )  szMainV
    STRING ( 50 )  szMainE
    STRING ( 50 )  szAD_UpdE
@@ -1683,6 +1688,7 @@ AUTODESIGN_MPG_Pages( VIEW ViewToWindow )
       ELSE
          szOriginalVML = "c:\lplr\AD_Base\ObjDtl.VML"
       END
+      ReturnID_NameForEntity( TZADWWKO, szAD_ID, szAD_UpdE, UpdateLOD )  // Get Identifier Name for UpdateLOD LOD & Entity szAD_UpdE
       
       // Copy the source VML to the end of the Find VML, converting the variable characters in the process.
       nFileIn   = SysOpenFile( TZWINDOW, szOriginalVML, COREFILE_READ ) 
@@ -1697,6 +1703,7 @@ AUTODESIGN_MPG_Pages( VIEW ViewToWindow )
          zSearchAndReplace( szVML_Statement, 256, "_AD_RetE",  szAD_RetE )    // The Main Object Entity for Activate
          zSearchAndReplace( szVML_Statement, 256, "_AD_UpdE",  szAD_UpdE )    // The Root Entity of the MGP Update LOD.
          zSearchAndReplace( szVML_Statement, 256, "_AD_Suff",  szAD_Suffix )  // The Root Entity of the MGP Update LOD.
+         zSearchAndReplace( szVML_Statement, 256, "_AD_ID",    szAD_ID )      // Update Identifier Name for object and entity above.
          
          SysWriteLine( TZWINDOW, nFileOut, szVML_Statement )
          
@@ -2257,10 +2264,18 @@ ACCEPT_GroupListWInclude( VIEW ViewToWindow )
    VIEW TZWINDOWL REGISTERED AS TZWINDOWL
    VIEW UpdateLOD BASED ON LOD  TZZOLODO
    VIEW AD_Base   BASED ON LOD  TZWDLGSO
+   STRING ( 50 ) szGroupType
    INTEGER nRC
    
-   // For ListGroupwInclude Type, make sure Include MetaDef entr been selected.
-   IF TZADWWKO.AutoDesignWork.SelectedGroupType = "ListGroupwInclude"
+   // For ListGroupwInclude Type, make sure Include MetaDef entry has been selected.
+   IF TZADWWKO.AutoDesignWork.SelectedGroupType = ""
+      // Group Type is specified in EntitySubGroup.GroupType.
+      szGroupType = TZADWWKO.EntitySubGroup.GroupType 
+   ELSE
+      // Group Type is specified in AutoDesignWork.SelectedGroupType.
+      szGroupType = TZADWWKO.AutoDesignWork.SelectedGroupType 
+   END
+   IF szGroupType = "ListGroupwInclude"
       IF TZADWWKO.ESG_ListIncludeW_MetaDef DOES NOT EXIST
          MessageSend( ViewToWindow, "", "Autodesign Subdialog",
                       "An Include object must be selected.",
@@ -2384,6 +2399,57 @@ ACCEPT_Group( VIEW ViewToWindow )
       
       MessageSend( ViewToWindow, "", "Autodesign Subdialog",
                    "Both a Group Area Name and Title must be specified.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
+      RETURN -2
+   END
+   
+   AcceptSubobject( TZADWWKO, "EntitySubGroup" )
+   
+   // The Action/Operation Suffix will be the same as the Group Area Name, at least for now.
+   TZADWWKO.EntitySubGroup.IncludeOperationSuffix = TZADWWKO.EntitySubGroup.GroupAreaName 
+
+END
+
+/*************************************************************************************************
+**    
+**    OPERATION: ACCEPT_DashboardGroup
+**    
+*************************************************************************************************/
+DIALOG OPERATION
+ACCEPT_DashboardGroup( VIEW ViewToWindow )
+
+   VIEW TZADWWKO  REGISTERED AS TZADWWKO
+   VIEW TZCONTROL REGISTERED AS TZCONTROL
+   VIEW TZWINDOWL REGISTERED AS TZWINDOWL
+   VIEW UpdateLOD BASED ON LOD  TZZOLODO
+   VIEW AD_Base   BASED ON LOD  TZWDLGSO
+   STRING ( 5 ) szSuffix
+   INTEGER nRC
+   
+   // Make sure both Group Area Name and Area Title and Suffix have been entered
+   IF TZADWWKO.EntitySubGroup.GroupAreaName          = "" OR 
+      TZADWWKO.EntitySubGroup.GroupAreaTitle         = "" OR 
+      TZADWWKO.EntitySubGroup.DashboardRunTimeSuffix = ""
+      
+      MessageSend( ViewToWindow, "", "Autodesign Subdialog",
+                   "A Group Area Name, Title and Run Time Suffix must all be specified.",
+                   zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
+      SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
+      RETURN -2
+   END
+   
+   // Make sure the suffix is a number from 1 to 5.
+   szSuffix = TZADWWKO.EntitySubGroup.DashboardRunTimeSuffix 
+   IF szSuffix != "1" AND   
+      szSuffix != "2" AND 
+      szSuffix != "3" AND 
+      szSuffix != "4" AND 
+      szSuffix != "5" AND 
+      szSuffix != "6" 
+      
+      MessageSend( ViewToWindow, "", "Autodesign Subdialog",
+                   "The Run DateTime Suffix must be an integer from 1 to 6.",
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, 0 )
       SetWindowActionBehavior( ViewToWindow, zWAB_StayOnWindow, 0,0 )
       RETURN -2
@@ -3000,9 +3066,21 @@ GOTO_AD_GroupSpecification( VIEW ViewToWindow )
    VIEW IncludeLOD BASED ON LOD  TZZOLODO
    STRING ( 50 ) szLOD_Name
    SHORT nRC
+   
+   // The Groupd for Dashboard Entry has no mapping, so we'll skip the initialization code that the other Groups use.
+   IF TZADWWKO.EntitySubGroup.GroupType = "DetailGroupDBE"
+      CreateTemporalSubobjectVersion( TZADWWKO, "EntitySubGroup" )
+      SetWindowActionBehavior( ViewToWindow, zWAB_StartModalSubwindow, "TZADWEBD", "AD_GroupDashboardSpec" )
+      RETURN 
+   END
+   
+   // Set up work areas for Groups other than Dashboard Entry.
 
    // Reuse the operation from Multi-Group Page.
-   GOTO_AD_GroupUpdate( ViewToWindow )
+   nRC = GOTO_AD_GroupUpdate( ViewToWindow )
+   IF nRC < 0
+      RETURN 
+   END
    
    CreateTemporalSubobjectVersion( TZADWWKO, "EntitySubGroup" )
    

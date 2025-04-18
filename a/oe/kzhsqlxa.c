@@ -5851,7 +5851,8 @@ RetrieveSchema( zVIEW  vDTE, zPVIEW pvDB )
 
    zVIEW  vDB;
    zCHAR  szUserID[ 50 ];
-   zCHAR  szPassword[ 50 ];
+   zCHAR  szPassword[50];
+   zCHAR  szSchema[50];
    zPCHAR pchPtr = 0;
    zPCHAR pchDBName;
 
@@ -5941,8 +5942,9 @@ RetrieveSchema( zVIEW  vDTE, zPVIEW pvDB )
       return( zCALL_ERROR );
 
 #endif
+   GetStringFromAttribute(szSchema, zsizeof(szSchema), vDTE, "TE_DBMS_Source", "Name");
 
-   nRC = SQLTables( lpConnection->hstmt, 0, 0, 0, 0, 0, 0,
+   nRC = SQLTables( lpConnection->hstmt, 0, 0, szSchema, zsizeof(szSchema), 0, 0,
                     "TABLE", SQL_NTS );
    SQL_RC( "SQLTables", nRC, "Get table list", 0, 1 );
 
@@ -5988,7 +5990,7 @@ RetrieveSchema( zVIEW  vDTE, zPVIEW pvDB )
       GetStringFromAttribute( szTableName, zsizeof( szTableName ), vDB, "TE_TablRec", "Name" );
 
 #if defined( DB2 ) || defined( ODBC )
-      nRC = SQLColumns( lpConnection->hstmt, 0, 0, 0, 0, szTableName,
+      nRC = SQLColumns( lpConnection->hstmt, 0, 0, szSchema, zsizeof(szSchema), szTableName,
                         SQL_NTS, 0, 0 );
       SQL_RC( "SQLColumns", nRC, "Get column list", 0, 1 );
 

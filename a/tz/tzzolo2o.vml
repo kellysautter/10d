@@ -695,7 +695,7 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
                 STRING (32) ParentName,
                 STRING ( 1 ) szAddER_EntityFlag )
 
-/*  This is actually the main part of LOD Migration that copies the Entity subobject.  */
+   // This is actually the main part of LOD Migration that copies the Entity subobject.
 
    VIEW TaskLPLR  REGISTERED AS TaskLPLR
    VIEW NewERD2   BASED ON LOD  TZEREMDO
@@ -785,7 +785,7 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
             SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name = EREntityName
             IF RESULT < zCURSOR_SET
  
-   //TraceLineS( "***** Before Create 2", "" )   
+//TraceLineS( "***** Before Create 2", "" )   
                // Create ER Entity from LOD Entity. Create entity in alphabetical order.
                SET CURSOR FIRST NewERD.ER_Entity WHERE NewERD.ER_Entity.Name > EREntityName
                CreateMetaEntity( vSubtask, NewERD, "ER_Entity", zPOS_BEFORE )
@@ -844,12 +844,11 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
       // process is very complicated.
       IF OldRecursiveLOD.ER_RelLinkRec EXISTS AND SourceERD != 0 AND OldRecursiveLOD.LOD_EntityParent.Work != "Y"
          RelationshipName = OldRecursiveLOD.ER_RelLinkRec.Name
- 
  //TraceLineS( "***** In relationship", "" ) 
          // To locate a match on the relationship, we will need to find a match on the relationship name and
          // on both the source and target entity of the relationship.
          FoundFlag = 0
-         RelationshipName = OldRecursiveLOD.ER_RelLinkRec.Name
+         RelationshipName = OldRecursiveLOD.ER_RelLinkRec.Name 
          SET CURSOR FIRST NewERD.ER_RelType
          LOOP WHILE FoundFlag = 0 AND RESULT >= zCURSOR_SET
             // Now make sure the entity on the other side of the RelLink is correct.
@@ -862,6 +861,7 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
             IF RESULT >= zCURSOR_SET
                // There was a match, so see if the other RelLink is for he entity itself.
                CreateViewFromViewForTask( NewERD2, NewERD, 0 )
+               NAME VIEW NewERD2 "NewERD2"
                SET CURSOR NEXT NewERD2.ER_RelLink_2
                IF RESULT < zCURSOR_SET
                   SET CURSOR PREVIOUS NewERD2.ER_RelLink_2
@@ -905,7 +905,7 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
                RETURN -1
             END
             INCLUDE NewRecursiveLOD.ER_EntityRec FROM NewERD.ER_Entity
-      
+  
             IF OldRecursiveLOD.ER_RelLinkRec EXISTS
                // It's complex to position on the correct RelType in the Target ERD, as there is no name.
                // Thus, we'll first position on the RelType in the Source ERD, and then position on the Target ERD by
@@ -917,7 +917,13 @@ LOD_EntityCopy( VIEW        NewMainLOD      BASED ON LOD TZZOLODO,
                           WHERE NewERD.ER_Entity_Other.Name  = SourceERD.ER_Entity_Other.Name
                             AND NewERD.ER_RelLink_Other.Name = SourceERD.ER_RelLink_Other.Name
                IF RESULT >= zCURSOR_SET
-                  INCLUDE NewRecursiveLOD.ER_RelLinkRec FROM NewERD.ER_RelLink_Other
+                  // Modified by DonC on 8/8/2024 because the wrong NewERD.ER_RelLink was sometimes used the both entities
+                  // of the relationship were the same.
+                  IF NewERD.ER_RelLink_Other.Name = OldRecursiveLOD.ER_RelLinkRec.Name 
+                     INCLUDE NewRecursiveLOD.ER_RelLinkRec FROM NewERD.ER_RelLink_Other
+                  ELSE
+                     INCLUDE NewRecursiveLOD.ER_RelLinkRec FROM NewERD.ER_RelLink
+                  END
                   IF NewRecursiveLOD.ER_RelTypeRec DOES NOT EXIST
                      INCLUDE NewRecursiveLOD.ER_RelTypeRec FROM NewERD.ER_RelType_1
                   END
