@@ -652,11 +652,8 @@ GenJSPJ_ActionRecurs( zVIEW     vDialogMenu,
    zSHORT    RESULT; 
    zSHORT    lTempInteger_0; 
    zLONG     lTempInteger_1; 
-   zSHORT    lTempInteger_2; 
    zCHAR     szTempString_0[ 33 ]; 
-   zSHORT    lTempInteger_3; 
-
-
+   zSHORT    lTempInteger_2; 
 
    //:FOR EACH vDialogMenu.Option
    RESULT = SetCursorFirstEntity( vDialogMenu, "Option", "" );
@@ -672,39 +669,36 @@ GenJSPJ_ActionRecurs( zVIEW     vDialogMenu,
          //: IF RESULT >= zCURSOR_SET
          if ( RESULT >= zCURSOR_SET )
          { 
-            //: // Don't create an action if this is a normal zWAB_ExistDialogTask. If the action has code or "next window", then
+            //: // Don't create an action if this is a normal zWAB_ExitDialogTask. If the action has code or "next window", then
             //: // create a new one.
-            //: IF vDialogMenuRoot.Action.Type != zWAB_ExitDialogTask OR
-            //:    ( vDialogMenuRoot.Action.Type = zWAB_ExitDialogTask AND 
-            //:    ( vDialogMenuRoot.ActOper EXISTS OR (vDialogMenuRoot.Action.DialogName != "" AND vDialogMenuRoot.Action.WindowName != "" ) ) )
-            lTempInteger_2 = CheckExistenceOfEntity( vDialogMenuRoot, "ActOper" );
-            if ( CompareAttributeToInteger( vDialogMenuRoot, "Action", "Type", zWAB_ExitDialogTask ) != 0 || ( CompareAttributeToInteger( vDialogMenuRoot, "Action", "Type", zWAB_ExitDialogTask ) == 0 && ( lTempInteger_2 == 0 ||
-                 ( CompareAttributeToString( vDialogMenuRoot, "Action", "DialogName", "" ) != 0 && CompareAttributeToString( vDialogMenuRoot, "Action", "WindowName", "" ) != 0 ) ) ) )
-            { 
-               //: //Because the menu actions can be created on separate windows from the control
-               //: //actions, we need to make sure these actions are unique.  We will prefix a
-               //: //"m" to the main menu actions and prefix a "sm" to the side menu actions.
-               //: szAction = szActionPrefix + vDialogMenuRoot.Action.Tag
-               GetVariableFromAttribute( szTempString_0, 0, 'S', 33, vDialogMenuRoot, "Action", "Tag", "", 0 );
-               ZeidonStringCopy( szAction, 1, 0, szActionPrefix, 1, 0, 35 );
-               ZeidonStringConcat( szAction, 1, 0, szTempString_0, 1, 0, 35 );
-               //: lLth = zstrlen( szAction )
-               lLth = zstrlen( szAction );
+            //: // KJS 05/16/25 - As with other places... I don't understand why we made stipulations about ExitDialogTask. Seems like
+            //: // it should be like any other action (since we put the dropTask code on that action). I am going to comment this
+            //: // out for now.
+            //: //IF vDialogMenuRoot.Action.Type != zWAB_ExitDialogTask OR
+            //: //   ( vDialogMenuRoot.Action.Type = zWAB_ExitDialogTask AND 
+            //: //   ( vDialogMenuRoot.ActOper EXISTS OR (vDialogMenuRoot.Action.DialogName != "" AND vDialogMenuRoot.Action.WindowName != "" ) ) )
+            //:    //Because the menu actions can be created on separate windows from the control
+            //:    //actions, we need to make sure these actions are unique.  We will prefix a
+            //:    //"m" to the main menu actions and prefix a "sm" to the side menu actions.
+            //:    szAction = szActionPrefix + vDialogMenuRoot.Action.Tag
+            GetVariableFromAttribute( szTempString_0, 0, 'S', 33, vDialogMenuRoot, "Action", "Tag", "", 0 );
+            ZeidonStringCopy( szAction, 1, 0, szActionPrefix, 1, 0, 35 );
+            ZeidonStringConcat( szAction, 1, 0, szTempString_0, 1, 0, 35 );
+            //:    lLth = zstrlen( szAction )
+            lLth = zstrlen( szAction );
 
-               //: nRC = GenJSPJ_Action( vDialogMenuRoot, vDialogRoot, lFile, szWriteBuffer, szFormName, szAction, lTraceLevel )
-               nRC = GenJSPJ_Action( vDialogMenuRoot, vDialogRoot, lFile, szWriteBuffer, szFormName, szAction, lTraceLevel );
-            } 
-
-            //: END
+            //:    nRC = GenJSPJ_Action( vDialogMenuRoot, vDialogRoot, lFile, szWriteBuffer, szFormName, szAction, lTraceLevel )
+            nRC = GenJSPJ_Action( vDialogMenuRoot, vDialogRoot, lFile, szWriteBuffer, szFormName, szAction, lTraceLevel );
          } 
 
+         //:    //END
          //: END
       } 
 
       //:END
       //:IF vDialogMenu.OptOpt EXISTS
-      lTempInteger_3 = CheckExistenceOfEntity( vDialogMenu, "OptOpt" );
-      if ( lTempInteger_3 == 0 )
+      lTempInteger_2 = CheckExistenceOfEntity( vDialogMenu, "OptOpt" );
+      if ( lTempInteger_2 == 0 )
       { 
 
          //:// Create view for Group as a parent. This will be used in processing subcontrols to check for WebControlProperty.
@@ -766,7 +760,6 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
    zSHORT    lTempInteger_3; 
    zSHORT    lTempInteger_4; 
    zSHORT    lTempInteger_5; 
-   zSHORT    lTempInteger_6; 
 
 
    //:// KJS 12/16/16 - I switched "WL_QC( vDialog" to "WL_QC( vDialogRoot".
@@ -949,29 +942,21 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
             //:IF vDialogMenuRoot.Action.Type = zWAB_ExitDialogTask 
             if ( CompareAttributeToInteger( vDialogMenuRoot, "Action", "Type", zWAB_ExitDialogTask ) == 0 )
             { 
-               //:IF ( vDialogMenuRoot.ActOper EXISTS OR ( vDialogMenuRoot.Action.DialogName != "" AND vDialogMenuRoot.Action.WindowName != "" ) )
-               lTempInteger_5 = CheckExistenceOfEntity( vDialogMenuRoot, "ActOper" );
-               if ( lTempInteger_5 == 0 || ( CompareAttributeToString( vDialogMenuRoot, "Action", "DialogName", "" ) != 0 && CompareAttributeToString( vDialogMenuRoot, "Action", "WindowName", "" ) != 0 ) )
-               { 
-                  //:// KJS 06/12/23 - If the action has an operation to call or has a dialog.window specified to direct to, don't use _OnUnload.
-                  //:szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionName + "^;"
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "      document.", 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, ".zAction.value = ^", 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^;", 1, 0, 10001 );
-                  //:ELSE
-               } 
-               else
-               { 
-                  //:// For exiting the Dialog (ie., Session), the Action is OnUnload.
-                  //:szWriteBuffer = "      document." + szFormName + ".zAction.value = ^_OnUnload^;"
-                  ZeidonStringCopy( szWriteBuffer, 1, 0, "      document.", 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
-                  ZeidonStringConcat( szWriteBuffer, 1, 0, ".zAction.value = ^_OnUnload^;", 1, 0, 10001 );
-               } 
-
-               //:END                          
+               //:// KJS 05/15/25 - I am not sure why we only want to call "_OnUnload" on ExitDialogTask. I'm thinking that might be
+               //:// "old" thinking. We add the droptask on whatever action has the ExitDialogTask termination.
+               //:// I am going to comment out those lines.
+               //://IF ( vDialogMenuRoot.ActOper EXISTS OR ( vDialogMenuRoot.Action.DialogName != "" AND vDialogMenuRoot.Action.WindowName != "" ) )
+               //:   // KJS 06/12/23 - If the action has an operation to call or has a dialog.window specified to direct to, don't use _OnUnload.
+               //:   szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionName + "^;"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "      document.", 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, ".zAction.value = ^", 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, szActionName, 1, 0, 10001 );
+               ZeidonStringConcat( szWriteBuffer, 1, 0, "^;", 1, 0, 10001 );
+               //://ELSE
+               //:   // For exiting the Dialog (ie., Session), the Action is OnUnload.
+               //://   szWriteBuffer = "      document." + szFormName + ".zAction.value = ^_OnUnload^;"
+               //://END                          
                //:ELSE
             } 
             else
@@ -1008,8 +993,8 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
 
       //:END
       //:IF vDialog.OptOpt EXISTS
-      lTempInteger_6 = CheckExistenceOfEntity( vDialog, "OptOpt" );
-      if ( lTempInteger_6 == 0 )
+      lTempInteger_5 = CheckExistenceOfEntity( vDialog, "OptOpt" );
+      if ( lTempInteger_5 == 0 )
       { 
 
          //:// Create view for Group as a parent. This will be used in processing subcontrols to check for WebControlProperty.
@@ -9425,92 +9410,6 @@ GenJSP_MenuFunctions( zVIEW     vDialog,
    //:GenJSP_MenuFunctionsRecurs( vDialog, vDialogMenuRoot, vDialogRoot, lFile, szWriteBuffer, szFormName, szActionPrefix )         
    GenJSP_MenuFunctionsRecurs( vDialog, vDialogMenuRoot, vDialogRoot, lFile, szWriteBuffer, szFormName, szActionPrefix );
    return;
-// /*
-//    FOR EACH vDialog.Option
-//       IF vDialog.OptAct EXISTS
-//          SET CURSOR FIRST vDialog.Action WHERE vDialog.Action.Tag = vDialog.OptAct.Tag
-//          IF RESULT >= zCURSOR_SET
-//             //Because the menu actions can be created on separate windows from the control
-//             //actions, we need to make sure these actions are unique.  We will prefix a
-//             //"m" to the main menu actions and prefix a "sm" to the side menu actions.
-//             szActionName = szActionPrefix + vDialog.Action.Tag
-//             nRC = zstrcmpi( szActionName, "alt-f4" )
-//             IF nRC = 0
-//                szActionName = "AltF4"
-//             END
-//             bListButton = 0
-//             IF vDialog.ActEvent EXISTS AND vDialog.ActCtrl EXISTS
-//                szCtrlTag = vDialog.ActCtrl.Tag
-//                CreateViewFromViewForTask( vDialog2, vDialogRoot, 0 )
-//                lControl = zQUAL_STRING + zPOS_FIRST + zRECURS
-//                IF SetEntityCursor( vDialog2, "Control", "Tag", lControl,
-//                                    szCtrlTag, "", "", 0,
-//                                    "Window", "" ) >= zCURSOR_SET AND
-//                   vDialog2.ControlDef.Key = 1020
-//                   IF ResetViewFromSubobject( vDialog2 ) = 0 AND
-//                      vDialog2.ControlDef.Key = 2010
-//                      bListButton = 1
-//                   END
-//                END
-//                DropView( vDialog2 )
-//             END
-//             IF bListButton = 1
-//                szWriteBuffer = "function " + szActionName + "( strEntityKey )"
-//             ELSE
-//                szWriteBuffer = "function " + szActionName + "( )"
-//             END
-//             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-//             szWriteBuffer = "{"
-//             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-//             szWriteBuffer = "   // This is for indicating whether the user hit the window close box."
-//             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-//             szWriteBuffer = "   isWindowClosing = false;"
-//             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-//             szWriteBuffer = "   if ( _IsDocDisabled( ) == false )"
-//             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-//             szWriteBuffer = "   {"
-//             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-//             //KJS 11/16/2007 - We want to insert any javascript code that the
-//             //user has entered for this action.  This will be put before the action
-//             //generated code for submitting.
-//             szJavaScript = vDialog.Action.WebJavaScript
-//             IF szJavaScript != ""
-//                szWriteBuffer = ""
-//                WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-//                szWriteBuffer = "      // Javascript code entered by user."
-//                WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-//                szWriteBuffer = szJavaScript
-//                WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-//                szWriteBuffer = "      // END of Javascript code entered by user."
-//                WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-//             END
-//                // KJS 10/28/10 - Testing this to see how using an hourglass would work while
-//                // the user is waiting for something to happen.
-//                //szWriteBuffer = "      document.body.style.cursor = ^wait^;"
-//                //WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-//             szWriteBuffer = "      _DisableFormElements( true );"
-//             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-//             IF bListButton = 1
-//                szWriteBuffer = "      document." + szFormName + ".zTableRowSelect.value = strEntityKey;"
-//                WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-//             END
-//             IF vDialog.Action.Type = zWAB_ExitDialogTask
-//                // For exiting the Dialog (ie., Session), the Action is OnUnload.
-//                szWriteBuffer = "      document." + szFormName + ".zAction.value = ^_OnUnload^;"
-//             ELSE
-//                szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionName + "^;"
-//             END
-//             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-//             szWriteBuffer = "      document." + szFormName + ".submit( );"
-//             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-//             szWriteBuffer = "   }"
-//             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-//             szWriteBuffer = "}"
-//             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
-//          END
-//       END
-//    END
-//    */
 // END
 } 
 

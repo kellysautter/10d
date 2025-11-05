@@ -4958,7 +4958,7 @@ SystemActivate( zVIEW vSubtask )
    zVIEW    vWindowList = 0;
    zCHAR    szWorkString[ 256 ];
 
-// TraceLineS( "(tzpntrad) - SystemActivate", "" );
+   //TraceLineS( "(tzpntrad) - SystemActivate", "" );
 
    if ( GetViewByName( &vKZWDLGXO,
                        "__SysPainterHotkey", vSubtask, zLEVEL_SYSTEM ) > 0 &&
@@ -6081,7 +6081,7 @@ OPT_UPD_Init( zVIEW vSubtask )
    nRC = GetViewByName( &vEvents, "TZPNEVWO", vSubtask, zLEVEL_TASK );
    if ( nRC )
    {
-      ActivateEmptyObjectInstance( &vEvents, "TZPNEVWO",
+	   ActivateEmptyObjectInstance( &vEvents, "TZPNEVWO",
                                    vSubtask, zMULTIPLE );
       SetNameForView( vEvents, "TZPNEVWO", vSubtask, zLEVEL_TASK );
    }
@@ -6899,7 +6899,7 @@ zwTZPNTRAD_InitModalSubwindow( zVIEW vSubtask )
          DropObjectInstance( vEvents );
       }
 
-      ActivateEmptyObjectInstance( &vEvents, "TZPNEVWO",
+	  ActivateEmptyObjectInstance( &vEvents, "TZPNEVWO",
                                    vSubtask, zMULTIPLE );
       SetNameForView( vEvents, "TZPNEVWO", vSubtask, zLEVEL_TASK );
       GetViewByName( &vTZPESRCO, "TZPESRCO", vSubtask, zLEVEL_TASK );

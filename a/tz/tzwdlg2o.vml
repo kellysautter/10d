@@ -1024,3 +1024,457 @@ CtrlListDisplayValueC( VIEW vDialog BASED ON LOD TZWDLGSO,
    END  // case
 
 END
+
+/*************************************************************************************************
+**    
+**    OPERATION: GenJSPJ_CommonActions
+**    
+*************************************************************************************************/
+TRANSFORMATION OPERATION
+GenJSPJ_CommonActions( VIEW vDialogRoot,
+                       VIEW vDialog,
+                       INTEGER lFileJAVA,
+                       STRING ( 10000 ) szWriteBuffer,
+                       STRING ( 32 ) szFormName,
+                       STRING ( 1 )  szSortFlag )
+
+   VIEW vDialogTemp  BASED ON LOD TZWDLGSO
+   STRING ( 1 )     szWindowIsPopup
+   STRING ( 1 )     szNoAutoLogout
+   SHORT            nRC
+   INTEGER          lControl
+
+   szWriteBuffer = "var isWindowClosing = true;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "var timerID = null;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "onerror = handleErr;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "window.history.forward( 1 );"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+
+   // Look for additional Tab controls.
+   // KJS 0412/18 - I am not exactly sure why we have this following code. It puts variables in the
+   // js file that I don't see we need at the moment. If a tab control is on a group box, we run
+   // into an error on the SetEntityCursor (because Window is no longer in view). I am taking this
+   // out for now.
+   /*
+   CreateViewFromView( vDialogTemp, vDialogRoot )
+   LOOP WHILE nRC >= zCURSOR_SET
+      szWriteBuffer = "var " + vDialogTemp.Control.Tag + ";"
+      WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+      lControl = zQUAL_STRING + zPOS_NEXT + zRECURS
+      // Look for a control with controldef of "Tab"
+      // vDialog.ControlDef.Tag
+      nRC = SetEntityCursor( vDialogTemp, "ControlDef", "Tag", lControl,
+                             szEntityName, "", "", 0, "Window", "" )
+   END
+   DropView( vDialogTemp )
+   */
+
+   // Place a blank line here for reading purposes.
+   szWriteBuffer = ""
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+
+   szWriteBuffer = "function handleErr( msg, url, l )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   //szWriteBuffer = "// Uncomment the following (invalid) line and put it in some function below to help find the error."
+   //WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   //szWriteBuffer = "// document.replace(^http://www.enc.edu/^);"
+   //WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "   var txt = ^There was an error on this page.\n\n^;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   txt += ^Error: ^ + msg + ^\n^;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   txt += ^URL: ^ + url + ^\n^;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   txt += ^Line: ^ + l + ^\n\n^;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   txt += ^Click OK to continue.\n\n^;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "// alert( txt );"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   return true;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "// This function returns Internet Explorer's major version number,"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "// or 0 for others. It works by finding the ^MSIE ^ string and"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "// extracting the version number following the space, up to the decimal"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "// point, ignoring the minor version number."
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "function msieversion( )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   var ua = window.navigator.userAgent;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   var msie = ua.indexOf( ^MSIE ^ );"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "   if ( msie > 0 )      // if Internet Explorer, return version number"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      return parseInt( ua.substring( msie + 5, ua.indexOf( ^.^, msie ) ) );"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   else                 // if another browser, return 0"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      return 0;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   //Function _OnAlmostTimeout
+   szWriteBuffer = "function _OnAlmostTimeout()"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   if ( _IsDocDisabled( ) == false )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      var tStart   = new Date();"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = ""
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      alert( ^Your session will timeout in one minute.  Please click 'OK' within that time to continue and save your work if necessary.^ )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+   szWriteBuffer = "      var tEnd   = new Date();"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      var tDiff = tEnd.getTime() - tStart.getTime();"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+   szWriteBuffer = "      // If the time is less than one minute, resubmit the page.  Otherwise, go to the timeout window."
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      if (tDiff < 60000)"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         document." + szFormName + ".zAction.value = ^_OnResubmitPage^;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         document." + szFormName + ".submit( );"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      else"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         _OnTimeout( );"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   //function _OnTimeout
+   szWriteBuffer = "function _OnTimeout( )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   if ( _IsDocDisabled( ) == false )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      _DisableFormElements( true );"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+   szWriteBuffer = "      document." + szFormName + ".zAction.value = ^_OnTimeout^;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      document." + szFormName + ".submit( );"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   //function _BeforePageUnload
+   szWriteBuffer = "function _BeforePageUnload( )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   if ( _IsDocDisabled( ) == false )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      // If the user clicked on the window close box, then"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      // isWindowClosing will be true.  Otherwise if the user"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      // clicked on something else in the page, isWindowClosing will be false."
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      // If the user clicked the window close box, unregister zeidon."
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   // If the user hits the close box in the upper right of the window or leave this page to another web site,
+   // then we want to try a log them out of zeidon because otherwise, we feel we have memory still cached.
+   // We want to try and eliminate this and determine if the user has left this application and thus do
+   // necessary clean up.
+   szWriteBuffer = "      if (isWindowClosing)"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szNoAutoLogout = vDialogRoot.Dialog.WEB_NoAutoLogOut
+   // If this is a log on page (like wStartupLogin) then we don't want to have the 'Unregister Zeidon' happen
+   // if the user leaves the page or refreshes.  It causes problems.
+   // KJS 01/19/11 - If the window is a popup window, then we are not going to try doing the unload if the user
+   // hits the close box because most likely on popup windows, user's would close the window this way.
+   // KJS 02/09/11 - I have added a new checkbox to the dialog properties window so that we can turn off
+   // automatically logging a user out for the pages of a dialog (currently we don't want this for the budget
+   // pages in Zencas).  Otherwise, I keep changing this code back and forth to comment out the submit lines.
+   IF ( vDialog.Window.WEB_RegisterZeidonWindow != "Y" AND szWindowIsPopup = "" AND szNoAutoLogout != "Y" )
+      szWriteBuffer = "         document." + szFormName + ".zAction.value = ^_OnUnload^;"
+      //szWriteBuffer = "         //document." + szFormName + ".zAction.value = ^_OnUnload^;"
+      WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         document." + szFormName + ".submit( );"
+      //szWriteBuffer = "         //document." + szFormName + ".submit( );"
+      WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   ELSE
+      szWriteBuffer = "         // These lines are commented out because either we are registering zeidon on this"
+      WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         // window or this is a popup window so we don't want to do an unload if the user"
+      WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         // closes the window using the red close button."
+      WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         //document." + szFormName + ".zAction.value = ^_OnUnload^;"
+      WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         //document." + szFormName + ".submit( );"
+      WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   END
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   //szWriteBuffer = "      // No action needs to be taken here. This is just a place holder for traces."
+   //WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   //szWriteBuffer = "      // alert( document.wFacultDAdviseeList.zAction.value );"
+   //WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   //function _IsDocDisabled
+   szWriteBuffer = "function _IsDocDisabled( )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   var bRC = false;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "   var $el = $(^#zDisable^);"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   if ( $el.length > 0 ) {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      bRC = $el[0].disabled;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   return bRC ? true : false;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   //function _DisableFormElements
+   szWriteBuffer = "function _DisableFormElements( bDisabled )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   var bRC = false;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "   if ( bDisabled && timerID != null )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      clearTimeout( timerID );"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      timerID = null;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   // Controls on the window may have been set as disabled through javascript but
+   // when we try to get the values for these controls in jsp (response.getParameter)
+   // they will always be null.  Set any disabled fields to enabled for this reason.
+   szWriteBuffer = "   // Controls on the window may have been set as disabled through javascript but"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   // when we try to get the values for these controls in jsp (response.getParameter)"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   // they will always be null.  Set any disabled fields to enabled for this reason."
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   for ( j = 0; j < document.forms.length; j++ )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      theForm = document.forms[ j ];"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      for ( k = 0; k < theForm.length; k++ )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         if (theForm.elements[ k ].disabled == true)"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "             theForm.elements[ k ].disabled = false;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "   var $el = $(^#zDisable^);"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   if ( $el.length > 0 ) {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      $el[0].disabled = true;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      bRC = true;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   szWriteBuffer = "   $.blockUI({ message: '<h1><img src=^./images/busy.gif^ /></h1>', overlayCSS: { backgroundColor: '#eee' } });"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   return bRC;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+   // Default button function.
+   IF vDialog.Window.DfltButton != ""
+      CreateViewFromView( vDialogTemp, vDialog )
+      lControl = zQUAL_STRING + zPOS_FIRST + zRECURS
+      nRC = SetEntityCursor( vDialogTemp, "Control", "Tag", lControl,
+                             vDialog.Window.DfltButton, "", "", 0, "Window", "" )
+      IF nRC >= zCURSOR_SET
+         IF vDialogTemp.EventAct EXISTS
+            szWriteBuffer = "function _OnEnter( e )"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "{"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   var keycode;"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   if ( window.event )"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      keycode = window.event.keyCode;"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   else"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   {"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      if ( e )"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         keycode = e.which;"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      else"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "         return true;"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   }"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+
+            szWriteBuffer = "   if ( keycode == 13 )"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   {"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      " + vDialogTemp.EventAct.Tag + "( );"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      return false;"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   }"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   else"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "      return true;"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            szWriteBuffer = "   }"
+            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 1 )
+         END
+      END
+      DropView( vDialogTemp )
+   END
+ 
+   IF szSortFlag = "Y"  
+   // KJS 03/04/25 - New function
+   // function _TableSort
+   szWriteBuffer = ""
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "function _TableSort( idName )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "{"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = ""
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   if ( _IsDocDisabled( ) == false )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      // If the user clicked on the window close box, then"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      // isWindowClosing will be true.  Otherwise if the user"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      // clicked on something else in the page, isWindowClosing will be false."
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      // If the user clicked the window close box, unregister zeidon."
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      if (isWindowClosing)"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         var sortOrder = document.PersonList2.zSortOrder.value;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         var sortMap  = document.PersonList2.zSortMap.value;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         if ( sortMap == idName )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "              if ( sortName.indexOf('A') >= 0 )"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "              {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "                 sortOrder = 'D';"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "                 document.PersonList2.zSortOrder.value = 'D';"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "              }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "              else"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "              {"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "                 sortOrder = 'A';"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "                 document.PersonList2.zSortOrder.value = 'A';"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "              }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         else"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "            sortOrder = 'A';"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = ""
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         document.PersonList2.zSortOrder.value = sortOrder;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         document.PersonList2.zSortMap.value = idName;"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         document.PersonList2.zAction.value = '_TableSort';"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "         document.PersonList2.submit( );"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "      }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   }"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "}"
+   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+   END
+
+END
+

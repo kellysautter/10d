@@ -1834,6 +1834,9 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    IF vDialog.Window.WEB_RegisterZeidonWindow = "Y" // "wStartUpLogin"
       szRegisterZeidon = "Y"
    END
+   IF vDialog.Window.WEB_NoMonitorTask = "Y" // We register this page but don't check if another session is open.
+      szNoMonitorTaskLogout = "Y"
+   END
 
    // I think this is only for if we are registering zeidon on this page...
    // KJS 09/04/14 - Setting a logout date, to try and determine if a user tries to log into application when they already have a session open.
@@ -1907,6 +1910,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "{"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   // Now szRegisterZeidon can be "Y" or "T" (register but do not go to loggedintotask.jsp)
    IF szRegisterZeidon = "Y" AND (szNoMonitorTaskLogout = "" OR szNoMonitorTaskLogout = "N")
       szWriteBuffer = "   strURL = response.encodeRedirectURL( ^loggedintotask.jsp^ );"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -2118,6 +2122,35 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "      }"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+   
+   // KJS 05/14/25 - This code has been added to see if we can keep users from having more than one tab open for an app.
+   // It relies on having code in the logout.jsp that has the following code which creates a new sessionid (taskid) and so we can
+   // compare to zLastTask (which would be the last sessionid for this page).
+   /*
+   session.invalidate();
+   Cookie killSessionCookie = new Cookie("JSESSIONID", null);
+   killSessionCookie.setMaxAge(0);
+   killSessionCookie.setPath("/"); 
+   killSessionCookie.setDomain(request.getServerName());
+   response.addCookie(killSessionCookie);
+   */ 
+   IF szRegisterZeidon = "" AND (szNoMonitorTaskLogout = "" OR szNoMonitorTaskLogout = "N")
+      szWriteBuffer = "      String strLastTask = (String) request.getParameter( ^zLastTask^ );"
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+   
+      szWriteBuffer = "      if ( strLastTask != null && !taskId.equals(strLastTask) )"
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      {"
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "          strURL = response.encodeRedirectURL( ^loggedintotask.jsp^ );"
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "          response.sendRedirect( strURL );"
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "          return; // something really bad has happened!!!"
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      }"
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 1 )
+   END  
 
    IF szWebDebugView != ""
 
@@ -2162,13 +2195,13 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
             szActionTag = "AltF4"
          END
 
-         IF vDialog.Action.Type != zWAB_ExitDialogTask
+         //IF vDialog.Action.Type != zWAB_ExitDialogTask
             // We don't format the Action on exit dialog, as the function in the java script calls OnUnload.
             nRC = GenJSPJ_Action( vDialog, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szActionTag, lTrace )
             IF nRC != 0
                nSystemSort = nRC
             END
-         END
+         //END
       ELSE
          IF vDialog.ActEvent EXISTS OR vDialog.ActOpt EXISTS
             TraceLineS( "Action has WndEvent that PREVENTS generation: ", szActionTag )
@@ -4324,12 +4357,14 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
 
                END
 
-               IF lActionType = zWAB_ExitDialogTask
+               // KJS 05/15/25 - I am not sure that we always need to call "_OnUnload" when the action is ExitDialogTask.
+               // I am going to comment this out for now...
+               //IF lActionType = zWAB_ExitDialogTask
                   // For exiting the Dialog (ie., Session), the Action is OnUnload.
-                  szWriteBuffer = "      document." + szFormName + ".zAction.value = ^_OnUnload^;"
-               ELSE
+               //   szWriteBuffer = "      document." + szFormName + ".zAction.value = ^_OnUnload^;"
+               //ELSE
                   szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionTag + "^;"
-               END
+               //END
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      document." + szFormName + ".submit( );"
                WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
@@ -5434,6 +5469,8 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          szWriteBuffer = "   <input name=^zTimeout^ id=^zTimeout^ type=^hidden^ value=^<%=nTimeout%>^>"
       END
    END
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   szWriteBuffer = "   <input name=^zLastTask^ id=^zLastTask^ type=^hidden^ value=^<%=taskId%>^>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    szWriteBuffer = "   <input name=^zSolicitSave^ id=^zSolicitSave^ type=^hidden^ value=^<%=strSolicitSave%>^>"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )

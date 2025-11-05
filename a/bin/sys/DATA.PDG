@@ -1,16 +1,17 @@
-z1000-Zeidon    DATA     TZDGSRCO 01/22/14   16:16:45 1.0a2    
+z1000-Zeidon    DATA     TZDGSRCO                         08/04/25   16:51:12 1.0a2   
 eDomainGroup 1
 aZKey      1319805
+aNextZKeyToAssign 110001395
 aName      DATA
 aExtension C
 aWorkNumeric 3
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      1319806
 aName      DataType
 aDesc      Zeidon defined datatypes ( logical & physical )
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N
@@ -216,11 +217,11 @@ aExternalValue Byte - Single Char
 aInternalValue Y
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      92726977
 aName      OperationGenerationType
 aDesc      If the operation is to be generated in C only or Java only.
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N
@@ -241,11 +242,11 @@ aExternalValue Java Generation Only
 aInternalValue J
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      90441895
 aName      LockingOptions
 aDesc      LOD and Entity Locks
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  L
 aContextRestriction N
 
@@ -300,11 +301,11 @@ aExternalValue Pessimistic Exclusive
 aInternalValue 5
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      70061913
 aName      ReportPositioningType
 aDesc      Type of positioning (vertical or horizontal) for an entity on a report
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N
@@ -325,11 +326,11 @@ aExternalValue Vertical
 aInternalValue V
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      90026793
 aName      LanguageType
 aDesc      Source language type  - VML or C
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N
@@ -364,11 +365,11 @@ aExternalValue Scala
 aInternalValue S
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      1320608
 aName      ZeidonOperationTypes
 aDesc      types of operations that can be defined for Zeidon (VML)
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N
@@ -583,11 +584,11 @@ aExternalValue ShortcutKey Operation
 aInternalValue K
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      1320158
 aName      Operators
 aDesc      List of operators (<, >, =, <=, >=)
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 2
 aContextRestriction N
@@ -624,11 +625,11 @@ aExternalValue >=
 aInternalValue >=
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      1320095
 aName      DM_DomainType
 aDesc      Type of Zeidon Domain
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N
@@ -689,11 +690,11 @@ aExternalValue F
 aInternalValue F
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      1319867
 aName      DataTypeDomain
 aDesc      Zeidon domain datatypes (logical) supported by Core
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N
@@ -829,11 +830,11 @@ aExternalValue Blob
 aInternalValue B
 
 eDomain    2
-aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aZKey      1319844
 aName      DataType3GL
 aDesc      VML Supported Types...
 aDomainType T
+aJavaClass com.quinsoft.zeidon.domains.StaticTableDomain
 aDataType  S
 aMaxStringLth 1
 aContextRestriction N
@@ -842,9 +843,6 @@ eContext   3
 aZKey      1319845
 aName      DataType3GL
 aIsDefault Y
-
-eTableEntry 4
-aZKey      92484497
 
 eTableEntry 4
 aZKey      1319846
@@ -896,9 +894,6 @@ aZKey      1319855
 aName      Display
 
 eTableEntry 4
-aZKey      92484498
-
-eTableEntry 4
 aZKey      1319857
 aExternalValue String - Any length
 aInternalValue S
@@ -943,9 +938,6 @@ aZKey      89095614
 aName      NonGlobalParameter
 
 eTableEntry 4
-aZKey      92484499
-
-eTableEntry 4
 aZKey      89095615
 aExternalValue String - Any length
 aInternalValue S
@@ -979,9 +971,6 @@ aZKey      89095607
 aName      ReturnCode
 
 eTableEntry 4
-aZKey      92484500
-
-eTableEntry 4
 aZKey      89095608
 aExternalValue Short Number (±32,000)
 aInternalValue N
@@ -995,6 +984,11 @@ eTableEntry 4
 aZKey      89095610
 aExternalValue Decimal (18 digits)
 aInternalValue M
+
+eTableEntry 4
+aZKey      110001395
+aExternalValue String - Any length
+aInternalValue S
 
 eZ_MetaDef 2
 aName      DATA

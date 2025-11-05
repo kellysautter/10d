@@ -1,4 +1,4 @@
-z1000-Zeidon    TZOPUPDD TZWDLGSO 02/27/24   14:03:11 1.0b0    
+z1000-Zeidon    TZOPUPDD TZWDLGSO 07/08/25   11:13:13 1.0b0    
 eDialog    1
 aTag       TZOPUPDD
 aDLL_Name  TZOPUPDD
@@ -3089,7 +3089,7 @@ M____________________________________________________________
 M_____________________________________________U(`;P!O`'0`(`!%
 M`&X`=`!R`'D`````````````````````````````````````````````````
 M```````````6``4`__________\!````````````````````````````````
-M```````````MV)NO:=H!`P```$``````````0P!O`&X`=`!E`&X`=`!S````
+M`````````)!AI9D:\-L!`P```$``````````0P!O`&X`=`!E`&X`=`!S````
 M````````````````````````````````````````````````````````````
 M`!(``@'_______________\`````````````````````````````````````
 M````````````````$```````````````````````````````````````````
@@ -5190,8 +5190,8 @@ aTag       OPENOPER
 aCaption   Open Operation
 aPSDLG_X   0
 aPSDLG_Y   26
-aSZDLG_X   24707473
-aSZDLG_Y   13041900
+aSZDLG_X   39977593
+aSZDLG_Y   22479228
 aDfltButton OK
 aZKey      70007491
 aDIL_Active Y
@@ -5204,8 +5204,8 @@ aZKey      70007504
 aSubtype   -2146230272
 aPSDLG_X   6
 aPSDLG_Y   6
-aSZDLG_X   275
-aSZDLG_Y   181
+aSZDLG_X   377
+aSZDLG_Y   313
 aCtrlBOI   U34
 B]A`]`/D0/0!33@#_$#T`4UD`8!,]`$P`(```*P!-`%,Q````
 `
@@ -5219,7 +5219,7 @@ aZKey      70007505
 aSubtype   67108864
 aPSDLG_X   0
 aPSDLG_Y   0
-aSZDLG_X   86
+aSZDLG_X   188
 aSZDLG_Y   15
 aSyncKey   9999
 
@@ -5245,7 +5245,7 @@ aTag       LastUpdated
 aText      Last Updated
 aZKey      70074437
 aSubtype   67108864
-aPSDLG_X   91
+aPSDLG_X   190
 aPSDLG_Y   0
 aSZDLG_X   72
 aSZDLG_Y   15
@@ -5275,9 +5275,9 @@ aTag       GroupName
 aText      Operation Group
 aZKey      70007507
 aSubtype   67108864
-aPSDLG_X   167
+aPSDLG_X   263
 aPSDLG_Y   0
-aSZDLG_X   89
+aSZDLG_X   97
 aSZDLG_Y   15
 aSyncKey   9999
 
@@ -5342,7 +5342,7 @@ aTag       OK
 aText      OK
 aZKey      70007513
 aSubtype   536870912
-aPSDLG_X   294
+aPSDLG_X   397
 aPSDLG_Y   7
 aSZDLG_X   48
 aSZDLG_Y   14
@@ -5364,7 +5364,7 @@ aTag       Cancel
 aText      Cancel
 aZKey      70007520
 aSubtype   536870912
-aPSDLG_X   294
+aPSDLG_X   397
 aPSDLG_Y   22
 aSZDLG_X   48
 aSZDLG_Y   14
@@ -5389,7 +5389,7 @@ aTag       New
 aText      &New...
 aZKey      70007523
 aSubtype   536870912
-aPSDLG_X   294
+aPSDLG_X   397
 aPSDLG_Y   44
 aSZDLG_X   48
 aSZDLG_Y   14
@@ -5416,7 +5416,7 @@ aTag       Delete
 aText      &Delete
 aZKey      70007526
 aSubtype   536870912
-aPSDLG_X   294
+aPSDLG_X   397
 aPSDLG_Y   60
 aSZDLG_X   48
 aSZDLG_Y   14
@@ -5441,7 +5441,7 @@ aTag       MoveOperation
 aText      &Move...
 aZKey      97147980
 aSubtype   536870912
-aPSDLG_X   294
+aPSDLG_X   397
 aPSDLG_Y   84
 aSZDLG_X   48
 aSZDLG_Y   14
@@ -5559,7 +5559,7 @@ M____________________________________________________________
 M_____________________________________________U(`;P!O`'0`(`!%
 M`&X`=`!R`'D`````````````````````````````````````````````````
 M```````````6``4`__________\!````````````````````````````````
-M`````````#"2NWK.(M@!`P```$``````````0P!O`&X`=`!E`&X`=`!S````
+M`````````("HBM(:\-L!`P```$``````````0P!O`&X`=`!E`&X`=`!S````
 M````````````````````````````````````````````````````````````
 M`!(``@'_______________\`````````````````````````````````````
 M````````````````$```````````````````````````````````````````
@@ -5600,8 +5600,8 @@ aTag       DIL1
 aZKey      70007529
 aSubtype   1
 aPSDLG_X   4
-aPSDLG_Y   190
-aSZDLG_X   382
+aPSDLG_Y   327
+aSZDLG_X   497
 aSZDLG_Y   20
 aSyncKey   9999
 

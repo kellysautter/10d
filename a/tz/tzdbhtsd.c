@@ -396,7 +396,7 @@ EditID_OK( zVIEW     vSubtask )
    zCHAR     szPassword[ 31 ] = { 0 }; 
 
    RESULT = GetViewByName( &TZDBHTSO, "TZDBHTSO", vSubtask, zLEVEL_TASK );
-
+   TraceLineS("(Test***** ","" );
    //:szUserID   = TZDBHTSO.Root.DB_UserID
    GetVariableFromAttribute( szUserID, 0, 'S', 31, TZDBHTSO, "Root", "DB_UserID", "", 0 );
    //:szPassword = TZDBHTSO.Root.DB_Password

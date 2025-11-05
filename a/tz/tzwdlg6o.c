@@ -1827,6 +1827,14 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    } 
 
    //:END
+   //:IF vDialog.Window.WEB_NoMonitorTask = "Y" // We register this page but don't check if another session is open.
+   if ( CompareAttributeToString( vDialog, "Window", "WEB_NoMonitorTask", "Y" ) == 0 )
+   { 
+      //:szNoMonitorTaskLogout = "Y"
+      ZeidonStringCopy( szNoMonitorTaskLogout, 1, 0, "Y", 1, 0, 2 );
+   } 
+
+   //:END
 
    //:// I think this is only for if we are registering zeidon on this page...
    //:// KJS 09/04/14 - Setting a logout date, to try and determine if a user tries to log into application when they already have a session open.
@@ -1932,6 +1940,7 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    ZeidonStringCopy( szWriteBuffer, 1, 0, "{", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   //:// Now szRegisterZeidon can be "Y" or "T" (register but do not go to loggedintotask.jsp)
    //:IF szRegisterZeidon = "Y" AND (szNoMonitorTaskLogout = "" OR szNoMonitorTaskLogout = "N")
    if ( ZeidonStringCompare( szRegisterZeidon, 1, 0, "Y", 1, 0, 2 ) == 0 && ( ZeidonStringCompare( szNoMonitorTaskLogout, 1, 0, "", 1, 0, 2 ) == 0 || ZeidonStringCompare( szNoMonitorTaskLogout, 1, 0, "N", 1, 0, 2 ) == 0 ) )
    { 
@@ -2301,6 +2310,53 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
 
+   //:// KJS 05/14/25 - This code has been added to see if we can keep users from having more than one tab open for an app.
+   //:// It relies on having code in the logout.jsp that has the following code which creates a new sessionid (taskid) and so we can
+   //:// compare to zLastTask (which would be the last sessionid for this page).
+   //:/*
+   //:session.invalidate();
+   //:Cookie killSessionCookie = new Cookie("JSESSIONID", null);
+   //:killSessionCookie.setMaxAge(0);
+   //:killSessionCookie.setPath("/"); 
+   //:killSessionCookie.setDomain(request.getServerName());
+   //:response.addCookie(killSessionCookie);
+   //:*/ 
+   //:IF szRegisterZeidon = "" AND (szNoMonitorTaskLogout = "" OR szNoMonitorTaskLogout = "N")
+   if ( ZeidonStringCompare( szRegisterZeidon, 1, 0, "", 1, 0, 2 ) == 0 && ( ZeidonStringCompare( szNoMonitorTaskLogout, 1, 0, "", 1, 0, 2 ) == 0 || ZeidonStringCompare( szNoMonitorTaskLogout, 1, 0, "N", 1, 0, 2 ) == 0 ) )
+   { 
+      //:szWriteBuffer = "      String strLastTask = (String) request.getParameter( ^zLastTask^ );"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "      String strLastTask = (String) request.getParameter( ^zLastTask^ );", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 );
+
+      //:szWriteBuffer = "      if ( strLastTask != null && !taskId.equals(strLastTask) )"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "      if ( strLastTask != null && !taskId.equals(strLastTask) )", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "      {"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "      {", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "          strURL = response.encodeRedirectURL( ^loggedintotask.jsp^ );"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "          strURL = response.encodeRedirectURL( ^loggedintotask.jsp^ );", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "          response.sendRedirect( strURL );"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "          response.sendRedirect( strURL );", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "          return; // something really bad has happened!!!"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "          return; // something really bad has happened!!!", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 )
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "      }"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "      }", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 1 )
+      WL_QC( vDialogRoot, lFileJSP, szWriteBuffer, "^", 1 );
+   } 
+
+   //:END  
+
    //:IF szWebDebugView != ""
    if ( ZeidonStringCompare( szWebDebugView, 1, 0, "", 1, 0, 33 ) != 0 )
    { 
@@ -2387,23 +2443,19 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
          //:END
 
-         //:IF vDialog.Action.Type != zWAB_ExitDialogTask
-         if ( CompareAttributeToInteger( vDialog, "Action", "Type", zWAB_ExitDialogTask ) != 0 )
+         //://IF vDialog.Action.Type != zWAB_ExitDialogTask
+         //:   // We don't format the Action on exit dialog, as the function in the java script calls OnUnload.
+         //:   nRC = GenJSPJ_Action( vDialog, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szActionTag, lTrace )
+         nRC = GenJSPJ_Action( vDialog, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szActionTag, lTrace );
+         //:   IF nRC != 0
+         if ( nRC != 0 )
          { 
-            //:// We don't format the Action on exit dialog, as the function in the java script calls OnUnload.
-            //:nRC = GenJSPJ_Action( vDialog, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szActionTag, lTrace )
-            nRC = GenJSPJ_Action( vDialog, vDialogRoot, lFileJSP, szWriteBuffer, szFormName, szActionTag, lTrace );
-            //:IF nRC != 0
-            if ( nRC != 0 )
-            { 
-               //:nSystemSort = nRC
-               nSystemSort = nRC;
-            } 
-
-            //:END
+            //:   nSystemSort = nRC
+            nSystemSort = nRC;
          } 
 
-         //:END
+         //:   END
+         //://END
          //:ELSE
       } 
       else
@@ -6518,27 +6570,19 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
                   //:END
 
-                  //:IF lActionType = zWAB_ExitDialogTask
-                  if ( lActionType == zWAB_ExitDialogTask )
-                  { 
-                     //:// For exiting the Dialog (ie., Session), the Action is OnUnload.
-                     //:szWriteBuffer = "      document." + szFormName + ".zAction.value = ^_OnUnload^;"
-                     ZeidonStringCopy( szWriteBuffer, 1, 0, "      document.", 1, 0, 10001 );
-                     ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
-                     ZeidonStringConcat( szWriteBuffer, 1, 0, ".zAction.value = ^_OnUnload^;", 1, 0, 10001 );
-                     //:ELSE
-                  } 
-                  else
-                  { 
-                     //:szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionTag + "^;"
-                     ZeidonStringCopy( szWriteBuffer, 1, 0, "      document.", 1, 0, 10001 );
-                     ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
-                     ZeidonStringConcat( szWriteBuffer, 1, 0, ".zAction.value = ^", 1, 0, 10001 );
-                     ZeidonStringConcat( szWriteBuffer, 1, 0, szActionTag, 1, 0, 10001 );
-                     ZeidonStringConcat( szWriteBuffer, 1, 0, "^;", 1, 0, 10001 );
-                  } 
-
-                  //:END
+                  //:// KJS 05/15/25 - I am not sure that we always need to call "_OnUnload" when the action is ExitDialogTask.
+                  //:// I am going to comment this out for now...
+                  //://IF lActionType = zWAB_ExitDialogTask
+                  //:// For exiting the Dialog (ie., Session), the Action is OnUnload.
+                  //://   szWriteBuffer = "      document." + szFormName + ".zAction.value = ^_OnUnload^;"
+                  //://ELSE
+                  //:szWriteBuffer = "      document." + szFormName + ".zAction.value = ^" + szActionTag + "^;"
+                  ZeidonStringCopy( szWriteBuffer, 1, 0, "      document.", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szFormName, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, ".zAction.value = ^", 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, szActionTag, 1, 0, 10001 );
+                  ZeidonStringConcat( szWriteBuffer, 1, 0, "^;", 1, 0, 10001 );
+                  //://END
                   //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
                   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
                   //:szWriteBuffer = "      document." + szFormName + ".submit( );"
@@ -8819,6 +8863,10 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    } 
 
    //:END
+   //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+   WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+   //:szWriteBuffer = "   <input name=^zLastTask^ id=^zLastTask^ type=^hidden^ value=^<%=taskId%>^>"
+   ZeidonStringCopy( szWriteBuffer, 1, 0, "   <input name=^zLastTask^ id=^zLastTask^ type=^hidden^ value=^<%=taskId%>^>", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
    //:szWriteBuffer = "   <input name=^zSolicitSave^ id=^zSolicitSave^ type=^hidden^ value=^<%=strSolicitSave%>^>"

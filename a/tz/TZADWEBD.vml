@@ -3232,7 +3232,7 @@ AUTODESIGN_Group( VIEW ViewToWindow )
       // Go to build the Prompt / Detail pairs. However, make sure that TZADWWKO.EntitySubGroup.GroupAreaName is wet
       // because it's used for generating names.
       IF TZADWWKO.EntitySubGroup.GroupAreaName = ""
-         TZADWWKO.EntitySubGroup.GroupAreaName = TZADWWKO.DetailMappingLOD_Entity.Name 
+         TZADWWKO.EntitySubGroup.GroupAreaName = TZADWWKO.DetailMappingLOD_Entity.Name + TZADWWKO.EntitySubGroup.GroupAreaNameSuffix 
       END
       GenDetailGrpBootstrap( TZADWWKO, TZCONTROL, TZWINDOWL, "UpdateGroup" )
       

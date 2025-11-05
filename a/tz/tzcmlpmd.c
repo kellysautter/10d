@@ -440,7 +440,8 @@ MERGE_SelectedLPLR_Metas( zVIEW     ViewToWindow )
          //:MB_SetMessage( ViewToWindow, 1, MG_ErrorMessage )
          MB_SetMessage( ViewToWindow, 1, MG_ErrorMessage );
          //:nRC = GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, ViewToWindow )
-         nRC = oTZOGSRCO_GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, ViewToWindow );
+         //nRC = oTZOGSRCO_GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, ViewToWindow );
+nRC = 0;
          //:IF nRC < 0
          if ( nRC < 0 )
          { 
@@ -2277,7 +2278,8 @@ MigrateMetaOld( zVIEW     vSubtask )
          //:MB_SetMessage( vSubtask, 1, MG_ErrorMessage )
          MB_SetMessage( vSubtask, 1, MG_ErrorMessage );
          //:nRC = GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, vSubtask )
-         nRC = oTZOGSRCO_GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, vSubtask );
+         nRC = 0;
+//oTZOGSRCO_GlobalOperGrpMerge( NewOperationGroup, MetaName, SourceLPLR, vSubtask );
          //:IF nRC < 0
          if ( nRC < 0 )
          { 

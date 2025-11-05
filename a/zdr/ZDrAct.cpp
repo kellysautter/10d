@@ -2015,6 +2015,7 @@ fnProcessDialogOperationCode( ZSubtask *pZSubtask,
    if ( (ulSubtaskState & zSUBTASK_STATE_DELETED) == zSUBTASK_STATE_DELETED )
       return( 0 );
 
+   TraceLineS("==========>>>> Processing Dialog Operation ", cpcCodeName);
 // TraceLineS( "fnProcessDialogOperationCode ZSubtask: ", *(pZSubtask->m_pzsWndTag) );
 // pZSubtask->m_ulSubtaskFlags |= zSUBTASK_APPLICATION_OPERATION;
 

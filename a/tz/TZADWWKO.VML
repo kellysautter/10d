@@ -145,6 +145,7 @@ GenDetailGrpBootstrpR( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
    INTEGER GroupSizeY
    SHORT  nRC
 
+   // Generate Detail Group when Rows are Specified.
    // Generate a Detail Group of Prompt / Mapping Control for Bootstrap from TZADWWKO.DetailMappingLOD_Attribute entries..
    // We will effectively loop through all uniques rows and then the Prompt/Mapping Control pairs within them.
    
@@ -213,7 +214,6 @@ GenDetailGrpBootstrpR( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
       zIntegerToString( szCurrentPair, 10, DetailPairCount )
       szPromptControlName = "P_" + TZADWWKO.EntitySubGroup.GroupAreaName + szCurrentRow + szCurrentPair
       szDataControlName   = "M_" + TZADWWKO.EntitySubGroup.GroupAreaName + szCurrentRow + szCurrentPair
-TraceLineS( "*** Prompt Group: ", TZADWWKO.EntitySubGroup.GroupAreaName )
       
       // Create Prompt 
       CreateMetaEntity( TZADWWKO, TZCONTROL, "Control", zPOS_AFTER )
@@ -361,14 +361,23 @@ GenDetailGrpBootstrpG( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
    INTEGER GroupSizeY
    SHORT  nRC
 
+   // Generate Detail Group when Group Numbers are Specified.
    // Generate a Detail Group of Prompt / Mapping Control for Bootstrap from TZADWWKO.DetailMappingLOD_Attribute entries..
    // We will effectively loop through all uniques rows and then the Prompt/Mapping Control pairs within them.
    // Note that it is currently not valid to have more than 4 Group values, which should have been validated earlier.
    
    // If the GroupNumbers are empty, default them all to 1.
+   // If they are a mixture of null and not null, send the user a message and change them all to 1.
    SET CURSOR FIRST TZADWWKO.DetailMappingLOD_Attribute WHERE TZADWWKO.DetailMappingLOD_Attribute.GroupNumber = ""
    IF RESULT >= zCURSOR_SET
-      // At least one entry is null, so make them all 1.
+      SET CURSOR FIRST TZADWWKO.DetailMappingLOD_Attribute WHERE TZADWWKO.DetailMappingLOD_Attribute.GroupNumber != ""
+      IF RESULT >= zCURSOR_SET
+         // Entries are a mixture so send user a warning message.
+         MessageSend( TZADWWKO, "", "Autodesign Window Group",
+                      "Group Numbers are a mixture of null and notnull and will be changed to 1.",
+                      zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+      END
+      // Change all entries to 1.
       FOR EACH TZADWWKO.DetailMappingLOD_Attribute 
          TZADWWKO.DetailMappingLOD_Attribute.GroupNumber = 1
       END
@@ -527,6 +536,14 @@ GenDetailGrpBootstrpG( VIEW TZADWWKO  BASED ON LOD TZADWWKO,
             SET CURSOR FIRST UpdateLOD.ER_Attribute WITHIN UpdateLOD.LOD_Entity 
                        WHERE UpdateLOD.ER_Attribute.Name = TZADWWKO.DetailMappingER_Attribute.Name 
             IncludeSubobjectFromSubobject( TZCONTROL, "CtrlMapLOD_Attribute", UpdateLOD, "LOD_Attribute", zPOS_AFTER )
+            
+            // If this Control is not "Text" and the Entity is not updatable, then disable the control so that it won't 
+            // show as updatable.
+            IF TZCONTROL.ControlDef.Tag = "MLEdit" AND UpdateLOD.LOD_Entity.Update != "Y"
+               TZCONTROL.Control.Disabled      = "Y"
+               TZCONTROL.Control.VisibleBorder = "Y"
+               TZCONTROL.Control.Subtype       = 67108864
+            END
          END
       END
       

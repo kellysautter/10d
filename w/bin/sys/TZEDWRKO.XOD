@@ -1,9 +1,9 @@
-z1000-Zeidon    TZEDWRKO TZZOXODO                         04/03/25   13:27:01 1.0a2   
+z1000-Zeidon    TZEDWRKO TZZOXODO                         05/01/25   13:41:18 1.0a2   
 eOBJECT    1
 aNAME      TZEDWRKO
 aZKey      1329464
 aOPER_LIBNM TZEDWRKO
-aER_DATE   2025040313261178
+aER_DATE   2025041809330178
 
 eENTITY    2
 aNAME      Editor
@@ -219,7 +219,7 @@ aUPDATE    Y
 aXVAATT_TOK 17
 
 eATTRIB    4
-aNAME      OpIns_InsertDescription
+aNAME      OpIns_InsertDescribtion
 aERATT_TOK 190007159
 aAPDM_TOK  90000032
 aDOMAIN    Text
@@ -402,7 +402,7 @@ aPDELETE   D
 aUPDATE    Y
 aDERIVED   Y
 aINCLSRC   Y
-aMAX_LTH   33
+aMAX_LTH   543
 
 eATTRIB    7
 aNAME      AttributeName
@@ -414,6 +414,28 @@ aLTH       32
 aSEQ_AD    A
 aUPDATE    Y
 aXVAATT_TOK 31
+
+eATTRIB    7
+aNAME      DomainName
+aERATT_TOK 190011759
+aAPDM_TOK  90000032
+aDOMAIN    Text
+aTYPE      S
+aLTH       254
+aSEQ_AD    Y
+aUPDATE    Y
+aXVAATT_TOK 32
+
+eATTRIB    7
+aNAME      Description
+aERATT_TOK 190011761
+aAPDM_TOK  90000032
+aDOMAIN    Text
+aTYPE      S
+aLTH       254
+aSEQ_AD    Y
+aUPDATE    Y
+aXVAATT_TOK 33
 
 eCHILDENTITY 4
 aNAME      OperListType
@@ -439,7 +461,7 @@ aTYPE      S
 aLTH       1
 aSEQ_AD    Y
 aUPDATE    Y
-aXVAATT_TOK 32
+aXVAATT_TOK 34
 
 eCHILDENTITY 5
 aNAME      Oper
@@ -465,7 +487,7 @@ aTYPE      S
 aLTH       254
 aSEQ_AD    Y
 aUPDATE    Y
-aXVAATT_TOK 33
+aXVAATT_TOK 35
 
 eATTRIB    6
 aNAME      Type
@@ -476,7 +498,7 @@ aTYPE      S
 aLTH       1
 aSEQ_AD    Y
 aUPDATE    Y
-aXVAATT_TOK 34
+aXVAATT_TOK 36
 
 eATTRIB    6
 aNAME      Desc
@@ -487,7 +509,7 @@ aTYPE      S
 aLTH       32000
 aSEQ_AD    Y
 aUPDATE    Y
-aXVAATT_TOK 35
+aXVAATT_TOK 37
 
 eCHILDENTITY 4
 aNAME      ErrorList
@@ -513,7 +535,7 @@ aTYPE      S
 aLTH       254
 aSEQ_AD    Y
 aUPDATE    Y
-aXVAATT_TOK 36
+aXVAATT_TOK 38
 
 eCHILDENTITY 5
 aNAME      Error
@@ -539,7 +561,7 @@ aTYPE      S
 aLTH       254
 aSEQ_AD    Y
 aUPDATE    Y
-aXVAATT_TOK 37
+aXVAATT_TOK 39
 
 eATTRIB    6
 aNAME      LineNumber
@@ -550,7 +572,7 @@ aTYPE      L
 aLTH       4
 aSEQ_AD    Y
 aUPDATE    Y
-aXVAATT_TOK 38
+aXVAATT_TOK 40
 
 eCHILDENTITY 3
 aNAME      BufferSaveList
@@ -576,7 +598,7 @@ aTYPE      S
 aLTH       254
 aSEQ_AD    A
 aUPDATE    Y
-aXVAATT_TOK 39
+aXVAATT_TOK 41
 
 eATTRIB    4
 aNAME      hBuffer
@@ -587,5 +609,5 @@ aTYPE      L
 aLTH       4
 aSEQ_AD    A
 aUPDATE    Y
-aXVAATT_TOK 40
+aXVAATT_TOK 42
 

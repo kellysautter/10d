@@ -1,6 +1,7 @@
-z10000Zeidon    TZEDWRKO TZZOLODO 03/21/02   10:00:33 1.0b0    
+z1000-Zeidon    TZEDWRKO TZZOLODO 04/21/25   14:02:14 1.0b0    
 eLOD       1
 aZKey      1329464
+aNextZKeyToAssign 190011761
 aName      TZEDWRKO
 aDesc      Editor work object ( 1 per session )
 
@@ -117,6 +118,30 @@ aDataType  S
 aMaxStringLth 254
 aDesc      Any Character String
 aContextRestriction N
+
+eLOD_AttributeRec 7
+aZKey      190011758
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 8
+aName      DomainName
+aZKey      190011759
+
+eDomainRec 9
+
+eLOD_AttributeRec 7
+aZKey      190011760
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 8
+aName      Description
+aZKey      190011761
+
+eDomainRec 9
 
 eLOD_AttributeRec 6
 aZKey      1329472
@@ -519,7 +544,7 @@ aUpdate    Y
 aSeqOrder  Y
 
 eER_AttributeRec 5
-aName      OpIns_InsertDescription
+aName      OpIns_InsertDescribtion
 aZKey      190007159
 aLth       1
 
@@ -960,9 +985,24 @@ eER_Attribute 4
 eDomain    5
 
 eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
 
 eLOD_Attribute 3
 awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 3
 
 eER_Attribute 4
 
@@ -1052,21 +1092,21 @@ aLanguageType V
 i11        8
 i14        8
 i17        8
-i22        8
-i25        8
+i20        8
+i23        8
+i28        8
 i31        8
-i36        8
+i37        8
 i42        8
-i45        8
 i48        8
-i54        51
-i57        8
-i60        39
-i63        39
-i66        8
-i69        39
+i51        8
+i54        8
+i60        57
+i63        8
+i66        45
+i69        45
 i72        8
-i75        8
+i75        45
 i78        8
 i81        8
 i84        8
@@ -1079,59 +1119,55 @@ i102       8
 i105       8
 i108       8
 i111       8
-i115       8
-i118       39
-i121       51
-i124       39
-i127       8
-i130       8
-i131       1
-i132       119
-i133       120
-i134       51
-i135       122
-i136       123
-i137       39
+i114       8
+i117       8
+i121       8
+i124       45
+i127       57
+i130       45
+i133       8
+i136       8
+i137       1
 i138       125
 i139       126
-i140       8
+i140       57
 i141       128
 i142       129
-i143       8
-i144       2
-i145       43
-i146       44
-i147       8
-i148       46
-i149       47
-i150       8
+i143       45
+i144       131
+i145       132
+i146       8
+i147       134
+i148       135
+i149       8
+i150       2
 i151       49
 i152       50
-i153       51
+i153       8
 i154       52
 i155       53
-i156       51
+i156       8
 i157       55
 i158       56
-i159       8
+i159       57
 i160       58
 i161       59
-i162       39
+i162       57
 i163       61
 i164       62
-i165       39
+i165       8
 i166       64
 i167       65
-i168       8
+i168       45
 i169       67
 i170       68
-i171       39
+i171       45
 i172       70
 i173       71
 i174       8
 i175       73
 i176       74
-i177       8
+i177       45
 i178       76
 i179       77
 i180       8
@@ -1168,50 +1204,62 @@ i210       8
 i211       109
 i212       110
 i213       8
-i214       3
-i215       12
-i216       13
-i217       8
-i218       15
-i219       16
-i220       8
-i221       4
-i222       9
-i223       10
-i224       8
-i225       5
-i226       6
-i227       7
-i228       8
-i229       18
-i230       29
-i231       30
-i232       8
-i233       19
-i234       20
-i235       21
-i236       8
-i237       23
-i238       24
-i239       8
-i240       26
-i241       27
-i242       28
-i243       32
-i244       40
-i245       41
-i246       8
-i247       33
-i248       34
-i249       35
-i250       8
-i251       37
-i252       38
-i253       39
-i254       112
-i255       113
-i256       114
-i257       8
-i258       116
-i259       117
-i260       39
+i214       112
+i215       113
+i216       8
+i217       115
+i218       116
+i219       8
+i220       3
+i221       18
+i222       19
+i223       8
+i224       21
+i225       22
+i226       8
+i227       4
+i228       15
+i229       16
+i230       8
+i231       5
+i232       6
+i233       7
+i234       8
+i235       9
+i236       10
+i237       8
+i238       12
+i239       13
+i240       8
+i241       24
+i242       35
+i243       36
+i244       8
+i245       25
+i246       26
+i247       27
+i248       8
+i249       29
+i250       30
+i251       8
+i252       32
+i253       33
+i254       34
+i255       38
+i256       46
+i257       47
+i258       8
+i259       39
+i260       40
+i261       41
+i262       8
+i263       43
+i264       44
+i265       45
+i266       118
+i267       119
+i268       120
+i269       8
+i270       122
+i271       123
+i272       45

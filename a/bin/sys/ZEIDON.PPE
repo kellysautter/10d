@@ -1,7 +1,7 @@
-z1000-Zeidon    ZEIDON   TZPESRCO                         11/22/19   16:43:54 1.0a2   
+z1000-Zeidon    ZEIDON   TZPESRCO                         09/11/25   20:20:36 1.0a2   
 ePresEnvDef 1
-aZKey      5019543
-aNextZKeyToAssign 190008897
+aZKey      5019544
+aNextZKeyToAssign 190008900
 aName      ZEIDON
 aLastCtrl  28
 aLastFont  3
@@ -1965,6 +1965,11 @@ aZKey      68579827
 aTag       HotText
 aType      1
 
+eCtrlEventDef 3
+aZKey      190008899
+aTag       Change
+aType      18
+
 eValidParent 3
 
 eValidParent 3
@@ -2155,92 +2160,6 @@ aTag       ListBoxCtl
 aZKey      1081
 
 eConvertsSelfToChild 3
-
-eControlDef 2
-aZKey      4017
-aKey       4017
-aTag       INVISIBLE
-aRT_DLL_Name ZDCTL
-aRT_OperationName ActiveX
-aPainterDLL_Name TZCTL
-aPainterC_OperationName TZActiveXMsg
-aPainterBitmap Active
-aMaintenanceDialog TZPNCTLD
-aMaintenanceWindow UPD_ActiveX
-aGUID      {9EEA74CB-D2D8-11D2-8AAE-0008C7D2400A}
-aActiveX_Script HPFOCXScript
-aActiveX_ScriptDLL HPFOCX
-
-eCtrlEventDef 3
-aZKey      91000307
-aTag       MouseEnter
-aType      1
-
-eCtrlEventDef 3
-aZKey      91000308
-aTag       MouseExit
-aType      2
-
-eCtrlEventDef 3
-aZKey      91000309
-aTag       DropDownClick
-aType      3
-
-eCtrlEventDef 3
-aZKey      91000310
-aTag       Click
-aType      4
-
-eCtrlEventDef 3
-aZKey      91000311
-aTag       DblClick
-aType      5
-
-eCtrlEventDef 3
-aZKey      91000312
-aTag       KeyDown
-aType      6
-
-eCtrlEventDef 3
-aZKey      91000313
-aTag       KeyPress
-aType      7
-
-eCtrlEventDef 3
-aZKey      91000314
-aTag       KeyUp
-aType      8
-
-eCtrlEventDef 3
-aZKey      91000315
-aTag       MouseDown
-aType      9
-
-eCtrlEventDef 3
-aZKey      91000316
-aTag       MouseMove
-aType      10
-
-eCtrlEventDef 3
-aZKey      91000317
-aTag       MouseUp
-aType      11
-
-eValidParent 3
-aZKey      1080
-aTag       ListBox
-aId        15
-aRT_DLL_Name ZDCTL
-aRT_OperationName ListBox
-aPainterDLL_Name TZCTL
-aPainterC_OperationName TZListBoxMsg
-aPainterConvertOperationName ConvertListBox
-aPainterBitmap LIST
-aMaintenanceDialog TZPNCTAD
-aMaintenanceWindow UPD_LIST
-aAcceptsAllParents Y
-aInvisible -1
-aKey       1080
 
 eControlDef 2
 aZKey      4005
@@ -2576,6 +2495,92 @@ aDesc      One for each column of data
 aTag       Column
 aType      A
 aIterator  Y
+
+eControlDef 2
+aZKey      4017
+aKey       4017
+aTag       INVISIBLE
+aRT_DLL_Name ZDCTL
+aRT_OperationName ActiveX
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZActiveXMsg
+aPainterBitmap Active
+aMaintenanceDialog TZPNCTLD
+aMaintenanceWindow UPD_ActiveX
+aGUID      {9EEA74CB-D2D8-11D2-8AAE-0008C7D2400A}
+aActiveX_Script HPFOCXScript
+aActiveX_ScriptDLL HPFOCX
+
+eCtrlEventDef 3
+aZKey      91000307
+aTag       MouseEnter
+aType      1
+
+eCtrlEventDef 3
+aZKey      91000308
+aTag       MouseExit
+aType      2
+
+eCtrlEventDef 3
+aZKey      91000309
+aTag       DropDownClick
+aType      3
+
+eCtrlEventDef 3
+aZKey      91000310
+aTag       Click
+aType      4
+
+eCtrlEventDef 3
+aZKey      91000311
+aTag       DblClick
+aType      5
+
+eCtrlEventDef 3
+aZKey      91000312
+aTag       KeyDown
+aType      6
+
+eCtrlEventDef 3
+aZKey      91000313
+aTag       KeyPress
+aType      7
+
+eCtrlEventDef 3
+aZKey      91000314
+aTag       KeyUp
+aType      8
+
+eCtrlEventDef 3
+aZKey      91000315
+aTag       MouseDown
+aType      9
+
+eCtrlEventDef 3
+aZKey      91000316
+aTag       MouseMove
+aType      10
+
+eCtrlEventDef 3
+aZKey      91000317
+aTag       MouseUp
+aType      11
+
+eValidParent 3
+aZKey      1080
+aTag       ListBox
+aId        15
+aRT_DLL_Name ZDCTL
+aRT_OperationName ListBox
+aPainterDLL_Name TZCTL
+aPainterC_OperationName TZListBoxMsg
+aPainterConvertOperationName ConvertListBox
+aPainterBitmap LIST
+aMaintenanceDialog TZPNCTAD
+aMaintenanceWindow UPD_LIST
+aAcceptsAllParents Y
+aInvisible -1
+aKey       1080
 
 eControlDef 2
 
@@ -3363,6 +3368,11 @@ aZKey      1006461
 aTag       HotText
 aType      1
 
+eCtrlEventDef 3
+aZKey      190008898
+aTag       Change
+aType      18
+
 eControlDef 2
 aZKey      1025
 aKey       1025
@@ -3800,77 +3810,77 @@ i328       321
 i329       323
 i331       307
 i337       321
-i339       307
-i343       307
-i363       362
-i437       376
-i453       362
-i454       362
-i455       362
-i456       376
-i457       344
-i458       341
-i459       340
-i474       434
-i475       473
-i476       473
-i477       473
-i478       434
-i492       340
-i493       344
-i510       324
-i513       509
-i514       512
-i515       512
-i518       509
-i519       509
-i520       512
-i521       509
-i523       512
-i525       517
-i526       522
-i527       524
-i528       522
-i529       517
-i530       517
-i531       517
-i532       522
-i533       517
-i537       524
-i538       522
-i539       517
-i540       536
-i541       535
-i542       524
-i543       517
-i545       517
-i546       524
-i547       534
-i549       517
-i550       524
-i551       534
-i552       534
-i553       517
-i554       534
-i555       524
-i557       321
-i558       166
-i559       323
-i560       208
-i561       322
-i562       517
-i563       524
-i564       534
-i565       321
-i577       307
-i578       341
-i579       344
-i580       340
-i581       340
-i585       340
+i340       307
+i344       307
+i364       363
+i438       437
+i454       363
+i455       363
+i456       363
+i457       437
+i458       345
+i459       342
+i460       341
+i475       422
+i476       474
+i477       474
+i478       474
+i479       422
+i493       341
+i494       345
+i511       324
+i514       510
+i515       513
+i516       513
+i519       510
+i520       510
+i521       513
+i522       510
+i524       513
+i526       518
+i527       523
+i528       525
+i529       523
+i530       518
+i531       518
+i532       518
+i533       523
+i534       518
+i538       525
+i539       523
+i540       518
+i541       537
+i542       536
+i543       525
+i544       518
+i546       518
+i547       525
+i548       535
+i550       518
+i551       525
+i552       535
+i553       535
+i554       518
+i555       535
+i556       525
+i558       321
+i559       166
+i560       323
+i561       208
+i562       322
+i563       518
+i564       525
+i565       535
+i566       321
+i578       307
+i579       342
+i580       345
+i581       341
+i582       341
 i586       341
-i599       597
-i601       597
-i660       344
-i661       340
-i662       341
+i587       342
+i601       599
+i603       599
+i662       345
+i663       341
+i664       342

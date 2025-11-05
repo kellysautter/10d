@@ -4488,6 +4488,11 @@ UPD_PUSH_RemoveAction( zVIEW vSubtask )
 //
 // PURPOSE:  This function creates the Event entity for the Push
 //           Button.
+// KJS 09/12/15 - I added a new event to SS_SUBEDIT, the selection of the action was not working
+//                because the right mouse click called this function. Which really is only for PUSHBTN where
+//                there is only one action and that action has an lType = 1 (being hard coded in the operation).
+//                I changed that select action to call UPD_LISTBOX_SelectAction,  which takes into account multiple
+//                events for the control.
 //
 /////////////////////////////////////////////////////////////////////////////
 zOPER_EXPORT zSHORT OPERATION

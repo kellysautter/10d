@@ -117,6 +117,7 @@ zLONG  lStructSize;
    zCHAR WEB_JSPGenerationPositioning[ 2 ];
    zCHAR WEB_RegisterZeidonWindow[ 2 ];
    zCHAR WEB_UnregisterZeidonWindow[ 2 ];
+   zCHAR WEB_NoMonitorTask[ 2 ];
    zCHAR WEB_ImportInclude[ 255 ];
    zCHAR WEB_Logout[ 255 ];
    zLONG BarID;

@@ -31,7 +31,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 100 ) szMapEntityName
    STRING ( 100 ) szMapAttributeName
    STRING ( 100 ) szActionName
-   STRING ( 256 ) szAction
+   STRING ( 600 ) szActionCode
    STRING ( 256 ) szHTML5Attr
    STRING ( 256 ) szPlaceholder
    STRING ( 256 ) szjMobileDataRole
@@ -133,6 +133,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 64 )  szSystemIniApplName
    STRING ( 1 )   szUseVMLGridSort
    STRING ( 1 )   szShowHideControl
+   STRING ( 1 )   szAutoIncludeComboBlank
    DECIMAL        dDLUnits
    INTEGER        LastY_Pos
    INTEGER        LastY_Height
@@ -171,6 +172,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    szLPLR_Name = vLPLR.LPLR.Name
    szSystemIniApplName = "[App." + szLPLR_Name + "]"
    SysReadZeidonIni( -1, szSystemIniApplName, "UseVMLGridSort", szUseVMLGridSort )
+   SysReadZeidonIni( -1, szSystemIniApplName, "AutoIncludeComboBlank", szAutoIncludeComboBlank )
 
    PIX_PER_DU( vDialog, dDLUnits )
    
@@ -2947,9 +2949,13 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
                         // KJS 03/04/25 // this is the first occurance
                         szSortOnClick = ""
+                        //IF vDialog.Control.Text = "" AND ( vDialog.ControlDef.Tag = "GridCheckCtl" OR vDialog.ControlDef.Tag = "CheckBox" )
                         IF lSort = 2 AND vDialog.CtrlMapLOD_Attribute EXISTS //AND szStyleIsBootstrap = "Y"  AND szUseVMLGridSort = "Y"
                            // MAKE SURE WE ARE POSITIONED ON THE CORRECT MAPPING (in care there is more than one)
                            //szSortOnClick = " id=^" + vDialog.Control.Tag + 
+                           IF vDialog.Control.Text = "" AND ( vDialog.ControlDef.Tag = "GridCheckCtl" OR vDialog.ControlDef.Tag = "CheckBox" )
+                              // This is the select checkbox and we don't want to sort on this... it's for clicking all entries in grid.
+                           ELSE
                            IF szParentEntityName != vDialog.CtrlMapRelatedEntity.Name
                               //szSortOnClick = " id=^" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + 
                               //                "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + "' )^"
@@ -2962,6 +2968,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               szSortOnClick = " id=^" + vDialog.Control.Tag + "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + 
                                               vDialog.CtrlMapView.Name + "." + szParentEntityName + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
                                               //"^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
+                           END
                            END
                         END
                         IF szAbsoluteWidth = ""
@@ -3035,6 +3042,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         szSortOnClick = ""
                         IF lSort = 2 AND vDialog.CtrlMapLOD_Attribute EXISTS //AND szStyleIsBootstrap = "Y" AND szUseVMLGridSort = "Y"
                            // MAKE SURE WE ARE POSITIONED ON THE CORRECT MAPPING (in care there is more than one)
+                           IF vDialog.Control.Text = "" AND ( vDialog.ControlDef.Tag = "GridCheckCtl" OR vDialog.ControlDef.Tag = "CheckBox" )
+                              // This is the select checkbox and we don't want to sort on this... it's for clicking all entries in grid.
+                           ELSE
                            IF szParentEntityName != vDialog.CtrlMapRelatedEntity.Name
                               //szSortOnClick = " id=^" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + 
                               //                "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + "' )^"
@@ -3047,6 +3057,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               szSortOnClick = " id=^" + vDialog.Control.Tag + "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + 
                                               vDialog.CtrlMapView.Name + "." + szParentEntityName + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
                                               //"^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
+                           END
                            END
                         END
                         //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
@@ -4130,16 +4141,19 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               //szWriteBuffer = "      {"
                               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                              IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y" 
-                                 GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
-                                 szJavaPackage = vLPLR.LPLR.JavaPackageName
-                                 zSearchAndReplace( szJavaPackage, 100, "\", "." )
-                                 szWriteBuffer = "      List<TableEntry> list" + szListCtrlTag + " = " + szJavaPackage + ".jspWebUtilsLang.getTableDomainValuesLanguage( " + vDialog.CtrlMapView.Name + " , ^" +
-                                                 vDialog.CtrlMapRelatedEntity.Name + "^, ^" + vDialog.CtrlMapER_Attribute.Name + "^, ^" + szContextName + "^ );"
-                              ELSE
+                              // KJS 05/29/25 - I added a special jspWebUtilsLang for our language translation.
+                              // But now I know how to do this by adding code into our DynamicDomain code using the regular call.
+                              // I'm going to comment out and see.
+                              //IF vDialogRoot.Dialog.wWebUsesLanguageConversion = "Y" 
+                              //   GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
+                              //   szJavaPackage = vLPLR.LPLR.JavaPackageName
+                              //   zSearchAndReplace( szJavaPackage, 100, "\", "." )
+                              //   szWriteBuffer = "      List<TableEntry> list" + szListCtrlTag + " = " + szJavaPackage + ".jspWebUtilsLang.getTableDomainValuesLanguage( " + vDialog.CtrlMapView.Name + " , ^" +
+                              //                   vDialog.CtrlMapRelatedEntity.Name + "^, ^" + vDialog.CtrlMapER_Attribute.Name + "^, ^" + szContextName + "^ );"
+                              //ELSE
                                  szWriteBuffer = "      List<TableEntry> list" + szListCtrlTag + " = JspWebUtils.getTableDomainValues( " + vDialog.CtrlMapView.Name + " , ^" +
                                                  vDialog.CtrlMapRelatedEntity.Name + "^, ^" + vDialog.CtrlMapER_Attribute.Name + "^, ^" + szContextName + "^ );"
-                              END
+                              //END
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
                               lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
@@ -4336,14 +4350,14 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               // 3. If Action is SelectEnd, use onfocusout.
                               IF vDialog.Event EXISTS
                                  IF vDialog.Event.Type = 1
-                                    szSelectAction   = "onchange"
+                                    szSelectAction   = " onchange"
                                     szSelectFunction = "OnChange"
                                  ELSE
-                                    szSelectAction   = "onblur"
+                                    szSelectAction   = " onblur"
                                     szSelectFunction = "OnBlur"
                                  END
                               ELSE
-                                 szSelectAction = "onchange"
+                                 szSelectAction = " onchange"
                                  szSelectFunction = "OnChange"
                               END
 
@@ -4351,16 +4365,13 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               szWriteBuffer = "   " + szItemTableHeader + ">" // <td nowrap>
 
                               IF szClass = ""
-                              // szWriteBuffer = szWriteBuffer + "<select name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ size=^1^" + szTitleHTML + " style=^width:152px;height:20px;^ " +
                                  szWriteBuffer = szWriteBuffer + "<select name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> size=^1^" + szTitleHTML + szStyle +
                                                  szDisabled + szSelectAction + "=^" +
                                                  szListCtrlTag + szSelectFunction + "( 'h" + szListCtrlTag + "::<%=strEntityKey%>', this, <%=strEntityKey%> )^>"
-                                                 //szListCtrlTag + szSelectFunction + "( h" + szListCtrlTag + "::<%=strEntityKey%>," + szListCtrlTag + "::<%=strEntityKey%>, <%=strEntityKey%> )^>"
-                              ELSE
+                               ELSE
                                  szWriteBuffer = szWriteBuffer + "<select class=^" + szClass + "^ name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> size=^1^" + szTitleHTML +
                                                 szStyle + szDisabled + szSelectAction + "=^" + szListCtrlTag + szSelectFunction + "( 'h" + szListCtrlTag + "::<%=strEntityKey%>', this, <%=strEntityKey%> )^>"
-                                                //" style=^width:" + szWidth + "px;^ " + szDisabled + szSelectAction + "=^" + szListCtrlTag + szSelectFunction + "( h" + szListCtrlTag + "::<%=strEntityKey%>," + szListCtrlTag + "::<%=strEntityKey%> )^>"
-                              END
+                               END
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
 
                               szWriteBuffer = "<%"
@@ -4447,6 +4458,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                                        szScopingEntityName = ""
                                     END
                                  END
+                                 
 
                                  szWriteBuffer = "      v" + szListCtrlTag + " = " + vList.CtrlMapView.Name + ".newView( );"
                                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -4461,6 +4473,25 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     szWriteBuffer = "      // For Auto Include, process null entry."
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            // Check the first line is blank and don't add if it is.
+            IF szAutoIncludeComboBlank = "Y"
+               szWriteBuffer = "      if ( v" + szListCtrlTag + ".cursor( ^" 
+               IF szScopingEntityName = ""
+                  szWriteBuffer = szWriteBuffer + szListEntityName + "^ ).setFirst().isSet() && v"
+               ELSE
+                  szWriteBuffer = szWriteBuffer + szListEntityName + "^ ).setFirst( " + szScopingEntityName + " ).isSet() && v"
+               END
+               // KJS 07/08/25 - Adding a check for null because it sometimes fails here.
+               szWriteBuffer = szWriteBuffer + szListCtrlTag + ".cursor( ^" + szListEntityName + "^ ).getAttribute( ^" +
+                               vList.CtrlMapER_Attribute.Name + "^ ).getString( ^^) != null && v"
+               szWriteBuffer = szWriteBuffer + szListCtrlTag + ".cursor( ^" + szListEntityName + "^ ).getAttribute( ^" +
+                               vList.CtrlMapER_Attribute.Name + "^ ).getString( ^^).length() > 0 )"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                       
+               szWriteBuffer = "      {"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            
+            END
                                     szWriteBuffer = "      ComboCount++;"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     szWriteBuffer = "      if ( StringUtils.isBlank( strComboCurrentValue ) )"
@@ -4487,6 +4518,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     szWriteBuffer = "      }"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            
+            IF szAutoIncludeComboBlank = "Y"
+               szWriteBuffer = "      }"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            
+            END
                                  END
 
                                  IF lSubtype = 0
@@ -4598,6 +4635,18 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
                         ELSE
                         IF szCtrlCtrlType = "Calendar"
+                           ////////////// KJS 09/12/25 ///////////////
+                           szActionCode = ""
+                           FOR EACH vDialog.Event
+                              IF vDialog.EventAct EXISTS
+                                 szActionName = vDialog.EventAct.Tag
+                                 IF vDialog.Event.Type = 1 // Event is "Change" 
+                                    szActionCode = szActionCode + " onchange=^" + szActionName + "( this.id )^ "
+                                 END
+                              END
+                           END
+                           /////////////////////////////////
+                        
                            szWriteBuffer = "   " + szItemTableHeader + ">"
                            //KJS 7/26/07 - Added DISABLED option.
                            IF szStyleIsBootstrap = "Y"
@@ -4610,7 +4659,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               szWriteBuffer = szWriteBuffer + "<input " + szClass + " name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> "
                               //szWriteBuffer = szWriteBuffer + "style=^width:80px^ type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
                               // KJS 05/31/22 - taking out the calendar size (sometimes it's too small). But need to see if this should only be for
-                              szWriteBuffer = szWriteBuffer + "type=^text^" + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
+                              szWriteBuffer = szWriteBuffer + "type=^text^" + szActionCode + szDisabled + " value=^<%=str" + szListCtrlTag + "%>^ />"
                            ELSE
                               szWriteBuffer = szWriteBuffer + "<input name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> "
                               // KJS 05/31/22 - we might need to take out the size... but I changed from 80 to 85 at the moment. 
@@ -4637,6 +4686,17 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            IF RESULT >= zCURSOR_SET
                               szNumber = " type=^number^"
                            END
+                           ////////////// KJS 09/12/25 ///////////////
+                           szActionCode = ""
+                           FOR EACH vDialog.Event
+                              IF vDialog.EventAct EXISTS
+                                 szActionName = vDialog.EventAct.Tag
+                                 IF vDialog.Event.Type = 18  OR vDialog.Event.Type = 1024// Event is "Change" for subedit or mledit
+                                    szActionCode = szActionCode + " onchange=^" + szActionName + "( this.id )^ "
+                                 END
+                              END
+                           END
+                           /////////////////////////////////
                                                                               
                            //KJS 7/26/07 - Added DISABLED option.
                            //KJS 10/19/07 - Added title
@@ -4644,10 +4704,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               // KJS 06/01/22 - If bootstrap (and maybe for all non position styles?) I am taking out the size=. 
                               // KJS 06/01/22 - but now per Kindra I am adding sze back. But will keep the "IF" because I have a feeling we will want to make another change.
                               szWriteBuffer = "   " + szItemTableHeader + "><input" + szNumber + szPlaceholder + " size=^" + szSize + "^ value=^<%=str" + szListCtrlTag + "%>^<%=str" + szListCtrlTag +
-                                                     "ErrorColor%> name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szTitleHTML + szDisabled + "></td>"
+                                                     "ErrorColor%> name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szActionCode + szTitleHTML + szDisabled + "></td>"
                            ELSE
                               szWriteBuffer = "   " + szItemTableHeader + "><input" + szNumber + szPlaceholder + " size=^" + szSize + "^ value=^<%=str" + szListCtrlTag + "%>^<%=str" + szListCtrlTag +
-                                                     "ErrorColor%> name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szTitleHTML + szDisabled + "></td>"
+                                                     "ErrorColor%> name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szActionCode + szTitleHTML + szDisabled + "></td>"
                            END
                         ELSE
                         IF vDialog.Control.WebCtrlType = "Multiline" OR szWCP_Multiline = "Y" OR szCtrlCtrlType = "MLEdit"
@@ -5028,6 +5088,7 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    VIEW vDialog2 BASED ON LOD TZWDLGSO
    VIEW vDialog3 BASED ON LOD TZWDLGSO
+   VIEW vLPLR    BASED ON LOD TZCMLPLO
    STRING ( 100 )  szContextName
    STRING ( 100 )  szScopingEntityName
    STRING ( 100 )  szListMappingEntityName
@@ -5048,6 +5109,8 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 100 ) szUnChecked
    STRING ( 50 )  szWebCtrlType
    STRING ( 1 )   szSurveyGroupFlag
+   STRING ( 1 )   szAutoIncludeComboBlank
+   STRING ( 64 )  szSystemIniApplName
    STRING ( 256 ) szClass
    INTEGER       lEditBox
    INTEGER       lSubtype
@@ -5058,6 +5121,10 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
    SHORT         nViewNameLth
    SHORT         bResetToPlaceHolder
    SHORT         nRC
+   
+   GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
+   szSystemIniApplName = "[App." + vLPLR.LPLR.Name + "]"
+   SysReadZeidonIni( -1, szSystemIniApplName, "AutoIncludeComboBlank", szAutoIncludeComboBlank )
 
    // Handle mapping for the named view (ViewName) that was passed in.
    // Note that Control.SubType is an integer composed of multiple values,
@@ -5632,6 +5699,26 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
 
                         IF vDialog.Control.Subtype >= 20480 AND vDialog.Control.Subtype <= 21252   // IF Auto Include
                            // For Auto Include, we must decrement nRelPos for blank entry.
+                           IF szAutoIncludeComboBlank = "Y"
+                              //szWriteBuffer = "            if ( v" + szCtrlTag + ".cursor( ^" +
+                              //                       szListEntityName + "^ ).setFirst( " + szScopingEntityName + " ).isSet() && v" +
+                              //                       szCtrlTag + ".cursor( ^" + szListEntityName + "^ ).getAttribute( ^" +
+                              //                       vList.CtrlMapER_Attribute.Name + "^ ).getString( ^^).length() > 0 )"
+                              szWriteBuffer = "               if ( " + vDialog2.CtrlMapView.Name + ".cursor( ^" + szListMappingEntityName + "^ )"
+                              IF szScopingEntityName = ""
+                                 szWriteBuffer = szWriteBuffer + ".setFirst( ).isSet() && "
+                              ELSE
+                                 szWriteBuffer = szWriteBuffer + ".setFirst( ^" + szScopingEntityName + "^ ).isSet() && "
+                              END
+
+                              // KJS 07/08/25 - Adding a check for null because it sometimes fails here.
+                              szWriteBuffer = szWriteBuffer + vDialog2.CtrlMapView.Name + ".cursor( ^" + szListMappingEntityName + "^ ).getAttribute( ^" + 
+                                              vDialog2.CtrlMapER_Attribute.Name + "^ ).getString(^^) != null && "
+                                         
+                              szWriteBuffer = szWriteBuffer + vDialog2.CtrlMapView.Name + ".cursor( ^" + szListMappingEntityName + "^ ).getAttribute( ^" + 
+                                              vDialog2.CtrlMapER_Attribute.Name + "^ ).getString(^^).length() > 0 )"
+                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                           END
                            szWriteBuffer = "               nRelPos--;    // For Auto Include combos, we need to decrement for the blank entry."
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         END
@@ -5639,8 +5726,10 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                         szWriteBuffer = "               " + vDialog2.CtrlMapView.Name + ".cursor( ^" + szListMappingEntityName + "^ )" +
                                         ".setPosition( nRelPos, ^" + szScopingEntityName + "^ );"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        szWriteBuffer = "            }"
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        
+                        // MOVING THIS DOWN
+                        //szWriteBuffer = "            }"
+                        //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                         IF vDialog.Control.Subtype >= 36864 AND vDialog.Control.Subtype <= 45056   // IF Set Foreign Key
                            //Set Foreign Key
@@ -5813,6 +5902,10 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                         END
+
+                        // MOVED DOWN FROM ABOVE
+                        szWriteBuffer = "            }"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                         szWriteBuffer = "         }"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -6394,6 +6487,23 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                                  szWriteBuffer = "               nRelPos = java.lang.Integer.parseInt( strMapValue );"
                                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                  IF vDialog.Control.Subtype >= 20480 AND vDialog.Control.Subtype <= 21252   // IF Auto Include
+                                 ////////
+                                    IF szAutoIncludeComboBlank = "Y"
+                                       szWriteBuffer = "               if ( " + vDialog2.CtrlMapView.Name + ".cursor( ^" + szListMappingEntityName + "^ )"
+                                       IF szScopingEntityName = ""
+                                          szWriteBuffer = szWriteBuffer + ".setFirst( ).isSet() && "
+                                       ELSE
+                                          szWriteBuffer = szWriteBuffer + ".setFirst( ^" + szScopingEntityName + "^ ).isSet() && "
+                                       END
+                                       
+                                       // KJS 07/08/25 - Adding a check for null because it sometimes fails here.
+                                       szWriteBuffer = szWriteBuffer + vDialog2.CtrlMapView.Name + ".cursor( ^" + szListMappingEntityName + "^ ).getAttribute( ^" + 
+                                                       vDialog2.CtrlMapER_Attribute.Name + "^ ).getString( ^^) != null && "
+                                                                                         
+                                       szWriteBuffer = szWriteBuffer + vDialog2.CtrlMapView.Name + ".cursor( ^" + szListMappingEntityName + "^ ).getAttribute( ^" + 
+                                                       vDialog2.CtrlMapER_Attribute.Name + "^ ).getString( ^^).length() > 0 )"
+                                       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                    END
                                     // For Auto Include, we must decrement nRelPos for blank entry.
                                     szWriteBuffer = "               nRelPos--;    // For Auto Include combos, we need to decrement for the blank entry."
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -6402,8 +6512,9 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                                                  ".setPosition( " +
                                                  "nRelPos, ^" + szScopingEntityName + "^ );"
                                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                                 szWriteBuffer = "            }"
-                                 WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                 // MVOING THIS DOWN
+                                 //szWriteBuffer = "            }"
+                                 //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                  // MOVE THIS DOWN FURTHER...
                                  //szWriteBuffer = "       }  // checkExistenceOfEntity 2"
                                  //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -6574,6 +6685,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     
                                  END
+                                 
+                                 // MOVED DOWN
+                                 szWriteBuffer = "            }"
+                                 WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                 
                                  // Moved from above.
                                  szWriteBuffer = "         }  // checkExistenceOfEntity 3"
                                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )

@@ -5850,15 +5850,19 @@ RetrieveSchema( zVIEW  vDTE, zPVIEW pvDB )
    LPCONNECTION lpConnection = &cr;
 
    zVIEW  vDB;
+   zVIEW  vLPLR = 0;
    zCHAR  szUserID[ 50 ];
-   zCHAR  szPassword[50];
-   zCHAR  szSchema[50];
+   zCHAR  szPassword[ 50 ];
+   zCHAR  szSchema[ 50 ];
    zPCHAR pchPtr = 0;
    zPCHAR pchDBName;
 
    zCHAR  szTableName[ STR_LEN + 1 ];
    zCHAR  szColumnName[ STR_LEN + 1 ];
    zCHAR  szIndexName[ STR_LEN + 1 ];
+
+   zCHAR  szLPLR_Name[33] = { 0 };
+   zCHAR  szSystemIniApplName[65] = { 0 };
 
 #if defined( DB2 ) || defined( ODBC )
    zCHAR       szDataTypeName[ STR_LEN + 1 ];
@@ -5888,7 +5892,17 @@ RetrieveSchema( zVIEW  vDTE, zPVIEW pvDB )
    // Get the database name.
    GetAddrForAttribute( &pchDBName, vDTE, "TE_DBMS_Source", "Name" );
 
-   SysGetDB_UserID( vDTE, szUserID, zsizeof( szUserID ), szPassword, zsizeof( szPassword ) );
+   // KJS 04/18/25 - The above UserID/Password is under [WorkStation]. We want the user/password specific to the LPLR.
+   GetViewByName(&vLPLR, "TaskLPLR", vDTE, zLEVEL_TASK);
+   GetVariableFromAttribute(szLPLR_Name, 0, 'S', 33, vLPLR, "LPLR", "Name", "", 0);
+   ZeidonStringCopy(szSystemIniApplName, 1, 0, "[App.", 1, 0, 65);
+   ZeidonStringConcat(szSystemIniApplName, 1, 0, szLPLR_Name, 1, 0, 65);
+   ZeidonStringConcat(szSystemIniApplName, 1, 0, "]", 1, 0, 65);
+
+   SysReadZeidonIni(-1, szSystemIniApplName, "UserID", szUserID, zsizeof(szUserID));
+   SysReadZeidonIni(-1, szSystemIniApplName, "Password", szPassword, zsizeof(szPassword));
+   if ( szUserID[ 0 ] == 0 )
+	   SysGetDB_UserID(vDTE, szUserID, zsizeof(szUserID), szPassword, zsizeof(szPassword));
 
    //==============================================================
    // Open database.
@@ -5942,7 +5956,7 @@ RetrieveSchema( zVIEW  vDTE, zPVIEW pvDB )
       return( zCALL_ERROR );
 
 #endif
-   GetStringFromAttribute(szSchema, zsizeof(szSchema), vDTE, "TE_DBMS_Source", "Name");
+   GetStringFromAttribute(szSchema, zsizeof(szSchema), vDTE, "TE_DBMS_Source", "SchemaName");
 
    nRC = SQLTables( lpConnection->hstmt, 0, 0, szSchema, zsizeof(szSchema), 0, 0,
                     "TABLE", SQL_NTS );
