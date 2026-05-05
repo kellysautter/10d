@@ -1,4 +1,4 @@
-z10000Zeidon    TZCMWULO TZZOLODO 05/01/01   23:17:45 1.0b0    
+z1000-Zeidon    TZCMWULO TZZOLODO                         11/05/25   16:21:52 1.0a2   
 eLOD       1
 aZKey      1329782
 aName      TZCMWULO
@@ -176,13 +176,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 10
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 8
@@ -218,10 +215,10 @@ aER_DiagramPosY 6
 
 eER_RelLinkRec 8
 aName      is a release of
+aAutoSeq   N
 aZKey      1322389
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 9
 aZKey      1322387
@@ -374,10 +371,10 @@ aER_DiagramPosY 114
 
 eER_RelLinkRec 7
 aName      is for
+aAutoSeq   N
 aZKey      1322401
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 8
 aZKey      1322399
@@ -487,10 +484,10 @@ aER_PortFactor 2
 
 eER_RelLinkRec 6
 aName      identifies checkout/copy info of
+aAutoSeq   N
 aZKey      1322379
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 7
 aZKey      1322378
@@ -538,12 +535,12 @@ aPromptPaintLit Name:
 aListPaintLit Name:
 
 eDomainRec 8
-aZKey      90145848
-aName      MetaName
+aZKey      90000038
+aName      QSName
 aDomainType E
 aDataType  S
-aMaxStringLth 8
-aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aMaxStringLth 32
+aDesc      QuinSoft Name
 aContextRestriction N
 
 eLOD_AttributeRec 6
@@ -631,6 +628,14 @@ aZKey      1321041
 aLth       4
 
 eDomainRec 8
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eLOD_AttributeRec 6
 aZKey      1329815
@@ -654,10 +659,10 @@ aER_DiagramPosY 128
 
 eER_RelLinkRec 6
 aName      checked out to
+aAutoSeq   N
 aZKey      1322089
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 7
 aZKey      1322087
@@ -724,6 +729,7 @@ eER_AttributeRec 7
 aName      MaxZKey
 aZKey      1321248
 aLth       4
+aDesc      Should no longer be used
 
 eDomainRec 8
 
@@ -774,10 +780,10 @@ aER_DiagramPosY 48
 
 eER_RelLinkRec 6
 aName      Checked out onto
+aAutoSeq   N
 aZKey      1322125
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 7
 aZKey      1322123
@@ -858,10 +864,10 @@ aER_DiagramPosY 122
 
 eER_RelLinkRec 5
 aName      has
+aAutoSeq   N
 aZKey      1322376
 aCardMin   0
 aCardMax   M
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322375
@@ -913,7 +919,7 @@ aLth       8
 aDesc      108
 Secret stuff
 physical name = z_PASSWORD, because "password" is a reserverd
-word in SQLBASE and not in DB20
+word in SQLBASE and not in DB2 
 aPromptPaintLit Password:
 aListPaintLit Password:
 aTE_ColumnName z_PASSWORD
@@ -942,10 +948,10 @@ aER_DiagramPosY 66
 
 eER_RelLinkRec 4
 aName      has
+aAutoSeq   N
 aZKey      1322383
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
 
 eER_RelTypeRec 5
 aZKey      1322381
@@ -1403,47 +1409,9 @@ aDesc      Local Project Library Release 8C
 aType      P
 
 eTE_DBMS_Source 4
-aName      SQL_Rep
-aZKey      1148367
-aDesc      Last altered April 7, 1998
-aParadigm  R
-aDBMS      SQLServer via ODBC
-aGenerateExecutable kzhsqlsb
-aExecutable KZHSQLOA
-aGenKeyExecutable KZHGENKY
-aDisplayOwner Y
-aDisplayDBMS_ID N
-aDBH_Data  U322
-M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
-M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
-M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
-M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
-'92!9#0H-"@``
-`
-
-eTE_DBMS_Source 4
-aName      Zeidon
-aZKey      90031867
-aDesc      Zeidon repository on DB2 mainframe
-aParadigm  R
-aDBMS      MVS: DB2 deutsch
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDefaultOwner ZEIDON
-aDisplayOwner Y
-aDisplayDBMS_ID Y
-aSironDB_Subtype 4
-
-eTE_DBMS_Source 4
 aName      Repos9JA
 aZKey      91005292
-aDesc      Repository MS-Access
+aDesc      The fact that this is defined as MS Access is immaterial, as the meta data will never be kept in a database, but will only remain as individual meta objects.
 aParadigm  R
 aDBMS      MS Access via ODBC
 aGenerateExecutable KZHSQLAB
@@ -1451,16 +1419,16 @@ aExecutable KZHSQLOA
 aGenKeyExecutable KZHGENKY
 aDisplayOwner Y
 aDisplayDBMS_ID N
-aDBH_Data  U322
-M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
-M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
-M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
-M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
-'92!.#0H-"@``
-`
+aDBH_Data  322
+TZDBHODO *********************** ********************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 03/01/00   14:26:23 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString Y
+aBlobsLast N
+aDropTables Y
+aAddTableNameToFK_Override N
+
+
 
 eZ_MetaDef 2
 aName      TZCMWULO
@@ -1486,16 +1454,15 @@ i76        12
 i79        9
 i82        9
 i85        9
-i88        12
 i91        24
 i98        12
-i101       12
-i104       12
-i107       12
+i101       88
+i104       88
+i107       88
 i110       15
-i113       12
+i113       88
 i119       12
-i122       12
+i122       88
 i125       24
 i128       9
 i134       9
@@ -1505,15 +1472,15 @@ i143       15
 i148       97
 i149       12
 i151       100
-i152       12
+i152       88
 i154       103
-i155       12
+i155       88
 i157       106
-i158       12
+i158       88
 i160       109
 i161       15
 i163       112
-i164       12
+i164       88
 i165       114
 i166       1
 i167       147
@@ -1521,19 +1488,19 @@ i168       97
 i169       12
 i170       150
 i171       100
-i172       12
+i172       88
 i173       153
 i174       103
-i175       12
+i175       88
 i176       156
 i177       106
-i178       12
+i178       88
 i179       159
 i180       109
 i181       15
 i182       162
 i183       112
-i184       12
+i184       88
 i185       114
 i186       2
 i187       132
@@ -1557,7 +1524,7 @@ i204       118
 i205       12
 i206       120
 i207       121
-i208       12
+i208       88
 i209       123
 i210       124
 i211       24
@@ -1651,7 +1618,7 @@ i298       84
 i299       9
 i300       86
 i301       87
-i302       12
+i302       88
 i303       89
 i304       90
 i305       24
@@ -1664,19 +1631,19 @@ i311       97
 i312       12
 i313       99
 i314       100
-i315       12
+i315       88
 i316       102
 i317       103
-i318       12
+i318       88
 i319       105
 i320       106
-i321       12
+i321       88
 i322       108
 i323       109
 i324       15
 i325       111
 i326       112
-i327       12
+i327       88
 i328       114
 i329       115
 i330       116

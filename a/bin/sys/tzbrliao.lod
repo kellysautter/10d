@@ -1,4 +1,4 @@
-z10000Zeidon    TZBRLIAO TZZOLODO 05/01/01   23:17:35 1.0b0    
+z1000-Zeidon    TZBRLIAO TZZOLODO                         11/05/25   16:21:47 1.0a2   
 eLOD       1
 aZKey      1330438
 aName      TZBRLIAO
@@ -99,13 +99,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 7
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 5
@@ -122,6 +119,14 @@ aPromptPaintLit Length
 aListPaintLit Length
 
 eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eLOD_AttributeRec 5
 aZKey      1330446
@@ -274,11 +279,11 @@ aER_DiagramPosY 262
 
 eER_RelLinkRec 5
 aName      is based on
+aAutoSeq   N
+aHangingForeignKeyEntity N
 aZKey      1322239
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
-aHangingForeignKeyEntity N
 
 eER_RelTypeRec 6
 aZKey      1322237
@@ -444,11 +449,11 @@ aER_PortFactor 2
 
 eER_RelLinkRec 4
 aName      has fact
+aAutoSeq   Y
+aHangingForeignKeyEntity N
 aZKey      1322283
 aCardMin   0
 aCardMax   m
-aAutoSeq   Y
-aHangingForeignKeyEntity N
 
 eER_RelTypeRec 5
 aZKey      1322282
@@ -1208,7 +1213,7 @@ ePOD       2
 aNAME      TZBRLIAO
 aZKey      1330439
 aMULTI_ROOT_LIMIT 0
-aTE_SourceZKey 1148367
+aTE_SourceZKey 91005292
 
 eTE_DB_Environ 3
 aName      Zeidon_T
@@ -1217,47 +1222,9 @@ aDesc      Local Project Library Release 8C
 aType      P
 
 eTE_DBMS_Source 4
-aName      SQL_Rep
-aZKey      1148367
-aDesc      Last altered April 7, 1998
-aParadigm  R
-aDBMS      SQLServer via ODBC
-aGenerateExecutable kzhsqlsb
-aExecutable KZHSQLOA
-aGenKeyExecutable KZHGENKY
-aDisplayOwner Y
-aDisplayDBMS_ID N
-aDBH_Data  U322
-M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
-M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
-M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
-M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
-'92!9#0H-"@``
-`
-
-eTE_DBMS_Source 4
-aName      Zeidon
-aZKey      90031867
-aDesc      Zeidon repository on DB2 mainframe
-aParadigm  R
-aDBMS      MVS: DB2 deutsch
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDefaultOwner ZEIDON
-aDisplayOwner Y
-aDisplayDBMS_ID Y
-aSironDB_Subtype 4
-
-eTE_DBMS_Source 4
 aName      Repos9JA
 aZKey      91005292
-aDesc      Repository MS-Access
+aDesc      The fact that this is defined as MS Access is immaterial, as the meta data will never be kept in a database, but will only remain as individual meta objects.
 aParadigm  R
 aDBMS      MS Access via ODBC
 aGenerateExecutable KZHSQLAB
@@ -1265,16 +1232,16 @@ aExecutable KZHSQLOA
 aGenKeyExecutable KZHGENKY
 aDisplayOwner Y
 aDisplayDBMS_ID N
-aDBH_Data  U322
-M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
-M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
-M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
-M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
-'92!.#0H-"@``
-`
+aDBH_Data  322
+TZDBHODO *********************** ********************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 03/01/00   14:26:23 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString Y
+aBlobsLast N
+aDropTables Y
+aAddTableNameToFK_Override N
+
+
 
 eZ_MetaDef 2
 aName      TZBRLIAO
@@ -1284,12 +1251,11 @@ aLastUpdateDate 19951102200012000
 aLastCheckInDate 19951102203051110
 aDesc      Browse view for listing LOD Attributes
 
-i12        9
 i18        15
 i24        15
-i27        9
+i27        12
 i30        15
-i33        9
+i33        12
 i36        15
 i39        15
 i45        9
@@ -1297,15 +1263,15 @@ i48        15
 i51        15
 i54        15
 i57        15
-i60        9
+i60        12
 i63        15
 i66        15
-i69        9
-i72        9
-i75        9
+i69        12
+i72        12
+i75        12
 i81        6
 i84        15
-i87        9
+i87        12
 i90        9
 i93        15
 i96        15
@@ -1328,7 +1294,7 @@ i150       15
 i153       15
 i156       15
 i159       15
-i162       9
+i162       12
 i164       1
 i165       79
 i166       80
@@ -1338,7 +1304,7 @@ i169       83
 i170       15
 i171       85
 i172       86
-i173       9
+i173       12
 i174       88
 i175       89
 i176       9
@@ -1413,7 +1379,7 @@ i244       158
 i245       15
 i246       160
 i247       161
-i248       9
+i248       12
 i249       163
 i250       2
 i251       43
@@ -1433,7 +1399,7 @@ i264       56
 i265       15
 i266       58
 i267       59
-i268       9
+i268       12
 i269       61
 i270       62
 i271       15
@@ -1442,13 +1408,13 @@ i273       65
 i274       15
 i275       67
 i276       68
-i277       9
+i277       12
 i278       70
 i279       71
-i280       9
+i280       12
 i281       73
 i282       74
-i283       9
+i283       12
 i284       76
 i285       77
 i286       78
@@ -1461,7 +1427,7 @@ i292       8
 i293       9
 i294       10
 i295       11
-i296       9
+i296       12
 i297       13
 i298       14
 i299       15
@@ -1476,13 +1442,13 @@ i307       23
 i308       15
 i309       25
 i310       26
-i311       9
+i311       12
 i312       28
 i313       29
 i314       15
 i315       31
 i316       32
-i317       9
+i317       12
 i318       34
 i319       35
 i320       15

@@ -1,4 +1,4 @@
-z10000Zeidon    TZOLOBWO TZZOLODO 05/01/01   23:18:57 1.0b0    
+z1000-Zeidon    TZOLOBWO TZZOLODO                         11/05/25   16:21:56 1.0a2   
 eLOD       1
 aZKey      1329043
 aName      TZOLOBWO
@@ -274,10 +274,10 @@ aER_DiagramPosY 49
 
 eER_RelLinkRec 5
 aName      has
+aAutoSeq   N
 aZKey      1321906
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1321904
@@ -464,10 +464,10 @@ aER_DiagramPosY 17
 
 eER_RelLinkRec 5
 aName      has
+aAutoSeq   N
 aZKey      1321911
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1321910

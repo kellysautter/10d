@@ -1,4 +1,4 @@
-z10000Zeidon    TZBRLOEO TZZOLODO 05/27/01   22:07:25 1.0b0    
+z1000-Zeidon    TZBRLOEO TZZOLODO                         11/05/25   16:21:48 1.0a2   
 eLOD       1
 aZKey      1330158
 aName      TZBRLOEO
@@ -135,13 +135,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 8
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 6
@@ -158,6 +155,14 @@ aPromptPaintLit EntityType
 aListPaintLit EntityType
 
 eDomainRec 8
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eLOD_AttributeRec 6
 aZKey      1330168
@@ -322,10 +327,10 @@ aER_PortFactor 2
 
 eER_RelLinkRec 6
 aName      for
+aAutoSeq   N
 aZKey      1322608
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 7
 aZKey      1322606
@@ -391,12 +396,12 @@ aPromptPaintLit Tag
 aListPaintLit Tag
 
 eDomainRec 9
-aZKey      90145848
-aName      MetaName
+aZKey      90000038
+aName      QSName
 aDomainType E
 aDataType  S
-aMaxStringLth 8
-aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aMaxStringLth 32
+aDesc      QuinSoft Name
 aContextRestriction N
 
 eLOD_AttributeRec 7
@@ -443,10 +448,12 @@ aER_PortFactor 2
 
 eER_RelLinkRec 7
 aName      part of
+aAutoSeq   N
+aHangingForeignKeyEntity N
 aZKey      1322557
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
+aTE_NoForeignKeyPrefix N
 
 eER_RelTypeRec 8
 aZKey      1322555
@@ -568,7 +575,6 @@ eER_AttributeRec 7
 aName      DfltButton
 aZKey      1321463
 aLth       32
-aNotNull   N
 aDesc      Tag of Control for default Button
 aPromptPaintLit DfltButton
 aListPaintLit DfltButton
@@ -627,10 +633,12 @@ aER_PortFactor 2
 
 eER_RelLinkRec 6
 aName      for
+aAutoSeq   N
+aHangingForeignKeyEntity N
 aZKey      1322590
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
+aTE_NoForeignKeyPrefix N
 
 eER_RelTypeRec 7
 aZKey      1322588
@@ -811,10 +819,10 @@ eER_EntityRec 5
 
 eER_RelLinkRec 5
 aName      for
+aAutoSeq   N
 aZKey      1322611
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322609
@@ -1011,10 +1019,10 @@ eER_EntityRec 6
 
 eER_RelLinkRec 6
 aName      for
+aAutoSeq   N
 aZKey      1322593
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 7
 aZKey      1322591
@@ -1100,12 +1108,6 @@ aZKey      1320662
 aDesc      Subobject behavior: Auto Action disabling
 
 eDomainRec 7
-aZKey      1320560
-aName      WD_SB_ActionDisabling
-aDomainType T
-aDataType  L
-aDesc      Subobject Behavior: Auto Action disabling
-aContextRestriction N
 
 eLOD_AttributeRec 5
 aZKey      1330237
@@ -1172,7 +1174,7 @@ eER_AttributeRec 6
 aName      DialogName
 aZKey      1320667
 aLth       32
-aDesc      Name of WDOD to be automatically activated from this Action
+aDesc      Name of Dialog to be automatically activated from this Action
 
 eDomainRec 7
 
@@ -1210,10 +1212,10 @@ aER_DiagramPosY 324
 
 eER_RelLinkRec 5
 aName      is subobject for
+aAutoSeq   N
 aZKey      1322602
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322600
@@ -1236,6 +1238,13 @@ aLth       32
 aDesc      Name of Control Mapping Reference (optional)
 
 eDomainRec 6
+aZKey      1158762
+aName      MapTypeGeneral
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      Specify the type of mapping
+aContextRestriction N
 
 eLOD_AttributeRec 4
 aZKey      1330245
@@ -1284,10 +1293,10 @@ aER_DiagramPosY 214
 
 eER_RelLinkRec 4
 aName      for
+aAutoSeq   Y
 aZKey      1322301
 aCardMin   0
 aCardMax   M
-aAutoSeq   Y
 
 eER_RelTypeRec 5
 aZKey      1322300
@@ -1312,13 +1321,6 @@ aPromptPaintLit Entity Name
 aListPaintLit Entity Name
 
 eDomainRec 5
-aZKey      90000038
-aName      QSName
-aDomainType E
-aDataType  S
-aMaxStringLth 32
-aDesc      QuinSoft Name
-aContextRestriction N
 
 eLOD_AttributeRec 3
 aZKey      1330249
@@ -2527,7 +2529,7 @@ ePOD       2
 aNAME      TZBRLOEO
 aZKey      1330159
 aMULTI_ROOT_LIMIT 0
-aTE_SourceZKey 1148367
+aTE_SourceZKey 91005292
 
 eTE_DB_Environ 3
 aName      Zeidon_T
@@ -2536,62 +2538,26 @@ aDesc      Local Project Library Release 8C
 aType      P
 
 eTE_DBMS_Source 4
-aName      SQL_Rep
-aZKey      1148367
-aDesc      Last altered April 7, 1998
-aParadigm  R
-aDBMS      SqlServer ODBC TB
-aGenerateExecutable kzhsqlsb
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType N
-aSironDB_Type D
-aDisplayOwner Y
-aSironDB_Subtype 6
-
-eTE_DBMS_Source 4
-aName      Zeidon
-aZKey      90031867
-aDesc      Zeidon repository on DB2 mainframe
-aParadigm  R
-aDBMS      DB2 MVS Ger
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDefaultOwner ZEIDON
-aDisplayOwner Y
-aDisplayDBMS_ID Y
-aSironDB_Subtype 4
-
-eTE_DBMS_Source 4
-aName      ACC_REP
+aName      Repos9JA
 aZKey      91005292
-aDesc      Repository MS-Access
+aDesc      The fact that this is defined as MS Access is immaterial, as the meta data will never be kept in a database, but will only remain as individual meta objects.
 aParadigm  R
-aDBMS      Access ODBC TB
-aGenerateExecutable KZSIACC
-aExecutable KZHSIRON
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
 aGenKeyExecutable KZHGENKY
-aConectionType N
-aSironDB_Type D
 aDisplayOwner Y
 aDisplayDBMS_ID N
-aSironDB_Subtype 6
+aDBH_Data  322
+TZDBHODO *********************** ********************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 03/01/00   14:26:23 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString Y
+aBlobsLast N
+aDropTables Y
+aAddTableNameToFK_Override N
 
-eTE_DBMS_Source 4
-aName      DB2_Rep
-aZKey      90014023
-aDesc      Repository DB2 NT
-aParadigm  R
-aDBMS      DB2 NT TB
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDisplayOwner Y
+
 
 eZ_MetaDef 2
 aName      TZBRLOEO
@@ -2602,28 +2568,27 @@ aLastCheckInDate 19951102203051110
 aDesc      Browse view for Mapping of LOD Entities
 
 i10        7
-i16        13
-i19        13
-i22        13
-i25        13
-i28        13
-i31        13
-i34        13
-i37        13
-i43        13
-i46        13
+i19        16
+i22        16
+i25        16
+i28        16
+i31        16
+i34        16
+i37        16
+i43        16
+i46        16
 i49        7
 i60        13
 i69        7
-i72        13
+i72        16
 i75        7
-i78        13
-i81        13
-i84        13
-i87        13
+i78        16
+i81        16
+i84        16
+i87        16
 i90        7
 i93        13
-i96        13
+i96        16
 i99        7
 i106       7
 i109       7
@@ -2634,27 +2599,27 @@ i115       7
 i117       12
 i118       13
 i120       15
-i121       13
+i121       16
 i123       18
-i124       13
+i124       16
 i126       21
-i127       13
+i127       16
 i129       24
-i130       13
+i130       16
 i132       27
-i133       13
+i133       16
 i135       30
-i136       13
+i136       16
 i138       33
-i139       13
+i139       16
 i141       36
-i142       13
+i142       16
 i144       39
 i145       40
 i147       42
-i148       13
+i148       16
 i150       45
-i151       13
+i151       16
 i153       48
 i154       7
 i155       50
@@ -2670,39 +2635,40 @@ i172       66
 i174       68
 i175       7
 i177       71
-i178       13
+i178       16
 i180       74
 i181       7
 i183       77
-i184       13
+i184       16
 i186       80
-i187       13
+i187       16
 i189       83
-i190       13
+i190       16
 i192       86
-i193       13
+i193       16
 i195       89
 i196       7
 i198       92
 i199       13
 i201       95
-i202       13
+i202       16
 i204       98
 i205       7
 i206       100
 i211       7
+i223       16
 i226       7
 i232       7
 i235       13
 i238       7
 i241       7
-i244       13
-i250       7
+i244       16
 i253       13
-i256       13
-i259       13
+i256       16
+i259       16
+i265       57
 i268       7
-i271       13
+i271       16
 i274       13
 i277       7
 i280       7
@@ -2725,17 +2691,17 @@ i334       7
 i337       7
 i340       7
 i343       7
-i346       13
+i346       16
 i348       1
 i349       263
 i350       264
-i351       265
+i351       57
 i352       266
 i353       267
 i354       7
 i355       269
 i356       270
-i357       13
+i357       16
 i358       272
 i359       273
 i360       13
@@ -2810,21 +2776,21 @@ i428       342
 i429       7
 i430       344
 i431       345
-i432       13
+i432       16
 i433       347
 i434       2
 i435       248
 i436       249
-i437       7
+i437       250
 i438       251
 i439       252
 i440       13
 i441       254
 i442       255
-i443       13
+i443       16
 i444       257
 i445       258
-i446       13
+i446       16
 i447       260
 i448       261
 i449       262
@@ -2840,37 +2806,37 @@ i458       12
 i459       13
 i460       119
 i461       15
-i462       13
+i462       16
 i463       122
 i464       18
-i465       13
+i465       16
 i466       125
 i467       21
-i468       13
+i468       16
 i469       128
 i470       24
-i471       13
+i471       16
 i472       131
 i473       27
-i474       13
+i474       16
 i475       134
 i476       30
-i477       13
+i477       16
 i478       137
 i479       33
-i480       13
+i480       16
 i481       140
 i482       36
-i483       13
+i483       16
 i484       143
 i485       39
 i486       40
 i487       146
 i488       42
-i489       13
+i489       16
 i490       149
 i491       45
-i492       13
+i492       16
 i493       152
 i494       48
 i495       7
@@ -2889,37 +2855,37 @@ i507       12
 i508       13
 i509       14
 i510       15
-i511       13
+i511       16
 i512       17
 i513       18
-i514       13
+i514       16
 i515       20
 i516       21
-i517       13
+i517       16
 i518       23
 i519       24
-i520       13
+i520       16
 i521       26
 i522       27
-i523       13
+i523       16
 i524       29
 i525       30
-i526       13
+i526       16
 i527       32
 i528       33
-i529       13
+i529       16
 i530       35
 i531       36
-i532       13
+i532       16
 i533       38
 i534       39
 i535       40
 i536       41
 i537       42
-i538       13
+i538       16
 i539       44
 i540       45
-i541       13
+i541       16
 i542       47
 i543       48
 i544       7
@@ -2932,22 +2898,22 @@ i550       68
 i551       7
 i552       70
 i553       71
-i554       13
+i554       16
 i555       73
 i556       74
 i557       7
 i558       76
 i559       77
-i560       13
+i560       16
 i561       79
 i562       80
-i563       13
+i563       16
 i564       82
 i565       83
-i566       13
+i566       16
 i567       85
 i568       86
-i569       13
+i569       16
 i570       88
 i571       89
 i572       7
@@ -2956,7 +2922,7 @@ i574       92
 i575       13
 i576       94
 i577       95
-i578       13
+i578       16
 i579       97
 i580       98
 i581       7
@@ -2998,7 +2964,7 @@ i616       219
 i617       220
 i618       221
 i619       222
-i620       223
+i620       16
 i621       224
 i622       225
 i623       7
@@ -3019,7 +2985,7 @@ i637       240
 i638       7
 i639       242
 i640       243
-i641       13
+i641       16
 i642       245
 i643       246
 i644       247
@@ -3029,22 +2995,22 @@ i647       68
 i648       7
 i649       176
 i650       71
-i651       13
+i651       16
 i652       179
 i653       74
 i654       7
 i655       182
 i656       77
-i657       13
+i657       16
 i658       185
 i659       80
-i660       13
+i660       16
 i661       188
 i662       83
-i663       13
+i663       16
 i664       191
 i665       86
-i666       13
+i666       16
 i667       194
 i668       89
 i669       7
@@ -3053,7 +3019,7 @@ i671       92
 i672       13
 i673       200
 i674       95
-i675       13
+i675       16
 i676       203
 i677       98
 i678       7

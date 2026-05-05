@@ -1,4 +1,4 @@
-z1000-Zeidon    KZPEXVOO TZZOLODO 01/12/06   14:57:25 1.0b0    
+z1000-Zeidon    KZPEXVOO TZZOLODO                         11/05/25   16:21:44 1.0a2   
 eLOD       1
 aZKey      1330798
 aName      KZPEXVOO
@@ -103,11 +103,11 @@ aER_DiagramPosY 500
 
 eER_RelLinkRec 5
 aName      has
+aAutoSeq   N
+aHangingForeignKeyEntity N
 aZKey      1153185
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
-aHangingForeignKeyEntity N
 
 eER_RelTypeRec 6
 aZKey      1153184

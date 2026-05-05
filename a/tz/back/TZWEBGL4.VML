@@ -712,7 +712,22 @@ GenJSPJ_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
                szActionCode = szActionCode + " onblur=^" + szActionName + "( )^ "
             ELSE
             IF vDialog.Event.Type = 96 OR vDialog.Event.Type = 64 // Event is CloseUp
-               szCloseUpCode = szCloseUpCode + "scwNextAction=" + szActionName + ".runsAfterSCW(this);"
+               // KSJ 09/15/25 - Above comment, and I tried adding onfocusout for bootstrap (non scw) and 
+               // the date does not populate if we have onfocusout. I am going to make this onchange as well.
+               IF szStyleIsBootstrap = "Y"
+                  //szActionCode = szActionCode + " onfocusout=^" + szActionName + "( )^ "
+                  szActionCode = szActionCode + " onchange=^" + szActionName + "( )^ "
+               ELSE
+                  //szCloseUpCode = szCloseUpCode + "scwNextAction=" + szActionName + ".runsAfterSCW(this);"
+               END
+            ELSE
+            IF vDialog.Event.Type = 1 // Event is Changed
+               IF szStyleIsBootstrap = "Y"
+                  szActionCode = szActionCode + " onchange=^" + szActionName + "( )^ "
+               ELSE
+                  szCloseUpCode = szCloseUpCode + "scwNextAction=" + szActionName + ".runsAfterSCW(this);"
+               END
+            END
             END
             END
             END
@@ -792,7 +807,7 @@ GenJSPJ_CrteCalendar( VIEW vDialog BASED ON LOD TZWDLGSO,
 
       IF szStyleIsBootstrap = "Y"
          szWriteBuffer = "   <input class=^" + szClass + "^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^ <%=strDisabled%> " + szDisabled + 
-                             szAutoCompleteOff + szTitleHTML + szHTML5Attr + szPlaceholder + " style=^<%=strErrorColor%>^ type=^text^ value=^<%=strErrorMapValue%>^  >"
+                             szAutoCompleteOff + szTitleHTML + szHTML5Attr + szPlaceholder + szActionCode + " style=^<%=strErrorColor%>^ type=^text^ value=^<%=strErrorMapValue%>^  >"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       ELSE
          szWriteBuffer = "<span " + szStyle + ">"
@@ -950,7 +965,6 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
       szWriteBuffer = "     }"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       */
-
 
       szWriteBuffer = "   }"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
@@ -1127,7 +1141,6 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 10 )  szY_Pos
    STRING ( 100 ) szDisabled
    STRING ( 1 )   szStyleIsBootstrap
-   STRING ( 1 )   szSourceEntityComboBlank
    STRING ( 1 )   szAutoIncludeComboBlank
    STRING ( 64 )  szSystemIniApplName
    STRING ( 20 )  szCSSBootstrap
@@ -1649,44 +1662,10 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
             END
          END
 
-         ////////////////////// KJS 06/11/25
          GetViewByName( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK )
          szSystemIniApplName = "[App." + vLPLR.LPLR.Name + "]"
-         SysReadZeidonIni( -1, szSystemIniApplName, "SourceEntityComboBlank", szSourceEntityComboBlank )
          SysReadZeidonIni( -1, szSystemIniApplName, "AutoIncludeComboBlank", szAutoIncludeComboBlank )
-         IF szSourceEntityComboBlank = "Y"
-            IF vDialog.CtrlMapER_Attribute.NotNull != "Y"
-               // Generate code when attribute is NOT required.
-               szWriteBuffer = "      // Code for NOT required attribute, which makes sure a blank entry exists."
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      if ( strComboCurrentValue == ^^ )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-   
-               szWriteBuffer = "%>"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         <option selected=^selected^ value=^^></option>"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "<%"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      else"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      {"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "%>"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "         <option value=^^></option>"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "<%"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            END
-         END
-         /////////////////////
+
          szWriteBuffer = "      v" + szCtrlTag + " = " + vList.CtrlMapView.Name + ".newView( );"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "      ComboCount = 0;"
@@ -1704,20 +1683,26 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
             // and wants to use the "No null in list" checkbox in the painter.  I would need to
             // change this code but I'm not sure how because I can't tell from DoInputMapping what
             // the value of combobox.selectedindex[0] is, I only know they selected the index 0.
-            szWriteBuffer = "      // For Auto Include, always add a null entry to the combo box. Unless the first entry is blank."
+            szWriteBuffer = "      // For Auto Include, always add a null entry to the combo box."
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      ComboCount++;"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            //szWriteBuffer = "      ComboCount++;"
+            //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             // Check the first line is blank and don't add if it is.
             IF szAutoIncludeComboBlank = "Y"
+               szWriteBuffer = "      // Unless the first entry is blank."
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      if ( v" + szCtrlTag + ".cursor( ^" 
                IF szScopingEntityName = ""
                   szWriteBuffer = szWriteBuffer + szListEntityName + "^ ).setFirst().isSet() && v"
                ELSE
                   szWriteBuffer = szWriteBuffer + szListEntityName + "^ ).setFirst( " + szScopingEntityName + " ).isSet() && v"
                END
+
+               // KJS 07/08/25 - Adding a check for null because it sometimes fails here.
                szWriteBuffer = szWriteBuffer + szCtrlTag + ".cursor( ^" + szListEntityName + "^ ).getAttribute( ^" +
-                               vList.CtrlMapER_Attribute.Name + "^ ).getString( ^^).length() > 0 )"
+                               vList.CtrlMapER_Attribute.Name + "^ ).getString(^^)!= null && v"
+               szWriteBuffer = szWriteBuffer + szCtrlTag + ".cursor( ^" + szListEntityName + "^ ).getAttribute( ^" +
+                               vList.CtrlMapER_Attribute.Name + "^ ).getString(^^).length() > 0 )"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                        
                szWriteBuffer = "      {"
@@ -1726,6 +1711,8 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
             END
             //if ( vcbRefHFIClient.cursor( "HFIClient" ).setFirst(  ).isSet() && 
             //     vcbRefHFIClient.cursor( "HFIClient" ).getAttribute( "ClientName" ).getString( "" ).length() > 0 )
+            szWriteBuffer = "      ComboCount++;"
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             
             szWriteBuffer = "      if ( StringUtils.isBlank( strComboCurrentValue ) )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )

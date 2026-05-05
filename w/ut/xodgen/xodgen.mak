@@ -34,13 +34,13 @@ RSC=rc.exe
 OUTDIR=.\Release
 INTDIR=.\Release
 
-ALL : "..\..\w\bin\xodgen.exe"
+ALL : "..\..\..\w\bin\xodgen.exe"
 
 
 CLEAN :
    -@erase "$(INTDIR)\vc60.idb"
    -@erase "$(INTDIR)\xodgen.obj"
-   -@erase "..\..\w\bin\xodgen.exe"
+   -@erase "..\..\..\w\bin\xodgen.exe"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -52,11 +52,11 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\xodgen.bsc"
 BSC32_SBRS= \
 
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kzoengaa.lib tzcm_opr.lib tzlodopr.lib /nologo /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\xodgen.pdb" /machine:I386 /out:"..\..\w\bin\xodgen.exe" /libpath:"$(KZD):\$(KZV)\w\libz" /libpath:"$(KZD):\$(KZV)\w\libr"
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kzoengaa.lib tzlodopr.lib /nologo /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\xodgen.pdb" /machine:I386 /out:"..\..\..\w\bin\xodgen.exe" /libpath:"$(KZD):\$(KZV)\w\libz" /libpath:"$(KZD):\$(KZV)\w\libr"
 LINK32_OBJS= \
    "$(INTDIR)\xodgen.obj"
 
-"..\..\w\bin\xodgen.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+"..\..\..\w\bin\xodgen.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<
@@ -66,7 +66,7 @@ LINK32_OBJS= \
 OUTDIR=.\Debug
 INTDIR=.\Debug
 
-ALL : "..\..\w\bin\xodgen.exe"
+ALL : "..\..\..\w\bin\xodgen.exe"
 
 
 CLEAN :
@@ -74,8 +74,8 @@ CLEAN :
    -@erase "$(INTDIR)\vc60.pdb"
    -@erase "$(INTDIR)\xodgen.obj"
    -@erase "$(OUTDIR)\xodgen.pdb"
-   -@erase "..\..\w\bin\xodgen.exe"
-   -@erase "..\..\w\bin\xodgen.ilk"
+   -@erase "..\..\..\w\bin\xodgen.exe"
+   -@erase "..\..\..\w\bin\xodgen.ilk"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
@@ -87,11 +87,11 @@ BSC32_FLAGS=/nologo /o"$(OUTDIR)\xodgen.bsc"
 BSC32_SBRS= \
 
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kzoengaa.lib tzcm_opr.lib tzlodopr.lib /nologo /subsystem:windows /incremental:yes /pdb:"$(OUTDIR)\xodgen.pdb" /debug /machine:I386 /out:"..\..\w\bin\xodgen.exe" /libpath:"$(KZD):\$(KZV)\w\libz" /libpath:"$(KZD):\$(KZV)\w\libr"
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kzoengaa.lib tzlodopr.lib /nologo /subsystem:windows /incremental:yes /pdb:"$(OUTDIR)\xodgen.pdb" /debug /machine:I386 /out:"..\..\..\w\bin\xodgen.exe" /libpath:"$(KZD):\$(KZV)\w\libz" /libpath:"$(KZD):\$(KZV)\w\libr"
 LINK32_OBJS= \
    "$(INTDIR)\xodgen.obj"
 
-"..\..\w\bin\xodgen.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
+"..\..\..\w\bin\xodgen.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
   $(LINK32_FLAGS) $(LINK32_OBJS)
 <<

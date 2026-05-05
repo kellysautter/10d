@@ -1,4 +1,4 @@
-z10000Zeidon    TZCMCOML TZZOLODO 07/15/01   12:34:29 1.0b0    
+z1000-Zeidon    TZCMCOML TZZOLODO                         11/05/25   16:21:49 1.0a2   
 eLOD       1
 aZKey      127075837
 aName      TZCMCOML
@@ -116,13 +116,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 8
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eER_EntityRec 6
@@ -136,10 +133,10 @@ aER_DiagramPosY 66
 
 eER_RelLinkRec 6
 aName      for
+aAutoSeq   N
 aZKey      1322377
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 7
 aZKey      1322375
@@ -193,6 +190,14 @@ aZKey      1321247
 aLth       4
 
 eDomainRec 8
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eER_EntityRec 6
 aName      RepositoryClient
@@ -205,10 +210,10 @@ aER_DiagramPosY 48
 
 eER_RelLinkRec 6
 aName      Checked out onto
+aAutoSeq   N
 aZKey      1322125
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 7
 aZKey      1322123
@@ -266,12 +271,12 @@ aPromptPaintLit Name:
 aListPaintLit Name:
 
 eDomainRec 8
-aZKey      90145848
-aName      MetaName
+aZKey      90000038
+aName      QSName
 aDomainType E
 aDataType  S
-aMaxStringLth 8
-aDesc      Name of a meta object (ie., LOD, Dialog, Report)
+aMaxStringLth 32
+aDesc      QuinSoft Name
 aContextRestriction N
 
 eER_EntityRec 6
@@ -285,10 +290,10 @@ aER_DiagramPosY 128
 
 eER_RelLinkRec 6
 aName      checked out to
+aAutoSeq   N
 aZKey      1322089
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 7
 aZKey      1322087
@@ -372,10 +377,10 @@ aER_DiagramPosY 122
 
 eER_RelLinkRec 5
 aName      has
+aAutoSeq   N
 aZKey      1322380
 aCardMin   0
 aCardMax   M
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322378
@@ -486,10 +491,10 @@ aER_PortFactor 2
 
 eER_RelLinkRec 4
 aName      contains
+aAutoSeq   Y
 aZKey      1322400
 aCardMin   0
 aCardMax   M
-aAutoSeq   Y
 
 eER_RelTypeRec 5
 aZKey      1322399
@@ -542,7 +547,7 @@ aName      DeleteMeta
 aZKey      127085961
 aDesc      46
 1 = Meta is deleted
-0 = no Metas are deleted0
+0 = no Metas are deleted 
 
 eDomainRec 5
 
@@ -743,74 +748,37 @@ aZKey      127075903
 aTE_SourceZKey 91005292
 
 eTE_DB_Environ 3
-aName      ZEIDON_T
+aName      Zeidon_T
 aZKey      1323476
 aDesc      Local Project Library Release 8C
 aType      P
 
 eTE_DBMS_Source 4
-aName      SQL_Rep
-aZKey      1148367
-aDesc      Last altered April 7, 1998
-aParadigm  R
-aDBMS      SqlServer ODBC TB
-aGenerateExecutable kzhsqlsb
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType N
-aSironDB_Type D
-aDisplayOwner Y
-aSironDB_Subtype 6
-
-eTE_DBMS_Source 4
-aName      Zeidon
-aZKey      90031867
-aDesc      Zeidon repository on DB2 mainframe
-aParadigm  R
-aDBMS      DB2 MVS Ger
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDefaultOwner ZEIDON
-aDisplayOwner Y
-aDisplayDBMS_ID Y
-aSironDB_Subtype 4
-
-eTE_DBMS_Source 4
-aName      ACC_REP
+aName      Repos9JA
 aZKey      91005292
-aDesc      Repository MS-Access
+aDesc      The fact that this is defined as MS Access is immaterial, as the meta data will never be kept in a database, but will only remain as individual meta objects.
 aParadigm  R
-aDBMS      Access ODBC TB
-aGenerateExecutable KZSIACC
-aExecutable KZHSIRON
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
 aGenKeyExecutable KZHGENKY
-aConectionType N
-aSironDB_Type D
 aDisplayOwner Y
 aDisplayDBMS_ID N
-aSironDB_Subtype 6
+aDBH_Data  322
+TZDBHODO *********************** ********************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 03/01/00   14:26:23 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString Y
+aBlobsLast N
+aDropTables Y
+aAddTableNameToFK_Override N
 
-eTE_DBMS_Source 4
-aName      DB2_Rep
-aZKey      90014023
-aDesc      Repository DB2 NT
-aParadigm  R
-aDBMS      DB2 NT TB
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDisplayOwner Y
+
 
 i17        10
-i20        10
 i27        10
 i36        10
-i39        10
+i39        20
 i45        7
 i51        7
 i54        10
@@ -818,7 +786,7 @@ i60        42
 i63        42
 i72        7
 i75        10
-i78        10
+i78        20
 i80        1
 i81        70
 i82        71
@@ -828,7 +796,7 @@ i85        74
 i86        10
 i87        76
 i88        77
-i89        10
+i89        20
 i90        79
 i91        2
 i92        49
@@ -858,7 +826,7 @@ i115       35
 i116       10
 i117       37
 i118       38
-i119       10
+i119       20
 i120       40
 i121       41
 i122       42
@@ -884,7 +852,7 @@ i141       16
 i142       10
 i143       18
 i144       19
-i145       10
+i145       20
 i146       21
 i147       22
 i148       23

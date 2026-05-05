@@ -1,4 +1,4 @@
-// CHANGE LOG most recent first order
+// CHANGE LOG most recent first order 10d
 //
 // 2016.02.02    DKS
 //    Start of new editor (without ActiveX)
@@ -2569,6 +2569,7 @@ PostBuild( zVIEW vSubtask )
    zVIEW   vTaskLPLR;
 // zVIEW   vProfileXFER;
    zVIEW   vEdWrk;
+   zVIEW   vTZOGSRCO_LIST = 0;
    zCHAR   szMsg[ 300 ];
 
    GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
@@ -2625,7 +2626,19 @@ PostBuild( zVIEW vSubtask )
 
       SetWindowActionBehavior( vSubtask, zWAB_ReturnToParentWithRefresh, "", "" );
    }
-
+/*
+   GetViewByName( &vTZOGSRCO_LIST, "TZOGSRCO_LIST", vSubtask, zLEVEL_TASK );
+   if ( vTZOGSRCO_LIST != 0 )
+   {
+      SetOptionState( vSubtask, "mnuDialogOperList", zOPTION_STATUS_ENABLED, 0 ); //false
+      SetOptionState( vSubtask, "mnuGLOpersList", zOPTION_STATUS_ENABLED, 1 );  //true
+   }
+   else
+   {
+      SetOptionState( vSubtask, "mnuDialogOperList", zOPTION_STATUS_ENABLED, 1 ); //true
+      SetOptionState( vSubtask, "mnuGLOpersList", zOPTION_STATUS_ENABLED, 0 );  //false
+   }
+*/
    return( 0 );
 }
 
@@ -2646,6 +2659,7 @@ SystemClose( zVIEW vSubtask )
 {
    zVIEW      vEdWrk = 0;
    zVIEW      vLastEdWrk = 0;
+   zVIEW      vTZOGSRCO_LIST = 0;
    zVIEW      vProfileXFER = 0;
 
    if ( EDT_IsFileChanged( vSubtask ) )
@@ -2687,7 +2701,12 @@ SystemClose( zVIEW vSubtask )
 
    if ( g_nTrace )
       SetActionTrace( vSubtask, g_nTrace );
-
+/*  
+   // KJS 09/17/25 - Added for Operation List inside editor. 
+   GetViewByName( &vTZOGSRCO_LIST, "TZOGSRCO_LIST", vSubtask, zLEVEL_TASK );
+   if ( vTZOGSRCO_LIST != 0 )
+      DropView( vTZOGSRCO_LIST );
+*/
    SetWindowActionBehavior( vSubtask, zWAB_ReturnToParent | zWAB_ProcessImmediateAction | zWAB_ProcessImmediateReturn, 0, 0 );
 
    return( 0 );
@@ -7423,6 +7442,202 @@ ParseGenerateJava( zVIEW vSubtask )
    return( nRC );
 
 } // ParseGenerateJava
+
+///////////////// kkkkkkkkkkkkkkkkkkkkkk////////////////////
+
+/*************************************************************************************************
+**    
+**    OPERATION: zwTZEDFRMD_LoadOperationList
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEDFRMD_LoadOperationList( zVIEW vSubtask )
+{
+/*
+   zVIEW  vWindow;
+
+   if ( GetSubtaskForWindowName( vSubtask, &vWindow, "DIALOGOPERLIST" ) >= 0 )
+   {
+      SetWindowState( vWindow, zWINDOW_STATUS_DESTROY, 1 );
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, "", "" );
+   }
+*/
+   return( 0 );
+   
+} // zwTZEDFRMD_LoadOperationList
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: wTZEDFRMD_DestroyWindow
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEDFRMD_DestroyWindow( zVIEW vSubtask )
+{
+/*
+   zVIEW  vWindow;
+
+   SetWindowState( vSubtask, zWINDOW_STATUS_DESTROY, 1 );
+
+   //if ( GetSubtaskForWindowName( vSubtask, &vWindow, "UPD_ACT" ) >= 0 )
+   //   SetWindowState( vWindow, zWINDOW_STATUS_SETFOCUS, 1 );
+*/
+   return( 0 );
+
+} // wTZEDFRMD_DestroyWindow
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: TZEDFRMD_GotoSourceOper
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEDFRMD_GotoSourceOper( zVIEW vSubtask )
+{
+/*
+   zVIEW    vTZOPRUSO = 0;
+   zVIEW    vTemp;
+   zLONG    lLine = 0, lCol = 0, lIndex = 0;
+   zLONG    lReturnedBuffSize = MAX_TOKEN_LTH;
+   zCHAR    strOperName[ 64 ];
+   CString  strOperSrch = "\\bOPERATION[^!-~°§²³´ßäöüÄÖÜ]+%s[^!-~°§²³´ßäöüÄÖÜ]*(";
+   //CString  strOperSrch = "\\bOPERATION[^!-~            ]+%s[^!-~            ]*(";
+   LPSTR    szBuffer = NULL;
+   CString  strDelimiter = "\t,)( ";
+   long     lTBEDTDefaultSearchBehavior = 5;
+ 
+   // Get the subtask for the editor window.
+   GetParentWindow( &vTemp, vSubtask );
+ 
+   ZDrTBEdt *oEditor =
+      (ZDrTBEdt *) GetActiveX_WrapperInstance( vTemp, EDIT_CONTROL_NAME );
+
+   if ( oEditor == 0 )
+      return( 0 );
+
+   CString strSearchString;
+
+   GetViewByName( &vTZOPRUSO, "TZOPRUSO", vSubtask, zLEVEL_TASK );
+   GetStringFromAttribute( strOperName, zsizeof( strOperName ), vTZOPRUSO, "OperationList", "Name" );
+
+   strSearchString.Format( strOperSrch, strOperName );
+
+   lIndex = 0; // search from begin of file
+   oEditor->FindTextPosition( strSearchString, &lIndex,
+                              lTBEDTDefaultSearchBehavior );
+
+   //lIndex = 64817;
+   // Skipping lines where the search text is part of a comment
+   while ( oEditor->IsCommentAtIndex( lIndex ) && lIndex > -1 )
+   {
+      lIndex++;
+      oEditor->FindTextPosition( strSearchString, &lIndex,
+                                 lTBEDTDefaultSearchBehavior );
+   }
+
+   if ( lIndex >= 0 ) // we found something so place the cursor onto it
+   {
+      oEditor->SetCursorPositionByIndex( lIndex + 12 );
+      SetFocusToCtrl( vTemp, EDIT_CONTROL_NAME );
+      return( 0 );
+   }
+   else
+   {
+      strSearchString.Format( "Operation \'%s\' could not be located", strOperName );
+      MB_SetMessage( vSubtask, MAIN_DIL, strSearchString );
+   }
+  
+*/
+   return( 0 );
+} // TZEDFRMD_GotoSourceOper
+
+
+/*************************************************************************************************
+**    
+**    OPERATION: zwTZEDFRMD_LoadOperationList
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEDFRMD_LoadGLOperList( zVIEW vSubtask )
+{
+/*
+   zVIEW  vWindow;
+
+   if ( GetSubtaskForWindowName( vSubtask, &vWindow, "GLOBALOPERLIST" ) >= 0 )
+   {
+      SetWindowState( vWindow, zWINDOW_STATUS_DESTROY, 1 );
+      SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, "", "" );
+   }
+*/
+   return( 0 );
+   
+} // zwTZEDFRMD_LoadOperationList
+
+/*************************************************************************************************
+**    
+**    OPERATION: zwTZEDFRMD_GotoGlobalOper
+**    
+*************************************************************************************************/
+zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
+zwTZEDFRMD_GotoGlobalOper( zVIEW vSubtask )
+{
+/*
+   zVIEW    vTZOPRUSO = 0;
+   zVIEW    vTemp;
+   zLONG    lLine = 0, lCol = 0, lIndex = 0;
+   zLONG    lReturnedBuffSize = MAX_TOKEN_LTH;
+   zCHAR    strOperName[ 64 ];
+   CString  strOperSrch = "\\bOPERATION[^!-~°§²³´ßäöüÄÖÜ]+%s[^!-~°§²³´ßäöüÄÖÜ]*(";
+   LPSTR    szBuffer = NULL;
+   CString  strDelimiter = "\t,)( ";
+   long     lTBEDTDefaultSearchBehavior = 5;
+ 
+   // Get the subtask for the editor window.
+   GetParentWindow( &vTemp, vSubtask );
+ 
+   ZDrTBEdt *oEditor =
+      (ZDrTBEdt *) GetActiveX_WrapperInstance( vTemp, EDIT_CONTROL_NAME );
+
+   if ( oEditor == 0 )
+      return( 0 );
+
+   CString strSearchString;
+
+   GetViewByName( &vTZOPRUSO, "TZOGSRCO_LIST", vSubtask, zLEVEL_TASK );
+   GetStringFromAttribute( strOperName, zsizeof( strOperName ), vTZOPRUSO, "Operation", "Name" );
+
+   strSearchString.Format( strOperSrch, strOperName );
+
+   lIndex = 0; // search from begin of file
+   oEditor->FindTextPosition( strSearchString, &lIndex,
+                              lTBEDTDefaultSearchBehavior );
+
+   //lIndex = 64817;
+   // Skipping lines where the search text is part of a comment
+   while ( oEditor->IsCommentAtIndex( lIndex ) && lIndex > -1 )
+   {
+      lIndex++;
+      oEditor->FindTextPosition( strSearchString, &lIndex,
+                                 lTBEDTDefaultSearchBehavior );
+   }
+
+   if ( lIndex >= 0 ) // we found something so place the cursor onto it
+   {
+      oEditor->SetCursorPositionByIndex( lIndex + 12 );
+      SetFocusToCtrl( vTemp, EDIT_CONTROL_NAME );
+      return( 0 );
+   }
+   else
+   {
+      strSearchString.Format( "Operation \'%s\' could not be located", strOperName );
+      MB_SetMessage( vSubtask, MAIN_DIL, strSearchString );
+   }
+  
+*/
+   return( 0 );
+} // TZEDFRMD_GotoSourceOper
 
 
 #ifdef __cplusplus

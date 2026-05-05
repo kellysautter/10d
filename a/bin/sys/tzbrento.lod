@@ -1,4 +1,4 @@
-z1000-Zeidon    TZBRENTO TZZOLODO 01/28/04   08:20:57 1.0b0    
+z1000-Zeidon    TZBRENTO TZZOLODO                         11/05/25   16:21:47 1.0a2   
 eLOD       1
 aZKey      1330544
 aName      TZBRENTO
@@ -100,13 +100,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 7
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 5
@@ -160,10 +157,10 @@ aER_DiagramPosY 146
 
 eER_RelLinkRec 5
 aName      is involved in
+aAutoSeq   N
 aZKey      1322224
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322222
@@ -199,6 +196,14 @@ aZKey      1321256
 aDesc      X Position on ERD
 
 eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eLOD_AttributeRec 4
 aZKey      1330555
@@ -221,10 +226,10 @@ aER_DiagramPosY 142
 
 eER_RelLinkRec 4
 aName      is positioned by
+aAutoSeq   N
 aZKey      1322227
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
 
 eER_RelTypeRec 5
 aZKey      1322225
@@ -387,10 +392,10 @@ aER_DiagramPosY 308
 
 eER_RelLinkRec 6
 aName      is defined in
+aAutoSeq   N
 aZKey      1322422
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 7
 aZKey      1322420
@@ -521,10 +526,10 @@ aER_DiagramPosY 332
 
 eER_RelLinkRec 5
 aName      is in
+aAutoSeq   N
 aZKey      1322425
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322423
@@ -543,7 +548,6 @@ aSeqNo_LOD_Entity 1
 eER_AttributeRec 5
 aName      Name
 aZKey      1321362
-aLth       32
 aNotNull   Y
 aDesc      ( in SQL it is part 3 of 3 part table name)
 aPromptPaintLit NAME
@@ -653,10 +657,10 @@ aER_DiagramPosY 374
 
 eER_RelLinkRec 4
 aName      implemented by
+aAutoSeq   N
 aZKey      1322232
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
 
 eER_RelTypeRec 5
 aZKey      1322231
@@ -1131,10 +1135,10 @@ aER_DiagramPosY 142
 
 eER_RelLinkRec 5
 aName      has parent
+aAutoSeq   N
 aZKey      1322308
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322306
@@ -1194,13 +1198,6 @@ aPromptPaintLit LOD Name
 aListPaintLit LOD Name
 
 eDomainRec 7
-aZKey      90145848
-aName      MetaName
-aDomainType E
-aDataType  S
-aMaxStringLth 8
-aDesc      Name of a meta object (ie., LOD, Dialog, Report)
-aContextRestriction N
 
 eLOD_AttributeRec 5
 aZKey      1330613
@@ -1279,10 +1276,10 @@ aER_PortFactor 2
 
 eER_RelLinkRec 5
 aName      root of
+aAutoSeq   N
 aZKey      1322281
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322279
@@ -1600,10 +1597,10 @@ eER_EntityRec 4
 
 eER_RelLinkRec 4
 aName      is accessed by
+aAutoSeq   N
 aZKey      1322259
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
 
 eER_RelTypeRec 5
 aZKey      1322258
@@ -1906,11 +1903,11 @@ eER_EntityRec 6
 
 eER_RelLinkRec 6
 aName      is fact about
+aAutoSeq   N
+aHangingForeignKeyEntity N
 aZKey      1322284
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
-aHangingForeignKeyEntity N
 
 eER_RelTypeRec 7
 aZKey      1322282
@@ -2089,11 +2086,11 @@ aER_PortFactor 2
 
 eER_RelLinkRec 5
 aName      is accessed by
+aAutoSeq   N
+aHangingForeignKeyEntity N
 aZKey      1322238
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
-aHangingForeignKeyEntity N
 
 eER_RelTypeRec 6
 aZKey      1322237
@@ -2285,10 +2282,10 @@ aER_DiagramPosY 262
 
 eER_RelLinkRec 4
 aName      has fact
+aAutoSeq   Y
 aZKey      1322235
 aCardMin   0
 aCardMax   M
-aAutoSeq   Y
 
 eER_RelTypeRec 5
 aZKey      1322234
@@ -3602,7 +3599,7 @@ ePOD       2
 aNAME      TZBRENTO
 aZKey      1330545
 aMULTI_ROOT_LIMIT 0
-aTE_SourceZKey 1148367
+aTE_SourceZKey 91005292
 
 eTE_DB_Environ 3
 aName      Zeidon_T
@@ -3611,47 +3608,9 @@ aDesc      Local Project Library Release 8C
 aType      P
 
 eTE_DBMS_Source 4
-aName      SQL_Rep
-aZKey      1148367
-aDesc      Last altered April 7, 1998
-aParadigm  R
-aDBMS      SQLServer via ODBC
-aGenerateExecutable kzhsqlsb
-aExecutable KZHSQLOA
-aGenKeyExecutable KZHGENKY
-aDisplayOwner Y
-aDisplayDBMS_ID N
-aDBH_Data  U322
-M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
-M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
-M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
-M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
-'92!9#0H-"@``
-`
-
-eTE_DBMS_Source 4
-aName      Zeidon
-aZKey      90031867
-aDesc      Zeidon repository on DB2 mainframe
-aParadigm  R
-aDBMS      MVS: DB2 deutsch
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDefaultOwner ZEIDON
-aDisplayOwner Y
-aDisplayDBMS_ID Y
-aSironDB_Subtype 4
-
-eTE_DBMS_Source 4
 aName      Repos9JA
 aZKey      91005292
-aDesc      Repository MS-Access
+aDesc      The fact that this is defined as MS Access is immaterial, as the meta data will never be kept in a database, but will only remain as individual meta objects.
 aParadigm  R
 aDBMS      MS Access via ODBC
 aGenerateExecutable KZHSQLAB
@@ -3659,16 +3618,16 @@ aExecutable KZHSQLOA
 aGenKeyExecutable KZHGENKY
 aDisplayOwner Y
 aDisplayDBMS_ID N
-aDBH_Data  U322
-M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
-M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
-M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
-M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
-'92!.#0H-"@``
-`
+aDBH_Data  322
+TZDBHODO *********************** ********************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 03/01/00   14:26:23 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString Y
+aBlobsLast N
+aDropTables Y
+aAddTableNameToFK_Override N
+
+
 
 eZ_MetaDef 2
 aName      TZBRENTO
@@ -3679,27 +3638,26 @@ aLastCheckInDate 19951102203051110
 aDesc      Browse view of ER_Entity Detail
 
 i21        9
-i24        9
-i27        9
+i27        24
 i36        6
 i39        9
 i45        12
 i48        6
 i54        6
 i57        9
-i60        9
-i63        9
+i60        24
+i63        24
 i66        12
 i69        42
 i72        6
 i81        6
 i84        9
-i90        9
+i90        24
 i93        6
 i96        6
 i99        12
 i110       6
-i113       9
+i113       24
 i116       9
 i119       6
 i122       6
@@ -3722,8 +3680,9 @@ i176       6
 i179       6
 i182       6
 i185       6
-i188       9
+i188       24
 i195       9
+i198       107
 i201       12
 i204       6
 i207       6
@@ -3732,7 +3691,7 @@ i213       6
 i219       194
 i220       9
 i222       197
-i223       198
+i223       107
 i225       200
 i226       12
 i228       203
@@ -3749,7 +3708,7 @@ i242       107
 i244       109
 i245       6
 i247       112
-i248       9
+i248       24
 i250       115
 i251       9
 i253       118
@@ -3799,14 +3758,14 @@ i317       6
 i319       184
 i320       6
 i322       187
-i323       9
+i323       24
 i324       189
 i331       106
 i332       107
 i334       109
 i335       6
 i337       112
-i338       9
+i338       24
 i340       115
 i341       9
 i343       118
@@ -3856,38 +3815,38 @@ i407       6
 i409       184
 i410       6
 i412       187
-i413       9
+i413       24
 i414       189
 i419       9
 i422       6
 i425       6
 i428       6
 i431       6
-i434       9
+i434       24
 i437       6
 i440       6
-i443       9
-i446       9
-i449       9
+i443       24
+i446       24
+i449       24
 i452       6
 i458       107
 i461       9
-i464       9
+i464       24
 i467       6
 i470       6
 i473       12
 i476       6
-i479       9
+i479       24
 i482       6
-i485       9
+i485       24
 i488       6
 i491       6
 i497       107
 i500       9
 i506       12
 i509       6
-i512       9
-i515       9
+i512       24
+i515       24
 i517       1
 i518       495
 i519       496
@@ -3906,10 +3865,10 @@ i531       508
 i532       6
 i533       510
 i534       511
-i535       9
+i535       24
 i536       513
 i537       514
-i538       9
+i538       24
 i539       516
 i540       2
 i541       19
@@ -3917,10 +3876,10 @@ i542       20
 i543       9
 i544       22
 i545       23
-i546       9
+i546       24
 i547       25
 i548       26
-i549       9
+i549       24
 i550       28
 i551       29
 i552       30
@@ -3952,7 +3911,7 @@ i577       86
 i578       87
 i579       88
 i580       89
-i581       9
+i581       24
 i582       91
 i583       92
 i584       6
@@ -3974,10 +3933,10 @@ i599       56
 i600       9
 i601       58
 i602       59
-i603       9
+i603       24
 i604       61
 i605       62
-i606       9
+i606       24
 i607       64
 i608       65
 i609       12
@@ -4021,7 +3980,7 @@ i646       109
 i647       6
 i648       246
 i649       112
-i650       9
+i650       24
 i651       249
 i652       115
 i653       9
@@ -4096,7 +4055,7 @@ i721       184
 i722       6
 i723       321
 i724       187
-i725       9
+i725       24
 i726       189
 i727       325
 i728       326
@@ -4109,7 +4068,7 @@ i734       109
 i735       6
 i736       111
 i737       112
-i738       9
+i738       24
 i739       114
 i740       115
 i741       9
@@ -4184,7 +4143,7 @@ i809       184
 i810       6
 i811       186
 i812       187
-i813       9
+i813       24
 i814       189
 i815       190
 i816       191
@@ -4194,7 +4153,7 @@ i819       194
 i820       9
 i821       196
 i822       197
-i823       198
+i823       107
 i824       199
 i825       200
 i826       12
@@ -4219,7 +4178,7 @@ i844       194
 i845       9
 i846       221
 i847       197
-i848       198
+i848       107
 i849       224
 i850       200
 i851       12
@@ -4245,7 +4204,7 @@ i870       460
 i871       9
 i872       462
 i873       463
-i874       9
+i874       24
 i875       465
 i876       466
 i877       6
@@ -4260,13 +4219,13 @@ i885       475
 i886       6
 i887       477
 i888       478
-i889       9
+i889       24
 i890       480
 i891       481
 i892       6
 i893       483
 i894       484
-i895       9
+i895       24
 i896       486
 i897       487
 i898       6
@@ -4294,7 +4253,7 @@ i919       430
 i920       6
 i921       432
 i922       433
-i923       9
+i923       24
 i924       435
 i925       436
 i926       6
@@ -4303,13 +4262,13 @@ i928       439
 i929       6
 i930       441
 i931       442
-i932       9
+i932       24
 i933       444
 i934       445
-i935       9
+i935       24
 i936       447
 i937       448
-i938       9
+i938       24
 i939       450
 i940       451
 i941       6
@@ -4325,7 +4284,7 @@ i950       109
 i951       6
 i952       336
 i953       112
-i954       9
+i954       24
 i955       339
 i956       115
 i957       9
@@ -4400,7 +4359,7 @@ i1025      184
 i1026      6
 i1027      411
 i1028      187
-i1029      9
+i1029      24
 i1030      189
 i1031      415
 i1032      416

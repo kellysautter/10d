@@ -1,4 +1,4 @@
-z10000Zeidon    TZERQBDO TZZOLODO 05/01/01   23:18:18 1.0b0    
+z1000-Zeidon    TZERQBDO TZZOLODO                         11/05/25   16:21:54 1.0a2   
 eLOD       1
 aZKey      89354858
 aName      TZERQBDO
@@ -1566,7 +1566,7 @@ aDupEntityInstance N
 aDupRelationshipInstance N
 aDesc      181
 A work entity for each column in the dimension table to handle the specification of how the column is used in the dimension/hierarchy.  It is always deleted before saving the XML
-0
+ 
 
 eLOD_EntityChild 7
 aName      TE_FieldDataRel
@@ -1639,13 +1639,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 11
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 9
@@ -1661,6 +1658,14 @@ aPromptPaintLit Length
 aListPaintLit Length
 
 eDomainRec 11
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eLOD_AttributeRec 9
 aZKey      89356080
@@ -1795,7 +1800,7 @@ aZKey      94002944
 aLth       32
 aDesc      82
 An override name to be used for generation of the TE Column for this attribute.
-0
+ 
 
 eDomainRec 11
 
@@ -1808,7 +1813,7 @@ aZKey      91052845
 aLth       32
 aDesc      88
 An override name to be used for generation of the TE Foreign Key  for this attribute.
-0
+ 
 
 eDomainRec 11
 
@@ -1865,10 +1870,10 @@ aER_DiagramPosY 262
 
 eER_RelLinkRec 9
 aName      implements
+aAutoSeq   N
 aZKey      1322257
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 10
 aZKey      1322255
@@ -6328,48 +6333,47 @@ i347       59
 i352       5
 i355       5
 i358       5
-i377       374
 i380       5
 i383       5
 i389       5
-i392       374
+i392       377
 i395       5
-i398       374
+i398       377
 i401       5
 i404       5
 i407       5
 i410       5
 i413       5
 i416       5
-i419       374
-i422       374
+i419       377
+i422       377
 i428       5
 i431       374
 i434       386
 i440       5
-i443       374
+i443       377
 i446       5
-i449       374
-i452       374
-i458       374
+i449       377
+i452       377
+i458       377
 i461       5
 i464       5
 i467       5
 i471       5
 i474       5
-i477       374
-i480       374
-i483       374
-i486       374
-i489       374
-i492       374
-i495       374
-i498       374
-i501       374
-i504       374
-i507       374
-i510       374
-i513       374
+i477       377
+i480       377
+i483       377
+i486       377
+i489       377
+i492       377
+i495       377
+i498       377
+i501       377
+i504       377
+i507       377
+i510       377
+i513       377
 i517       4
 i518       5
 i520       7
@@ -6602,13 +6606,13 @@ i900       5
 i901       804
 i909       5
 i918       5
-i921       374
-i924       374
-i927       374
-i930       374
-i933       374
-i936       374
-i942       374
+i921       377
+i924       377
+i927       377
+i930       377
+i933       377
+i936       377
+i942       377
 i948       5
 i951       5
 i960       5
@@ -6995,7 +6999,7 @@ i1341      349
 i1342      365
 i1343      940
 i1344      941
-i1345      374
+i1345      377
 i1346      943
 i1347      944
 i1348      945
@@ -7005,22 +7009,22 @@ i1351      917
 i1352      5
 i1353      919
 i1354      920
-i1355      374
+i1355      377
 i1356      922
 i1357      923
-i1358      374
+i1358      377
 i1359      925
 i1360      926
-i1361      374
+i1361      377
 i1362      928
 i1363      929
-i1364      374
+i1364      377
 i1365      931
 i1366      932
-i1367      374
+i1367      377
 i1368      934
 i1369      935
-i1370      374
+i1370      377
 i1371      937
 i1372      938
 i1373      939
@@ -7423,43 +7427,43 @@ i1769      473
 i1770      5
 i1771      478
 i1772      479
-i1773      374
+i1773      377
 i1774      481
 i1775      482
-i1776      374
+i1776      377
 i1777      484
 i1778      485
-i1779      374
+i1779      377
 i1780      487
 i1781      488
-i1782      374
+i1782      377
 i1783      490
 i1784      491
-i1785      374
+i1785      377
 i1786      493
 i1787      494
-i1788      374
+i1788      377
 i1789      496
 i1790      497
-i1791      374
+i1791      377
 i1792      475
 i1793      476
-i1794      374
+i1794      377
 i1795      499
 i1796      500
-i1797      374
+i1797      377
 i1798      502
 i1799      503
-i1800      374
+i1800      377
 i1801      505
 i1802      506
-i1803      374
+i1803      377
 i1804      508
 i1805      509
-i1806      374
+i1806      377
 i1807      511
 i1808      512
-i1809      374
+i1809      377
 i1810      367
 i1811      426
 i1812      427
@@ -7478,22 +7482,22 @@ i1824      439
 i1825      5
 i1826      441
 i1827      442
-i1828      374
+i1828      377
 i1829      444
 i1830      445
 i1831      5
 i1832      447
 i1833      448
-i1834      374
+i1834      377
 i1835      450
 i1836      451
-i1837      374
+i1837      377
 i1838      453
 i1839      454
 i1840      455
 i1841      456
 i1842      457
-i1843      374
+i1843      377
 i1844      459
 i1845      460
 i1846      5
@@ -7513,7 +7517,7 @@ i1859      373
 i1860      374
 i1861      375
 i1862      376
-i1863      374
+i1863      377
 i1864      378
 i1865      379
 i1866      5
@@ -7528,13 +7532,13 @@ i1874      388
 i1875      5
 i1876      390
 i1877      391
-i1878      374
+i1878      377
 i1879      393
 i1880      394
 i1881      5
 i1882      396
 i1883      397
-i1884      374
+i1884      377
 i1885      399
 i1886      400
 i1887      5
@@ -7555,10 +7559,10 @@ i1901      415
 i1902      5
 i1903      417
 i1904      418
-i1905      374
+i1905      377
 i1906      420
 i1907      421
-i1908      374
+i1908      377
 i1909      423
 i1910      424
 i1911      425

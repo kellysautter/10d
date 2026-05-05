@@ -1,4 +1,4 @@
-z10000Zeidon    TZVSXCOO TZZOLODO 05/01/01   23:19:32 1.0b0    
+z1000-Zeidon    TZVSXCOO TZZOLODO                         11/05/25   16:22:01 1.0a2   
 eLOD       1
 aZKey      1327468
 aName      TZVSXCOO
@@ -141,13 +141,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 9
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eER_EntityRec 7
@@ -184,13 +181,6 @@ aNotNull   Y
 aDesc      OS File name
 
 eDomainRec 8
-aZKey      90145848
-aName      MetaName
-aDomainType E
-aDataType  S
-aMaxStringLth 8
-aDesc      Name of a meta object (ie., LOD, Dialog, Report)
-aContextRestriction N
 
 eER_EntityRec 6
 aName      SourceFile
@@ -217,6 +207,14 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eLOD_AttributeRec 5
 aZKey      1327480
@@ -802,7 +800,7 @@ aLastCheckInDate 19951102203051110
 aDesc      This is the X-Checker Object
 
 i15        11
-i22        11
+i18        8
 i28        25
 i34        7
 i35        8
@@ -812,9 +810,9 @@ i39        12
 i41        14
 i42        11
 i44        17
-i45        18
+i45        8
 i46        19
-i49        11
+i49        22
 i52        25
 i58        7
 i59        8
@@ -824,23 +822,23 @@ i63        12
 i65        14
 i66        11
 i68        17
-i69        18
+i69        8
 i70        19
 i73        8
-i76        11
+i76        22
 i79        25
-i82        11
-i85        11
+i82        22
+i85        22
 i86        1
 i87        77
 i88        78
 i89        25
 i90        80
 i91        81
-i92        11
+i92        22
 i93        83
 i94        84
-i95        11
+i95        22
 i96        2
 i97        26
 i98        27
@@ -848,7 +846,7 @@ i99        25
 i100       3
 i101       20
 i102       21
-i103       11
+i103       22
 i104       23
 i105       24
 i106       25
@@ -858,7 +856,7 @@ i109       14
 i110       11
 i111       16
 i112       17
-i113       18
+i113       8
 i114       19
 i115       5
 i116       6
@@ -872,7 +870,7 @@ i123       29
 i124       30
 i125       47
 i126       48
-i127       11
+i127       22
 i128       50
 i129       51
 i130       25
@@ -882,7 +880,7 @@ i133       14
 i134       11
 i135       43
 i136       17
-i137       18
+i137       8
 i138       19
 i139       32
 i140       33
@@ -899,14 +897,14 @@ i150       72
 i151       8
 i152       74
 i153       75
-i154       11
+i154       22
 i155       55
 i156       64
 i157       14
 i158       11
 i159       67
 i160       17
-i161       18
+i161       8
 i162       19
 i163       56
 i164       57

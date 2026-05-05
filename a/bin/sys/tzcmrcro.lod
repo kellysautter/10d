@@ -1,4 +1,4 @@
-z10000Zeidon    TZCMRCRO TZZOLODO 06/19/01   14:39:10 1.0b0    
+z1000-Zeidon    TZCMRCRO TZZOLODO                         11/05/25   16:21:50 1.0a2   
 eLOD       1
 aZKey      1329909
 aName      TZCMRCRO
@@ -142,13 +142,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 8
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 6
@@ -276,10 +273,10 @@ aER_DiagramPosY 114
 
 eER_RelLinkRec 6
 aName      reuses
+aAutoSeq   N
 aZKey      1322415
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
 
 eER_RelTypeRec 7
 aZKey      1322414
@@ -362,6 +359,14 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 9
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eLOD_AttributeRec 6
 aZKey      127045101
@@ -487,10 +492,10 @@ eER_EntityRec 5
 
 eER_RelLinkRec 5
 aName      has
+aAutoSeq   N
 aZKey      1322388
 aCardMin   1
 aCardMax   M
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322387
@@ -559,10 +564,10 @@ aER_DiagramPosY 6
 
 eER_RelLinkRec 4
 aName      contains
+aAutoSeq   N
 aZKey      1322385
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
 
 eER_RelTypeRec 5
 aZKey      1322384
@@ -631,7 +636,7 @@ aLth       8
 aDesc      108
 Secret stuff
 physical name = z_PASSWORD, because "password" is a reserverd
-word in SQLBASE and not in DB20
+word in SQLBASE and not in DB2 
 aPromptPaintLit Password:
 aListPaintLit Password:
 aTE_ColumnName z_PASSWORD
@@ -983,62 +988,26 @@ aDesc      Local Project Library Release 8C
 aType      P
 
 eTE_DBMS_Source 4
-aName      SQL_Rep
-aZKey      1148367
-aDesc      Last altered April 7, 1998
-aParadigm  R
-aDBMS      SqlServer ODBC TB
-aGenerateExecutable kzhsqlsb
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType N
-aSironDB_Type D
-aDisplayOwner Y
-aSironDB_Subtype 6
-
-eTE_DBMS_Source 4
-aName      Zeidon
-aZKey      90031867
-aDesc      Zeidon repository on DB2 mainframe
-aParadigm  R
-aDBMS      DB2 MVS Ger
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDefaultOwner ZEIDON
-aDisplayOwner Y
-aDisplayDBMS_ID Y
-aSironDB_Subtype 4
-
-eTE_DBMS_Source 4
-aName      ACC_REP
+aName      Repos9JA
 aZKey      91005292
-aDesc      Repository MS-Access
+aDesc      The fact that this is defined as MS Access is immaterial, as the meta data will never be kept in a database, but will only remain as individual meta objects.
 aParadigm  R
-aDBMS      Access ODBC TB
-aGenerateExecutable KZSIACC
-aExecutable KZHSIRON
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
 aGenKeyExecutable KZHGENKY
-aConectionType N
-aSironDB_Type D
 aDisplayOwner Y
 aDisplayDBMS_ID N
-aSironDB_Subtype 6
+aDBH_Data  322
+TZDBHODO *********************** ********************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 03/01/00   14:26:23 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString Y
+aBlobsLast N
+aDropTables Y
+aAddTableNameToFK_Override N
 
-eTE_DBMS_Source 4
-aName      DB2_Rep
-aZKey      90014023
-aDesc      Repository DB2 NT
-aParadigm  R
-aDBMS      DB2 NT TB
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDisplayOwner Y
+
 
 eZ_MetaDef 2
 aName      TZCMRCRO
@@ -1057,7 +1026,6 @@ i22        7
 i25        7
 i31        7
 i41        7
-i44        13
 i49        6
 i50        7
 i52        9
@@ -1085,8 +1053,8 @@ i94        7
 i97        13
 i100       7
 i103       7
-i106       13
-i109       13
+i106       44
+i109       44
 i112       16
 i114       1
 i115       92
@@ -1103,10 +1071,10 @@ i125       102
 i126       7
 i127       104
 i128       105
-i129       13
+i129       44
 i130       107
 i131       108
-i132       13
+i132       44
 i133       110
 i134       111
 i135       16
@@ -1200,8 +1168,8 @@ i222       40
 i223       7
 i224       42
 i225       43
-i226       13
+i226       44
 i227       33
 i228       32
-i240       32
-i241       33
+i237       32
+i238       33

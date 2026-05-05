@@ -739,10 +739,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         nRC = " + szViewName + ".cursor( ^" + szMapEntityName + "^ ).checkExistenceOfEntity( ).toInt();"
+            szWriteBuffer = "         if ( " + szViewName + ".cursor( ^" + szMapEntityName + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "         if ( nRC >= 0 ) "
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            //szWriteBuffer = "         if ( nRC >= 0 ) "
+            //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         {"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      %>"
@@ -1021,10 +1021,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = ""
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      nRC = " + vDialog.CtrlMapView.Name + ".cursor( ^DashboardFrameUser^ ).checkExistenceOfEntity( ).toInt();"
+            szWriteBuffer = "      if ( " + vDialog.CtrlMapView.Name + ".cursor( ^DashboardFrameUser^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "      if ( nRC >= 0 ) "
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            //szWriteBuffer = "      if ( nRC >= 0 ) "
+            //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "      { "
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "         //Order by Sort Order "
@@ -1564,8 +1564,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "{"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "   out.println( ^There is an error: ^ + e.getMessage());"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               // KJS 09/22/25 - trying to take out unnecessary lines
+               //szWriteBuffer = "   out.println( ^There is an error: ^ + e.getMessage());"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "   task.log().info( ^*** Error in chart ^ + e.getMessage() );"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "}"  
@@ -2889,11 +2890,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         szWriteBuffer = "   {"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        szWriteBuffer = "      nRC =  " + vDialog.CtrlMapView.Name +
-                                     ".cursor( ^" + vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                        szWriteBuffer = "      if ( " + vDialog.CtrlMapView.Name +
+                                     ".cursor( ^" + vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        szWriteBuffer = "      if ( nRC >= 0 )"
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        //szWriteBuffer = "      if ( nRC >= 0 )"
+                        //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
                         IF lMaxStringLth <= 0
                            szMaxStringLth = "254"
@@ -3467,11 +3468,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         szContextName = ""
                      END
 
-                     szWriteBuffer = "         nRC = " + szGridView +
-                                  ".cursor( ^" + vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                     szWriteBuffer = "         if (" + szGridView +
+                                  ".cursor( ^" + vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "         if ( nRC >= 0 )"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                     //szWriteBuffer = "         if ( nRC >= 0 )"
+                     //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                      szWriteBuffer = "         {"   // start brace
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
@@ -3663,11 +3664,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         szControlTag = "str" + vDialog.Control.Tag + "_URL"
                         szWriteBuffer = "         " + szControlTag + " = ^^;"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        szWriteBuffer = "         nRC = " + szGridView +
-                                     ".cursor( ^" + vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                        szWriteBuffer = "         if ( " + szGridView +
+                                     ".cursor( ^" + vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        szWriteBuffer = "         if ( nRC >= 0 )"
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        //szWriteBuffer = "         if ( nRC >= 0 )"
+                        //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         lMaxStringLth = vDialog.CtrlMapER_Domain.MaxStringLth
                         IF lMaxStringLth <= 0
                            szMaxStringLth = "254"
@@ -3925,22 +3926,23 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               szWriteBuffer = "      " + vDialog.CtrlMapView.Name + " = " + "task.getViewByName( ^" +
                                               vDialog.CtrlMapView.Name + "^ );"
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                              szWriteBuffer = "      if ( VmlOperation.isValid( " + vDialog.CtrlMapView.Name + " ) == false )"
+                              szWriteBuffer = "      if ( VmlOperation.isValid( " + vDialog.CtrlMapView.Name + " ) )"
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                              szWriteBuffer = "         task.log( ).debug( ^Invalid View: ^ + ^" + szListCtrlTag + "^ );"
-                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                              szWriteBuffer = "      else"
-                              WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              // KJS 09/22/25 - trying to take out unnecessary lines
+                              //szWriteBuffer = "         task.log( ).debug( ^Invalid View: ^ + ^" + szListCtrlTag + "^ );"
+                              //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                              //szWriteBuffer = "      else"
+                              //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                               szWriteBuffer = "      {"
                               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    
                            END                                                      
                            
-                           szWriteBuffer = "         nRC = " + szButtonView + ".cursor( ^" +
-                                           vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                           szWriteBuffer = "         if ( " + szButtonView + ".cursor( ^" +
+                                           vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                           szWriteBuffer = "         if ( nRC >= 0 )"
-                           WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                           //szWriteBuffer = "         if ( nRC >= 0 )"
+                           //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "         {"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            IF vDialog.CtrlMapContext EXISTS
@@ -3982,8 +3984,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "            {"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                           szWriteBuffer = "               out.println(^There is an error on " + szListCtrlTag + ": ^ + e.getMessage());"
-                           WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                           // KJS 09/22/25 - trying to take out unnecessary lines
+                           //szWriteBuffer = "               out.println(^There is an error on " + szListCtrlTag + ": ^ + e.getMessage());"
+                           //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "               task.log().error( ^*** Error on ctrl " + szListCtrlTag + "^, e );"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "            }"
@@ -3995,9 +3998,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            szWriteBuffer = "               strErrorMapValue = ^^;"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                      
-                           szWriteBuffer = "            task.log( ).debug( ^" + vDialog.CtrlMapRelatedEntity.Name + "." +
-                                           vDialog.CtrlMapER_Attribute.Name + ": ^ + strErrorMapValue );"
-                           WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                           // KJS 09/22/25 - trying to take out unnecessary lines
+                           //szWriteBuffer = "            task.log( ).debug( ^" + vDialog.CtrlMapRelatedEntity.Name + "." +
+                           //                vDialog.CtrlMapER_Attribute.Name + ": ^ + strErrorMapValue );"
+                           //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                      
                            szWriteBuffer = "         }"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -4406,11 +4410,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     szWriteBuffer = "      {"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                                    szWriteBuffer = "         nRC = " + szViewName + ".cursor( ^" +
-                                                    vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                                    szWriteBuffer = "         if ( " + szViewName + ".cursor( ^" +
+                                                    vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                                    szWriteBuffer = "         if ( nRC >= 0 )"
-                                    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                    //szWriteBuffer = "         if ( nRC >= 0 )"
+                                    //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     IF vDialog.CtrlMapContext EXISTS
                                        szContextName = vDialog.CtrlMapContext.Name
                                     ELSE
@@ -4932,8 +4936,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "{"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-            szWriteBuffer = "out.println(^There is an error in grid: ^ + e.getMessage());"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            // KJS 09/22/25 - trying to take out unnecessary lines
+            //szWriteBuffer = "out.println(^There is an error in grid: ^ + e.getMessage());"
+            //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "task.log().info( ^*** Error in grid^ + e.getMessage() );"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "}"
@@ -5442,11 +5447,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
 
                   szWriteBuffer = "      // " + szControlType + ": " + szCtrlTag
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                  szWriteBuffer = "      nRC = " + szViewName + ".cursor( ^" +
-                                                  vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                  szWriteBuffer = "      if ( " + szViewName + ".cursor( ^" +
+                                                  vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                  szWriteBuffer = "      if ( nRC >= 0 ) // CursorResult.SET"
-                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  //szWriteBuffer = "      if ( nRC >= 0 ) // CursorResult.SET"
+                  //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                   szWriteBuffer = "      {"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                   szWriteBuffer = "         strMapValue = request.getParameter( ^" + szCtrlTag + "^" + szRepeatGrpKey + " );"
@@ -5570,11 +5575,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
 
                      szWriteBuffer = "      // " + szControlType + ": " + szCtrlTag + szRepeatGrpKey
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "      nRC = " + szViewName + ".cursor( ^" +
-                                                  vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                     szWriteBuffer = "      if ( " + szViewName + ".cursor( ^" +
+                                                  vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "      if ( nRC >= 0 )"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                     //szWriteBuffer = "      if ( nRC >= 0 )"
+                     //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                      szWriteBuffer = "      {"
                      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                      szWriteBuffer = "         strMapValue = request.getParameter( ^h" +
@@ -5680,11 +5685,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
 
                         // KJS 06/04/10 - We did not previously have this checkExistenceOfEntity but now with
                         // java, the setPosition will call an exception if there are no entities (the combo box is empty).
-                        szWriteBuffer = "         nRC = " + vDialog2.CtrlMapView.Name + ".cursor( ^" +
-                                        szListMappingEntityName + "^ ).checkExistenceOfEntity( ).toInt();"
+                        szWriteBuffer = "         if ( " + vDialog2.CtrlMapView.Name + ".cursor( ^" +
+                                        szListMappingEntityName + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                        szWriteBuffer = "         if ( nRC >= 0 )"
-                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        //szWriteBuffer = "         if ( nRC >= 0 )"
+                        //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         szWriteBuffer = "         {"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
@@ -5738,11 +5743,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                            szWriteBuffer = "            // Set Foreign Key Code "
                            //Check the existence of the edit mapping entity
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                           szWriteBuffer = "            nRC = " + szViewName + ".cursor( ^" +
-                                           vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                           szWriteBuffer = "            if ( " + szViewName + ".cursor( ^" +
+                                           vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                           szWriteBuffer = "            if ( nRC >= 0 )"
-                           WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                           //szWriteBuffer = "            if ( nRC >= 0 )"
+                           //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "            {"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
@@ -5825,11 +5830,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                            szWriteBuffer = "            {"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-                           szWriteBuffer = "               nRC = " + szViewName + ".cursor( ^" +
-                                           vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                           szWriteBuffer = "               if ( " + szViewName + ".cursor( ^" +
+                                           vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                           szWriteBuffer = "               if ( nRC >= 0 )"
-                           WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                           //szWriteBuffer = "               if ( nRC >= 0 )"
+                           //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "               {"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
@@ -5885,11 +5890,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "            {"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                           szWriteBuffer = "               nRC = " + szViewName + ".cursor( ^" +
-                                           vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                           szWriteBuffer = "               if ( " + szViewName + ".cursor( ^" +
+                                           vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                           szWriteBuffer = "               if ( nRC >= 0 )"
-                           WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                           //szWriteBuffer = "               if ( nRC >= 0 )"
+                           //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "               {"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                            szWriteBuffer = "                     " + szViewName + ".cursor( ^" +
@@ -5938,11 +5943,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
 
                // KJS 06/04/10 - We did not previously have this checkExistenceOfEntity but now with
                // java, the setPosition will call an exception if there are no entities (the combo box is empty).
-               szWriteBuffer = "      nRC = " + szViewName + ".cursor( ^" +
-                               vDialog.CtrlMapLOD_Entity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+               szWriteBuffer = "      if ( " + szViewName + ".cursor( ^" +
+                               vDialog.CtrlMapLOD_Entity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-               szWriteBuffer = "      if ( nRC >= 0 )"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+               //szWriteBuffer = "      if ( nRC >= 0 )"
+               //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      {"
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
@@ -5972,11 +5977,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                IF RESULT >= zCURSOR_SET
                   szWriteBuffer = "      // " + szControlType + ": " + szCtrlTag
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                  szWriteBuffer = "      nRC = " + szViewName + ".cursor( ^" +
-                                         vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                  szWriteBuffer = "      if ( " + szViewName + ".cursor( ^" +
+                                         vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                  szWriteBuffer = "      if ( nRC >= 0 )"
-                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                  //szWriteBuffer = "      if ( nRC >= 0 )"
+                  //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                   szWriteBuffer = "      {"
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                   szWriteBuffer = "         strMapValue = request.getParameter( ^" + szCtrlTag + "^" + szRepeatGrpKey + " );"
@@ -6036,6 +6041,7 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
             IF szControlType = "Grid"
 
                szCtrlTag = vDialog.Control.Tag
+               TraceLineS("INPUT Grid control tag ", szCtrlTag )
                szWriteBuffer = "      // " + szControlType + ": " + szCtrlTag
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      iTableRowCnt = 0;"
@@ -6100,10 +6106,13 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                   END
 
                   szCtrlTag = vDialog.Control.Tag
+                  TraceLineS("INPUT Grid sub control tag ", szCtrlTag )
+                  TraceLineS("INPUT Grid sub control type ", szCtrlCtrlType )
+
                   IF szCtrlCtrlType = "EditBox" OR
                      szCtrlCtrlType = "ComboBox" OR
                      szCtrlCtrlType = "GridEditCtl" OR
-                     szCtrlCtrlType = "GridComboCtl"
+                     szCtrlCtrlType = "GridComboCtl" OR
                      szFlag = "8"   // SetAttribute... will be by default Context.
                   ELSE
                      szFlag = "0"   // SetAttribute... will NOT be by default Context.
@@ -6129,7 +6138,13 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                   ELSE
                      szWCP_Edit = "N"
                   END
+                  
+                  //KJS 04/27/26 - If it's an MLE we also want to map the input.
+                  IF szCtrlCtrlType = "MLEdit" OR
+                     vDialog.Control.WebCtrlType = "Multiline"
 
+                     szWCP_Edit = "Y"
+                  END
                   // If this is an edit box, then set the mapping code.
                   IF vDialog.Control.WebCtrlType = "Edit" OR szWCP_Edit = "Y"
 
@@ -6468,11 +6483,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
 
                                  // KJS 06/04/10 - We did not previously have this checkExistenceOfEntity but now with
                                  // java, the setPosition will call an exception if there are no entities (the combo box is empty).
-                                 szWriteBuffer = "         nRC = " + vDialog2.CtrlMapView.Name + ".cursor( ^" +
-                                                 szListMappingEntityName + "^ ).checkExistenceOfEntity( ).toInt();"
+                                 szWriteBuffer = "         if ( " + vDialog2.CtrlMapView.Name + ".cursor( ^" +
+                                                 szListMappingEntityName + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                                 szWriteBuffer = "         if ( nRC >= 0 )"
-                                 WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                 //szWriteBuffer = "         if ( nRC >= 0 )"
+                                 //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                  szWriteBuffer = "         {"
                                  WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
@@ -6526,11 +6541,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                                     szWriteBuffer = "            // Set Foreign Key Code "
                                     //Check the existence of the edit mapping entity
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                                    szWriteBuffer = "            nRC = vGridTmp.cursor( ^" +
-                                                    vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                                    szWriteBuffer = "            if ( vGridTmp.cursor( ^" +
+                                                    vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                                    szWriteBuffer = "            if ( nRC >= 0 )"
-                                    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                    //szWriteBuffer = "            if ( nRC >= 0 )"
+                                    //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     szWriteBuffer = "            {"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
@@ -6610,11 +6625,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                                                                         
                                     
                                     
-                                    szWriteBuffer = "               nRC = vGridTmp.cursor( ^" +
-                                                    vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                                    szWriteBuffer = "               if ( vGridTmp.cursor( ^" +
+                                                    vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                                    szWriteBuffer = "               if ( nRC >= 0 )"
-                                    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                    //szWriteBuffer = "               if ( nRC >= 0 )"
+                                    //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     szWriteBuffer = "               {"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     //KJS 12/11/07 - Adding code to check if we are already positioned on the correct
@@ -6667,11 +6682,11 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     szWriteBuffer = "            {"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                                    szWriteBuffer = "               nRC = vGridTmp.cursor( ^" +
-                                                    vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt();"
+                                    szWriteBuffer = "               if ( vGridTmp.cursor( ^" +
+                                                    vDialog.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                                    szWriteBuffer = "               if ( nRC >= 0 )"
-                                    WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                                    //szWriteBuffer = "               if ( nRC >= 0 )"
+                                    //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     szWriteBuffer = "               {"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                                     szWriteBuffer = "                  vGridTmp.cursor( ^" +

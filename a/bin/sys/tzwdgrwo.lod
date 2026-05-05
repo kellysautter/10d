@@ -1,4 +1,4 @@
-z10000Zeidon    TZWDGRWO TZZOLODO 05/01/01   23:19:32 1.0b0    
+z1000-Zeidon    TZWDGRWO TZZOLODO                         11/05/25   16:22:01 1.0a2   
 eLOD       1
 aZKey      1327514
 aName      TZWDGRWO
@@ -169,13 +169,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 10
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 8
@@ -254,6 +251,14 @@ aNotNull   N
 aDesc      Graphical position for entity in Whole Entity Model
 
 eDomainRec 10
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eLOD_AttributeRec 8
 aZKey      1327559
@@ -276,10 +281,10 @@ aER_DiagramPosY 194
 
 eER_RelLinkRec 8
 aName      is fact for
+aAutoSeq   N
 aZKey      1322230
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 9
 aZKey      1322228
@@ -481,10 +486,10 @@ aER_DiagramPosY 224
 
 eER_RelLinkRec 6
 aName      is for
+aAutoSeq   N
 aZKey      1322272
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 7
 aZKey      1322270
@@ -532,10 +537,10 @@ eER_EntityRec 5
 
 eER_RelLinkRec 5
 aName      has fact
+aAutoSeq   Y
 aZKey      1322229
 aCardMin   0
 aCardMax   m
-aAutoSeq   Y
 
 eER_RelTypeRec 6
 
@@ -793,10 +798,10 @@ eER_EntityRec 5
 
 eER_RelLinkRec 5
 aName      has
+aAutoSeq   Y
 aZKey      1322271
 aCardMin   2
 aCardMax   2
-aAutoSeq   Y
 
 eER_RelTypeRec 6
 
@@ -893,13 +898,6 @@ aPromptPaintLit Tag
 aListPaintLit Tag
 
 eDomainRec 5
-aZKey      90145848
-aName      MetaName
-aDomainType E
-aDataType  S
-aMaxStringLth 8
-aDesc      Name of a meta object (ie., LOD, Dialog, Report)
-aContextRestriction N
 
 eLOD_AttributeRec 3
 aZKey      1327617
@@ -1502,7 +1500,7 @@ aZKey      1327546
 ePOD       2
 aNAME      TZWDGRWO
 aZKey      1149615
-aTE_SourceZKey 1148367
+aTE_SourceZKey 91005292
 
 eTE_DB_Environ 3
 aName      Zeidon_T
@@ -1511,47 +1509,9 @@ aDesc      Local Project Library Release 8C
 aType      P
 
 eTE_DBMS_Source 4
-aName      SQL_Rep
-aZKey      1148367
-aDesc      Last altered April 7, 1998
-aParadigm  R
-aDBMS      SQLServer via ODBC
-aGenerateExecutable kzhsqlsb
-aExecutable KZHSQLOA
-aGenKeyExecutable KZHGENKY
-aDisplayOwner Y
-aDisplayDBMS_ID N
-aDBH_Data  U322
-M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#DO,C(O.3D@
-M("`Q,SHU,#HS,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
-M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@3@T*84)L;V)S3&%S
-M="!9#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
-'92!9#0H-"@``
-`
-
-eTE_DBMS_Source 4
-aName      Zeidon
-aZKey      90031867
-aDesc      Zeidon repository on DB2 mainframe
-aParadigm  R
-aDBMS      MVS: DB2 deutsch
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDefaultOwner ZEIDON
-aDisplayOwner Y
-aDisplayDBMS_ID Y
-aSironDB_Subtype 4
-
-eTE_DBMS_Source 4
 aName      Repos9JA
 aZKey      91005292
-aDesc      Repository MS-Access
+aDesc      The fact that this is defined as MS Access is immaterial, as the meta data will never be kept in a database, but will only remain as individual meta objects.
 aParadigm  R
 aDBMS      MS Access via ODBC
 aGenerateExecutable KZHSQLAB
@@ -1559,16 +1519,16 @@ aExecutable KZHSQLOA
 aGenKeyExecutable KZHGENKY
 aDisplayOwner Y
 aDisplayDBMS_ID N
-aDBH_Data  U322
-M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
-M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
-M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
-M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
-'92!.#0H-"@``
-`
+aDBH_Data  322
+TZDBHODO *********************** ********************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 03/01/00   14:26:23 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString Y
+aBlobsLast N
+aDropTables Y
+aAddTableNameToFK_Override N
+
+
 
 eZ_MetaDef 2
 aName      TZWDGRWO
@@ -1610,18 +1570,17 @@ eOperationList 2
 
 eOperSourceFile 3
 
-i24        12
-i27        12
+i27        24
 i33        21
 i36        12
 i46        12
 i49        21
-i52        12
-i55        12
-i58        12
-i61        12
-i64        12
-i67        12
+i52        24
+i55        24
+i58        24
+i61        24
+i64        24
+i67        24
 i70        21
 i75        32
 i76        21
@@ -1644,11 +1603,11 @@ i100       18
 i102       20
 i103       21
 i105       23
-i106       12
+i106       24
 i108       26
-i109       12
+i109       24
 i112       21
-i115       12
+i115       24
 i116       28
 i121       8
 i122       9
@@ -1661,9 +1620,9 @@ i131       18
 i133       20
 i134       21
 i136       23
-i137       12
+i137       24
 i139       26
-i140       12
+i140       24
 i141       28
 i142       29
 i143       30
@@ -1682,25 +1641,26 @@ i161       12
 i163       48
 i164       21
 i166       51
-i167       12
+i167       24
 i169       54
-i170       12
+i170       24
 i172       57
-i173       12
+i173       24
 i175       60
-i176       12
+i176       24
 i178       63
-i179       12
+i179       24
 i181       66
-i182       12
+i182       24
 i185       21
 i186       71
+i189       9
 i192       12
 i195       18
 i197       1
 i198       187
 i199       188
-i200       189
+i200       9
 i201       190
 i202       191
 i203       12
@@ -1726,16 +1686,16 @@ i222       20
 i223       21
 i224       104
 i225       23
-i226       12
+i226       24
 i227       107
 i228       26
-i229       12
+i229       24
 i230       110
 i231       111
 i232       21
 i233       113
 i234       114
-i235       12
+i235       24
 i236       28
 i237       3
 i238       74
@@ -1762,22 +1722,22 @@ i258       48
 i259       21
 i260       50
 i261       51
-i262       12
+i262       24
 i263       53
 i264       54
-i265       12
+i265       24
 i266       56
 i267       57
-i268       12
+i268       24
 i269       59
 i270       60
-i271       12
+i271       24
 i272       62
 i273       63
-i274       12
+i274       24
 i275       65
 i276       66
-i277       12
+i277       24
 i278       68
 i279       69
 i280       21
@@ -1816,10 +1776,10 @@ i312       20
 i313       21
 i314       22
 i315       23
-i316       12
+i316       24
 i317       25
 i318       26
-i319       12
+i319       24
 i320       28
 i321       29
 i322       30
@@ -1832,22 +1792,22 @@ i328       48
 i329       21
 i330       165
 i331       51
-i332       12
+i332       24
 i333       168
 i334       54
-i335       12
+i335       24
 i336       171
 i337       57
-i338       12
+i338       24
 i339       174
 i340       60
-i341       12
+i341       24
 i342       177
 i343       63
-i344       12
+i344       24
 i345       180
 i346       66
-i347       12
+i347       24
 i348       183
 i349       184
 i350       21
@@ -1886,26 +1846,26 @@ i382       20
 i383       21
 i384       135
 i385       23
-i386       12
+i386       24
 i387       138
 i388       26
-i389       12
+i389       24
 i390       28
 i391       29
 i392       30
-i431       394
+i429       394
+i430       393
+i431       398
 i432       393
-i433       398
+i433       403
 i434       393
-i435       403
+i435       408
 i436       393
-i437       408
+i437       411
 i438       393
-i439       411
+i439       414
 i440       393
-i441       414
+i441       419
 i442       393
-i443       419
+i443       422
 i444       393
-i445       422
-i446       393

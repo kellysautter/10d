@@ -366,16 +366,14 @@ BuildMainNavSection( zVIEW     vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
       //:szOptionTag = vDialogRoot.Option.Tag
       GetVariableFromAttribute( szOptionTag, 0, 'S', 51, vDialogRoot, "Option", "Tag", "", 0 );
-      //:szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^", 1, 0, 10001 );
+      //:szWriteBuffer = "   if ( !vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ ).isSet() )"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( !vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szOptionTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ).isSet() )", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( !csrRC.isSet() ) //if ( nRC < 0 )", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+      //://szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
+      //://WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       //:szWriteBuffer = "   {"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "   {", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -541,6 +539,7 @@ BuildMainNavSection( zVIEW     vDialog,
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
 
+      //:// KJS 09/24/25
       //:szWriteBuffer = "<%"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<%", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -655,6 +654,8 @@ GenJSPJ_ActionRecurs( zVIEW     vDialogMenu,
    zCHAR     szTempString_0[ 33 ]; 
    zSHORT    lTempInteger_2; 
 
+
+
    //:FOR EACH vDialogMenu.Option
    RESULT = SetCursorFirstEntity( vDialogMenu, "Option", "" );
    while ( RESULT > zCURSOR_UNCHANGED )
@@ -729,7 +730,7 @@ GenJSPJ_ActionRecurs( zVIEW     vDialogMenu,
 //:                            STRING ( 255 )   szFormName,
 //:                            STRING ( 2 )     szActionPrefix )
 
-//:   VIEW vDialog2 BASED ON LOD TZWDLGSO
+//:   VIEW vWork    REGISTERED AS TZPTWRKO
 zOPER_EXPORT zVOID OPERATION
 GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
                             zVIEW     vDialogMenuRoot,
@@ -739,6 +740,9 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
                             zPCHAR    szFormName,
                             zPCHAR    szActionPrefix )
 {
+   zVIEW     vWork = 0; 
+   zSHORT    RESULT; 
+   //:VIEW vDialog2 BASED ON LOD  TZWDLGSO
    zVIEW     vDialog2 = 0; 
    //:STRING ( 34 )    szActionName
    zCHAR     szActionName[ 35 ] = { 0 }; 
@@ -752,7 +756,6 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
    zSHORT    bListButton = 0; 
    //:SHORT            nRC
    zSHORT    nRC = 0; 
-   zSHORT    RESULT; 
    zSHORT    lTempInteger_0; 
    zCHAR     szTempString_0[ 33 ]; 
    zSHORT    lTempInteger_1; 
@@ -761,6 +764,7 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
    zSHORT    lTempInteger_4; 
    zSHORT    lTempInteger_5; 
 
+   RESULT = GetViewByName( &vWork, "TZPTWRKO", vDialog, zLEVEL_TASK );
 
    //:// KJS 12/16/16 - I switched "WL_QC( vDialog" to "WL_QC( vDialogRoot".
    //:// The reason is because sometimes we call this operation when looking at resusable actions from a different dialog.
@@ -870,6 +874,23 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
             ZeidonStringCopy( szWriteBuffer, 1, 0, "{", 1, 0, 10001 );
             //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 );
+
+            //:// KJS 04/29/26 - We need to add code for TinyMCE now that we are on the latest version (8?). 
+            //:// This call sets all of the wysiwyg <textarea's "value" = tinymce.
+            //:IF vWork.Root.HasWysiwygEditor != "" AND vDialogMenuRoot.Action.NoMap != "Y"
+            if ( CompareAttributeToString( vWork, "Root", "HasWysiwygEditor", "" ) != 0 && CompareAttributeToString( vDialogMenuRoot, "Action", "NoMap", "Y" ) != 0 )
+            { 
+               //:szWriteBuffer = "   // setMLEdits() is needed for wysiwyg textareas to properly retain their changes on a page refresh. "
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "   // setMLEdits() is needed for wysiwyg textareas to properly retain their changes on a page refresh. ", 1, 0, 10001 );
+               //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
+               //:szWriteBuffer = "   setMLEdits( );"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "   setMLEdits( );", 1, 0, 10001 );
+               //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
+            } 
+
+            //:END
 
             //:szWriteBuffer = "   // This is for indicating whether the user hit the window close box."
             ZeidonStringCopy( szWriteBuffer, 1, 0, "   // This is for indicating whether the user hit the window close box.", 1, 0, 10001 );
@@ -1627,16 +1648,14 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
       //:szOptionTag = vDialogMenu.Option.Tag
       GetVariableFromAttribute( szOptionTag, 0, 'S', 51, vDialogMenu, "Option", "Tag", "", 0 );
-      //:szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^", 1, 0, 10001 );
+      //:szWriteBuffer = "   if ( !vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ ).isSet() )"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( !vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szOptionTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ).isSet() )", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( !csrRC.isSet() ) //if ( nRC < 0 )", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+      //://szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
+      //://WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       //:szWriteBuffer = "   {"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "   {", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -1857,7 +1876,7 @@ BuildMainNavSectionBootstrap( zVIEW     vDialog,
       //:END //ActionType = zWAB_LinkToHTML_Address AND ( s
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-
+      //:// KJS 09/24/25
       //:szWriteBuffer = "<%"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<%", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2280,16 +2299,14 @@ GenJSPJ_CrteSideMenuRecurs( zVIEW     vDialog,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
       //:szOptionTag = vDialogMenu.Option.Tag
       GetVariableFromAttribute( szOptionTag, 0, 'S', 51, vDialogMenu, "Option", "Tag", "", 0 );
-      //:szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^", 1, 0, 10001 );
+      //:szWriteBuffer = "   if ( !vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ ).isSet() )"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( !vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^", 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, szOptionTag, 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ );", 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, "^ ).isSet() )", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "   if ( !csrRC.isSet() ) //if ( nRC < 0 )", 1, 0, 10001 );
-      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+      //://szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
+      //://WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       //:szWriteBuffer = "   {"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "   {", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2403,6 +2420,7 @@ GenJSPJ_CrteSideMenuRecurs( zVIEW     vDialog,
 
       //:END
 
+      //:// KJS 09/24/25
       //:szWriteBuffer = "<%"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<%", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )

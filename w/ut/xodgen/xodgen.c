@@ -146,7 +146,7 @@ BOOL InitApplication (HANDLE hInstance)
 {
    WNDCLASS  wc;
 
-   ZeroMemory( &wc, zsizeof( WNDCLASS ) );
+   ZeroMemory( &wc, sizeof( WNDCLASS ) );
 
    /*
     * Fill in window class structure with parameters that describe the
@@ -203,7 +203,7 @@ BOOL InitInstance(HANDLE hInstance, /* Current instance identifier.       */
       CW_USEDEFAULT,               /* Default horizontal position.       */
       CW_USEDEFAULT,               /* Default vertical position.         */
       500, // CW_USEDEFAULT,       /*  width.                     */
-      50, //CW_USEDEFAULT,         /*  height.                    */
+      500, //CW_USEDEFAULT,         /*  height.                    */
       NULL,                        /* Overlapped windows have no parent. */
       NULL,                        /* Use the window class menu.         */
       hInstance,                   /* This instance owns this window.    */
@@ -248,11 +248,11 @@ long APIENTRY MainWndProc(HWND hWnd,   /* window handle                 */
       case WM_CREATE:       /* message: command from application menu */
          // At this time the message loop is not setup.
          PostMessage( hWnd, WM_COMMAND, CMD_RUN, 0 );
-         return( 0 )
+         return( 0 );
 
       case WM_DESTROY:          /* message: window being destroyed */
          PostQuitMessage(0);
-         return( 0 )
+         return( 0 );
 
       case WM_COMMAND:
          // now the message loop is ok
@@ -262,7 +262,7 @@ long APIENTRY MainWndProc(HWND hWnd,   /* window handle                 */
             RunAppl( hWnd );
             PostQuitMessage(0);
          }
-         return( 0 )
+         return( 0 );
 
      case WM_PAINT:
          hdc = BeginPaint( hWnd, &tPaint );
@@ -270,7 +270,7 @@ long APIENTRY MainWndProc(HWND hWnd,   /* window handle                 */
          TextOut( hdc, 0, 0, szOutLine, zstrlen(szOutLine) );
          EndPaint( hWnd, &tPaint );
 
-         return( 0 )
+         return( 0 );
 
    }
 
@@ -303,8 +303,9 @@ void RunAppl( HWND hWnd )
    // "Application" and "TE-Name" are  required
 
    cApplication[ 0 ] = cLogFile[ 0 ] = '\0';
+   TraceLineS("*** cApplication ", cApplication);
    pc = lpCmdLine + strspn( lpCmdLine, " "); // Blank-Eli
-
+   TraceLineS("*** lpCmdLine ", lpCmdLine);
    do
    {
 
@@ -357,6 +358,18 @@ void RunAppl( HWND hWnd )
                   MB_OK | MB_ICONSTOP | MB_APPLMODAL );
       return;
    }
+   else
+   {
+	   MessageBox(hWnd,
+		   cApplication,
+		   "Trace Running xodgen",
+		   MB_OK | MB_ICONSTOP | MB_APPLMODAL);
+	   MessageBox(hWnd,
+		   cTE_Name,
+		   "Trace Running xodgen",
+		   MB_OK | MB_ICONSTOP | MB_APPLMODAL);
+
+   }
 
 // nRC = RegisterZeidonApplication( &vSubtask, (zLONG) hInstance, (zLONG) hWnd,
 //                                  WM_USER + 1, "~~Zeidon_Tools~", 0, 0 );
@@ -368,7 +381,7 @@ void RunAppl( HWND hWnd )
 
    ProcessXods( hWnd, vSubtask, cTE_Name, cLogFile, cNet );
 
-   UnregisterZeidonApplication( );
+   UnregisterZeidonApplication( vSubtask );
 }
 
 static void ProcessXods( HWND hWnd, zVIEW vSubtask,
@@ -376,7 +389,7 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
 {
    FILE *fLog=NULL;
    zVIEW vTaskLPLR = NULL;
-   zCHAR szMsg[ 256 ];
+   zCHAR szMsg[ 1000 ];
    zVIEW vTZTEDBLO, vDTE, vCM_List;
    zVIEW vLOD, vLOD_List, vXOD;
    zVIEW vTemp = NULL;
@@ -384,13 +397,16 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
    zSHORT nRC;
    RECT rect;
    LPLIBRARY hLib = NULL;
-   zCHAR szLODName[ 32 ];
+   zCHAR szLODName[ 33 ];
    zCHAR szFileName[ 256 ];
    zCHAR szNetwork[ 256 ];
+   zCHAR szTemp[zMAX_FILESPEC_LTH + 1];
 
    if ( cLogFile && cLogFile[0] )
       fLog = fopen( cLogFile, "w");
 
+   // KJS 03/16/26 - We are not going to be building to network. Take this out.
+  /*
    memset (szNetwork, 0, 256);
    SysReadZeidonIni( -1, "[Zeidon]", "DefaultNetWork", szNetwork );
    if (*szNetwork == 0)
@@ -407,19 +423,20 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
       }
       return;
    }
+   */
 
    ActivateOI_FromFile( &vTZTEDBLO, "tztedblo", vSubtask, "tztedblo.xdl",
                         zMULTIPLE );
-   SetNameForView( vTZTEDBLO, "TZTEDBLO", 0, zLEVEL_TASK );
+   SetNameForView( vTZTEDBLO, "TZTEDBLO", vSubtask, zLEVEL_TASK );
 
    //oTZTENVRO_GetUpdViewForDTE_P
-   nRC = RetrieveViewForMetaList( vSubtask, vSubtask, &vCM_List, zSOURCE_DTE_META );
-
-   nRC = ActivateMetaOI( &vDTE, vCM_List, zSOURCE_DTE_META,
+   //nRC = RetrieveViewForMetaList( vSubtask, vSubtask, &vCM_List, zSOURCE_DTE_META );
+   nRC = RetrieveViewForMetaList(vSubtask, &vCM_List, zSOURCE_DTE_META);
+   nRC = ActivateMetaOI( vSubtask, &vDTE, vCM_List, zSOURCE_DTE_META,
                             zSINGLE | zACTIVATE_ROOTONLY );
    if ( nRC < 0 )
    {
-      strcpy( szMsg, "Internal error activating TE" );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Internal error activating TE" );
       MessageBox( hWnd, szMsg,
                   "Error Running xodgen",
                   MB_OK | MB_ICONSTOP | MB_APPLMODAL );
@@ -437,8 +454,8 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
                "TE_DBMS_Source", "Name", cTE_Name, 0 );
    if ( nRC < zCURSOR_SET )
    {
-      strcpy( szMsg, "Invalid TE Name :");
-      strcat( szMsg, cTE_Name );
+      strcpy_s( szMsg, zsizeof( szMsg ), "Invalid TE Name :");
+      strcat_s( szMsg, zsizeof( szMsg ), cTE_Name );
       MessageBox( hWnd, szMsg,
                   "Error Running xodgen",
                   MB_OK | MB_ICONSTOP | MB_APPLMODAL );
@@ -451,10 +468,11 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
       return;
    }
 
-   nRC = GetViewByName( &vTaskLPLR, "TaskLPLR", 0, zLEVEL_TASK );
+   nRC = GetViewByName( &vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
    assert(nRC >= 0 ) ;
 
    // Check for network build
+   /*
    if ( cNet )
    {
       // Use default network for Ton Beller (DBMS = "Network Server")
@@ -467,18 +485,20 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
    }
    else
    {
-      // Position on corresponding DBMS entry in DB Handler object.
+   */
+	   // Position on corresponding DBMS entry in DB Handler object.
       SetCursorFirstEntityByAttr( vTZTEDBLO, "TE_DBMS_Source", "DBMS",
-                                 vDTE, "TE_DBMS_Source", "DBMS", 0 );
+                                  vDTE, "TE_DBMS_Source", "DBMS", 0 );
 
-   }
-
-
+   //}
+   // KJS 03/17/26 - This is working with saving all of the xods.
+   // We'd like to be able to perform more than just xod. 
+   nRC = RebuildMetaLists(vSubtask);
+   nRC = RebuildXDM(vSubtask);
    //zwTZTEUPDD_BuildXODsOnLPLR( zVIEW vSubtask )
 
    // Create a view that lists all LODs.
-
-   RetrieveViewForMetaList( vSubtask, vSubtask, &vLOD_List, zREFER_LOD_META );
+   RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
    OrderEntityForView( vLOD_List, "W_MetaDef", "Name A" );
    SetNameForView( vLOD_List, "TZZOLFLO", vSubtask, zLEVEL_TASK );
 
@@ -493,7 +513,7 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
       GetStringFromAttribute( szLODName, zsizeof( szLODName ),
                               vLOD_List, "W_MetaDef", "Name" );
 
-      nRC = ActivateMetaOI( &vLOD, vLOD_List, zREFER_LOD_META, zCURRENT_OI );
+      nRC = ActivateMetaOI( vSubtask, &vLOD, vLOD_List, zREFER_LOD_META, zCURRENT_OI );
       if ( nRC < 0 )
       {
          strcpy_s( szMsg, zsizeof( szMsg ), "Could not Activate LOD: " );
@@ -517,10 +537,10 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
       else
       {
          // Send message that we are building the LOD.
-         strcpy( szMsg, "Building executable for LOD: " );
-         strcat( szMsg, szLODName );
-         strcat( szMsg, "." );
-         strcpy( szOutLine, szMsg );
+         strcpy_s( szMsg, zsizeof( szMsg ), "Building executable for LOD: " );
+         strcat_s( szMsg, zsizeof( szMsg ), szLODName );
+         strcat_s( szMsg, zsizeof( szMsg ), "." );
+         strcpy_s( szOutLine, zsizeof( szOutLine ), szMsg );
          GetClientRect( hWnd, &rect );
          InvalidateRect( hWnd, &rect, TRUE );
          UpdateWindow( hWnd );
@@ -536,14 +556,22 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
          // Make sure the TE_SourceZKey attribute is set because it determines
          // what DBMS_Source is used in building the XOD.
          if ( CheckExistenceOfEntity( vLOD, "POD" ) >= zCURSOR_SET )
-            SetAttributeFromAttribute ( vLOD, "POD", "TE_SourceZKey",
-                                       vDTE, "TE_DBMS_Source", "ZKey" );
+		 {
+			 // KJS 08/17/21 - Automatically setting the xto1 flag for LODs (if they are saved with a database).
+			 //SQL_DBH_SetX_ToOneLoc(vLOD, vSubtask);
+			 SetAttributeFromAttribute(vLOD, "POD", "TE_SourceZKey", vDTE, "TE_DBMS_Source", "ZKey");
+		 }
 
          // Build the XOD in memory
-         oTZZOXODO_SaveXOD( vLOD );
-         SetNameForView( vLOD, "TZZOLODO", 0, zLEVEL_TASK );
-         DropMetaOI( vSubtask, vLOD );
-
+		 SetNameForView(vLOD, "TZZOLODO", vSubtask, zLEVEL_TASK);
+		 nRC = oTZZOXODO_SaveXOD( vSubtask, vLOD );
+		 TraceLineI("oTZZOXODO_SaveXOD ", nRC);
+		 GetViewByName(&vXOD, "TZZOXODO", vSubtask, zLEVEL_TASK);
+		 // 09/08/15 - We think we do not want to keep the vLOD in cached memory so instead
+		 // of doing a DropMetaOI, we are going to do a DropObjectInstance
+		 //DropMetaOI( vSubtask, vLOD );
+		 DropObjectInstance(vLOD);
+		 /*
          // Commit the XOD to LPLR file.
          GetViewByName( &vXOD, "TZZOXODO", 0, zLEVEL_TASK );
          GetStringFromAttribute( szFileName, zsizeof( szFileName ),
@@ -552,6 +580,20 @@ static void ProcessXods( HWND hWnd, zVIEW vSubtask,
          strcat_s( szFileName, zsizeof( szFileName ), szLODName );
          strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
          CommitOI_ToFile( vXOD, szFileName, zSINGLE );
+		 */
+
+		 // Commit the XOD to LPLR file.
+		 GetStringFromAttribute(szTemp, zsizeof(szTemp), vTaskLPLR, "LPLR", "ExecDir");
+		 SysConvertEnvironmentString(szFileName, zsizeof(szFileName), szTemp);
+		 ofnTZCMWKSO_AppendSlash(szFileName);
+		 strcat_s(szFileName, zsizeof(szFileName), szLODName);
+		 strcat_s(szFileName, zsizeof(szFileName), ".XOD");
+		 TraceLineS("*** Committing workstation file: ", szFileName);
+		 // DisplayObjectInstance( vXOD, "", "" );
+		 CommitOI_ToFile(vXOD, szFileName, zSINGLE);
+		 // 09/08/15 - Adding drop of the xod view.
+		 DropObjectInstance(vXOD);
+
       }
    }
 

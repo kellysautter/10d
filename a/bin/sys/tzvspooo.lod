@@ -1,4 +1,4 @@
-z1000-Zeidon    TZVSPOOO TZZOLODO 11/20/14   17:00:52 1.0b0    
+z1000-Zeidon    TZVSPOOO TZZOLODO                         11/05/25   16:22:01 1.0a2   
 eLOD       1
 aZKey      1327619
 aName      TZVSPOOO
@@ -523,7 +523,7 @@ aName      StmtContainsDecimal
 aZKey      90039990
 aDesc      93
 0 - Statement does not contain a decimal variable/constant.
-1 - Statement contains decimal.0
+1 - Statement contains decimal. 
 
 eDomainRec 7
 
@@ -564,6 +564,11 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 7
+aZKey      110003499
+aName      ZKey
+aDomainType E
+aDataType  L
+aContextRestriction N
 
 eER_EntityRec 5
 aName      SourceFile
@@ -2363,26 +2368,25 @@ i86        59
 i89        59
 i92        6
 i93        63
-i97        6
-i106       6
+i106       97
 i115       12
 i121       6
 i124       33
 i127       12
 i132       33
 i135       12
-i141       6
+i141       97
 i144       12
 i147       12
 i150       118
-i154       6
+i154       97
 i160       12
 i163       118
 i166       33
 i169       33
-i172       6
+i172       97
 i177       105
-i178       6
+i178       97
 i180       102
 i181       103
 i183       111
@@ -2403,7 +2407,7 @@ i219       12
 i222       6
 i225       12
 i227       105
-i228       6
+i228       97
 i231       6
 i233       131
 i234       33
@@ -2414,7 +2418,7 @@ i240       100
 i244       12
 i247       6
 i249       96
-i250       6
+i250       97
 i253       103
 i256       109
 i259       59
@@ -2422,13 +2426,13 @@ i262       12
 i265       12
 i271       12
 i275       98
-i278       6
+i278       97
 i281       12
 i287       6
 i292       1
 i293       276
 i294       277
-i295       6
+i295       97
 i296       279
 i297       280
 i298       12
@@ -2448,7 +2452,7 @@ i311       102
 i312       103
 i313       104
 i314       105
-i315       6
+i315       97
 i316       107
 i317       108
 i318       109
@@ -2573,19 +2577,19 @@ i436       65
 i437       94
 i438       95
 i439       96
-i440       6
+i440       97
 i441       98
 i442       99
 i443       100
 i444       137
 i445       152
 i446       153
-i447       6
+i447       97
 i448       155
 i449       138
 i450       139
 i451       140
-i452       6
+i452       97
 i453       142
 i454       143
 i455       12
@@ -2599,7 +2603,7 @@ i462       151
 i463       156
 i464       176
 i465       105
-i466       6
+i466       97
 i467       179
 i468       102
 i469       103
@@ -2640,7 +2644,7 @@ i503       168
 i504       33
 i505       170
 i506       171
-i507       6
+i507       97
 i508       173
 i509       174
 i510       175
@@ -2657,7 +2661,7 @@ i520       112
 i521       214
 i522       248
 i523       96
-i524       6
+i524       97
 i525       251
 i526       252
 i527       103
@@ -2686,7 +2690,7 @@ i549       98
 i550       215
 i551       226
 i552       105
-i553       6
+i553       97
 i554       229
 i555       230
 i556       6

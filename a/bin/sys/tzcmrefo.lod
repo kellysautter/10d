@@ -1,4 +1,4 @@
-z10000Zeidon    TZCMREFO TZZOLODO 07/10/01   17:30:52 1.0b0    
+z1000-Zeidon    TZCMREFO TZZOLODO                         11/05/25   16:21:51 1.0a2   
 eLOD       1
 aZKey      127091282
 aName      TZCMREFO
@@ -76,13 +76,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 6
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 4
@@ -165,10 +162,10 @@ aER_PortFactor 2
 
 eER_RelLinkRec 4
 aName      contains
+aAutoSeq   Y
 aZKey      1322400
 aCardMin   0
 aCardMax   M
-aAutoSeq   Y
 
 eER_RelTypeRec 5
 aZKey      1322399
@@ -260,10 +257,10 @@ aER_DiagramPosY 6
 
 eER_RelLinkRec 5
 aName      is a release of
+aAutoSeq   N
 aZKey      1322389
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322387
@@ -325,10 +322,10 @@ aER_DiagramPosY 114
 
 eER_RelLinkRec 4
 aName      reuses
+aAutoSeq   N
 aZKey      1322415
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
 
 eER_RelTypeRec 5
 aZKey      1322414
@@ -384,7 +381,7 @@ aZKey      90000040
 aName      QSFileName
 aDomainType E
 aDataType  S
-aMaxStringLth 8
+aMaxStringLth 32
 aDesc      QuinSoft File Name - 32 chars
 aContextRestriction N
 
@@ -601,68 +598,32 @@ aZKey      127091306
 aTE_SourceZKey 91005292
 
 eTE_DB_Environ 3
-aName      ZEIDON_T
+aName      Zeidon_T
 aZKey      1323476
 aDesc      Local Project Library Release 8C
 aType      P
 
 eTE_DBMS_Source 4
-aName      SQL_Rep
-aZKey      1148367
-aDesc      Last altered April 7, 1998
-aParadigm  R
-aDBMS      SqlServer ODBC TB
-aGenerateExecutable kzhsqlsb
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType N
-aSironDB_Type D
-aDisplayOwner Y
-aSironDB_Subtype 6
-
-eTE_DBMS_Source 4
-aName      Zeidon
-aZKey      90031867
-aDesc      Zeidon repository on DB2 mainframe
-aParadigm  R
-aDBMS      DB2 MVS Ger
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDefaultOwner ZEIDON
-aDisplayOwner Y
-aDisplayDBMS_ID Y
-aSironDB_Subtype 4
-
-eTE_DBMS_Source 4
-aName      ACC_REP
+aName      Repos9JA
 aZKey      91005292
-aDesc      Repository MS-Access
+aDesc      The fact that this is defined as MS Access is immaterial, as the meta data will never be kept in a database, but will only remain as individual meta objects.
 aParadigm  R
-aDBMS      Access ODBC TB
-aGenerateExecutable KZSIACC
-aExecutable KZHSIRON
+aDBMS      MS Access via ODBC
+aGenerateExecutable KZHSQLAB
+aExecutable KZHSQLOA
 aGenKeyExecutable KZHGENKY
-aConectionType N
-aSironDB_Type D
 aDisplayOwner Y
 aDisplayDBMS_ID N
-aSironDB_Subtype 6
+aDBH_Data  322
+TZDBHODO *********************** ********************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 03/01/00   14:26:23 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString Y
+aBlobsLast N
+aDropTables Y
+aAddTableNameToFK_Override N
 
-eTE_DBMS_Source 4
-aName      DB2_Rep
-aZKey      90014023
-aDesc      Repository DB2 NT
-aParadigm  R
-aDBMS      DB2 NT TB
-aGenerateExecutable KZSIDB2
-aExecutable KZHSIRON
-aGenKeyExecutable KZHGENKY
-aConectionType O
-aSironDB_Type 2
-aDisplayOwner Y
+
 
 i17        14
 i28        5

@@ -1,9 +1,9 @@
-z1000-Zeidon    TZBRERDO TZZOXODO                         04/18/25   09:35:06 1.0a2   
+z1000-Zeidon    TZBRERDO TZZOXODO                         11/05/25   16:26:13 1.0a2   
 eOBJECT    1
 aNAME      TZBRERDO
 aZKey      1330494
 aOPER_LIBNM TZBRERDO
-aER_DATE   2025041809330178
+aER_DATE   2025110516193275
 
 eENTITY    2
 aNAME      Z_MetaDef
@@ -270,7 +270,7 @@ aERREL_LINK 1
 aCARDMIN   0
 aCARDMAX   999999
 aPDELETE   D
-aMAX_LTH   323
+aMAX_LTH   578
 
 eATTRIB    6
 aNAME      Name
@@ -363,6 +363,17 @@ aLTH       1
 aHIDDEN    Y
 aXVAATT_TOK 28
 
+eATTRIB    6
+aNAME      TE_ForeignKeyName
+aERATT_TOK 130000511
+aPERSIST   Y
+aAPDM_TOK  90000032
+aDOMAIN    Text
+aTYPE      S
+aLTH       254
+aHIDDEN    Y
+aXVAATT_TOK 29
+
 eCHILDENTITY 6
 aNAME      ER_RelType
 aERENT_TOK 1320882
@@ -383,7 +394,7 @@ aLTH       4
 aKEY       Y
 aREQUIRED  Y
 aUPDATE    Y
-aXVAATT_TOK 29
+aXVAATT_TOK 30
 
 eATTRIB    7
 aNAME      Fact
@@ -394,7 +405,7 @@ aDOMAIN    Text
 aTYPE      S
 aLTH       254
 aUPDATE    Y
-aXVAATT_TOK 30
+aXVAATT_TOK 31
 
 eATTRIB    7
 aNAME      ER_DiagramBendPosX
@@ -405,7 +416,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 31
+aXVAATT_TOK 32
 
 eATTRIB    7
 aNAME      ER_DiagramBendPosY
@@ -416,7 +427,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 32
+aXVAATT_TOK 33
 
 eATTRIB    7
 aNAME      ER_DiagramE1PosX
@@ -427,7 +438,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 33
+aXVAATT_TOK 34
 
 eATTRIB    7
 aNAME      ER_DiagramE1PosY
@@ -438,7 +449,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 34
+aXVAATT_TOK 35
 
 eATTRIB    7
 aNAME      ER_DiagramE2PosX
@@ -449,7 +460,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 35
+aXVAATT_TOK 36
 
 eATTRIB    7
 aNAME      ER_DiagramE2PosY
@@ -460,7 +471,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 36
+aXVAATT_TOK 37
 
 eATTRIB    7
 aNAME      Flags
@@ -471,7 +482,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aHIDDEN    Y
-aXVAATT_TOK 37
+aXVAATT_TOK 38
 
 eATTRIB    7
 aNAME      TE_TableName
@@ -482,7 +493,7 @@ aDOMAIN    Text
 aTYPE      S
 aLTH       32
 aHIDDEN    Y
-aXVAATT_TOK 38
+aXVAATT_TOK 39
 
 eCHILDENTITY 7
 aNAME      ER_RelLink2
@@ -493,7 +504,7 @@ aCARDMIN   2
 aCARDMAX   2
 aPDELETE   D
 aEXCLUDE   Y
-aMAX_LTH   323
+aMAX_LTH   578
 
 eATTRIB    8
 aNAME      Name
@@ -505,7 +516,7 @@ aTYPE      S
 aLTH       32
 aREQUIRED  Y
 aUPDATE    Y
-aXVAATT_TOK 39
+aXVAATT_TOK 40
 
 eATTRIB    8
 aNAME      ZKey
@@ -518,7 +529,7 @@ aLTH       4
 aKEY       Y
 aREQUIRED  Y
 aUPDATE    Y
-aXVAATT_TOK 40
+aXVAATT_TOK 41
 
 eATTRIB    8
 aNAME      CardMin
@@ -529,7 +540,7 @@ aDOMAIN    ERD_MinCardinality
 aTYPE      S
 aLTH       8
 aUPDATE    Y
-aXVAATT_TOK 41
+aXVAATT_TOK 42
 
 eATTRIB    8
 aNAME      CardMax
@@ -540,7 +551,7 @@ aDOMAIN    ERD_MaxCardinality
 aTYPE      S
 aLTH       8
 aUPDATE    Y
-aXVAATT_TOK 42
+aXVAATT_TOK 43
 
 eATTRIB    8
 aNAME      AutoSeq
@@ -551,7 +562,7 @@ aDOMAIN    Y/N
 aTYPE      S
 aLTH       1
 aUPDATE    Y
-aXVAATT_TOK 43
+aXVAATT_TOK 44
 
 eATTRIB    8
 aNAME      TE_ForeignKeyPrefix
@@ -562,7 +573,7 @@ aDOMAIN    Text
 aTYPE      S
 aLTH       254
 aHIDDEN    Y
-aXVAATT_TOK 44
+aXVAATT_TOK 45
 
 eATTRIB    8
 aNAME      TE_NoForeignKeyPrefix
@@ -573,7 +584,7 @@ aDOMAIN    Y/N
 aTYPE      S
 aLTH       1
 aHIDDEN    Y
-aXVAATT_TOK 45
+aXVAATT_TOK 46
 
 eATTRIB    8
 aNAME      HangingForeignKeyEntity
@@ -584,7 +595,18 @@ aDOMAIN    Y/N
 aTYPE      S
 aLTH       1
 aHIDDEN    Y
-aXVAATT_TOK 46
+aXVAATT_TOK 47
+
+eATTRIB    8
+aNAME      TE_ForeignKeyName
+aERATT_TOK 130000511
+aPERSIST   Y
+aAPDM_TOK  90000032
+aDOMAIN    Text
+aTYPE      S
+aLTH       254
+aHIDDEN    Y
+aXVAATT_TOK 48
 
 eCHILDENTITY 8
 aNAME      TargetEntity
@@ -605,7 +627,7 @@ aTYPE      S
 aLTH       32
 aREQUIRED  Y
 aUPDATE    Y
-aXVAATT_TOK 47
+aXVAATT_TOK 49
 
 eATTRIB    9
 aNAME      ZKey
@@ -618,7 +640,7 @@ aLTH       4
 aKEY       Y
 aREQUIRED  Y
 aUPDATE    Y
-aXVAATT_TOK 48
+aXVAATT_TOK 50
 
 eATTRIB    9
 aNAME      Purpose
@@ -629,7 +651,7 @@ aDOMAIN    ER_EntityPurpose
 aTYPE      S
 aLTH       12
 aUPDATE    Y
-aXVAATT_TOK 49
+aXVAATT_TOK 51
 
 eATTRIB    9
 aNAME      Desc
@@ -640,7 +662,7 @@ aDOMAIN    Description
 aTYPE      S
 aLTH       32000
 aUPDATE    Y
-aXVAATT_TOK 50
+aXVAATT_TOK 52
 
 eATTRIB    9
 aNAME      OwningArea
@@ -651,7 +673,7 @@ aDOMAIN    Text
 aTYPE      S
 aLTH       32
 aUPDATE    Y
-aXVAATT_TOK 51
+aXVAATT_TOK 53
 
 eATTRIB    9
 aNAME      ER_DiagramPosX
@@ -662,7 +684,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 52
+aXVAATT_TOK 54
 
 eATTRIB    9
 aNAME      ER_DiagramPosY
@@ -673,7 +695,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aUPDATE    Y
-aXVAATT_TOK 53
+aXVAATT_TOK 55
 
 eATTRIB    9
 aNAME      ER_PortFactor
@@ -684,7 +706,7 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aHIDDEN    Y
-aXVAATT_TOK 54
+aXVAATT_TOK 56
 
 eATTRIB    9
 aNAME      TE_TableName
@@ -695,7 +717,7 @@ aDOMAIN    Text
 aTYPE      S
 aLTH       254
 aHIDDEN    Y
-aXVAATT_TOK 55
+aXVAATT_TOK 57
 
 eATTRIB    9
 aNAME      TE_TableOwner
@@ -706,7 +728,7 @@ aDOMAIN    Text
 aTYPE      S
 aLTH       254
 aHIDDEN    Y
-aXVAATT_TOK 56
+aXVAATT_TOK 58
 
 eATTRIB    9
 aNAME      SAP_Entity
@@ -717,5 +739,5 @@ aDOMAIN    Integer
 aTYPE      L
 aLTH       4
 aHIDDEN    Y
-aXVAATT_TOK 57
+aXVAATT_TOK 59
 

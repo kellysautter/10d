@@ -1,4 +1,4 @@
-z1000-Zeidon    TZZOHDGO TZZOLODO 11/11/09   14:12:08 1.0b0    
+z1000-Zeidon    TZZOHDGO TZZOLODO                         11/05/25   16:22:03 1.0a2   
 eLOD       1
 aZKey      1327408
 aName      TZZOHDGO
@@ -73,13 +73,10 @@ aName      ZKey
 aZKey      1320937
 
 eDomainRec 7
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 5
@@ -91,6 +88,14 @@ aName      PosX
 aZKey      1320938
 
 eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eLOD_AttributeRec 5
 aZKey      1327414
@@ -273,7 +278,6 @@ aUpdate    Y
 eER_AttributeRec 6
 aName      XML_Name
 aZKey      4094519
-aNotNull   Y
 aDesc      When loading XML with the same Entity under different parents, we need to name the LOD entity something different, but need to correlate the two names in order to load and write the XML properly
 aPromptPaintLit Entity Name
 aListPaintLit Entity Name
@@ -321,10 +325,10 @@ aER_DiagramPosY 29
 
 eER_RelLinkRec 5
 aName      has child
+aAutoSeq   N
 aZKey      1322002
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322000
@@ -910,27 +914,26 @@ aLastUpdateDate 19951102200226000
 aLastCheckInDate 19951102203051110
 aDesc      Hier Diagram Object
 
-i9         6
-i12        6
+i12        9
 i18        15
 i24        15
 i27        15
-i30        6
+i30        9
 i33        21
 i36        15
 i39        15
 i42        15
 i45        15
 i48        15
-i57        6
-i60        6
+i57        9
+i60        9
 i65        5
 i66        6
-i69        6
+i69        9
 i71        8
-i72        6
+i72        9
 i74        11
-i75        6
+i75        9
 i77        14
 i78        15
 i80        17
@@ -942,7 +945,7 @@ i87        15
 i89        26
 i90        15
 i92        29
-i93        6
+i93        9
 i95        32
 i96        21
 i98        35
@@ -959,10 +962,10 @@ i113       50
 i114       51
 i116       53
 i117       54
-i120       6
+i120       9
 i121       61
 i126       6
-i129       6
+i129       9
 i132       15
 i135       15
 i137       1
@@ -971,7 +974,7 @@ i139       125
 i140       6
 i141       127
 i142       128
-i143       6
+i143       9
 i144       130
 i145       131
 i146       15
@@ -985,10 +988,10 @@ i153       5
 i154       6
 i155       70
 i156       8
-i157       6
+i157       9
 i158       73
 i159       11
-i160       6
+i160       9
 i161       76
 i162       14
 i163       15
@@ -1006,7 +1009,7 @@ i174       26
 i175       15
 i176       91
 i177       29
-i178       6
+i178       9
 i179       94
 i180       32
 i181       21
@@ -1033,10 +1036,10 @@ i201       53
 i202       54
 i203       118
 i204       119
-i205       6
+i205       9
 i206       67
 i207       68
-i208       6
+i208       9
 i209       61
 i210       122
 i211       123
@@ -1046,10 +1049,10 @@ i214       5
 i215       6
 i216       7
 i217       8
-i218       6
+i218       9
 i219       10
 i220       11
-i221       6
+i221       9
 i222       13
 i223       14
 i224       15
@@ -1067,7 +1070,7 @@ i235       26
 i236       15
 i237       28
 i238       29
-i239       6
+i239       9
 i240       31
 i241       32
 i242       21
@@ -1094,10 +1097,10 @@ i262       53
 i263       54
 i264       55
 i265       56
-i266       6
+i266       9
 i267       58
 i268       59
-i269       6
+i269       9
 i270       61
 i271       62
 i272       63

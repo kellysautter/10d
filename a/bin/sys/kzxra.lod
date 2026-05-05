@@ -1,4 +1,4 @@
-z1000-Zeidon    KZXRA    TZZOLODO 03/23/03   17:26:56 1.0b0    
+z1000-Zeidon    KZXRA    TZZOLODO                         11/05/25   16:21:45 1.0a2   
 eLOD       1
 aZKey      90417949
 aName      KZXRA
@@ -822,7 +822,7 @@ aName      DragDropSource
 aZKey      1178036
 aDesc      86
 Name to associate two controls for drag and drop.
-This goes with the source control.
+This goes with the source control. 
 
 eDomainRec 8
 
@@ -837,7 +837,7 @@ aName      DragDropTarget
 aZKey      1178038
 aDesc      86
 Name to associate two controls for drag and drop.
-This goes with the target control.
+This goes with the target control. 
 
 eDomainRec 8
 
@@ -1114,7 +1114,7 @@ aName      NodeIndex
 aZKey      126014598
 aDesc      167
 The NodeIndex element is used to handle "Delta-Informations". It identifies and orders an instance in a group of instances of the same type having the same parent. 
-0
+ 
 
 eDomainRec 10
 
@@ -1180,7 +1180,7 @@ aName      NodeIndex
 aZKey      126014585
 aDesc      167
 The NodeIndex element is used to handle "Delta-Informations". It identifies and orders an instance in a group of instances of the same type having the same parent. 
-0
+ 
 
 eDomainRec 9
 
@@ -2152,7 +2152,7 @@ aName      NodeIndex
 aZKey      126014535
 aDesc      167
 The NodeIndex element is used to handle "Delta-Informations". It identifies and orders an instance in a group of instances of the same type having the same parent. 
-0
+ 
 
 eDomainRec 9
 
@@ -3628,7 +3628,7 @@ aZKey      1177768
 aLth       32
 aDesc      117
 Identifies a group of options as only allowing a single selection (like a radio button group).
-??????? Questionable0
+??????? Questionable 
 
 eDomainRec 9
 
@@ -4097,11 +4097,11 @@ eER_EntityRec 5
 
 eER_RelLinkRec 5
 aName      has
+aAutoSeq   N
+aHangingForeignKeyEntity N
 aZKey      1177792
 aCardMin   0
 aCardMax   M
-aAutoSeq   N
-aHangingForeignKeyEntity N
 
 eER_RelTypeRec 6
 aZKey      1177791
@@ -4324,7 +4324,7 @@ aLth       4
 aDesc      74
 Window style
 
-We need to determine what styles we will support in Java.
+We need to determine what styles we will support in Java. 
 aPromptPaintLit Style
 aListPaintLit Style
 
@@ -4386,11 +4386,11 @@ aER_DiagramPosY 21
 
 eER_RelLinkRec 4
 aName      has
+aAutoSeq   Y
+aHangingForeignKeyEntity N
 aZKey      1177716
 aCardMin   0
 aCardMax   M
-aAutoSeq   Y
-aHangingForeignKeyEntity N
 
 eER_RelTypeRec 5
 aZKey      1177715
@@ -4687,11 +4687,11 @@ aER_DiagramPosY 13
 
 eER_RelLinkRec 4
 aName      has
+aAutoSeq   N
+aHangingForeignKeyEntity N
 aZKey      1178577
 aCardMin   0
 aCardMax   m
-aAutoSeq   N
-aHangingForeignKeyEntity N
 
 eER_RelTypeRec 5
 aZKey      1178576

@@ -1,4 +1,4 @@
-z1000-Zeidon    TZWDVORO TZZOLODO 10/27/15   15:20:11 1.0b0    
+z1000-Zeidon    TZWDVORO TZZOLODO                         11/05/25   16:22:02 1.0a2   
 eLOD       1
 aZKey      1326496
 aName      TZWDVORO
@@ -62,13 +62,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 6
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 4
@@ -336,6 +333,14 @@ aName      NextZKeyToAssign
 aZKey      110003543
 
 eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eLOD_AttributeRec 3
 aZKey      1326512
@@ -554,18 +559,17 @@ i30        8
 i33        8
 i36        14
 i42        5
-i45        5
 i48        8
 i51        21
 i54        14
-i57        5
+i57        45
 i59        1
 i60        40
 i61        41
 i62        5
 i63        43
 i64        44
-i65        5
+i65        45
 i66        46
 i67        47
 i68        8
@@ -577,7 +581,7 @@ i73        53
 i74        14
 i75        55
 i76        56
-i77        5
+i77        45
 i78        58
 i79        2
 i80        3

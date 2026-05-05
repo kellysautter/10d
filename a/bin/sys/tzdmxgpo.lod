@@ -1,4 +1,4 @@
-z1000-Zeidon    TZDMXGPO TZZOLODO 10/27/15   15:13:51 1.0b0    
+z1000-Zeidon    TZDMXGPO TZZOLODO                         11/05/25   16:21:53 1.0a2   
 eLOD       1
 aZKey      1329552
 aName      TZDMXGPO
@@ -139,6 +139,11 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 8
+aZKey      110003499
+aName      ZKey
+aDomainType E
+aDataType  L
+aContextRestriction N
 
 eLOD_AttributeRec 6
 aZKey      1329558
@@ -898,27 +903,26 @@ aExecutable KZHSQLOA
 aGenKeyExecutable KZHGENKY
 aDisplayOwner Y
 aDisplayDBMS_ID N
-aDBH_Data  U322
-M5%I$0DA/1$\`*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BH`*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ*BHJ
-M*BIZ,3`P,#!:96ED;VX@("`@6D),3T)/22`@5%I$0DA/1$\@,#,O,#$O,#`@
-M("`Q-#HR-CHR,R`Q+C!A("`@("`-"F5/1$)#("`@("`@,0T*851I;65S=&%M
-M<%!R96-I<VEO;B`S#0IA5&EM97-T86UP07-3=')I;F<@60T*84)L;V)S3&%S
-M="!.#0IA1')O<%1A8FQE<R!9#0IA061D5&%B;&5.86UE5&]&2U]/=F5R<FED
-'92!.#0H-"@``
-`
+aDBH_Data  322
+TZDBHODO *********************** ********************************************************************************************************z10000Zeidon    ZBLOBOI  TZDBHODO 03/01/00   14:26:23 1.0a     
+eODBC      1
+aTimestampPrecision 3
+aTimestampAsString Y
+aBlobsLast N
+aDropTables Y
+aAddTableNameToFK_Override N
 
-i14        8
+
+
 i17        11
 i20        11
-i27        8
-i33        8
+i27        14
+i33        14
 i36        11
 i39        8
 i42        11
 i45        11
-i54        8
+i54        14
 i57        11
 i63        11
 i75        8
@@ -945,7 +949,7 @@ i119       56
 i120       11
 i121       52
 i122       53
-i123       8
+i123       14
 i124       58
 i125       59
 i126       60
@@ -989,7 +993,7 @@ i163       97
 i164       3
 i165       31
 i166       32
-i167       8
+i167       14
 i168       34
 i169       35
 i170       11
@@ -1011,7 +1015,7 @@ i185       51
 i186       4
 i187       12
 i188       13
-i189       8
+i189       14
 i190       15
 i191       16
 i192       11
@@ -1031,7 +1035,7 @@ i205       11
 i206       24
 i207       25
 i208       26
-i209       8
+i209       14
 i210       28
 i211       29
 i212       30

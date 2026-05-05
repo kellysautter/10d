@@ -1,4 +1,4 @@
-z1000-Zeidon    TZOPGRPO TZZOLODO 06/08/17   10:56:36 1.0b0    
+z1000-Zeidon    TZOPGRPO TZZOLODO                         11/05/25   16:21:56 1.0a2   
 eLOD       1
 aZKey      1328962
 aNextZKeyToAssign 110003502
@@ -538,7 +538,7 @@ aZKey      1321076
 aDesc      108
 Grouping of operation types
 The meaning is bitwise:
-0x00000001 = generated operation, do not show in list0
+0x00000001 = generated operation, do not show in list 
 
 eDomainRec 6
 

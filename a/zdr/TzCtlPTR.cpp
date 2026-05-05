@@ -2252,13 +2252,19 @@ TZPainterWindow::PaintZeidonWindow( zBOOL bReset )
    else
    {
       zCHAR szCaption[ 256 ];
+      zCHAR szDialogCaption[ 256 ];
 
       // Set the Caption for the window.
       GetStringFromAttribute( szCaption, zsizeof( szCaption ), m_vDialog, pchWindowPage, szlTag );
       strcat_s( szCaption, zsizeof( szCaption ), " - " );
       GetStringFromAttribute( szCaption + 64, zsizeof( szCaption ) - 64, m_vDialog, pchWindowPage, szlCaption );
       strcat_s( szCaption, zsizeof( szCaption ), szCaption + 64 );
-      SetWindowText( szCaption );
+      // KJS 02/23/26 - Adding the Dialog name to the window caption. This was requested by Alan Schrock.
+      GetStringFromAttribute( szDialogCaption, zsizeof( szCaption ), m_vDialog, "Dialog", "Tag" );
+      strcat_s( szDialogCaption, zsizeof( szDialogCaption ), "." );
+      strcat_s( szDialogCaption, zsizeof( szDialogCaption ), szCaption );
+      //SetWindowText( szCaption );
+      SetWindowText( szDialogCaption );
 
       // Now that sizing and positioning are out of the way, paint the action bar for the window.
       PaintActionBar( );

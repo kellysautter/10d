@@ -185,10 +185,10 @@ BuildMainNavSection( VIEW vDialog,
       szWriteBuffer = "<%"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szOptionTag = vDialogRoot.Option.Tag
-      szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
+      szWriteBuffer = "   if ( !vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ ).isSet() )"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      //szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
+      //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   {"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "%>"
@@ -245,6 +245,7 @@ BuildMainNavSection( VIEW vDialog,
       END
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
+      // KJS 09/24/25
       szWriteBuffer = "<%"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   }"
@@ -3605,10 +3606,10 @@ GenJSPJ_CrteSideMenuRecurs( VIEW vDialog,
       szWriteBuffer = "<%"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szOptionTag = vDialogMenu.Option.Tag
-      szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
+      szWriteBuffer = "   if ( !vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ ).isSet() )"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      //szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
+      //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   {"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "%>"
@@ -3641,6 +3642,7 @@ GenJSPJ_CrteSideMenuRecurs( VIEW vDialog,
 
       END
 
+      // KJS 09/24/25
       szWriteBuffer = "<%"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   }"
@@ -3924,10 +3926,10 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
       szWriteBuffer = "<%"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szOptionTag = vDialogMenu.Option.Tag
-      szWriteBuffer = "   csrRC = vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ );"
+      szWriteBuffer = "   if ( !vKZXMLPGO.cursor( ^DisableMenuOption^ ).setFirst( ^MenuOptionName^, ^" + szOptionTag + "^ ).isSet() )"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
-      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      //szWriteBuffer = "   if ( !csrRC.isSet() ) //if ( nRC < 0 )"
+      //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   {"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "%>"
@@ -4012,7 +4014,7 @@ BuildMainNavSectionBootstrap( VIEW vDialog,
          END
       END //ActionType = zWAB_LinkToHTML_Address AND ( s
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-
+      // KJS 09/24/25
       szWriteBuffer = "<%"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "   }"
@@ -4087,7 +4089,8 @@ GenJSP_MenuFunctionsRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                             STRING ( 255 )   szFormName,
                             STRING ( 2 )     szActionPrefix )
 
-   VIEW vDialog2 BASED ON LOD TZWDLGSO
+   VIEW vWork    REGISTERED AS TZPTWRKO
+   VIEW vDialog2 BASED ON LOD  TZWDLGSO
    STRING ( 34 )    szActionName
    STRING ( 32 )    szCtrlTag
    STRING ( 10000 ) szJavaScript
@@ -4146,6 +4149,15 @@ GenJSP_MenuFunctionsRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
             szWriteBuffer = "{"
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+            
+            // KJS 04/29/26 - We need to add code for TinyMCE now that we are on the latest version (8?). 
+            // This call sets all of the wysiwyg <textarea's "value" = tinymce.
+            IF vWork.Root.HasWysiwygEditor != "" AND vDialogMenuRoot.Action.NoMap != "Y"
+               szWriteBuffer = "   // setMLEdits() is needed for wysiwyg textareas to properly retain their changes on a page refresh. "
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+               szWriteBuffer = "   setMLEdits( );"
+               WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+            END
 
             szWriteBuffer = "   // This is for indicating whether the user hit the window close box."
             WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )

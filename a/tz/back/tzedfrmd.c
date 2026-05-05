@@ -3412,6 +3412,8 @@ AEQ_SelectView( zVIEW vSubtask )
       {
          CreateEntity( vEdWrk, "Attribute", zPOS_LAST );
          SetAttributeFromAttribute( vEdWrk, "Attribute", "AttributeName", vLOD, "ER_Attribute", "Name" );
+		 SetAttributeFromAttribute(vEdWrk, "Attribute", "DomainName", vLOD, "Domain", "DerivedName");
+		 SetAttributeFromAttribute(vEdWrk, "Attribute", "Description", vLOD, "ER_Attribute", "Desc");
 
          nRC = SetCursorNextEntity( vLOD, "LOD_Attribute", "" );
       }

@@ -1,4 +1,4 @@
-z10000Zeidon    TZZOTYPO TZZOLODO 05/01/01   23:19:38 1.0b0    
+z1000-Zeidon    TZZOTYPO TZZOLODO                         11/05/25   16:22:03 1.0a2   
 eLOD       1
 aZKey      1327386
 aName      TZZOTYPO
@@ -151,13 +151,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 7
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eER_EntityRec 5
@@ -171,10 +168,10 @@ aER_DiagramPosY 252
 
 eER_RelLinkRec 5
 aName      has
+aAutoSeq   Y
 aZKey      1322520
 aCardMin   0
 aCardMax   m
-aAutoSeq   Y
 
 eER_RelTypeRec 6
 aZKey      1322519
@@ -234,10 +231,10 @@ aER_PortFactor 2
 
 eER_RelLinkRec 5
 aName      is contained in
+aAutoSeq   N
 aZKey      1322299
 aCardMin   1
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322297
@@ -294,10 +291,10 @@ aER_DiagramPosY 278
 
 eER_RelLinkRec 5
 aName      prototype is in
+aAutoSeq   N
 aZKey      1322185
 aCardMin   0
 aCardMax   1
-aAutoSeq   N
 
 eER_RelTypeRec 6
 aZKey      1322183
@@ -377,7 +374,7 @@ aName      ZeidonOperationTypes
 aDomainType T
 aDataType  S
 aMaxStringLth 1
-aDesc      types of operations that can be defined for Zeidon ( VML )
+aDesc      types of operations that can be defined for Zeidon (VML)
 aContextRestriction N
 
 eLOD_AttributeRec 4
@@ -415,6 +412,14 @@ aLth       4
 aDesc      Ordinal Value of operation within the executable module
 
 eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eER_EntityRec 4
 aName      Operation
@@ -577,7 +582,6 @@ i32        18
 i41        18
 i50        6
 i53        9
-i56        18
 i60        47
 i61        1
 i62        58
@@ -604,7 +608,7 @@ i82        52
 i83        9
 i84        54
 i85        55
-i86        18
+i86        56
 i87        57
 i88        3
 i89        4

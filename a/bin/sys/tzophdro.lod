@@ -1,4 +1,4 @@
-z1000-Zeidon    TZOPHDRO TZZOLODO 10/27/15   15:19:11 1.0b0    
+z1000-Zeidon    TZOPHDRO TZZOLODO                         11/05/25   16:21:56 1.0a2   
 eLOD       1
 aZKey      1329019
 aName      TZOPHDRO
@@ -76,13 +76,10 @@ aKey       Y
 aNotNull   Y
 
 eDomainRec 6
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 4
@@ -126,6 +123,14 @@ aZKey      1320806
 aDesc      Temporary visible sequencing attribute
 
 eDomainRec 6
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eER_EntityRec 4
 aName      DefinedItem
@@ -573,12 +578,11 @@ aLastCheckInDate 19951102203051110
 aDesc      Header file 3GL
 
 i11        5
-i17        8
 i24        5
 i27        8
 i36        33
 i48        8
-i51        8
+i51        17
 i54        33
 i57        39
 i63        5
@@ -591,7 +595,7 @@ i70        47
 i71        8
 i72        49
 i73        50
-i74        8
+i74        17
 i75        52
 i76        53
 i77        33
@@ -620,7 +624,7 @@ i99        13
 i100       14
 i101       15
 i102       16
-i103       8
+i103       17
 i104       18
 i105       19
 i106       20

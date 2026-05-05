@@ -1,0 +1,444 @@
+tzadcdod.c:   RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_LOD_META );
+tzadcdod.c:   RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_VOR_META );
+tzadcdod.c:   RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_UIS_META );
+tzadcdod.c:      RetrieveViewForMetaList( vSubtask, &vFileSpec, zREFER_UIS_META );
+tzadcdod.c:      RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_UIS_META );
+tzadcdod.c:      RetrieveViewForMetaList( vSubtask, &vFileSpec, zREFER_UIS_META );
+tzadcdod.c:      nRC = RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_VOR_META );
+tzadcs2o.c:   //:RetrieveViewForMetaList( vSubtask, VOR_List, zREFER_VOR_META )
+tzadcs2o.c:   RetrieveViewForMetaList( vSubtask, &VOR_List, zREFER_VOR_META );
+tzadcs2o.c:      //:RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+tzadcs2o.c:      RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
+tzadcs2o.c:      //:RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+tzadcs2o.c:      RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
+tzadcs2o.c:      //:/* RetrieveViewForMetaList( vSubtask, vMetaList, zREFER_PENV_META ) */
+tzadcs2o.c:      //:RetrieveViewForMetaList( vSubtask, vMetaList, zREFER_PENV_META )
+tzadcs2o.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzadcsdo.c:      RetrieveViewForMetaList( vTZADCSDO, &vTemp, zREFER_ERD_META );
+tzadw1aw.c:   nRC = RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_UIS_META );
+tzadw1aw.c:   nRC = RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_LOD_META );
+tzadw1aw.c:   nRC = RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_VOR_META );
+tzadw1aw.c:   nRC = RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_LOD_META );
+tzadw7aw.c:   RetrieveViewForMetaList( vSubtask, &vTemp, zREFER_ERD_META );
+tzadwdod.c:   nRC = RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_VOR_META );
+tzadwdod.c:   nRC = RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_LOD_META );
+tzadwdod.c:   nRC = RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_UIS_META );
+tzadwdod.c:      RetrieveViewForMetaList( vSubtask, &vList, zREFER_PENV_META );
+tzadwdod.c:   RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
+tzadwdod.c:      RetrieveViewForMetaList( vSubtask, &vList, zREFER_PENV_META );
+tzadwdod.c:      nRC = RetrieveViewForMetaList( vSubtask, &vFileUIS, zREFER_UIS_META );
+tzadwdod.c:      RetrieveViewForMetaList( vSubtask, &vFileVOR, zREFER_VOR_META );
+tzadwdod.c:      RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_VOR_META );
+tzadwdod.c:   nRC = RetrieveViewForMetaList( vSubtask, &vFileObj, zREFER_UIS_META );
+tzaxcfgd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzaxcfgd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzaxcfgd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzaxcfgd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzaxcfgd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzbmupdd.c:      if ( RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DIALOG_META ) > 0 )
+tzcmcvto.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzcmcvto.c:         RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzcmcvto.c:         RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzcmcvto.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzcmcvto.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzcmlops.c:   if ( (nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_VOR_META )) < 0 )
+tzcmlpld.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, (zSHORT) lType );
+tzcmlpld.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzcmlplo.c:      RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzcmlplo.c:      RetrieveViewForMetaList( vSubtask, &vTemp, (zSHORT) lType );
+tzcmlplo.c:         RetrieveViewForMetaList( vSubtask, &vTemp, (zSHORT) lType );
+tzcmlpmd.c:   //:RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_DIALOG_META )
+tzcmlpmd.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_DIALOG_META );
+tzcmlpmd.c:      //:      RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_ERD_META )
+tzcmlpmd.c:         //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_PENV_META )
+tzcmlpmd.c:         RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zREFER_PENV_META );
+tzcmlpmd.c:   //:RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_DIALOG_META )
+tzcmlpmd.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_DIALOG_META );
+tzcmlpmd.c:   //:RetrieveViewForMetaList( vSubtask, vCurrentLPLR, zREFER_ERD_META )
+tzcmlpmd.c:   RetrieveViewForMetaList( vSubtask, &vCurrentLPLR, zREFER_ERD_META );
+tzcmlpmd.c:      //:RetrieveViewForMetaList( vSubtask, vCurrentLPLR, zREFER_ERD_META )
+tzcmlpmd.c:      RetrieveViewForMetaList( vSubtask, &vCurrentLPLR, zREFER_ERD_META );
+tzcmlpmo.c:   //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get view for directory info.
+tzcmlpmo.c:   RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zSOURCE_ERD_META );
+tzcmoprs.c:   Modified RetrieveViewForMetaList to add error message when return code
+tzcmoprs.c://./ ADD NAME=RetrieveViewForMetaList
+tzcmoprs.c://  CM OPERATION: RetrieveViewForMetaList
+tzcmoprs.c:RetrieveViewForMetaList( zVIEW  vSubtask,
+tzcmoprs.c://              via RetrieveViewForMetaList, by declaring a view and then
+tzcmoprs.c:         nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, (zSHORT) (nType + 2000) );
+tzcmoprs.c:         nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, nType );
+tzcmoprs.c:         nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, (zSHORT) (nType + 2000) );
+tzcmoprs.c:         nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, nType );
+tzcmoprs.c:            RetrieveViewForMetaList( vSubtask, &vVOR_LPLR, zSOURCE_VOR_META );
+tzcmoprs.c:   RetrieveViewForMetaList( vSubtask, &vMetaView, nType );
+tzcmoprs.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzcmoprs.c:   nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzdgsrco.c:   //:RetrieveViewForMetaList( vSubtask, CurrentLPLRO, zREFER_DOMAIN_META ) // This points to DOMAIN as opposed to DomainGrp
+tzdgsrco.c:   RetrieveViewForMetaList( vSubtask, &CurrentLPLRO, zREFER_DOMAIN_META );
+tzdgsrco.c:   //:RetrieveViewForMetaList( vSubtask, CurrentLPLRO, zREFER_DOMAIN_META ) // This points to DOMAIN as opposed to DomainGrp
+tzdgsrco.c:   RetrieveViewForMetaList( vSubtask, &CurrentLPLRO, zREFER_DOMAIN_META );
+tzdgsrco.c:         //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get view for directory info.
+tzdgsrco.c:         RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zSOURCE_ERD_META );
+tzdgsrco.c:   //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_DOMAIN_META ) // Try this again because it points to DOMAIN as opposed to DomainGrp
+tzdgsrco.c:   RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zREFER_DOMAIN_META );
+tzdmsrco.c:   if ( (nRC = RetrieveViewForMetaList( vMeta, &vCM_List, zREFER_DOMAIN_META )) < 0 )
+tzdmsrco.c:   if ( (nRC = RetrieveViewForMetaList( vMeta, &vCM_List, zREFER_DOMAIN_META )) < 0 )
+tzdmsrco.c:   if ( (nRC = RetrieveViewForMetaList( vMeta, &vCM_List, zREFER_DOMAIN_META )) < 0 )
+tzdmsrco.c:   if ( (nRC = RetrieveViewForMetaList( vMeta, &vCM_List, zREFER_DOMAIN_META )) < 0 )
+tzdmsrco.c:   if ( (nRC = RetrieveViewForMetaList( vMeta, &vCM_List, zREFER_DOMAIN_META )) < 0 )
+tzdmsrco.c:   if ( (nRC = RetrieveViewForMetaList( vMeta, &vCM_List, zREFER_DOMAIN_META )) < 0 )
+TZDMUPDD.C:   if ( RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META ) > 0 )
+TZDMUPDD.C:       if ( RetrieveViewForMetaList( vSubtask, &vCM_ListGroup, zREFER_DOMAINGRP_META ) > 0 )
+TZDMUPDD.C:      if ( RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META ) > 0 )
+TZDMUPDD.C:         if ( RetrieveViewForMetaList( vSubtask, &vCM_ListGroup, zREFER_DOMAINGRP_META ) > 0 )
+TZDMUPDD.C:      if ( RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META ) > 0 )
+TZDMUPDD.C:      if ( RetrieveViewForMetaList( vSubtask, &vCM_ListGroup, zREFER_DOMAINGRP_META ) > 0 )
+TZDMUPDD.C:   //RetrieveViewForMetaList(vSubtask, &vCM_List2, zREFER_ERD_META);
+TZDMUPDD.C:	   RetrieveViewForMetaList(vSubtask, &vCM_List2, zREFER_ERD_META);
+TZDMUPDD.C:	RetrieveViewForMetaList(vSubtask, &vCM_List3, zREFER_ERD_META);
+TZDMUPDD.C:   RetrieveViewForMetaList( vSubtask, &vGroupLPLR, zREFER_DOMAINGRP_META );
+TZDMUPDD.C:      RetrieveViewForMetaList( vSubtask, &vCM_ListGroup, zREFER_DOMAINGRP_META );
+TZDMUPDD.C:      RetrieveViewForMetaList( vSubtask, &vGroupList, zREFER_DOMAINGRP_META );
+tzedcmpd.c:   //:RetrieveViewForMetaList( vSubtask, vMetaList, zREFER_GOPGRP_META )
+tzedcmpd.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_GOPGRP_META );
+tzedcmpd.c:   //:RetrieveViewForMetaList( vSubtask, vMetaList, zREFER_DIALOG_META )
+tzedcmpd.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_DIALOG_META );
+tzedcmpd.c:   //:RetrieveViewForMetaList( vSubtask, vMetaList, zREFER_LOD_META )
+tzedcmpd.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_LOD_META );
+tzedcmpd.c:   //:RetrieveViewForMetaList( vSubtask, vMetaList, zREFER_DOMAINGRP_META )
+tzedcmpd.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_DOMAINGRP_META );
+tzedcwzd.c:   nRC = RetrieveViewForMetaList( vSubtask, &vList, zREFER_LOD_META );
+tzedcwzd.c:   RetrieveViewForMetaList( vSubtask, &vOp, zREFER_LOD_META );
+tzedcwzd.c:   RetrieveViewForMetaList( vSubtask, &vList, zREFER_VOR_META );
+tzedcwzd.c:            RetrieveViewForMetaList( vSubtask, &vOp, zREFER_GO_META );
+tzedcwzd.c:   RetrieveViewForMetaList( vSubtask, &vObjList, zREFER_LOD_META );
+tzedfrmd.c:   nRC = RetrieveViewForMetaList( vSubtask, &vList, zREFER_LOD_META );
+tzedfrmd.c:            RetrieveViewForMetaList( vSubtask, &vOp, zREFER_GO_META );
+tzedfrmd.c:   RetrieveViewForMetaList( vSubtask, &vObjList, zREFER_LOD_META );
+tzedfrmd.c:   RetrieveViewForMetaList( vSubtask, &vList, zREFER_VOR_META );
+tzedfrmd.c:   RetrieveViewForMetaList( vSubtask, &vOp, zREFER_LOD_META );
+tzedvmld.C:   RetrieveViewForMetaList( vSubtask, &vOp, zREFER_LOD_META );
+tzedvmld.C:   RetrieveViewForMetaList( vSubtask, &vList, zREFER_VOR_META );
+tzedvmld.C:   RetrieveViewForMetaList( vSubtask, &vObjList, zREFER_LOD_META );
+tzedvmld.C:            RetrieveViewForMetaList( vSubtask, &vOp, zREFER_GO_META );
+tzedvmld.C:   nRC = RetrieveViewForMetaList( vSubtask, &vList, zREFER_LOD_META );
+tzerem2o.c:   //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META )
+tzerem2o.c:   RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zSOURCE_ERD_META );
+tzerem2o.c:   //:// DonC 09/07/2022 - The operation RetrieveViewForMetaList is being used here to enable the ERD to be commited through CommitMeta. 
+tzerem2o.c:   //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META )
+tzerem2o.c:   RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zSOURCE_ERD_META );
+tzerem2o.c:   //:RetrieveViewForMetaList( vSubtask, vCurrentLPLR, zSOURCE_ERD_META )
+tzerem2o.c:   RetrieveViewForMetaList( vSubtask, &vCurrentLPLR, zSOURCE_ERD_META );
+tzerem2o.c:   //:RetrieveViewForMetaList( vSubtask, vDomainLPLR, zREFER_DOMAIN_META )
+tzerem2o.c:   RetrieveViewForMetaList( vSubtask, &vDomainLPLR, zREFER_DOMAIN_META );
+tzeremdd.c:   nRC = RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzeremdd.c:      nRC = RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzeremdd.c:      RetrieveViewForMetaList( vSubtask, &vDTE, zREFER_DTE_META );
+tzeremdd.c:   nRC = RetrieveViewForMetaList( vSubtask, &vDomainList, zREFER_DOMAIN_META );
+tzeremdd.c:   nRC = RetrieveViewForMetaList( vSubtask, &vT, zREFER_SA_META );
+tzeremdd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzeremdd.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzeremdd.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzeremdd.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzeremdd.c:   RetrieveViewForMetaList( vSubtask, &vTZERSFLO, zREFER_SA_META );
+tzeremdo.c:   nRC = RetrieveViewForMetaList( vSubtask, &vTZERMFLO, zREFER_ERD_META );
+tzeremdo.c:   nRC = RetrieveViewForMetaList( vSubtask, &vTZERMFLO, zREFER_ERD_META );
+tzeremxo.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzersa2o.c:   //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_ERD_META )
+tzersa2o.c:   RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zREFER_ERD_META );
+tzersa2o.c:   //:RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_ERD_META )
+tzersa2o.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzersapd.c:   RetrieveViewForMetaList( vSubtask, &vDomainList, zREFER_DOMAIN_META );
+tzersapd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zSOURCE_DTE_META );
+tzersapd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zSOURCE_DTE_META );
+tzersapd.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DTE_META );
+tzhkeyad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_GO_META );
+tzhkeyad.c:   nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_HKEY_META );
+tzogsrco.c:         //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get view for directory info.
+tzogsrco.c:         RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zSOURCE_ERD_META );
+tzogsrco.c:   //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_GOPGRP_META ) // Get view for Merge oper.
+tzogsrco.c:   RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zSOURCE_GOPGRP_META );
+tzophdrd.c:         RetrieveViewForMetaList( vSubtask, &vHEADERCM, zREFER_HDR_META );
+tzophdrd.c:   RetrieveViewForMetaList( vSubtask, &vCMLIST, zREFER_HDR_META );
+tzophdrd.c:      RetrieveViewForMetaList( vSubtask, &vHEADERCM, zREFER_HDR_META );
+tzophdrd.c:      RetrieveViewForMetaList( vSubtask, &vHEADERCM, zREFER_HDR_META );
+tzophdrd.c:      RetrieveViewForMetaList( vSubtask, &vHEADERCM, zREFER_HDR_META );
+tzopupdd.c:   nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_GO_META );
+tzopupdd.c:   nRC = RetrieveViewForMetaList( vSubtask, &vCM_ListGroup, zREFER_GOPGRP_META );
+tzopupdd.c:      if ( RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_GO_META ) > 0 )
+tzopupdd.c:         if ( RetrieveViewForMetaList( vSubtask, &vCM_ListGroup, zREFER_GOPGRP_META ) > 0 )
+tzopupdd.c:      RetrieveViewForMetaList( vSubtask, &vCMLIST, zSOURCE_GO_META );
+tzopupdd.c:   RetrieveViewForMetaList( vSubtask, &vGroupLPLR, zREFER_GOPGRP_META );
+tzopupdd.c:      RetrieveViewForMetaList( vSubtask, &vCM_ListGroup, zREFER_GOPGRP_META );
+tzopupdd.c:      RetrieveViewForMetaList( vSubtask, &vCM_ListGroup, zSOURCE_GOPGRP_META );
+tzpeupdd.c:   if ( RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_PENV_META ) < 0 )
+tzpeupdd.c:      nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, zSOURCE_PENV_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:         RetrieveViewForMetaList( vSubtask,
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzpnctad.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzpnctad.c:      RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
+tzpnctad.c:      RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:         RetrieveViewForMetaList( vSubtask,
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctld.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpnctld.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpncwdd.c:   //:RetrieveViewForMetaList( vSubtask, DialogLst, zREFER_DIALOG_META )
+tzpncwdd.c:   RetrieveViewForMetaList( vSubtask, &DialogLst, zREFER_DIALOG_META );
+tzpncwdd.c:   //:RetrieveViewForMetaList( vSubtask, SourceLPLR, zREFER_DOMAIN_META )
+tzpncwdd.c:   RetrieveViewForMetaList( vSubtask, &SourceLPLR, zREFER_DOMAIN_META );
+tzpncwdd.c:         //:RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_PENV_META )
+tzpncwdd.c:         RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_PENV_META );
+tzpnoldc.c:      nZRetCode = RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
+tzpnoldc.c:                  nZRetCode = RetrieveViewForMetaList( vSubtask, &DomainList, zREFER_DOMAIN_META );
+tzpnoldc.c:      nZRetCode = RetrieveViewForMetaList( vSubtask, &VOR_List, zREFER_VOR_META );
+tzpnoldc.c:         nZRetCode = RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
+tzpnoldc.c:            RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
+tzpntrad.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzpntrad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzpntrad.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_DIALOG_META );
+tzpntrad.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_DIALOG_META );
+tzpntrad.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zSOURCE_DIALOG_META );
+tzpntrad.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_DIALOG_META );
+tzpntrad.c:   RetrieveViewForMetaList( vSubtask, &vLOD_LPLR, zREFER_LOD_META );
+tzpntrad.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_DIALOG_META );
+tzpntrad.c:      RetrieveViewForMetaList( vSubtask, &vTZDIALOGS, zREFER_DIALOG_META );
+tzpntrad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpntrad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzpntrad.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzpntrad.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzpntrad.c:      RetrieveViewForMetaList( vSubtask, &vVOR_List, zREFER_VOR_META );
+tzpntrad.c:         RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
+tzpntrad.c:      RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
+tzpntrad.c:         RetrieveViewForMetaList( vSubtask, &vDomainList, zREFER_DOMAIN_META );
+tzpntrad.c:      RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
+tzpntrad.c:   RetrieveViewForMetaList( vSubtask, &vLOD_LPLR, zREFER_LOD_META );
+tzpntrad.c:// RetrieveViewForMetaList( vSubtask, &vDialogList, zSOURCE_DIALOG_META );
+tzpntrad.c:   RetrieveViewForMetaList( vSubtask, &vDialogList, zREFER_DIALOG_META );
+tzpntrad.c:      RetrieveViewForMetaList( vSubtask,
+tzpntrad.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzpnupgd.c:   nZRetCode = RetrieveViewForMetaList( vSubtask, &LOD_List, 2013 );
+tzpnupgd.c:   RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
+tzpnupgd.c:            nZRetCode = RetrieveViewForMetaList( vSubtask, &DomainList, zREFER_DOMAIN_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vMetaList,( zSHORT ) lMetaType );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vLodList, zREFER_LOD_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vLodList, zREFER_LOD_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vLodList, zREFER_LOD_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vDomainList, zSOURCE_DOMAIN_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vErdList, zSOURCE_ERD_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vSaList, zSOURCE_SA_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vLodList, zSOURCE_LOD_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vVorList, zSOURCE_VOR_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vUisList, zSOURCE_UIS_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vDialogList, zSOURCE_DIALOG_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vPeList, zREFER_PENV_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vTeList, zREFER_DTE_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vOperList, zREFER_GO_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vHeaderList, zREFER_HDR_META );
+tzrepoad.c:   RetrieveViewForMetaList( vSubtask, &vSrcList, zREFER_SRC_META );
+tzrpsrco.c:      //:RetrieveViewForMetaList( vSubtask, PE_List, zREFER_PENV_META )
+tzrpsrco.c:      RetrieveViewForMetaList( vSubtask, &PE_List, zREFER_PENV_META );
+tzrpsrco.c:   //:RetrieveViewForMetaList( vSubtask, vLOD_LPLR, zREFER_LOD_META )
+tzrpsrco.c:   RetrieveViewForMetaList( vSubtask, &vLOD_LPLR, zREFER_LOD_META );
+tzrpsrco.c:      //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get a view for directory info.
+tzrpsrco.c:      RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zSOURCE_ERD_META );
+tzrpup2d.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzrpup2d.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_REPORT_META );
+tzrpup2d.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzrpup2d.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_REPORT_META );
+tzrpup2d.c:   RetrieveViewForMetaList( vSubtask, &vLOD_LPLR, zREFER_LOD_META );
+tzrpup2d.c:      RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_REPORT_META );
+tzrpup2d.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzrpup2d.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_REPORT_META );
+tzrpupdd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzrpupdd.c:   RetrieveViewForMetaList( vSubtask, &vPE_LPLR, zREFER_PENV_META );
+tzrpupdd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzrpupdd.c:   RetrieveViewForMetaList( vSubtask,
+tzrpupdd.c:   RetrieveViewForMetaList( vSubtask, &vReportList, zREFER_REPORT_META );
+tzrpupsd.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_REPORT_META );
+tzrpupsd.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzrpupsd.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_REPORT_META );
+tzrpupsd.c:   RetrieveViewForMetaList( vSubtask, &vLOD_LPLR, zREFER_LOD_META );
+tzrpupsd.c:      RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_REPORT_META );
+tzrpupsd.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzrpupsd.c:      RetrieveViewForMetaList( vSubtask, &vLODList, zREFER_VOR_META );
+tzrpupsd.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_REPORT_META );
+tzsiimpd.c:   //:RetrieveViewForMetaList( vSubtask, vLPLRDomain, zREFER_DOMAIN_META )
+tzsiimpd.c:   RetrieveViewForMetaList( vSubtask, &vLPLRDomain, zREFER_DOMAIN_META );
+tztenv2o.c:   //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_ERD_META )
+tztenv2o.c:   RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zREFER_ERD_META );
+tztenv2o.c:   //:RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_ERD_META )
+tztenv2o.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tztenvro.c:   nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, zSOURCE_DTE_META );
+tztenvro.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DTE_META );
+tztenvro.c:   nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DTE_META );
+tzteupdd.c:   RetrieveViewForMetaList( vSubtask, &vT, zSOURCE_DTE_META );
+tzteupdd.c:      if ( RetrieveViewForMetaList( vSubtask, &vT, zSOURCE_DTE_META ) > 0 )
+tzteupdd.c:      nRC = RetrieveViewForMetaList( vSubtask, &vT, zSOURCE_DTE_META );
+tzteupdd.c:      RetrieveViewForMetaList( vSubtask, &vLPLR, zSOURCE_ERD_META );
+tzteupdd.c:   RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
+tzteupdd.c:      RetrieveViewForMetaList( vSubtask, &vLPLR, zSOURCE_ERD_META );
+tzvmgnaa.c:   nRC = RetrieveViewForMetaList( vSubtask, &g_lpGOListView, zREFER_GO_META );
+tzvmi2aa.c:         RetrieveViewForMetaList( vSubtask, &g_lpGOListView, zREFER_GO_META );
+tzvminaa.c:   nRC = RetrieveViewForMetaList( vSubtask, &lpGOListView, zREFER_GO_META );
+tzvmp4aa.c:      lRC = RetrieveViewForMetaList( vSubtask, &vHdrList, zREFER_HDR_META );
+tzvmpaaa.c:   lRC = RetrieveViewForMetaList( vVML_Subtask, &g_lpGOListView, zREFER_GO_META );
+tzvmpaaa.c:   lRC = RetrieveViewForMetaList( vVML_Subtask, &g_vLODList, zREFER_LOD_META );
+tzvmpaaa.c:   lRC = RetrieveViewForMetaList( vVML_Subtask, &g_vVORList, zREFER_VOR_META );
+tzvsxcad.c:      RetrieveViewForMetaList( vSubtask, &DialogMeta, zREFER_DIALOG_META );
+tzvsxcad.c:   RetrieveViewForMetaList( vSubtask, &DialogMeta, zREFER_DIALOG_META );
+tzvsxcad.c:   RetrieveViewForMetaList( vSubtask, &DialogMeta, zREFER_DIALOG_META );
+tzvsxcad.c:   RetrieveViewForMetaList( vSubtask, &DialogMeta, zREFER_DIALOG_META );
+tzvsxcad.c:   RetrieveViewForMetaList( vSubtask, &ObjectMeta, zREFER_LOD_META );
+tzvsxcad.c:   RetrieveViewForMetaList( vSubtask, &GlobalMeta, zREFER_GO_META );
+tzvsxcad.c:               RetrieveViewForMetaList( vSubtask, &vLPLR_Copy, zREFER_DIALOG_META );
+tzwdlg2o.c:      //:RetrieveViewForMetaList( vSubtask, PE_List, zREFER_PENV_META )
+tzwdlg2o.c:      RetrieveViewForMetaList( vSubtask, &PE_List, zREFER_PENV_META );
+tzwdlg2o.c:   //:RetrieveViewForMetaList( vSubtask, vLOD_LPLR, zREFER_LOD_META )
+tzwdlg2o.c:   RetrieveViewForMetaList( vSubtask, &vLOD_LPLR, zREFER_LOD_META );
+tzwdlgso.c:      //:RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+tzwdlgso.c:      RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
+tzwdlgso.c:         //:RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+tzwdlgso.c:         RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
+tzwdlgso.c:      //:RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+tzwdlgso.c:      RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
+tzwdlgso.c:      //:RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+tzwdlgso.c:      RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
+tzwdlgso.c:   //:RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_PENV_META )
+tzwdlgso.c:   RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_PENV_META );
+tzwdlgso.c:         //:RetrieveViewForMetaList( vSubtask, DomainList, zREFER_DOMAIN_META )
+tzwdlgso.c:         RetrieveViewForMetaList( vSubtask, &DomainList, zREFER_DOMAIN_META );
+tzwdlgso.c:         //:RetrieveViewForMetaList( vSubtask, DomainList, zREFER_DOMAIN_META )
+tzwdlgso.c:         RetrieveViewForMetaList( vSubtask, &DomainList, zREFER_DOMAIN_META );
+tzwdlgso.c:      //:RetrieveViewForMetaList( vSubtask, VOR_List, zREFER_VOR_META )
+tzwdlgso.c:      RetrieveViewForMetaList( vSubtask, &VOR_List, zREFER_VOR_META );
+tzwdlgso.c:         //:RetrieveViewForMetaList( vSubtask, LOD_List, zREFER_LOD_META )
+tzwdlgso.c:         RetrieveViewForMetaList( vSubtask, &LOD_List, zREFER_LOD_META );
+tzwdlgso.c:      //:// RetrieveViewForMetaList( vSubtask, vTZWDLGSO, vMetaList, zREFER_PENV_META )
+tzwdlgso.c:      //:RetrieveViewForMetaList( vTZWDLGSO, vMetaList, zREFER_PENV_META )
+tzwdlgso.c:      RetrieveViewForMetaList( vTZWDLGSO, &vMetaList, zREFER_PENV_META );
+tzwdlgso.c:      //:RetrieveViewForMetaList( vSubtask, TZDLG_List, zREFER_DIALOG_META )
+tzwdlgso.c:      RetrieveViewForMetaList( vSubtask, &TZDLG_List, zREFER_DIALOG_META );
+tzwdlgso.c:         //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zSOURCE_ERD_META ) // Get a view for directory info.
+tzwdlgso.c:         RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zSOURCE_ERD_META );
+tzwdvord.c:      RetrieveViewForMetaList( vSubtask, &vLPLR_VOR_Meta, zREFER_VOR_META );
+tzwdvord.c:      RetrieveViewForMetaList( vSubtask, &vLPLR_LOD_Meta, zREFER_LOD_META );
+tzwdvord.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzxsltdd.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzxsltdd.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_XSLT_META );
+tzxsltdd.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_XSLT_META );
+tzxsltdd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzxsltdd.c:      RetrieveViewForMetaList( vSubtask, &vTZXSLTS, zREFER_XSLT_META );
+tzxsltdd.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_XSLT_META );
+tzxsltdd.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zSOURCE_XSLT_META );
+tzxsltdd.c:      RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_XSLT_META );
+tzxsltdd.c:   RetrieveViewForMetaList( vSubtask, &vLOD_LPLR, zREFER_LOD_META );
+tzxsltdd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzxsltdd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzxsltdd.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzxsltdd.c:   RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DOMAIN_META );
+tzxsltdd.c:      RetrieveViewForMetaList( vSubtask, &vVOR_List, zREFER_VOR_META );
+tzxsltdd.c:         RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
+tzxsltdd.c:      RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
+tzxsltdd.c:         RetrieveViewForMetaList( vSubtask, &vDomainList, zREFER_DOMAIN_META );
+tzxsltdd.c:      RetrieveViewForMetaList( vSubtask, &vLOD_List, zREFER_LOD_META );
+tzxsltdd.c:   RetrieveViewForMetaList( vSubtask, &vLOD_LPLR, zREFER_LOD_META );
+tzxsltdd.c:// RetrieveViewForMetaList( vSubtask, &vXSLTList, zSOURCE_XSLT_META );
+tzxsltdd.c:   RetrieveViewForMetaList( vSubtask, &vXSLTList, zREFER_XSLT_META );
+tzxsltdd.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzxsltdd.c:      RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_LOD_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zSOURCE_SA_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_SA_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zSOURCE_DOMAIN_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_DOMAIN_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zSOURCE_DTE_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_DTE_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zSOURCE_LOD_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_LOD_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zSOURCE_DIALOG_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_DIALOG_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zSOURCE_PENV_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_PENV_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zSOURCE_GO_META );
+tzzmaind.c:   RetrieveViewForMetaList( vSubtask, &vMetaList, zREFER_GO_META );
+tzzolo2o.c:      //:RetrieveViewForMetaList( vSubtask, DirLPLR, zSOURCE_ERD_META ) // Get a view for directory info.
+tzzolo2o.c:      RetrieveViewForMetaList( vSubtask, &DirLPLR, zSOURCE_ERD_META );
+tzzolo2o.c:   //:RetrieveViewForMetaList( vSubtask, CurrentLPLR, zREFER_ERD_META )
+tzzolo2o.c:   RetrieveViewForMetaList( vSubtask, &CurrentLPLR, zREFER_ERD_META );
+tzzolo2o.c:         //:RetrieveViewForMetaList( vSubtask, TempLPLR, zREFER_DTE_META )
+tzzolo2o.c:         RetrieveViewForMetaList( vSubtask, &TempLPLR, zREFER_DTE_META );
+tzzolo2o.c:   //:RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_ERD_META )
+tzzolo2o.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzzolo2o.c:   //:RetrieveViewForMetaList( vSubtask, DomainLPLR, zREFER_DOMAIN_META )
+tzzolo2o.c:   RetrieveViewForMetaList( vSubtask, &DomainLPLR, zREFER_DOMAIN_META );
+tzzolo2o.c:   //:RetrieveViewForMetaList( vSubtask, vLPLR, zREFER_DTE_META )
+tzzolo2o.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_DTE_META );
+tzzolodd.c:      RetrieveViewForMetaList( vSubtask, &vT, zREFER_LOD_META );
+tzzolodd.c:      nRC = RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzzolodd.c:      RetrieveViewForMetaList( vSubtask, &vTZLODS, zREFER_LOD_META );
+tzzolodd.c:   RetrieveViewForMetaList( vSubtask, &vTZZOMFLO, zREFER_ERD_META );
+tzzolodd.c:      RetrieveViewForMetaList( vSubtask, &vTZZOLFLO, zREFER_LOD_META );
+tzzolodd.c:   RetrieveViewForMetaList( vSubtask, &vDialogLPLR, zREFER_DIALOG_META );
+tzzolodd.c:         RetrieveViewForMetaList( vSubtask, &vT, zREFER_DTE_META );
+tzzolodd.c:         RetrieveViewForMetaList( vSubtask, &vT, zREFER_DTE_META );
+tzzolodd.c:   nRC = RetrieveViewForMetaList( vSubtask, &vDomainList, zREFER_DOMAIN_META );
+tzzolodd.c:      RetrieveViewForMetaList( vSubtask, &vTZZOMFLO, zREFER_ERD_META );
+tzzolodd.c:      RetrieveViewForMetaList( vSubtask, &vTZZOMFLO, zREFER_ERD_META );
+tzzolodd.c:      RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzzolodd.c:      RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzzolodd.c:      RetrieveViewForMetaList( vSubtask, &vT, zREFER_DTE_META );
+tzzolodd.c:      nRC = RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzzolodd.c:   RetrieveViewForMetaList( vSubtask, &vDialog_LPLR, zREFER_DIALOG_META );
+tzzolodd.c:         RetrieveViewForMetaList( vSubtask, &vT, zREFER_DTE_META );
+tzzolodd.c:   RetrieveViewForMetaList( vSubtask, &vDialogLPLR, zREFER_DIALOG_META );
+tzzolodd.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzzolodd.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzzolodd.c:// RetrieveViewForMetaList( vSubtask, &vLODList, zSOURCE_LOD_META );
+tzzolodd.c:   RetrieveViewForMetaList( vSubtask, &vLODList, zREFER_LOD_META );
+tzzolodd.c:      RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzzolodo.c:      nRC = RetrieveViewForMetaList( vSubtask, &vTZZOLODO_LIST, zREFER_ERD_META );
+tzzolodo.c:   nRC = RetrieveViewForMetaList( vSubtask, &vTZZOLODO_LIST, zREFER_LOD_META );
+tzzolodo.c:      nRC = RetrieveViewForMetaList( vTZZOLODO, &vT, zREFER_ERD_META );
+tzzolodo.c:               nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_ERD_META );
+tzzolodq.c:      RetrieveViewForMetaList( vSubtask, &vT, zREFER_LOD_META );
+tzzolodq.c:      nRC = RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzzolodq.c:      RetrieveViewForMetaList( vSubtask, &vTZLODS, zREFER_LOD_META );
+tzzolodq.c:   RetrieveViewForMetaList( vSubtask, &vTZZOMFLO, zREFER_ERD_META );
+tzzolodq.c:      RetrieveViewForMetaList( vSubtask, &vTZZOLFLO, zREFER_LOD_META );
+tzzolodq.c:   RetrieveViewForMetaList( vSubtask, &vDialogLPLR, zREFER_DIALOG_META );
+tzzolodq.c:         RetrieveViewForMetaList( vSubtask, &vT, zREFER_DTE_META );
+tzzolodq.c:         RetrieveViewForMetaList( vSubtask, &vT, zREFER_DTE_META );
+tzzolodq.c:   nRC = RetrieveViewForMetaList( vSubtask, &vDomainList, zREFER_DOMAIN_META );
+tzzolodq.c:      RetrieveViewForMetaList( vSubtask, &vTZZOMFLO, zREFER_ERD_META );
+tzzolodq.c:      RetrieveViewForMetaList( vSubtask, &vTZZOMFLO, zREFER_ERD_META );
+tzzolodq.c:      RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzzolodq.c:      RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzzolodq.c:      RetrieveViewForMetaList( vSubtask, &vT, zREFER_DTE_META );
+tzzolodq.c:      nRC = RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzzolodq.c:   RetrieveViewForMetaList( vSubtask, &vDialog_LPLR, zREFER_DIALOG_META );
+tzzolodq.c:         RetrieveViewForMetaList( vSubtask, &vT, zREFER_DTE_META );
+tzzolodq.c:   RetrieveViewForMetaList( vSubtask, &vDialogLPLR, zREFER_DIALOG_META );
+tzzolodq.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzzolodq.c:   RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzzolodq.c:      RetrieveViewForMetaList( vSubtask, &vLPLR, zREFER_ERD_META );
+tzzoxodo.c:      RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzzoxodo.c:            RetrieveViewForMetaList( vSubtask, &vT, zREFER_ERD_META );
+tzzoxodo.c:         RetrieveViewForMetaList( vSubtask, &vT, zREFER_DTE_META );

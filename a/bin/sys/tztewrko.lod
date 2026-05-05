@@ -1,4 +1,4 @@
-z10000Zeidon    TZTEWRKO TZZOLODO 05/01/01   23:19:30 1.0b0    
+z1000-Zeidon    TZTEWRKO TZZOLODO                         11/05/25   16:22:00 1.0a2   
 eLOD       1
 aZKey      90025332
 aName      TZTEWRKO
@@ -97,13 +97,10 @@ aNotNull   Y
 aDesc      Key (auto via meta)
 
 eDomainRec 7
-aZKey      90000044
-aName      Integer
+aZKey      110003499
+aName      ZKey
 aDomainType E
 aDataType  L
-aMaxStringLth 4
-aDecimalFormat 0
-aDesc      Integer numbers from -lots to +lots.
 aContextRestriction N
 
 eLOD_AttributeRec 5
@@ -172,6 +169,14 @@ aPromptPaintLit DBMS ID
 aListPaintLit DBMS ID
 
 eDomainRec 7
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
 
 eLOD_AttributeRec 5
 aZKey      90025475
@@ -1075,11 +1080,10 @@ aLastCheckInDate 19951102203051110
 aDesc      Work object for TE functions
 
 i18        6
-i21        9
 i24        6
-i27        9
-i30        9
-i33        9
+i27        21
+i30        21
+i33        21
 i36        6
 i39        6
 i42        6
@@ -1094,15 +1098,15 @@ i55        15
 i57        17
 i58        6
 i60        20
-i61        9
+i61        21
 i63        23
 i64        6
 i66        26
-i67        9
+i67        21
 i69        29
-i70        9
+i70        21
 i72        32
-i73        9
+i73        21
 i75        35
 i76        6
 i78        38
@@ -1121,15 +1125,15 @@ i96        15
 i98        17
 i99        6
 i101       20
-i102       9
+i102       21
 i104       23
 i105       6
 i107       26
-i108       9
+i108       21
 i110       29
-i111       9
+i111       21
 i113       32
-i114       9
+i114       21
 i116       35
 i117       6
 i119       38
@@ -1148,15 +1152,15 @@ i137       15
 i139       17
 i140       6
 i142       20
-i143       9
+i143       21
 i145       23
 i146       6
 i148       26
-i149       9
+i149       21
 i151       29
-i152       9
+i152       21
 i154       32
-i155       9
+i155       21
 i157       35
 i158       6
 i160       38
@@ -1165,18 +1169,18 @@ i163       41
 i164       6
 i165       43
 i168       6
-i171       9
-i174       9
+i171       21
+i174       21
 i178       1
 i179       166
 i180       167
 i181       6
 i182       169
 i183       170
-i184       9
+i184       21
 i185       172
 i186       173
-i187       9
+i187       21
 i188       175
 i189       176
 i190       177
@@ -1198,19 +1202,19 @@ i205       17
 i206       6
 i207       59
 i208       20
-i209       9
+i209       21
 i210       62
 i211       23
 i212       6
 i213       65
 i214       26
-i215       9
+i215       21
 i216       68
 i217       29
-i218       9
+i218       21
 i219       71
 i220       32
-i221       9
+i221       21
 i222       74
 i223       35
 i224       6
@@ -1239,19 +1243,19 @@ i246       17
 i247       6
 i248       19
 i249       20
-i250       9
+i250       21
 i251       22
 i252       23
 i253       6
 i254       25
 i255       26
-i256       9
+i256       21
 i257       28
 i258       29
-i259       9
+i259       21
 i260       31
 i261       32
-i262       9
+i262       21
 i263       34
 i264       35
 i265       6
@@ -1280,19 +1284,19 @@ i287       17
 i288       6
 i289       100
 i290       20
-i291       9
+i291       21
 i292       103
 i293       23
 i294       6
 i295       106
 i296       26
-i297       9
+i297       21
 i298       109
 i299       29
-i300       9
+i300       21
 i301       112
 i302       32
-i303       9
+i303       21
 i304       115
 i305       35
 i306       6
@@ -1321,19 +1325,19 @@ i328       17
 i329       6
 i330       141
 i331       20
-i332       9
+i332       21
 i333       144
 i334       23
 i335       6
 i336       147
 i337       26
-i338       9
+i338       21
 i339       150
 i340       29
-i341       9
+i341       21
 i342       153
 i343       32
-i344       9
+i344       21
 i345       156
 i346       35
 i347       6

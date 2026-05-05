@@ -3910,6 +3910,7 @@ zwTZEREMDD_SetUpTempRelLink( zVIEW  vSubtask, zVIEW  vERD )
       SetAttributeFromAttribute( vProfileXfer, "TempRelLink", "RelLink1HangingForeignKeyEntity", vERD, "ER_RelLink", "HangingForeignKeyEntity" );
       SetAttributeFromAttribute( vProfileXfer, "TempRelLink", "RelLink1TE_ForeignKeyPrefix", vERD, "ER_RelLink", "TE_ForeignKeyPrefix" );
       SetAttributeFromAttribute( vProfileXfer, "TempRelLink", "RelLink1TE_NoForeignKeyPrefix", vERD, "ER_RelLink", "TE_NoForeignKeyPrefix" );
+	  SetAttributeFromAttribute(vProfileXfer, "TempRelLink", "RelLink1TE_ForeignKeyName", vERD, "ER_RelLink", "TE_ForeignKeyName"); //KJS 11/06/25
 
       SetAttributeFromAttribute( vProfileXfer, "TempRelLink", "RelLink2Name", vERD, "ER_RelLink_Other", "Name" );
       SetAttributeFromAttribute( vProfileXfer, "TempRelLink", "RelLink2CardMin", vERD, "ER_RelLink_Other", "CardMin" );
@@ -3918,6 +3919,7 @@ zwTZEREMDD_SetUpTempRelLink( zVIEW  vSubtask, zVIEW  vERD )
       SetAttributeFromAttribute( vProfileXfer, "TempRelLink", "RelLink2HangingForeignKeyEntity", vERD, "ER_RelLink_Other", "HangingForeignKeyEntity" );
       SetAttributeFromAttribute( vProfileXfer, "TempRelLink", "RelLink2TE_ForeignKeyPrefix", vERD, "ER_RelLink_Other", "TE_ForeignKeyPrefix" );
       SetAttributeFromAttribute( vProfileXfer, "TempRelLink", "RelLink2TE_NoForeignKeyPrefix", vERD, "ER_RelLink_Other", "TE_NoForeignKeyPrefix" );
+	  SetAttributeFromAttribute(vProfileXfer, "TempRelLink", "RelLink2TE_ForeignKeyName", vERD, "ER_RelLink_Other", "TE_ForeignKeyName"); //KJS 11/06/25
 
       zwTZEREMDD_DisableCtrlForRLL( vSubtask, vERD );
    }
@@ -3943,6 +3945,7 @@ zwTZEREMDD_CopyTempRelLink( zVIEW vSubtask, zVIEW vERD )
    SetAttributeFromAttribute( vERD, "ER_RelLink", "HangingForeignKeyEntity", vProfileXfer, "TempRelLink", "RelLink1HangingForeignKeyEntity" );
    SetAttributeFromAttribute( vERD, "ER_RelLink", "TE_ForeignKeyPrefix", vProfileXfer, "TempRelLink", "RelLink1TE_ForeignKeyPrefix" );
    SetAttributeFromAttribute( vERD, "ER_RelLink", "TE_NoForeignKeyPrefix", vProfileXfer, "TempRelLink", "RelLink1TE_NoForeignKeyPrefix" );
+   SetAttributeFromAttribute(vERD, "ER_RelLink", "TE_ForeignKeyName", vProfileXfer, "TempRelLink", "RelLink1TE_ForeignKeyName"); // KJS 11/06/25
 
    SetAttributeFromAttribute( vERD, "ER_RelLink_Other", "Name", vProfileXfer, "TempRelLink", "RelLink2Name" );
    SetAttributeFromAttribute( vERD, "ER_RelLink_Other", "CardMin", vProfileXfer, "TempRelLink", "RelLink2CardMin" );
@@ -3951,6 +3954,7 @@ zwTZEREMDD_CopyTempRelLink( zVIEW vSubtask, zVIEW vERD )
    SetAttributeFromAttribute( vERD, "ER_RelLink_Other", "HangingForeignKeyEntity", vProfileXfer, "TempRelLink", "RelLink2HangingForeignKeyEntity" );
    SetAttributeFromAttribute( vERD, "ER_RelLink_Other", "TE_ForeignKeyPrefix", vProfileXfer, "TempRelLink", "RelLink2TE_ForeignKeyPrefix" );
    SetAttributeFromAttribute( vERD, "ER_RelLink_Other", "TE_NoForeignKeyPrefix", vProfileXfer, "TempRelLink", "RelLink2TE_NoForeignKeyPrefix" );
+   SetAttributeFromAttribute(vERD, "ER_RelLink_Other", "TE_ForeignKeyName", vProfileXfer, "TempRelLink", "RelLink2TE_ForeignKeyName"); // KJS 11/06/25
 
    DeleteEntity( vProfileXfer, "TempRelLink", zREPOS_NONE );
 

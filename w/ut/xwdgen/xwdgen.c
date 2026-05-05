@@ -204,7 +204,7 @@ BOOL InitInstance(HANDLE hInstance, /* Current instance identifier.       */
       CW_USEDEFAULT,               /* Default horizontal position.       */
       CW_USEDEFAULT,               /* Default vertical position.         */
       500, // CW_USEDEFAULT,       /*  width.                     */
-      50, //CW_USEDEFAULT,         /*  height.                    */
+      500, //CW_USEDEFAULT,         /*  height.                    */
       NULL,                        /* Overlapped windows have no parent. */
       NULL,                        /* Use the window class menu.         */
       hInstance,                   /* This instance owns this window.    */
