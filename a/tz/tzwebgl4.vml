@@ -13,6 +13,7 @@ BuildSideNavSectionJ( VIEW vDialog,
                       STRING (1) szReusableMenu,
                       VIEW vDialogDfltMenu BASED ON LOD TZWDLGSO )
 
+   VIEW vWork        REGISTERED AS TZPTWRKO
    VIEW vDialogDfltT BASED ON LOD TZWDLGSO
    STRING ( 10000 ) szWriteBuffer
    STRING ( 500 )   szNavigationTitle
@@ -27,6 +28,7 @@ BuildSideNavSectionJ( VIEW vDialog,
    STRING ( 100 )   szActionName
    STRING ( 1 )     szStyleIsjMobile
    STRING ( 1 )     szStyleIsBootstrap
+   STRING ( 1 )     szBootstrap5
    STRING ( 1 )     szSideMenuOptions
    STRING ( 256 )   szClass
    STRING ( 256 )   szClass2
@@ -45,6 +47,7 @@ BuildSideNavSectionJ( VIEW vDialog,
       ( vDialog.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialog.Window.WEB_JSPGenerationPositioning = "" )
       szStyleIsBootstrap = "Y"
    END 
+   szBootstrap5 = vWork.Root.Bootstrap5
    
    szSideMenuOptions = ""
    IF vDialogMenu.Menu EXISTS 
@@ -207,12 +210,15 @@ BuildSideNavSectionJ( VIEW vDialog,
          ELSE
             //szText = vDialogDfltMenu.Option.WebHTML5Attribute
             IF vDialogDfltT.Option.WebHTML5Attribute != ""
-               szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogDfltT.Option.WebHTML5Attribute  + "^></i>"
+               IF szBootstrap5 = "Y"
+                  szText = "<i class=^align-middle me-2 fas fa-fw " + vDialogDfltT.Option.WebHTML5Attribute  + "^></i>"
+               ELSE
+                  szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogDfltT.Option.WebHTML5Attribute  + "^></i>"
+               END
             ELSE
                szText = ""
             END
             szWriteBuffer = "       <li class=^sidebar-item^ id=^" + szMenuName + "^ name=^" + szMenuName + "^" + szClass + ">"
-            //szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " onclick=^" + szActionName + "()^><i class=^align-middle mr-2 fas fa-fw " + szText + "^></i> <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
             szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    
@@ -761,6 +767,7 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
                      STRING ( 100 )   szRepeatGrpKey )
 
    // Format an CHECKBOX control.
+   VIEW vWork       REGISTERED AS TZPTWRKO
    VIEW vDialogRoot BASED ON LOD TZWDLGSO
    STRING ( 300 ) szStyle
    STRING ( 256 ) szClass
@@ -779,10 +786,13 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 500 ) szText2
    STRING ( 256 ) szTextID
    STRING ( 5 )   szSrch
+   STRING ( 1 )   szBootstrap5
    INTEGER lTemp
    INTEGER lLen
    
    GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
+   
+   szBootstrap5 = vWork.Root.Bootstrap5
    
    // See if the checkbox has an unchecked value. The checked value is in attrib RadioOrCheckboxValue but we 
    // don't have an attrib for the unchecked value.
@@ -917,6 +927,11 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    IF vDialog.Control.WebHTML5Attribute2 != ""
       szHTML5Attr2 = " " + vDialog.Control.WebHTML5Attribute2 + " "
    END
+   
+   IF szBootstrap5 = "Y"
+      szWriteBuffer = "<span>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
 
    IF vDialog.EventAct EXISTS
       szWriteBuffer = "<input type=^checkbox^ name=^" + szCtrlTag + szRepeatGrpKey + "^ id=^" + szCtrlTag + szRepeatGrpKey + "^" +
@@ -977,7 +992,12 @@ GenJSPJ_CrteCheckBox( VIEW vDialog BASED ON LOD TZWDLGSO,
 
    szWriteBuffer = "<span name=^span" + szCtrlTag + szRepeatGrpKey + "^ id=^span" + szCtrlTag + szRepeatGrpKey +  "^ " +
                    szClass + szHTML5Attr + szTitleHTML + szStyle + ">" + szSpaces + szText + "</span>"
-   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   
+   IF szBootstrap5 = "Y"
+      szWriteBuffer = "</span>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
 
 END
 
@@ -1008,6 +1028,7 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    // These two conditions are handled quite separately below, even though
    // the resulting HTML is basically the same.
 
+   VIEW vWork   REGISTERED AS TZPTWRKO
    VIEW vList   BASED ON LOD TZWDLGSO  // identifies attribute mapping for list entries
    VIEW vEntity BASED ON LOD TZWDLGSO  // identifies entity mapping for list entries
    VIEW vScope  BASED ON LOD TZWDLGSO  // identifies scoping entity for list entries
@@ -1032,6 +1053,7 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 10 )  szY_Pos
    STRING ( 100 ) szDisabled
    STRING ( 1 )   szStyleIsBootstrap
+   STRING ( 1 )   szBootstrap5
    STRING ( 1 )   szAutoIncludeComboBlank
    STRING ( 64 )  szSystemIniApplName
    STRING ( 20 )  szCSSBootstrap
@@ -1043,6 +1065,7 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
 
    szStyleIsBootstrap = ""
+   szBootstrap5 = vWork.Root.Bootstrap5
    IF vDialogRoot.Window.WEB_JSPGenerationPositioning = "B" OR 
       ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialogRoot.Window.WEB_JSPGenerationPositioning = "" )
       szStyleIsBootstrap = "Y"
@@ -1051,10 +1074,14 @@ GenJSPJ_CrteComboBox( VIEW vDialog BASED ON LOD TZWDLGSO,
    szStyle = "width:" + szWidth + "px; height:" + szHeight + "px;"
    szClass = ""
    IF vDialog.Control.CSS_Class != "" OR szStyleIsBootstrap = "Y"
-      IF szStyleIsBootstrap = "Y"
+      IF szStyleIsBootstrap = "Y" AND szBootstrap5 = ""
          szCSSBootstrap = "form-control "
       ELSE
-         szCSSBootstrap = ""
+         IF szStyleIsBootstrap = "Y" AND szBootstrap5 = "Y"
+            szCSSBootstrap = "form-select "
+         ELSE
+            szCSSBootstrap = ""
+         END
       END
       szClass = " class=^" + szCSSBootstrap + vDialog.Control.CSS_Class + "^ "
    END
@@ -3553,17 +3580,24 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 256 ) szLabelFor
    STRING ( 256 ) szDecoration
    STRING ( 256 ) szTempStyle
+   STRING ( 256 ) szBootstrap5Class1
+   STRING ( 256 ) szBootstrap5Class2
    STRING ( 1 )   szIsLabel
    STRING ( 1 )   szIsTextOnly
    STRING ( 1 )   szStyleIsBootstrap
+   STRING ( 1 )   szBootstrap5
+   STRING ( 1 )   szBootstrap5Style
    STRING ( 1 )   szBootstrapNoWrap
    SHORT          nRC
+   SHORT          nPosition
 
    szStyleIsBootstrap = ""
    IF vDialogRoot.Window.WEB_JSPGenerationPositioning = "B" OR 
       ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialogRoot.Window.WEB_JSPGenerationPositioning = "" )
       szStyleIsBootstrap = "Y"
    END 
+   // KSJ 06/11/26 - Had been using bootstrap 4 at GMC, now using bootstrap5. This requires jsp changes.
+   szBootstrap5 = vWork.Root.Bootstrap5
    
    // For bootstrap, should I put the group around if "label". Hmmm... not sure what I should do about <label><Input> when we don't do them
    // both here. Should I create a work variable?
@@ -3588,6 +3622,7 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
    END
    szClassHTML = ""
    szBootstrapNoWrap = ""
+   szBootstrap5Style = ""
    // If there is a class on this control OR if the style is bootstrap and it's a label (we want to then use input-group-text), then set the class=...
    IF vDialog.Control.CSS_Class != "" OR szStyleIsBootstrap = "Y"
          
@@ -3596,7 +3631,17 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
          szClassHTML = vDialog.Control.CSS_Class
          IF ZeidonStringFind( szClassHTML, 1, "input-group-text" ) > 0
             szBootstrapNoWrap = "Y"
-         END         
+         END  
+         // KJS 06/11/26 - Is this where I should put logic for the two div classes in bootstrap5
+         IF szBootstrap5 = "Y" AND ZeidonStringFind( szClassHTML, 1, "input-group" ) > 0 AND ZeidonStringFind( szClassHTML, 1, "input-group-sm" ) > 0
+            TraceLineS("HERE", "HERE")
+            // We assume that input-group is always first?
+            nPosition = ZeidonStringFind( szClassHTML, 1, "input-group-sm" )
+            nPosition = nPosition + 14
+            szBootstrap5Class2 = szClassHTML[nPosition:254]
+            szBootstrap5Class1 = "input-group input-group-sm"
+            szBootstrap5Style = "Y"
+         END
       END
       IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = ""
          // At the moment, since we put a <div around the text/edit, we are going to assume the only
@@ -3610,7 +3655,11 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
          // class for right align.
          IF szStyleIsBootstrap = "Y" AND szLabelFor = "" AND vDialog.CtrlMapER_Domain EXISTS AND
             ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
-            szText = " text-right"
+            IF szBootstrap5 = "Y"
+               szText = " text-end"
+            ELSE
+               szText = " text-right"
+            END
          ELSE
             szText = ""
          END
@@ -3623,7 +3672,11 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
          // class for right align.
          IF szStyleIsBootstrap = "Y" AND szLabelFor = "" AND vDialog.CtrlMapER_Domain EXISTS AND
             ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
-            szText = " text-right"
+            IF szBootstrap5 = "Y"
+               szText = " text-end"
+            ELSE
+               szText = " text-right"
+            END
          ELSE
             szText = ""
          END
@@ -3640,10 +3693,18 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
    END
    szText = ""
    
-   IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = ""
+   IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = "" AND szBootstrap5 = "" AND szBootstrap5Style = ""
       szWriteBuffer = "<div class=^input-group-prepend^>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    END
+   /*
+   IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = "" AND szBootstrap5 = "Y" AND szBootstrap5Style = "Y"
+      szWriteBuffer = "<div class=^" + szBootstrap5Class2 + "^>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "<div class=^" + szBootstrap5Class1 + "^>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
+   */
    
    // KJS 09/30/16 - Language Conversion.
    // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
@@ -4019,11 +4080,18 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
  
-   IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = ""
+   IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = "" AND szBootstrap5 = ""
       szWriteBuffer = "</div>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
    END
-
+   /*
+   IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = "" AND szBootstrap5 = "Y" AND szBootstrap5Style = "Y"
+      szWriteBuffer = "</div>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "</div>"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
+   */
 END
 
 /////////////////////////////////////////////////////////////////////////////
@@ -8008,7 +8076,8 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    
       szWriteBuffer = "               JRXlsxExporter exporter = new JRXlsxExporter();"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "               exporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);"
+      //szWriteBuffer = "               exporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);"
+      szWriteBuffer = "               exporter.setExporterInput(new SimpleExporterInput(jasperPrint));"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       
       szWriteBuffer = "               // Append a datetime stamp to the filename to ensure that this is a unique name."
@@ -8036,16 +8105,16 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "               String strFileName = strDirFileName.substring(x + 1);"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )      
+
+      szWriteBuffer = "               exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(strDirFileName));"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )                     
+      szWriteBuffer = "               exporter.exportReport();"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       
       szWriteBuffer = "               String strParam = ^attachment; filename=\^^ + strFileName + ^\^^;"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       //szWriteBuffer = "               String strDirFileName = ^c:/temp/^ + strFileName;"
       //WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-
-      szWriteBuffer = "               exporter.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, strDirFileName);"
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "               exporter.exportReport();"
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
 
       szWriteBuffer = "               File f=new File(strDirFileName);"
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )

@@ -1079,8 +1079,9 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    STRING ( 1 )     szBootstrapDataTables
    STRING ( 1 )     szHasFileUpload
    STRING ( 1 )     szDateTimeFileUpload
-   STRING ( 1 )     szUseVMLGridSort
+   STRING ( 1 )     szBootstrap5
    STRING ( 10 )    szTimeout
+   STRING ( 1 )     szUseVMLGridSort
    STRING ( 10 )    szTOMCAT10
    STRING ( 18 )    szDateTime
    STRING ( 20 )    szTimestamp
@@ -1163,10 +1164,12 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    SysReadZeidonIni( -1, szSystemIniApplName, "UseZeidonControlActionsView", szUseZeidonCtrlActView )
    SysReadZeidonIni( -1, szSystemIniApplName, "BootstrapOuterCard", szBootstrapOuterCard )
    SysReadZeidonIni( -1, szSystemIniApplName, "BootstrapDataTables", szBootstrapDataTables )
+   SysReadZeidonIni( -1, szSystemIniApplName, "Bootstrap5", szBootstrap5 )
    // KJS 03/03/25 - I think "UseVMLGridSort" is just temporary, to make sure everyone thinks they would want this...
    SysReadZeidonIni( -1, szSystemIniApplName, "UseVMLGridSort", szUseVMLGridSort )
    vWork.Root.BootstrapOuterCard = szBootstrapOuterCard
    vWork.Root.BootstrapDataTables = szBootstrapDataTables
+   vWork.Root.Bootstrap5 = szBootstrap5
    vDialog.Dialog.wWebUsesLanguageConversion = szLangConvFlag
    vDialog.Dialog.wWebUsesControlActions = szUseZeidonCtrlActions
    vDialog.Dialog.wWebUsesControlActionsView = szUseZeidonCtrlActView
@@ -1479,7 +1482,11 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
       END
       szWriteBuffer = "<%@ page import=^net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter^ %>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-      szWriteBuffer = "<%@ page import=^net.sf.jasperreports.engine.export.JRXlsExporterParameter^ %>"
+      szWriteBuffer = "<%@ page import=^net.sf.jasperreports.export.SimpleExporterInput^ %>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      szWriteBuffer = "<%@ page import=^net.sf.jasperreports.export.SimpleOutputStreamExporterOutput^ %>"
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      szWriteBuffer = "<%@ page import=^net.sf.jasperreports.export.SimpleXlsxReportConfiguration^ %>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
    END
 
@@ -4028,11 +4035,15 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          
          // KJS 04/29/26 - We need to add code for TinyMCE now that we are on the latest version (8?). 
          // This call sets all of the wysiwyg <textarea's "value" = tinymce.
+         // KJS 05/27/26 - I am very confused... but now it seems that this code might be 
+         // unnecessary. It is working without it. I am going to comment out for now.
          IF szWysiwygEditor != "" AND vDialog.Action.NoMap != "Y"
+            /*
             szWriteBuffer = "   // setMLEdits() is needed for wysiwyg textareas to properly retain their changes on a page refresh. "
             WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
             szWriteBuffer = "   setMLEdits( );"
             WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+            */
          END
          
          // Print Window
@@ -4856,7 +4867,11 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
          szWriteBuffer = "<nav class=^navbar navbar-expand navbar-theme^>"
          WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
          IF szSideMenuExists = "Y"
-            szWriteBuffer = "<a class=^sidebar-toggle d-flex mr-2^>"
+            IF szBootstrap5 = "Y"
+               szWriteBuffer = "<a class=^sidebar-toggle d-flex me-2^>"
+            ELSE
+               szWriteBuffer = "<a class=^sidebar-toggle d-flex mr-2^>"
+            END
             WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
             szWriteBuffer = "<i class=^hamburger align-self-center^></i>"
             WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )

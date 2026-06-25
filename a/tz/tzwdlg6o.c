@@ -217,10 +217,12 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    zCHAR     szHasFileUpload[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szDateTimeFileUpload
    zCHAR     szDateTimeFileUpload[ 2 ] = { 0 }; 
-   //:STRING ( 1 )     szUseVMLGridSort
-   zCHAR     szUseVMLGridSort[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szBootstrap5
+   zCHAR     szBootstrap5[ 2 ] = { 0 }; 
    //:STRING ( 10 )    szTimeout
    zCHAR     szTimeout[ 11 ] = { 0 }; 
+   //:STRING ( 1 )     szUseVMLGridSort
+   zCHAR     szUseVMLGridSort[ 2 ] = { 0 }; 
    //:STRING ( 10 )    szTOMCAT10
    zCHAR     szTOMCAT10[ 11 ] = { 0 }; 
    //:STRING ( 18 )    szDateTime
@@ -465,6 +467,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    SysReadZeidonIni( -1, szSystemIniApplName, "BootstrapOuterCard", szBootstrapOuterCard, zsizeof( szBootstrapOuterCard ) );
    //:SysReadZeidonIni( -1, szSystemIniApplName, "BootstrapDataTables", szBootstrapDataTables )
    SysReadZeidonIni( -1, szSystemIniApplName, "BootstrapDataTables", szBootstrapDataTables, zsizeof( szBootstrapDataTables ) );
+   //:SysReadZeidonIni( -1, szSystemIniApplName, "Bootstrap5", szBootstrap5 )
+   SysReadZeidonIni( -1, szSystemIniApplName, "Bootstrap5", szBootstrap5, zsizeof( szBootstrap5 ) );
    //:// KJS 03/03/25 - I think "UseVMLGridSort" is just temporary, to make sure everyone thinks they would want this...
    //:SysReadZeidonIni( -1, szSystemIniApplName, "UseVMLGridSort", szUseVMLGridSort )
    SysReadZeidonIni( -1, szSystemIniApplName, "UseVMLGridSort", szUseVMLGridSort, zsizeof( szUseVMLGridSort ) );
@@ -472,6 +476,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    SetAttributeFromString( vWork, "Root", "BootstrapOuterCard", szBootstrapOuterCard );
    //:vWork.Root.BootstrapDataTables = szBootstrapDataTables
    SetAttributeFromString( vWork, "Root", "BootstrapDataTables", szBootstrapDataTables );
+   //:vWork.Root.Bootstrap5 = szBootstrap5
+   SetAttributeFromString( vWork, "Root", "Bootstrap5", szBootstrap5 );
    //:vDialog.Dialog.wWebUsesLanguageConversion = szLangConvFlag
    SetAttributeFromString( vDialog, "Dialog", "wWebUsesLanguageConversion", szLangConvFlag );
    //:vDialog.Dialog.wWebUsesControlActions = szUseZeidonCtrlActions
@@ -1135,8 +1141,16 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ page import=^net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter^ %>", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "<%@ page import=^net.sf.jasperreports.engine.export.JRXlsExporterParameter^ %>"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ page import=^net.sf.jasperreports.engine.export.JRXlsExporterParameter^ %>", 1, 0, 10001 );
+      //:szWriteBuffer = "<%@ page import=^net.sf.jasperreports.export.SimpleExporterInput^ %>"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ page import=^net.sf.jasperreports.export.SimpleExporterInput^ %>", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
+      //:szWriteBuffer = "<%@ page import=^net.sf.jasperreports.export.SimpleOutputStreamExporterOutput^ %>"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ page import=^net.sf.jasperreports.export.SimpleOutputStreamExporterOutput^ %>", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
+      WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
+      //:szWriteBuffer = "<%@ page import=^net.sf.jasperreports.export.SimpleXlsxReportConfiguration^ %>"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ page import=^net.sf.jasperreports.export.SimpleXlsxReportConfiguration^ %>", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 );
    } 
@@ -5996,19 +6010,19 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
          //:// KJS 04/29/26 - We need to add code for TinyMCE now that we are on the latest version (8?). 
          //:// This call sets all of the wysiwyg <textarea's "value" = tinymce.
+         //:// KJS 05/27/26 - I am very confused... but now it seems that this code might be 
+         //:// unnecessary. It is working without it. I am going to comment out for now.
          //:IF szWysiwygEditor != "" AND vDialog.Action.NoMap != "Y"
          if ( ZeidonStringCompare( szWysiwygEditor, 1, 0, "", 1, 0, 33 ) != 0 && CompareAttributeToString( vDialog, "Action", "NoMap", "Y" ) != 0 )
          { 
-            //:szWriteBuffer = "   // setMLEdits() is needed for wysiwyg textareas to properly retain their changes on a page refresh. "
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "   // setMLEdits() is needed for wysiwyg textareas to properly retain their changes on a page refresh. ", 1, 0, 10001 );
-            //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
-            //:szWriteBuffer = "   setMLEdits( );"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "   setMLEdits( );", 1, 0, 10001 );
-            //:WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
-            WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 );
          } 
 
+         //:   /*
+         //:   szWriteBuffer = "   // setMLEdits() is needed for wysiwyg textareas to properly retain their changes on a page refresh. "
+         //:   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+         //:   szWriteBuffer = "   setMLEdits( );"
+         //:   WL_QC( vDialog, lFileJAVA, szWriteBuffer, "^", 0 )
+         //:   */
          //:END
 
          //:// Print Window
@@ -7718,8 +7732,20 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
          //:IF szSideMenuExists = "Y"
          if ( ZeidonStringCompare( szSideMenuExists, 1, 0, "Y", 1, 0, 2 ) == 0 )
          { 
-            //:szWriteBuffer = "<a class=^sidebar-toggle d-flex mr-2^>"
-            ZeidonStringCopy( szWriteBuffer, 1, 0, "<a class=^sidebar-toggle d-flex mr-2^>", 1, 0, 10001 );
+            //:IF szBootstrap5 = "Y"
+            if ( ZeidonStringCompare( szBootstrap5, 1, 0, "Y", 1, 0, 2 ) == 0 )
+            { 
+               //:szWriteBuffer = "<a class=^sidebar-toggle d-flex me-2^>"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "<a class=^sidebar-toggle d-flex me-2^>", 1, 0, 10001 );
+               //:ELSE
+            } 
+            else
+            { 
+               //:szWriteBuffer = "<a class=^sidebar-toggle d-flex mr-2^>"
+               ZeidonStringCopy( szWriteBuffer, 1, 0, "<a class=^sidebar-toggle d-flex mr-2^>", 1, 0, 10001 );
+            } 
+
+            //:END
             //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
             //:szWriteBuffer = "<i class=^hamburger align-self-center^></i>"

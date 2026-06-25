@@ -17,7 +17,7 @@ extern "C"
 //:                      STRING (1) szReusableMenu,
 //:                      VIEW vDialogDfltMenu BASED ON LOD TZWDLGSO )
 
-//:   VIEW vDialogDfltT BASED ON LOD TZWDLGSO
+//:   VIEW vWork        REGISTERED AS TZPTWRKO
 zOPER_EXPORT zSHORT OPERATION
 BuildSideNavSectionJ( zVIEW     vDialog,
                       zVIEW     vDialogMenu,
@@ -25,6 +25,9 @@ BuildSideNavSectionJ( zVIEW     vDialog,
                       zPCHAR    szReusableMenu,
                       zVIEW     vDialogDfltMenu )
 {
+   zVIEW     vWork = 0; 
+   zSHORT    RESULT; 
+   //:VIEW vDialogDfltT BASED ON LOD TZWDLGSO
    zVIEW     vDialogDfltT = 0; 
    //:STRING ( 10000 ) szWriteBuffer
    zCHAR     szWriteBuffer[ 10001 ] = { 0 }; 
@@ -51,6 +54,8 @@ BuildSideNavSectionJ( zVIEW     vDialog,
    zCHAR     szStyleIsjMobile[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szStyleIsBootstrap
    zCHAR     szStyleIsBootstrap[ 2 ] = { 0 }; 
+   //:STRING ( 1 )     szBootstrap5
+   zCHAR     szBootstrap5[ 2 ] = { 0 }; 
    //:STRING ( 1 )     szSideMenuOptions
    zCHAR     szSideMenuOptions[ 2 ] = { 0 }; 
    //:STRING ( 256 )   szClass
@@ -64,7 +69,6 @@ BuildSideNavSectionJ( zVIEW     vDialog,
    zSHORT    lTempInteger_0; 
    zCHAR     szTempString_0[ 255 ]; 
    zSHORT    lTempInteger_1; 
-   zSHORT    RESULT; 
    zSHORT    lTempInteger_2; 
    zLONG     lTempInteger_3; 
    zSHORT    lTempInteger_4; 
@@ -74,7 +78,9 @@ BuildSideNavSectionJ( zVIEW     vDialog,
    zCHAR     szTempString_2[ 255 ]; 
    zCHAR     szTempString_3[ 255 ]; 
    zCHAR     szTempString_4[ 255 ]; 
+   zCHAR     szTempString_5[ 255 ]; 
 
+   RESULT = GetViewByName( &vWork, "TZPTWRKO", vDialog, zLEVEL_TASK );
    //:// SIDE NAVIGATION BAR
    //:// vDialogMenu is pointing to the window where we are using the side menu from. 
 
@@ -102,6 +108,8 @@ BuildSideNavSectionJ( zVIEW     vDialog,
    } 
 
    //:END 
+   //:szBootstrap5 = vWork.Root.Bootstrap5
+   GetVariableFromAttribute( szBootstrap5, 0, 'S', 2, vWork, "Root", "Bootstrap5", "", 0 );
 
    //:szSideMenuOptions = ""
    ZeidonStringCopy( szSideMenuOptions, 1, 0, "", 1, 0, 2 );
@@ -500,11 +508,26 @@ BuildSideNavSectionJ( zVIEW     vDialog,
             //:IF vDialogDfltT.Option.WebHTML5Attribute != ""
             if ( CompareAttributeToString( vDialogDfltT, "Option", "WebHTML5Attribute", "" ) != 0 )
             { 
-               //:szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogDfltT.Option.WebHTML5Attribute  + "^></i>"
-               GetVariableFromAttribute( szTempString_3, 0, 'S', 255, vDialogDfltT, "Option", "WebHTML5Attribute", "", 0 );
-               ZeidonStringCopy( szText, 1, 0, "<i class=^align-middle mr-2 fas fa-fw ", 1, 0, 501 );
-               ZeidonStringConcat( szText, 1, 0, szTempString_3, 1, 0, 501 );
-               ZeidonStringConcat( szText, 1, 0, "^></i>", 1, 0, 501 );
+               //:IF szBootstrap5 = "Y"
+               if ( ZeidonStringCompare( szBootstrap5, 1, 0, "Y", 1, 0, 2 ) == 0 )
+               { 
+                  //:szText = "<i class=^align-middle me-2 fas fa-fw " + vDialogDfltT.Option.WebHTML5Attribute  + "^></i>"
+                  GetVariableFromAttribute( szTempString_3, 0, 'S', 255, vDialogDfltT, "Option", "WebHTML5Attribute", "", 0 );
+                  ZeidonStringCopy( szText, 1, 0, "<i class=^align-middle me-2 fas fa-fw ", 1, 0, 501 );
+                  ZeidonStringConcat( szText, 1, 0, szTempString_3, 1, 0, 501 );
+                  ZeidonStringConcat( szText, 1, 0, "^></i>", 1, 0, 501 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:szText = "<i class=^align-middle mr-2 fas fa-fw " + vDialogDfltT.Option.WebHTML5Attribute  + "^></i>"
+                  GetVariableFromAttribute( szTempString_4, 0, 'S', 255, vDialogDfltT, "Option", "WebHTML5Attribute", "", 0 );
+                  ZeidonStringCopy( szText, 1, 0, "<i class=^align-middle mr-2 fas fa-fw ", 1, 0, 501 );
+                  ZeidonStringConcat( szText, 1, 0, szTempString_4, 1, 0, 501 );
+                  ZeidonStringConcat( szText, 1, 0, "^></i>", 1, 0, 501 );
+               } 
+
+               //:END
                //:ELSE
             } 
             else
@@ -522,7 +545,6 @@ BuildSideNavSectionJ( zVIEW     vDialog,
             ZeidonStringConcat( szWriteBuffer, 1, 0, "^", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, szClass, 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, ">", 1, 0, 10001 );
-            //://szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " onclick=^" + szActionName + "()^><i class=^align-middle mr-2 fas fa-fw " + szText + "^></i> <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
             //:szWriteBuffer = szWriteBuffer + "<a class=^sidebar-link^ href=^#^ " +  " " + szActionName + ">" + szText + " <span class=^align-middle^>" + szNavigationTitle + "</span></a></li>"
             ZeidonStringConcat( szWriteBuffer, 1, 0, "<a class=^sidebar-link^ href=^#^ ", 1, 0, 10001 );
             ZeidonStringConcat( szWriteBuffer, 1, 0, " ", 1, 0, 10001 );
@@ -598,9 +620,9 @@ BuildSideNavSectionJ( zVIEW     vDialog,
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
       //:szWriteBuffer = "<%@include file=^" + vDialogMenu.Dialog.WEB_LeftSideInclude + "^ %>"
-      GetVariableFromAttribute( szTempString_4, 0, 'S', 255, vDialogMenu, "Dialog", "WEB_LeftSideInclude", "", 0 );
+      GetVariableFromAttribute( szTempString_5, 0, 'S', 255, vDialogMenu, "Dialog", "WEB_LeftSideInclude", "", 0 );
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@include file=^", 1, 0, 10001 );
-      ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_4, 1, 0, 10001 );
+      ZeidonStringConcat( szWriteBuffer, 1, 0, szTempString_5, 1, 0, 10001 );
       ZeidonStringConcat( szWriteBuffer, 1, 0, "^ %>", 1, 0, 10001 );
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
@@ -4927,8 +4949,9 @@ GenJSPJ_Action( zVIEW     vDialog,
       ZeidonStringCopy( szWriteBuffer, 1, 0, "               JRXlsxExporter exporter = new JRXlsxExporter();", 1, 0, 10001 );
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "               exporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "               exporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);", 1, 0, 10001 );
+      //://szWriteBuffer = "               exporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);"
+      //:szWriteBuffer = "               exporter.setExporterInput(new SimpleExporterInput(jasperPrint));"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "               exporter.setExporterInput(new SimpleExporterInput(jasperPrint));", 1, 0, 10001 );
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
 
@@ -4982,21 +5005,21 @@ GenJSPJ_Action( zVIEW     vDialog,
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )      
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
 
+      //:szWriteBuffer = "               exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(strDirFileName));"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "               exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(strDirFileName));", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )                     
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
+      //:szWriteBuffer = "               exporter.exportReport();"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "               exporter.exportReport();", 1, 0, 10001 );
+      //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
+
       //:szWriteBuffer = "               String strParam = ^attachment; filename=\^^ + strFileName + ^\^^;"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "               String strParam = ^attachment; filename=\\^^ + strFileName + ^\\^^;", 1, 0, 10001 );
       //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
       //://szWriteBuffer = "               String strDirFileName = ^c:/temp/^ + strFileName;"
       //://WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-
-      //:szWriteBuffer = "               exporter.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, strDirFileName);"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "               exporter.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, strDirFileName);", 1, 0, 10001 );
-      //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
-      //:szWriteBuffer = "               exporter.exportReport();"
-      ZeidonStringCopy( szWriteBuffer, 1, 0, "               exporter.exportReport();", 1, 0, 10001 );
-      //:WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 );
 
       //:szWriteBuffer = "               File f=new File(strDirFileName);"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "               File f=new File(strDirFileName);", 1, 0, 10001 );
@@ -10925,21 +10948,33 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    zCHAR     szDecoration[ 257 ] = { 0 }; 
    //:STRING ( 256 ) szTempStyle
    zCHAR     szTempStyle[ 257 ] = { 0 }; 
+   //:STRING ( 256 ) szBootstrap5Class1
+   zCHAR     szBootstrap5Class1[ 257 ] = { 0 }; 
+   //:STRING ( 256 ) szBootstrap5Class2
+   zCHAR     szBootstrap5Class2[ 257 ] = { 0 }; 
    //:STRING ( 1 )   szIsLabel
    zCHAR     szIsLabel[ 2 ] = { 0 }; 
    //:STRING ( 1 )   szIsTextOnly
    zCHAR     szIsTextOnly[ 2 ] = { 0 }; 
    //:STRING ( 1 )   szStyleIsBootstrap
    zCHAR     szStyleIsBootstrap[ 2 ] = { 0 }; 
+   //:STRING ( 1 )   szBootstrap5
+   zCHAR     szBootstrap5[ 2 ] = { 0 }; 
+   //:STRING ( 1 )   szBootstrap5Style
+   zCHAR     szBootstrap5Style[ 2 ] = { 0 }; 
    //:STRING ( 1 )   szBootstrapNoWrap
    zCHAR     szBootstrapNoWrap[ 2 ] = { 0 }; 
    //:SHORT          nRC
    zSHORT    nRC = 0; 
+   //:SHORT          nPosition
+   zSHORT    nPosition = 0; 
    zCHAR     szTempString_0[ 255 ]; 
    zSHORT    lTempInteger_0; 
    zSHORT    lTempInteger_1; 
-   zCHAR     szTempString_1[ 255 ]; 
    zSHORT    lTempInteger_2; 
+   zSHORT    lTempInteger_3; 
+   zCHAR     szTempString_1[ 255 ]; 
+   zSHORT    lTempInteger_4; 
    zCHAR     szTempString_2[ 255 ]; 
    zCHAR     szTempString_3[ 255 ]; 
    zCHAR     szTempString_4[ 33 ]; 
@@ -10947,27 +10982,27 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    zCHAR     szTempString_6[ 33 ]; 
    zCHAR     szTempString_7[ 33 ]; 
    zCHAR     szTempString_8[ 33 ]; 
-   zSHORT    lTempInteger_3; 
+   zSHORT    lTempInteger_5; 
    zCHAR     szTempString_9[ 33 ]; 
    zCHAR     szTempString_10[ 33 ]; 
    zCHAR     szTempString_11[ 33 ]; 
    zCHAR     szTempString_12[ 33 ]; 
    zCHAR     szTempString_13[ 33 ]; 
    zCHAR     szTempString_14[ 33 ]; 
-   zSHORT    lTempInteger_4; 
+   zSHORT    lTempInteger_6; 
    zCHAR     szTempString_15[ 33 ]; 
    zCHAR     szTempString_16[ 33 ]; 
    zCHAR     szTempString_17[ 33 ]; 
    zCHAR     szTempString_18[ 33 ]; 
    zCHAR     szTempString_19[ 33 ]; 
-   zSHORT    lTempInteger_5; 
+   zSHORT    lTempInteger_7; 
    zCHAR     szTempString_20[ 33 ]; 
    zCHAR     szTempString_21[ 33 ]; 
    zCHAR     szTempString_22[ 33 ]; 
    zCHAR     szTempString_23[ 33 ]; 
    zCHAR     szTempString_24[ 33 ]; 
    zCHAR     szTempString_25[ 33 ]; 
-   zLONG     lTempInteger_6; 
+   zLONG     lTempInteger_8; 
    zCHAR     szTempString_26[ 255 ]; 
    zCHAR     szTempString_27[ 33 ]; 
    zCHAR     szTempString_28[ 33 ]; 
@@ -10986,6 +11021,9 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    } 
 
    //:END 
+   //:// KSJ 06/11/26 - Had been using bootstrap 4 at GMC, now using bootstrap5. This requires jsp changes.
+   //:szBootstrap5 = vWork.Root.Bootstrap5
+   GetVariableFromAttribute( szBootstrap5, 0, 'S', 2, vWork, "Root", "Bootstrap5", "", 0 );
 
    //:// For bootstrap, should I put the group around if "label". Hmmm... not sure what I should do about <label><Input> when we don't do them
    //:// both here. Should I create a work variable?
@@ -11035,6 +11073,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    ZeidonStringCopy( szClassHTML, 1, 0, "", 1, 0, 257 );
    //:szBootstrapNoWrap = ""
    ZeidonStringCopy( szBootstrapNoWrap, 1, 0, "", 1, 0, 2 );
+   //:szBootstrap5Style = ""
+   ZeidonStringCopy( szBootstrap5Style, 1, 0, "", 1, 0, 2 );
    //:// If there is a class on this control OR if the style is bootstrap and it's a label (we want to then use input-group-text), then set the class=...
    //:IF vDialog.Control.CSS_Class != "" OR szStyleIsBootstrap = "Y"
    if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) != 0 || ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 )
@@ -11054,7 +11094,29 @@ GenJSPJ_CrteText( zVIEW     vDialog,
             ZeidonStringCopy( szBootstrapNoWrap, 1, 0, "Y", 1, 0, 2 );
          } 
 
-         //:END         
+         //:END  
+         //:// KJS 06/11/26 - Is this where I should put logic for the two div classes in bootstrap5
+         //:IF szBootstrap5 = "Y" AND ZeidonStringFind( szClassHTML, 1, "input-group" ) > 0 AND ZeidonStringFind( szClassHTML, 1, "input-group-sm" ) > 0
+         lTempInteger_1 = ZeidonStringFind( szClassHTML, 1, "input-group" );
+         lTempInteger_2 = ZeidonStringFind( szClassHTML, 1, "input-group-sm" );
+         if ( ZeidonStringCompare( szBootstrap5, 1, 0, "Y", 1, 0, 2 ) == 0 && lTempInteger_1 > 0 && lTempInteger_2 > 0 )
+         { 
+            //:TraceLineS("HERE", "HERE")
+            TraceLineS( "HERE", "HERE" );
+            //:// We assume that input-group is always first?
+            //:nPosition = ZeidonStringFind( szClassHTML, 1, "input-group-sm" )
+            nPosition = ZeidonStringFind( szClassHTML, 1, "input-group-sm" );
+            //:nPosition = nPosition + 14
+            nPosition = nPosition + 14;
+            //:szBootstrap5Class2 = szClassHTML[nPosition:254]
+            ZeidonStringCopy( szBootstrap5Class2, 1, 0, szClassHTML, nPosition, 254, 257 );
+            //:szBootstrap5Class1 = "input-group input-group-sm"
+            ZeidonStringCopy( szBootstrap5Class1, 1, 0, "input-group input-group-sm", 1, 0, 257 );
+            //:szBootstrap5Style = "Y"
+            ZeidonStringCopy( szBootstrap5Style, 1, 0, "Y", 1, 0, 2 );
+         } 
+
+         //:END
       } 
 
       //:END
@@ -11081,13 +11143,25 @@ GenJSPJ_CrteText( zVIEW     vDialog,
             //:// KJS 05/20/22 - If we are bootstrap AND this is not a label AND this is a decimal or integer field, we are going to put in a
             //:// class for right align.
             //:IF szStyleIsBootstrap = "Y" AND szLabelFor = "" AND vDialog.CtrlMapER_Domain EXISTS AND
-            lTempInteger_1 = CheckExistenceOfEntity( vDialog, "CtrlMapER_Domain" );
+            lTempInteger_3 = CheckExistenceOfEntity( vDialog, "CtrlMapER_Domain" );
             //:( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
-            if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) == 0 && lTempInteger_1 == 0 &&
+            if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) == 0 && lTempInteger_3 == 0 &&
                  ( CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "M" ) == 0 || CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "L" ) == 0 ) )
             { 
-               //:szText = " text-right"
-               ZeidonStringCopy( szText, 1, 0, " text-right", 1, 0, 1001 );
+               //:IF szBootstrap5 = "Y"
+               if ( ZeidonStringCompare( szBootstrap5, 1, 0, "Y", 1, 0, 2 ) == 0 )
+               { 
+                  //:szText = " text-end"
+                  ZeidonStringCopy( szText, 1, 0, " text-end", 1, 0, 1001 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:szText = " text-right"
+                  ZeidonStringCopy( szText, 1, 0, " text-right", 1, 0, 1001 );
+               } 
+
+               //:END
                //:ELSE
             } 
             else
@@ -11116,13 +11190,25 @@ GenJSPJ_CrteText( zVIEW     vDialog,
             //:// KJS 05/20/22 - If we are bootstrap AND this is not a label AND this is a decimal or integer field, we are going to put in a
             //:// class for right align.
             //:IF szStyleIsBootstrap = "Y" AND szLabelFor = "" AND vDialog.CtrlMapER_Domain EXISTS AND
-            lTempInteger_2 = CheckExistenceOfEntity( vDialog, "CtrlMapER_Domain" );
+            lTempInteger_4 = CheckExistenceOfEntity( vDialog, "CtrlMapER_Domain" );
             //:( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
-            if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) == 0 && lTempInteger_2 == 0 &&
+            if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) == 0 && lTempInteger_4 == 0 &&
                  ( CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "M" ) == 0 || CompareAttributeToString( vDialog, "CtrlMapER_Domain", "DataType", "L" ) == 0 ) )
             { 
-               //:szText = " text-right"
-               ZeidonStringCopy( szText, 1, 0, " text-right", 1, 0, 1001 );
+               //:IF szBootstrap5 = "Y"
+               if ( ZeidonStringCompare( szBootstrap5, 1, 0, "Y", 1, 0, 2 ) == 0 )
+               { 
+                  //:szText = " text-end"
+                  ZeidonStringCopy( szText, 1, 0, " text-end", 1, 0, 1001 );
+                  //:ELSE
+               } 
+               else
+               { 
+                  //:szText = " text-right"
+                  ZeidonStringCopy( szText, 1, 0, " text-right", 1, 0, 1001 );
+               } 
+
+               //:END
                //:ELSE
             } 
             else
@@ -11163,8 +11249,9 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    //:szText = ""
    ZeidonStringCopy( szText, 1, 0, "", 1, 0, 1001 );
 
-   //:IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = ""
-   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) != 0 && ZeidonStringCompare( szBootstrapNoWrap, 1, 0, "", 1, 0, 2 ) == 0 )
+   //:IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = "" AND szBootstrap5 = "" AND szBootstrap5Style = ""
+   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) != 0 && ZeidonStringCompare( szBootstrapNoWrap, 1, 0, "", 1, 0, 2 ) == 0 &&
+        ZeidonStringCompare( szBootstrap5, 1, 0, "", 1, 0, 2 ) == 0 && ZeidonStringCompare( szBootstrap5Style, 1, 0, "", 1, 0, 2 ) == 0 )
    { 
       //:szWriteBuffer = "<div class=^input-group-prepend^>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<div class=^input-group-prepend^>", 1, 0, 10001 );
@@ -11173,6 +11260,14 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    } 
 
    //:END
+   //:/*
+   //:IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = "" AND szBootstrap5 = "Y" AND szBootstrap5Style = "Y"
+   //:   szWriteBuffer = "<div class=^" + szBootstrap5Class2 + "^>"
+   //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   //:   szWriteBuffer = "<div class=^" + szBootstrap5Class1 + "^>"
+   //:   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   //:END
+   //:*/
 
    //:// KJS 09/30/16 - Language Conversion.
    //:// I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
@@ -11520,8 +11615,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
       //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
       //:IF vDialog.CtrlMapContext EXISTS
-      lTempInteger_3 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
-      if ( lTempInteger_3 == 0 )
+      lTempInteger_5 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
+      if ( lTempInteger_5 == 0 )
       { 
          //:szContextName = vDialog.CtrlMapContext.Name
          GetVariableFromAttribute( szContextName, 0, 'S', 33, vDialog, "CtrlMapContext", "Name", "", 0 );
@@ -11685,8 +11780,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    //:END
 
    //:IF vDialog.EventAct EXISTS    // There is only one EventAct, which is HotText.
-   lTempInteger_4 = CheckExistenceOfEntity( vDialog, "EventAct" );
-   if ( lTempInteger_4 == 0 )
+   lTempInteger_6 = CheckExistenceOfEntity( vDialog, "EventAct" );
+   if ( lTempInteger_6 == 0 )
    { 
       //:IF vDialog.EventAct.Type = 45    // Type 45 is Hyperlink Action.
       if ( CompareAttributeToInteger( vDialog, "EventAct", "Type", 45 ) == 0 )
@@ -11748,8 +11843,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
             //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
             //:IF vDialog.CtrlMapContext EXISTS
-            lTempInteger_5 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
-            if ( lTempInteger_5 == 0 )
+            lTempInteger_7 = CheckExistenceOfEntity( vDialog, "CtrlMapContext" );
+            if ( lTempInteger_7 == 0 )
             { 
                //:szContextName = vDialog.CtrlMapContext.Name
                GetVariableFromAttribute( szContextName, 0, 'S', 33, vDialog, "CtrlMapContext", "Name", "", 0 );
@@ -11873,8 +11968,8 @@ GenJSPJ_CrteText( zVIEW     vDialog,
 
             //:// The Hyperlink URL value is a constant in the Action.
             //:SET CURSOR FIRST vDialogRoot.Action WHERE vDialogRoot.Action.ZKey = vDialog.EventAct.ZKey
-            GetIntegerFromAttribute( &lTempInteger_6, vDialog, "EventAct", "ZKey" );
-            RESULT = SetCursorFirstEntityByInteger( vDialogRoot, "Action", "ZKey", lTempInteger_6, "" );
+            GetIntegerFromAttribute( &lTempInteger_8, vDialog, "EventAct", "ZKey" );
+            RESULT = SetCursorFirstEntityByInteger( vDialogRoot, "Action", "ZKey", lTempInteger_8, "" );
             //:IF vDialogRoot.Action.WebHTML_TransferAddress = ""
             if ( CompareAttributeToString( vDialogRoot, "Action", "WebHTML_TransferAddress", "" ) == 0 )
             { 
@@ -12066,8 +12161,9 @@ GenJSPJ_CrteText( zVIEW     vDialog,
    //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
 
-   //:IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = ""
-   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) != 0 && ZeidonStringCompare( szBootstrapNoWrap, 1, 0, "", 1, 0, 2 ) == 0 )
+   //:IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = "" AND szBootstrap5 = ""
+   if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szLabelFor, 1, 0, "", 1, 0, 257 ) != 0 && ZeidonStringCompare( szBootstrapNoWrap, 1, 0, "", 1, 0, 2 ) == 0 &&
+        ZeidonStringCompare( szBootstrap5, 1, 0, "", 1, 0, 2 ) == 0 )
    { 
       //:szWriteBuffer = "</div>"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "</div>", 1, 0, 10001 );
@@ -12077,6 +12173,14 @@ GenJSPJ_CrteText( zVIEW     vDialog,
 
    //:END
    return;
+//    /*
+//    IF szStyleIsBootstrap = "Y" AND szLabelFor != "" AND szBootstrapNoWrap = "" AND szBootstrap5 = "Y" AND szBootstrap5Style = "Y"
+//       szWriteBuffer = "</div>"
+//       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+//       szWriteBuffer = "</div>"
+//       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+//    END
+//    */
 // END
 } 
 
@@ -15433,7 +15537,7 @@ GenJSPJ_CrteCtrlsRadio( zVIEW     vDialog,
 //:   // These two conditions are handled quite separately below, even though
 //:   // the resulting HTML is basically the same.
 
-//:   VIEW vList   BASED ON LOD TZWDLGSO  // identifies attribute mapping for list entries
+//:   VIEW vWork   REGISTERED AS TZPTWRKO
 zOPER_EXPORT zVOID OPERATION
 GenJSPJ_CrteComboBox( zVIEW     vDialog,
                       zLONG     lFile,
@@ -15446,6 +15550,9 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
                       zLONG     lOffsetY,
                       zPCHAR    szRepeatGrpKey )
 {
+   zVIEW     vWork = 0; 
+   zSHORT    RESULT; 
+   //:VIEW vList   BASED ON LOD TZWDLGSO  // identifies attribute mapping for list entries
    zVIEW     vList = 0; 
    //:VIEW vEntity BASED ON LOD TZWDLGSO  // identifies entity mapping for list entries
    zVIEW     vEntity = 0; 
@@ -15493,6 +15600,8 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
    zCHAR     szDisabled[ 101 ] = { 0 }; 
    //:STRING ( 1 )   szStyleIsBootstrap
    zCHAR     szStyleIsBootstrap[ 2 ] = { 0 }; 
+   //:STRING ( 1 )   szBootstrap5
+   zCHAR     szBootstrap5[ 2 ] = { 0 }; 
    //:STRING ( 1 )   szAutoIncludeComboBlank
    zCHAR     szAutoIncludeComboBlank[ 2 ] = { 0 }; 
    //:STRING ( 64 )  szSystemIniApplName
@@ -15534,7 +15643,6 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
    zCHAR     szTempString_16[ 33 ]; 
    zCHAR     szTempString_17[ 33 ]; 
    zCHAR     szTempString_18[ 33 ]; 
-   zSHORT    RESULT; 
    zSHORT    lTempInteger_8; 
    zSHORT    lTempInteger_9; 
    zCHAR     szTempString_19[ 33 ]; 
@@ -15564,12 +15672,15 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
    zCHAR     szTempString_37[ 33 ]; 
    zCHAR     szTempString_38[ 33 ]; 
 
+   RESULT = GetViewByName( &vWork, "TZPTWRKO", vDialog, zLEVEL_TASK );
 
    //:GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
    GetViewByName( &vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK );
 
    //:szStyleIsBootstrap = ""
    ZeidonStringCopy( szStyleIsBootstrap, 1, 0, "", 1, 0, 2 );
+   //:szBootstrap5 = vWork.Root.Bootstrap5
+   GetVariableFromAttribute( szBootstrap5, 0, 'S', 2, vWork, "Root", "Bootstrap5", "", 0 );
    //:IF vDialogRoot.Window.WEB_JSPGenerationPositioning = "B" OR 
    //:   ( vDialogRoot.Dialog.WEB_JSPGenerationPositioning = "B" AND vDialogRoot.Window.WEB_JSPGenerationPositioning = "" )
    if ( CompareAttributeToString( vDialogRoot, "Window", "WEB_JSPGenerationPositioning", "B" ) == 0 || ( CompareAttributeToString( vDialogRoot, "Dialog", "WEB_JSPGenerationPositioning", "B" ) == 0 &&
@@ -15592,8 +15703,8 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
    //:IF vDialog.Control.CSS_Class != "" OR szStyleIsBootstrap = "Y"
    if ( CompareAttributeToString( vDialog, "Control", "CSS_Class", "" ) != 0 || ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 )
    { 
-      //:IF szStyleIsBootstrap = "Y"
-      if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 )
+      //:IF szStyleIsBootstrap = "Y" AND szBootstrap5 = ""
+      if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szBootstrap5, 1, 0, "", 1, 0, 2 ) == 0 )
       { 
          //:szCSSBootstrap = "form-control "
          ZeidonStringCopy( szCSSBootstrap, 1, 0, "form-control ", 1, 0, 21 );
@@ -15601,8 +15712,20 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
       } 
       else
       { 
-         //:szCSSBootstrap = ""
-         ZeidonStringCopy( szCSSBootstrap, 1, 0, "", 1, 0, 21 );
+         //:IF szStyleIsBootstrap = "Y" AND szBootstrap5 = "Y"
+         if ( ZeidonStringCompare( szStyleIsBootstrap, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szBootstrap5, 1, 0, "Y", 1, 0, 2 ) == 0 )
+         { 
+            //:szCSSBootstrap = "form-select "
+            ZeidonStringCopy( szCSSBootstrap, 1, 0, "form-select ", 1, 0, 21 );
+            //:ELSE
+         } 
+         else
+         { 
+            //:szCSSBootstrap = ""
+            ZeidonStringCopy( szCSSBootstrap, 1, 0, "", 1, 0, 21 );
+         } 
+
+         //:END
       } 
 
       //:END
@@ -17120,7 +17243,7 @@ GenJSPJ_CrteComboBox( zVIEW     vDialog,
 //:                     STRING ( 100 )   szRepeatGrpKey )
 
 //:   // Format an CHECKBOX control.
-//:   VIEW vDialogRoot BASED ON LOD TZWDLGSO
+//:   VIEW vWork       REGISTERED AS TZPTWRKO
 zOPER_EXPORT zVOID OPERATION
 GenJSPJ_CrteCheckBox( zVIEW     vDialog,
                       zLONG     lFile,
@@ -17134,6 +17257,9 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
                       zLONG     lOffsetY,
                       zPCHAR    szRepeatGrpKey )
 {
+   zVIEW     vWork = 0; 
+   zSHORT    RESULT; 
+   //:VIEW vDialogRoot BASED ON LOD TZWDLGSO
    zVIEW     vDialogRoot = 0; 
    //:STRING ( 300 ) szStyle
    zCHAR     szStyle[ 301 ] = { 0 }; 
@@ -17169,6 +17295,8 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
    zCHAR     szTextID[ 257 ] = { 0 }; 
    //:STRING ( 5 )   szSrch
    zCHAR     szSrch[ 6 ] = { 0 }; 
+   //:STRING ( 1 )   szBootstrap5
+   zCHAR     szBootstrap5[ 2 ] = { 0 }; 
    //:INTEGER lTemp
    zLONG     lTemp = 0; 
    //:INTEGER lLen
@@ -17194,9 +17322,13 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
    zCHAR     szTempString_16[ 33 ]; 
    zCHAR     szTempString_17[ 51 ]; 
 
+   RESULT = GetViewByName( &vWork, "TZPTWRKO", vDialog, zLEVEL_TASK );
 
    //:GetViewByName( vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK )   
    GetViewByName( &vDialogRoot, "DialogRoot", vDialog, zLEVEL_TASK );
+
+   //:szBootstrap5 = vWork.Root.Bootstrap5
+   GetVariableFromAttribute( szBootstrap5, 0, 'S', 2, vWork, "Root", "Bootstrap5", "", 0 );
 
    //:// See if the checkbox has an unchecked value. The checked value is in attrib RadioOrCheckboxValue but we 
    //:// don't have an attrib for the unchecked value.
@@ -17470,6 +17602,17 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
 
    //:END
 
+   //:IF szBootstrap5 = "Y"
+   if ( ZeidonStringCompare( szBootstrap5, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+      //:szWriteBuffer = "<span>"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "<span>", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+   } 
+
+   //:END
+
    //:IF vDialog.EventAct EXISTS
    lTempInteger_1 = CheckExistenceOfEntity( vDialog, "EventAct" );
    if ( lTempInteger_1 == 0 )
@@ -17670,8 +17813,19 @@ GenJSPJ_CrteCheckBox( zVIEW     vDialog,
    ZeidonStringConcat( szWriteBuffer, 1, 0, szSpaces, 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, szText, 1, 0, 10001 );
    ZeidonStringConcat( szWriteBuffer, 1, 0, "</span>", 1, 0, 10001 );
-   //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-   WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 );
+   //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+
+   //:IF szBootstrap5 = "Y"
+   if ( ZeidonStringCompare( szBootstrap5, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   { 
+      //:szWriteBuffer = "</span>"
+      ZeidonStringCopy( szWriteBuffer, 1, 0, "</span>", 1, 0, 10001 );
+      //:WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 );
+   } 
+
+   //:END
    return;
 // END
 } 

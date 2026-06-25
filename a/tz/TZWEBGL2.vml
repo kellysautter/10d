@@ -110,6 +110,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szStyleIsBootstrap
    STRING ( 1 )   szBootstrapOuterCard
    STRING ( 1 )   szBootstrapDataTables
+   STRING ( 1 )   szBootstrap5
    STRING ( 1 )   szTinyMCEFlag
    STRING ( 1 )   szWCP_Edit
    STRING ( 1 )   szWCP_Hidden
@@ -134,6 +135,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    STRING ( 1 )   szUseVMLGridSort
    STRING ( 1 )   szShowHideControl
    STRING ( 1 )   szAutoIncludeComboBlank
+   STRING ( 256 ) szBootstrap5Class1
+   STRING ( 256 ) szBootstrap5Class2
+   STRING ( 1 )   szBootstrap5Style
    DECIMAL        dDLUnits
    INTEGER        LastY_Pos
    INTEGER        LastY_Height
@@ -162,6 +166,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    INTEGER        lTemp
    INTEGER        lMaxStringLth
    INTEGER        lIndexStrLth
+   INTEGER        nPosition
    SHORT          bResetToPlaceHolder
    SHORT          nRC
 
@@ -173,7 +178,8 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
    szSystemIniApplName = "[App." + szLPLR_Name + "]"
    SysReadZeidonIni( -1, szSystemIniApplName, "UseVMLGridSort", szUseVMLGridSort )
    SysReadZeidonIni( -1, szSystemIniApplName, "AutoIncludeComboBlank", szAutoIncludeComboBlank )
-
+   szBootstrap5 = vWork.Root.Bootstrap5
+   
    PIX_PER_DU( vDialog, dDLUnits )
    
    lIndexStrLth = zstrlen( szIndent )
@@ -1651,8 +1657,26 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             IF szStyleIsBootstrap = "Y" AND vDialog.Control.WebCtrlLabelLink != "" AND vDialog.Control.CSS_Class != ""
                szLabelLink = vDialog.Control.WebCtrlLabelLink  // should we automatically include input-group?
                IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "input-group-text" ) <= 0
+                  szBootstrap5Style = ""
                   vWork.Root.szLabelLink = szLabelLink
-                  szWriteBuffer = "<div class=^" + vDialog.Control.CSS_Class + "^>  <!-- group around text/input bootstrap -->"
+                  szClass = vDialog.Control.CSS_Class
+                  // KJS 06/11/26 - Is this where I should put logic for the two div classes in bootstrap5
+                  IF szBootstrap5 = "Y" AND ZeidonStringFind( szClass, 1, "input-group" ) > 0 AND ZeidonStringFind( szClass, 1, "input-group-sm" ) > 0
+                     TraceLineS("HERE", "HERE")
+                     // We assume that input-group is always first?
+                     nPosition = ZeidonStringFind( szClass, 1, "input-group-sm" )
+                     nPosition = nPosition + 14
+                     szBootstrap5Class2 = szClass[nPosition:254]
+                     szBootstrap5Class1 = "input-group input-group-sm"
+                     szBootstrap5Style = "Y"
+                  END
+                  IF szBootstrap5 = "Y" AND szBootstrap5Style = "Y"
+                     szWriteBuffer = "<div class=^" + szBootstrap5Class2 + "^> <!-- group around text/input bootstrap5 -->"
+                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                     szWriteBuffer = "<div class=^" + szBootstrap5Class1 + "^> <!-- group around text/input bootstrap5 -->"
+                  ELSE
+                     szWriteBuffer = "<div class=^" + vDialog.Control.CSS_Class + "^>  <!-- group around text/input bootstrap -->"
+                  END
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                END
             END
@@ -2941,9 +2965,15 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         SET CURSOR FIRST vDialog.CtrlMap WHERE vDialog.CtrlMap.Tag = ""                        
                         IF szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Domain EXISTS AND 
                            ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
-                           IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-left" ) <= 0
-                              szClass = " text-right"
-                           END   
+                           IF szBootstrap5 = "Y"
+                              IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-start" ) <= 0
+                                 szClass = " text-end"
+                              END  
+                           ELSE
+                              IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-left" ) <= 0
+                                 szClass = " text-right"
+                              END  
+                           END 
                         ELSE
                            szClass = ""
                         END  
@@ -3031,9 +3061,15 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         // should we do this here? Or is it fine that I put this in the text control code.
                         IF szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Domain EXISTS AND 
                            ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
-                           IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-left" ) <= 0
-                              szClass = " text-right"
-                           END   
+                           IF szBootstrap5 = "Y"
+                              IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-start" ) <= 0
+                                 szClass = " text-end"
+                              END   
+                           ELSE
+                              IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-left" ) <= 0
+                                 szClass = " text-right"
+                              END   
+                           END
                         ELSE
                            szClass = ""
                         END  
@@ -3061,7 +3097,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            END
                            END
                         END
-                        //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
                         
                         IF szStyleIsBootstrap = "" OR vDialog.CtrlMapER_Attribute DOES NOT EXIST OR
                            ( szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Attribute EXISTS AND vDialog.CtrlMapER_Attribute.Name != "wHide")
@@ -3852,8 +3887,14 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      // should we do this here? Or is it fine that I put this in the text control code.
                      IF szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Domain EXISTS AND 
                         ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
-                        IF ZeidonStringFind( szClass, 1, "text-left" ) <= 0
-                           szClass = szClass + " text-right"
+                        IF szBootstrap5 = "Y"
+                           IF ZeidonStringFind( szClass, 1, "text-start" ) <= 0
+                              szClass = szClass + " text-end"
+                           END
+                        ELSE
+                           IF ZeidonStringFind( szClass, 1, "text-left" ) <= 0
+                              szClass = szClass + " text-right"
+                           END
                         END
                      END  
                      
@@ -4791,6 +4832,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            szWriteBuffer = "%>"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                                                    
+   IF szBootstrap5 = "Y"
+      //szBootstrap5div = "<div>"
+   END
                            IF vDialog.EventAct EXISTS
                               szWriteBuffer = "   " + szItemTableHeader + "><input type=^checkbox^ name=^" + szListCtrlTag + "::<%=strEntityKey%>^ id=^" + szListCtrlTag + "::<%=strEntityKey%>^ <%=strDisabled%> " + szDisabled +
                                               " value=^" + vDialog.Control.RadioOrCheckboxValue +
@@ -4872,6 +4916,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      END // End ELSE of PushButton
                   END // End ELSE of checking if this is a hidden field
                   WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   // KJS 06/12/26 - I am not sure this is in the correct spot.
+   IF szBootstrap5 = "Y"
+      //szWriteBuffer = "</div>"
+      //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+   END
 
                   IF bResetToPlaceHolder = 1
                      ResetViewFromSubobject( vDialog )  // vDialog positioned on sub-controls
@@ -5049,7 +5098,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
          END   //IF szControlType = "MLEdit"
          IF szStyleIsBootstrap = "Y" AND szCtrlTag = szLabelLink
             szWriteBuffer = "</div>  <!-- bootstrap end of input-group -->"
-            WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+            IF szBootstrap5 = "Y" AND szBootstrap5Style = "Y"
+               szWriteBuffer = "</div>  <!-- bootstrap5 end of input-group -->"
+               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+            END
             szLabelLink = ""
             vWork.Root.szLabelLink = ""
          END 

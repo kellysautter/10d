@@ -1,7 +1,7 @@
-z1000-Zeidon    TZPTWRKO TZZOLODO                         04/29/26   16:02:55 1.0a2   
+z1000-Zeidon    TZPTWRKO TZZOLODO                         06/11/26   10:31:33 1.0a2   
 eLOD       1
 aZKey      130121239
-aNextZKeyToAssign 130121254
+aNextZKeyToAssign 130121256
 aName      TZPTWRKO
 aDesc      Dialog Painter jsp generation work object
 
@@ -127,6 +127,18 @@ aDesc      Does the current page have a Wysiwyg Editor.
 
 eDomainRec 5
 
+eLOD_AttributeRec 3
+aZKey      130121255
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Bootstrap5
+aZKey      130121256
+
+eDomainRec 5
+
 eLOD_Entity 2
 awkSelectedAttributeForDragSort 7
 
@@ -179,30 +191,41 @@ eER_Attribute 4
 
 eDomain    5
 
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
 i10        4
 i13        4
 i16        4
 i19        4
 i22        4
-i23        1
-i24        2
-i25        3
-i26        4
-i27        5
-i28        6
-i29        7
-i30        8
-i31        9
-i32        4
-i33        11
-i34        12
+i25        4
+i26        1
+i27        2
+i28        3
+i29        4
+i30        5
+i31        6
+i32        7
+i33        8
+i34        9
 i35        4
-i36        14
-i37        15
+i36        11
+i37        12
 i38        4
-i39        17
-i40        18
+i39        14
+i40        15
 i41        4
-i42        20
-i43        21
+i42        17
+i43        18
 i44        4
+i45        20
+i46        21
+i47        4
+i48        23
+i49        24
+i50        4
