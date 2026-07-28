@@ -4129,7 +4129,7 @@ GenJSP_MenuFunctionsRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                             STRING ( 255 )   szFormName,
                             STRING ( 2 )     szActionPrefix )
 
-   VIEW vWork    REGISTERED AS TZPTWRKO
+   VIEW vWork    BASED ON LOD  TZPTWRKO
    VIEW vDialog2 BASED ON LOD  TZWDLGSO
    STRING ( 34 )    szActionName
    STRING ( 32 )    szCtrlTag
@@ -4141,7 +4141,9 @@ GenJSP_MenuFunctionsRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
    // KJS 12/16/16 - I switched "WL_QC( vDialog" to "WL_QC( vDialogRoot".
    // The reason is because sometimes we call this operation when looking at resusable actions from a different dialog.
    // If so, vDialog (gotten from ActivateMetaOI_ByZKey) is not always associated with the open file that we are generating to. Because of this, the actions don't
-   // get created. So changing to vDialogRoot which was build off of the original vDialog.   
+   // get created. So changing to vDialogRoot which was build off of the original vDialog. 
+   // KJS 07/27/26 - Need to get view by vDialogRoot.  
+   nRC = GetViewByName( vWork, "TZPTWRKO", vDialogRoot, zLEVEL_TASK )
 
    FOR EACH vDialog.Option
       IF vDialog.OptAct EXISTS

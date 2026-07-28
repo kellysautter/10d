@@ -377,9 +377,13 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       RESULT = CreateEntity( vWork, "Root", zPOS_AFTER );
       //:NAME VIEW vWork "TZPTWRKO"
       SetNameForView( vWork, "TZPTWRKO", 0, zLEVEL_TASK );
+      //:// KJS 07/27/26 - When running this from a buildlplr, if we don't save using vDialog, when this is used in 
+      //:// tzwebgl4, we get an error. The above NAME VIEW has a 0 as the third parameter.
+      //:SetNameForView(vWork, "TZPTWRKO", vSubtask, zLEVEL_TASK)
+      SetNameForView( vWork, "TZPTWRKO", vSubtask, zLEVEL_TASK );
    } 
 
-   //:END
+   //:END 
 
    //:NAME VIEW vDialog "GenJSP_Dialog"
    SetNameForView( vDialog, "GenJSP_Dialog", 0, zLEVEL_TASK );
@@ -390,6 +394,14 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:szFormName = szDialogTag + szWindowTag
    ZeidonStringCopy( szFormName, 1, 0, szDialogTag, 1, 0, 65 );
    ZeidonStringConcat( szFormName, 1, 0, szWindowTag, 1, 0, 65 );
+
+   //:CreateViewFromViewForTask( vDialogRoot, vDialog, 0 )
+   CreateViewFromViewForTask( &vDialogRoot, vDialog, 0 );
+   //:NAME VIEW vDialogRoot "DialogRoot"
+   SetNameForView( vDialogRoot, "DialogRoot", 0, zLEVEL_TASK );
+   //:// KJS 07/27/26 - We need to save this name using vDialogRoot. Otherwise, we get errors in buildlplr.
+   //:SetNameForView(vWork, "TZPTWRKO", vDialogRoot, zLEVEL_TASK)
+   SetNameForView( vWork, "TZPTWRKO", vDialogRoot, zLEVEL_TASK );
 
    //:szWriteBuffer = "Generating JSP Java: " + szDialogTag + "." + szWindowTag
    ZeidonStringCopy( szWriteBuffer, 1, 0, "Generating JSP Java: ", 1, 0, 10001 );
@@ -478,6 +490,16 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    SetAttributeFromString( vWork, "Root", "BootstrapDataTables", szBootstrapDataTables );
    //:vWork.Root.Bootstrap5 = szBootstrap5
    SetAttributeFromString( vWork, "Root", "Bootstrap5", szBootstrap5 );
+   //:IF szTOMCAT10 = "N"
+   if ( ZeidonStringCompare( szTOMCAT10, 1, 0, "N", 1, 0, 11 ) == 0 )
+   { 
+      //:szTOMCAT10 = ""
+      ZeidonStringCopy( szTOMCAT10, 1, 0, "", 1, 0, 11 );
+   } 
+
+   //:END
+   //:vWork.Root.Tomcat10 = szTOMCAT10
+   SetAttributeFromString( vWork, "Root", "Tomcat10", szTOMCAT10 );
    //:vDialog.Dialog.wWebUsesLanguageConversion = szLangConvFlag
    SetAttributeFromString( vDialog, "Dialog", "wWebUsesLanguageConversion", szLangConvFlag );
    //:vDialog.Dialog.wWebUsesControlActions = szUseZeidonCtrlActions
@@ -531,11 +553,6 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    } 
 
    //:END
-
-   //:CreateViewFromViewForTask( vDialogRoot, vDialog, 0 )
-   CreateViewFromViewForTask( &vDialogRoot, vDialog, 0 );
-   //:NAME VIEW vDialogRoot "DialogRoot"
-   SetNameForView( vDialogRoot, "DialogRoot", 0, zLEVEL_TASK );
 
    //:szStyleIsjMobile = ""
    ZeidonStringCopy( szStyleIsjMobile, 1, 0, "", 1, 0, 2 );
@@ -1017,6 +1034,28 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ page import=^jakarta.servlet.http.*^ %>", 1, 0, 10001 );
       //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+      //:IF szHasFileUpload = "Y"
+      if ( ZeidonStringCompare( szHasFileUpload, 1, 0, "Y", 1, 0, 2 ) == 0 )
+      { 
+         //:szWriteBuffer = "<%@ page import=^java.nio.file.Paths^ %>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ page import=^java.nio.file.Paths^ %>", 1, 0, 10001 );
+         //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+         //:szWriteBuffer = "<%@ page import=^jakarta.servlet.http.HttpServlet^ %>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ page import=^jakarta.servlet.http.HttpServlet^ %>", 1, 0, 10001 );
+         //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+         //:szWriteBuffer = "<%@ page import=^jakarta.servlet.http.HttpServletRequest^ %>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ page import=^jakarta.servlet.http.HttpServletRequest^ %>", 1, 0, 10001 );
+         //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+         //:szWriteBuffer = "<%@ page import=^jakarta.servlet.http.HttpServletResponse^ %>"
+         ZeidonStringCopy( szWriteBuffer, 1, 0, "<%@ page import=^jakarta.servlet.http.HttpServletResponse^ %>", 1, 0, 10001 );
+         //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
+      } 
+
+      //:END
       //:ELSE
    } 
    else
@@ -1489,6 +1528,11 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
       //:OrderEntityForView( vDialog, "Control", "PSDLG_Y A PSDLG_X A" )
       OrderEntityForView( vDialog, "Control", "PSDLG_Y A PSDLG_X A" );
+      //:// KJS 07/24/26 - I am trying this SetName because when I try to run from buildlplr, in GenJSPJ_InputRecurs, we
+      //:// don't find vLPLR when using vDialog. It would find using vSubtask which we don't pass in. Which perhaps we should
+      //:// do?
+      //:SetNameForView(vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK)
+      SetNameForView( vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK );
       //:GenJSPJ_InputMapRecurs( vDialog, szViewName, lFileJSP, szWriteBuffer, lTableRowCnt, "" )
       GenJSPJ_InputMapRecurs( vDialog, szViewName, lFileJSP, szWriteBuffer, lTableRowCnt, "" );
       //:szWriteBuffer = "   }"
@@ -2094,32 +2138,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:END
 
    //:// Generate Transfer File to Server logic if there is a GroupBox of type "File Transfer to Server".
-   //:/*
-   //:szHasFileUpload = ""
-   //:CreateViewFromView( vDialogTemp, vDialog )
-   //:lControl = zQUAL_STRING + zPOS_FIRST + zRECURS
-   //:szCtrlTag = "File Transfer to Server"
-   //:nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
-   //:                       szCtrlTag, "", "", 0, "Window", "" )
-   //:szDateTimeFileUpload = "Y" // Add datetime to upload file.                          
-   //:IF nRC < zCURSOR_SET
-   //:   szCtrlTag = "File Upload with DateTime"
-   //:   nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
-   //:                          szCtrlTag, "", "", 0, "Window", "" )
-   //:   szDateTimeFileUpload = "Y"                             
-   //:END
-   //:IF nRC < zCURSOR_SET
-   //:   szCtrlTag = "File Upload w/o DateTime"
-   //:   nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
-   //:                          szCtrlTag, "", "", 0, "Window", "" )
-   //:   szDateTimeFileUpload = "N"                             
-   //:END
-   //:DropView( vDialogTemp )
-   //:*/
-
-   //://IF nRC >= zCURSOR_SET
-   //:IF szHasFileUpload = "Y"
-   if ( ZeidonStringCompare( szHasFileUpload, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   //:IF szHasFileUpload = "Y" AND szTOMCAT10 = ""
+   if ( ZeidonStringCompare( szHasFileUpload, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szTOMCAT10, 1, 0, "", 1, 0, 11 ) == 0 )
    { 
       //:GenJSPJ_ProcessFileIn( vDialog, szDateTimeFileUpload, lFileJSP, szWriteBuffer )
       oTZWDLGSO_GenJSPJ_ProcessFileIn( vDialog, szDateTimeFileUpload, lFileJSP, szWriteBuffer );
@@ -2127,23 +2147,10 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
 
    //:END
 
-   //:// vKZXMLPGO
-
-   //://szWriteBuffer = "   vKZXMLPGO = task.getViewByName( ^KZXMLPGO^ );"
-   //://WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //://szWriteBuffer = "   if ( VmlOperation.isValid( vKZXMLPGO ) )"
-   //://WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //://szWriteBuffer = "   {"
-   //://WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //://szWriteBuffer = "      vKZXMLPGO = JspWebUtils.createWebSession( null, task, userId );"
    //:szWriteBuffer = "vKZXMLPGO = JspWebUtils.createWebSession( null, task, ^^ );"
    ZeidonStringCopy( szWriteBuffer, 1, 0, "vKZXMLPGO = JspWebUtils.createWebSession( null, task, ^^ );", 1, 0, 10001 );
    //:WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 );
-   //://szWriteBuffer = "      vKZXMLPGO.setName(^KZXMLPGO^ );"
-   //://WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //://szWriteBuffer = "   }"
-   //://WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
    //:// Always keep track of the current page we are on.
    //:szWriteBuffer = "vKZXMLPGO.cursor( ^Session^ ).getAttribute( ^CurrentPageName^ ).setValue( ^" + szFormName + "^ );"
@@ -2227,8 +2234,8 @@ oTZWDLGSO_GenerateJSPJava( zVIEW     vDialog,
    //:END
 
    //:// KJS 07/29/20
-   //:IF szHasFileUpload = "Y"
-   if ( ZeidonStringCompare( szHasFileUpload, 1, 0, "Y", 1, 0, 2 ) == 0 )
+   //:IF szHasFileUpload = "Y" AND szTOMCAT10 = ""
+   if ( ZeidonStringCompare( szHasFileUpload, 1, 0, "Y", 1, 0, 2 ) == 0 && ZeidonStringCompare( szTOMCAT10, 1, 0, "", 1, 0, 11 ) == 0 )
    { 
       //:szWriteBuffer = "if ( strActionToProcess != null && strActionToProcess.equals(^" + szUploadAction + "^))"
       ZeidonStringCopy( szWriteBuffer, 1, 0, "if ( strActionToProcess != null && strActionToProcess.equals(^", 1, 0, 10001 );

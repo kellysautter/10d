@@ -217,6 +217,43 @@ fnExternalToLibTargetDir( zVIEW vSubtask, zVIEW vTaskLPLR );
 static void
 fnExternalLibObjToLibTarget( zVIEW vTask2, zPCHAR pchEntity );
 
+static void ProcessXods(zVIEW vSubtask, zPCHAR cTE_Name, zPCHAR cLogFile);
+
+zOPER_EXPORT zSHORT OPERATION
+zwTZTEUPDD_RebuildTablesRels(zVIEW vSubtask);
+
+zOPER_EXPORT zSHORT OPERATION
+zwTZTEUPDD_InitTool(zVIEW vSubtask);
+
+zOPER_EXPORT zSHORT OPERATION
+zwfnTZTEUPDD_InitDTE(zVIEW vSubtask,
+	zVIEW vCM_List);
+zOPER_EXPORT zSHORT OPERATION
+zwTZTEUPDD_SaveModelDTE(zVIEW vSubtask);
+zOPER_EXPORT zSHORT OPERATION
+zwTZTEUPDD_SwitchLPLR(zVIEW vSubtask);
+
+zOPER_EXPORT zSHORT OPERATION
+zwTZCMSLPD_RebuildMetaLists(zVIEW vSubtask);
+
+zOPER_EXPORT zSHORT OPERATION
+zwTZCMSLPD_SwitchLPLR(zVIEW vSubtask);
+
+zOPER_EXPORT zSHORT OPERATION
+oTZWDLGSO_GenerateJSPJava(zVIEW vDialog, zVIEW vSubtask);
+static zSHORT GenerateAllJSPJavaAllDialogs(zVIEW vSubtask);
+
+zOPER_EXPORT zSHORT OPERATION
+RebuildTargetList(zVIEW     vSubtask); 
+
+
+
+/*
+** globals
+*/
+char szOutLine[256] = "Initializing...";
+
+
 void
 fnGetFileDateTime( zVIEW lpTaskView, zPCHAR pchFile, zPCHAR pchTimeStamp, zLONG lMaxLth )
 {
@@ -430,8 +467,8 @@ fnParseGenTarget( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
       {
          zCHAR szXPG_DateTime[ 20 ];
          zCHAR szSourceDateTime[ 20 ];
-         zCHAR szSourceBase[ 20 ];
-         zCHAR szMsg[ 200 ];
+         zCHAR szSourceBase[ 33 ];
+         zCHAR szMsg[ 500 ];
          zBOOL bParsed = FALSE;
 
          // If the language type is .C, then we don't need to parse/generate so skip it.
@@ -932,18 +969,25 @@ MakeTarget( zVIEW vSubtask, zCPCHAR cpcGenLang )
 
          SysReadZeidonIni( -1, "[Workstation]", "ContinueParseGen", szContinueParseGen, zsizeof( szContinueParseGen ) );
 
-         if ( szContinueParseGen[ 0 ] != 'Y' )
-         {
-            // Parse/Gen failed.  Determine if user wants to continue.
-            if ( MessagePrompt( vSubtask, "ED00200", "Zeidon Compiler",
-                                "Parse/Gen failed.  Continue with 'Make Target'?",
-                                1, zBUTTONS_YESNO, zRESPONSE_YES,
-                                zICON_STOP ) == zRESPONSE_NO )
-            {
-               MB_SetMessage( vSubtask, 0, "'Make All' failed" );
-               return( zCALL_ERROR );
-            }
-         }
+		 zVIEW vTZMSGWRK = 0;
+		 zLONG iMsg = 0;
+		 if (GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_TASK) > 0)
+			 GetIntegerFromAttribute(&iMsg, vTZMSGWRK, "Messages", "NoMsg");
+		 if (iMsg == 0)
+		 {
+			 if (szContinueParseGen[0] != 'Y')
+			 {
+				 // Parse/Gen failed.  Determine if user wants to continue.
+				 if (MessagePrompt(vSubtask, "ED00200", "Zeidon Compiler",
+					 "Parse/Gen failed.  Continue with 'Make Target'?",
+					 1, zBUTTONS_YESNO, zRESPONSE_YES,
+					 zICON_STOP) == zRESPONSE_NO)
+				 {
+					 MB_SetMessage(vSubtask, 0, "'Make All' failed");
+					 return(zCALL_ERROR);
+				 }
+			 }
+		 }
       }
    }
 
@@ -1011,12 +1055,12 @@ MakeC_Target( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 MakeJavaTarget( zVIEW vSubtask )
 {
-   return( MakeTarget( vSubtask, "Java" ) );
+   return( MakeTarget( vSubtask, "J" ) );
 }
 
-#if 0 // this does not seem to be used from anywhere??? DKS 2000.11.27
+//#if 0 // this does not seem to be used from anywhere??? DKS 2000.11.27
 zOPER_EXPORT zSHORT OPERATION
-MakeAllTargets( zVIEW vSubtask, zVIEW vTaskLPLR )
+MakeAllTargets( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
 {
    zVIEW     vTempTaskLPLR;
    zCHAR     szCommand[ zMAX_FILENAME_LTH + 1 ];
@@ -1045,16 +1089,23 @@ MakeAllTargets( zVIEW vSubtask, zVIEW vTaskLPLR )
    {
       if ( !fnParseGenTarget( vSubtask, vTempTaskLPLR, cpcGenLang ) )
       {
-         // Parse/Gen failed.  Ask the user if we are to continue.
-         if ( MessagePrompt( vSubtask, "ED00200", "Zeidon Compiler",
-                             "Parse/Gen failed.  Continue with 'Make All'?",
-                             1, zBUTTONS_YESNO, zRESPONSE_YES,
-                             zICON_STOP ) == zRESPONSE_NO )
-         {
-            MB_SetMessage( vSubtask, 0, "'Make All' failed" );
-            DropView( vTempTaskLPLR );
-            return( zCALL_ERROR );
-         }
+		  zVIEW vTZMSGWRK = 0;
+		  zLONG iMsg = 0;
+		  if (GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_TASK) > 0)
+			  GetIntegerFromAttribute(&iMsg, vTZMSGWRK, "Messages", "NoMsg");
+		  if (iMsg == 0)
+		  {
+			  // Parse/Gen failed.  Ask the user if we are to continue.
+			  if (MessagePrompt(vSubtask, "ED00200", "Zeidon Compiler",
+				  "Parse/Gen failed.  Continue with 'Make All'?",
+				  1, zBUTTONS_YESNO, zRESPONSE_YES,
+				  zICON_STOP) == zRESPONSE_NO)
+			  {
+				  MB_SetMessage(vSubtask, 0, "'Make All' failed");
+				  DropView(vTempTaskLPLR);
+				  return(zCALL_ERROR);
+			  }
+		  }
       }
    }
 
@@ -1104,7 +1155,7 @@ MakeAllTargets( zVIEW vSubtask, zVIEW vTaskLPLR )
    return( 0 );
 
 } // MakeAllTargets.
-#endif
+//#endif
 
 #ifdef __WIN32__
 
@@ -3017,3 +3068,545 @@ LibFile_Delete( zVIEW vSubtask )
    return( 0 );
 
 } // LibFile_Delete
+
+zVIEW LOCALOPER
+fnCreateMsgObj(zVIEW vSubtask)
+{
+	zVIEW  vMsgQ;
+	zLONG  lTask;
+
+	GetViewByName(&vMsgQ, "__MSGQ", vSubtask, zLEVEL_TASK);
+	if (vMsgQ == 0)
+	{
+		LPAPP lpApp;
+
+		if (ActivateEmptyObjectInstance(&vMsgQ, "KZMSGQOO", vSubtask, zMULTIPLE) < 0)
+		{
+			zCHAR szMsg[512];
+
+			strcpy_s(szMsg, zsizeof(szMsg), "Cannot load Message Object: ");
+			strcat_s(szMsg, zsizeof(szMsg), "KZMSGQOO");
+			SysMessageBox(vSubtask, "System Error", szMsg, 1);
+			return(0);
+		}
+
+		SetNameForView(vMsgQ, "__MSGQ", vSubtask, zLEVEL_TASK);
+		CreateEntity(vMsgQ, "Task", zPOS_FIRST);
+		lTask = SysGetTaskFromView(vSubtask);
+		SetAttributeFromInteger(vMsgQ, "Task", "Id", lTask);
+
+		//fnGetApplicationForSubtask(&lpApp, vSubtask);
+		SetAttributeFromString(vMsgQ, "Task", "Client", "hfifusion");
+	}
+
+	return(vMsgQ);
+}
+
+static zSHORT GenerateAllJSPJavaAllDialogs(zVIEW vSubtask)
+{
+	zVIEW  vValidate;
+	zVIEW  vTZWINDOW;
+	zVIEW  vTaskLPLR;
+	zPCHAR pchDlg;
+	zPCHAR pchWnd;
+	zCHAR  szMsg[256];
+	zCHAR  SourceFileName[514] = { 0 };
+	zCHAR  DialogName[256];
+	zSHORT nRC;
+
+	TraceLineS("Inside GenerateAllJSPJavaAllDialogs !!", "");
+
+	nRC = GetViewByName(&vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK);
+	TraceLineI("Get View vTaskLPLR ", nRC);
+
+	// Prompt operator to ensure ALL windows are to be generated.
+	GetAddrForAttribute(&pchDlg, vTaskLPLR, "LPLR", "Name");
+
+	if (SetCursorFirstEntityByInteger(vTaskLPLR, "W_MetaType", "Type", 11, 0) >= zCURSOR_SET)
+	{
+		nRC = SetCursorFirstEntity(vTaskLPLR, "W_MetaDef", 0);
+		while (nRC == zCURSOR_SET)
+		{
+			//:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DialogName + ".PWD"
+			GetStringFromAttribute(SourceFileName, zsizeof(SourceFileName), vTaskLPLR, "LPLR", "MetaSrcDir");
+			GetStringFromAttribute(DialogName, zsizeof(DialogName), vTaskLPLR, "W_MetaDef", "Name");
+			TraceLineS("SourceFileName ", SourceFileName);
+			TraceLineS("DialogName ", DialogName);
+			if (zstrcmp(DialogName, "AD_Base") != 0 && zstrcmp(DialogName, "AD_BASE") != 0)
+			{
+				ZeidonStringConcat(SourceFileName, 1, 0, "\\", 1, 0, 514);
+				ZeidonStringConcat(SourceFileName, 1, 0, DialogName, 1, 0, 514);
+				ZeidonStringConcat(SourceFileName, 1, 0, ".PWD", 1, 0, 514);
+
+				nRC = ActivateOI_FromFile(&vTZWINDOW, "TZWDLGSO", vTaskLPLR, SourceFileName, 8192);
+				CreateViewFromViewForTask(&vValidate, vTZWINDOW, 0);
+
+				nRC = SetCursorFirstEntity(vTZWINDOW, "Window", 0);
+				while (nRC == zCURSOR_SET)
+				{
+					GetAddrForAttribute(&pchWnd, vTZWINDOW, "Window", "Tag");
+					zsprintf(szMsg, "Generating JSP Java: %s.%s", pchDlg, pchWnd);
+					TraceLineS("Generating jsp: ", szMsg);
+					//MB_SetMessage(vSubtask, 1, szMsg);
+					SetViewFromView(vValidate, vTZWINDOW);
+					//ValidateCtrlAndActionTags(vSubtask, vValidate);
+					oTZWDLGSO_GenerateJSPJava(vTZWINDOW, vSubtask);
+					nRC = SetCursorNextEntity(vTZWINDOW, "Window", 0);
+				}
+				DropObjectInstance(vTZWINDOW);
+			}
+			nRC = SetCursorNextEntity(vTaskLPLR, "W_MetaDef", 0);
+		}
+	}
+	return(0);
+
+} // GenerateAllJSPJavaAllDialogs
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: RunAll
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
+RunAll( zVIEW vSubtask)
+{
+
+	//zVIEW vSubtask = NULL;
+	zVIEW vTZMSGWRK = 0;
+	zVIEW vTaskLPLR = 0;
+	zSHORT nRC;
+	char cNet = '\0', cError = '\0';
+	char cApplication[32], cTE_Name[256], cLogFile[256];
+	char *pc;
+
+	//HANDLE hInstance = (HANDLE) GetWindowLong( hWnd, GWL_HINSTANCE );
+	//LPSTR  lpCmdLine = (LPSTR) GetWindowLong( hWnd, GWL_USERDATA );
+
+	// Analyze the Command Line
+
+	// The command line is
+	// "-p Application" "-t TE-Name" "[-n]" ["Log-File"]
+	// "Application" and "TE-Name" are  required
+
+ 	TraceLineS("tzedcm2d RunAppl", "");
+	//IssueError(vSubtask, 0, 0, "stop");
+	// Create a work object that indicates whether or not the messages should pop-up. 
+	// We do not want pop-up messages here.
+	nRC = GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_TASK);
+	nRC = GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_APPLICATION);
+	if (GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_TASK) < 0 && GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_APPLICATION) < 0)
+	{
+		TraceLineS("buildlplr Create TZMSGWRK", "");
+		//://DropObjectInstance( vWork )
+		ActivateEmptyObjectInstance(&vTZMSGWRK, "TZMSGWRK", vSubtask, zSINGLE);
+		CreateEntity(vTZMSGWRK, "Messages", zPOS_AFTER);
+		SetNameForView(vTZMSGWRK, "TZMSGWRK", 0, zLEVEL_TASK);
+		//SetAttributeFromInteger(vTZMSGWRK, "Messages", "NoMsg", 1);
+	}
+	else
+		TraceLineS("tzedcm2d TZMSGWRK no created", "");
+
+
+	//TraceLineS("Before InitializeLPLR", "");
+	//nRC = InitializeLPLR(vSubtask, "hfifusion");
+	//TraceLineI("After InitializeLPLR ", nRC);
+
+	fnCreateMsgObj(vSubtask);
+
+	/* For now we will assume that the lplr we want is the one marked default in TZCMWKS8.POR
+	nRC = zwTZTEUPDD_SwitchLPLR(vSubtask);
+	TraceLineI("After zwTZTEUPDD_SwitchLPLR ", nRC);
+	nRC = zwTZCMSLPD_SwitchLPLR(vSubtask);
+	TraceLineI("After zwTZCMSLPD_SwitchLPLR ", nRC);
+	*/
+
+	// Rebuild Meta
+	zwTZCMSLPD_RebuildMetaLists(vSubtask);
+	TraceLineS("Before RebuildXDM", "");
+
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Before building domain xdm",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+
+	RebuildXDM(vSubtask);
+
+
+	TraceLineS("Before zwTZTEUPDD_InitTool", "");
+	// InitTools uses the default lplr. I have the above SwitchLPLR because we would like to switch to the lplr
+	// we are passing in. But for now I think I will keep that commented out. It's not working.
+	zwTZTEUPDD_InitTool(vSubtask);
+	TraceLineS("Before zwTZTEUPDD_InitTool", "");
+	TraceLineS("Before zwTZTEUPDD_RebuildTablesRels", "");
+
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Before building Tables/Rel",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+
+	zwTZTEUPDD_RebuildTablesRels(vSubtask);
+
+	zwTZTEUPDD_SaveModelDTE(vSubtask);
+	//TraceLineS("Before RebuildMetaLists", "");
+
+	//RebuildMetaLists( vSubtask);
+
+   //MessageSend(vSubtask, "TE00423", "Physical Data Model",
+   //   "Before generating all jsps",
+   //   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+
+	if (GetViewByName(&vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK) < 0)
+	{
+		TraceLineS("TaskLPLR does not exist", "");
+	}
+	else
+	{
+		TraceLineS("TaskLPLR DOES EXIST :)", "");
+		nRC = GenerateAllJSPJavaAllDialogs(vSubtask);
+	}
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Before building xods",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+
+	TraceLineS("Before ProcessXods", "");
+	ProcessXods(vSubtask, "hfifusion", "");
+	TraceLineS("AFTER ProcessXods", "");
+	// This will build a list of all vml files to be parsed/generated
+	RebuildTargetList(vSubtask);
+	GetViewByName(&vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK);
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Before parsing/generating VML/Java",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+	MakeAllTargets( vSubtask, vTaskLPLR, "Java");
+
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Process Completed",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+
+	UnregisterZeidonApplication(vSubtask);
+
+	return( 0 );
+} // RunAll
+
+
+static void ProcessXods(zVIEW vSubtask,
+	zPCHAR    cTE_Name, zPCHAR cLogFile)
+{
+	FILE *fLog = NULL;
+	zVIEW vTaskLPLR = NULL;
+	zCHAR szMsg[1000];
+	zVIEW vTZTEDBLO, vDTE, vCM_List;
+	zVIEW vLOD, vLOD_List, vXOD;
+	zVIEW vTemp = NULL;
+	zVIEW vT = NULL;
+	zSHORT nRC;
+	RECT rect;
+	LPLIBRARY hLib = NULL;
+	zCHAR szLODName[33];
+	zCHAR szFileName[256];
+	zCHAR szNetwork[256];
+	zCHAR szTemp[zMAX_FILESPEC_LTH + 1];
+
+	if (cLogFile && cLogFile[0])
+		fLog = fopen(cLogFile, "w");
+
+
+	ActivateOI_FromFile(&vTZTEDBLO, "tztedblo", vSubtask, "tztedblo.xdl",
+		zMULTIPLE);
+	SetNameForView(vTZTEDBLO, "TZTEDBLO", vSubtask, zLEVEL_TASK);
+
+	//oTZTENVRO_GetUpdViewForDTE_P
+	//nRC = RetrieveViewForMetaList( vSubtask, vSubtask, &vCM_List, zSOURCE_DTE_META );
+	nRC = RetrieveViewForMetaList(vSubtask, &vCM_List, zSOURCE_DTE_META);
+	nRC = ActivateMetaOI(vSubtask, &vDTE, vCM_List, zSOURCE_DTE_META,
+		zSINGLE | zACTIVATE_ROOTONLY);
+	if (nRC < 0)
+	{
+		strcpy_s(szMsg, zsizeof(szMsg), "Internal error activating TE");
+		strcat_s(szMsg, zsizeof(szMsg), "\n");
+		if (fLog)
+		{
+			fputs(szMsg, fLog);
+			fclose(fLog);
+		}
+		return;
+	}
+	SetNameForView(vDTE, "TE_DB_Environ", vSubtask, zLEVEL_TASK);
+	// Position on given DBMS Source
+	nRC = SetCursorFirstEntityByString(vDTE,
+		"TE_DBMS_Source", "Name", cTE_Name, 0);
+	if (nRC < zCURSOR_SET)
+	{
+		strcpy_s(szMsg, zsizeof(szMsg), "Invalid TE Name :");
+		strcat_s(szMsg, zsizeof(szMsg), cTE_Name);
+		strcat_s(szMsg, zsizeof(szMsg), "\n");
+		if (fLog)
+		{
+			fputs(szMsg, fLog);
+			fclose(fLog);
+		}
+		return;
+	}
+
+	nRC = GetViewByName(&vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK);
+	//assert(nRC >= 0);
+
+	// Check for network build
+	/*
+	if ( cNet )
+	{
+	   // Use default network for Ton Beller (DBMS = "Network Server")
+	   SetCursorFirstEntityByString( vTZTEDBLO, "TE_DBMS_Source", "Network",
+									 szNetwork, 0 );
+	   SetAttributeFromAttribute( vDTE,      "TE_DBMS_Source", "DBMS",
+								  vTZTEDBLO, "TE_DBMS_Source", "DBMS" );
+	   SetAttributeFromAttribute( vDTE,      "TE_DBMS_Source", "Network",
+								  vTZTEDBLO, "TE_DBMS_Source", "Network" );
+	}
+	else
+	{
+	*/
+	// Position on corresponding DBMS entry in DB Handler object.
+	SetCursorFirstEntityByAttr(vTZTEDBLO, "TE_DBMS_Source", "DBMS",
+		vDTE, "TE_DBMS_Source", "DBMS", 0);
+
+	//}
+	// KJS 03/17/26 - This is working with saving all of the xods.
+	// We'd like to be able to perform more than just xod. 
+	nRC = RebuildMetaLists(vSubtask);
+	nRC = RebuildXDM(vSubtask);
+	//zwTZTEUPDD_BuildXODsOnLPLR( zVIEW vSubtask )
+
+	// Create a view that lists all LODs.
+	RetrieveViewForMetaList(vSubtask, &vLOD_List, zREFER_LOD_META);
+	OrderEntityForView(vLOD_List, "W_MetaDef", "Name A");
+	SetNameForView(vLOD_List, "TZZOLFLO", vSubtask, zLEVEL_TASK);
+
+	// Loop through each of the LOD's
+	// WMetaType.Type= zREFER_LOD_META
+	//
+	for (nRC = SetCursorFirstEntity(vLOD_List, "W_MetaDef", "");
+		nRC >= zCURSOR_SET;
+		nRC = SetCursorNextEntity(vLOD_List, "W_MetaDef", ""))
+	{
+
+		GetStringFromAttribute(szLODName, zsizeof(szLODName),
+			vLOD_List, "W_MetaDef", "Name");
+
+		nRC = ActivateMetaOI(vSubtask, &vLOD, vLOD_List, zREFER_LOD_META, zCURRENT_OI);
+		if (nRC < 0)
+		{
+			strcpy_s(szMsg, zsizeof(szMsg), "Could not Activate LOD: ");
+			strcat_s(szMsg, zsizeof(szMsg), szLODName);
+			strcat_s(szMsg, zsizeof(szMsg), ".\nAborting Build");
+
+
+			strcat_s(szMsg, zsizeof(szMsg), "\n");
+			if (fLog)
+			{
+				fputs(szMsg, fLog);
+				fclose(fLog);
+			}
+
+			return;
+		}
+		else
+		{
+			// Send message that we are building the LOD.
+			strcpy_s(szMsg, zsizeof(szMsg), "Building executable for LOD: ");
+			strcat_s(szMsg, zsizeof(szMsg), szLODName);
+			strcat_s(szMsg, zsizeof(szMsg), ".");
+			//strcpy_s(szOutLine, zsizeof(szOutLine), szMsg);
+			strcpy_s(szOutLine, zsizeof(szOutLine), "");
+			strcpy_s(szMsg, zsizeof(szMsg), "Unable to Find Attribute in TE.\n\nAttr Name = ");
+			//GetClientRect( hWnd, &rect );
+			//InvalidateRect( hWnd, &rect, TRUE );
+			//UpdateWindow( hWnd );
+
+			if (fLog)
+			{
+				strcat_s(szMsg, zsizeof(szMsg), "\n");
+				fputs(szMsg, fLog);
+			}
+			else
+				TraceLineS(szMsg, "");
+
+			// Make sure the TE_SourceZKey attribute is set because it determines
+			// what DBMS_Source is used in building the XOD.
+			if (CheckExistenceOfEntity(vLOD, "POD") >= zCURSOR_SET)
+			{
+				// KJS 08/17/21 - Automatically setting the xto1 flag for LODs (if they are saved with a database).
+				//SQL_DBH_SetX_ToOneLoc(vLOD, vSubtask);
+				SetAttributeFromAttribute(vLOD, "POD", "TE_SourceZKey", vDTE, "TE_DBMS_Source", "ZKey");
+			}
+
+			// Build the XOD in memory
+			SetNameForView(vLOD, "TZZOLODO", vSubtask, zLEVEL_TASK);
+			nRC = oTZZOXODO_SaveXOD(vSubtask, vLOD);
+			TraceLineI("oTZZOXODO_SaveXOD ", nRC);
+			GetViewByName(&vXOD, "TZZOXODO", vSubtask, zLEVEL_TASK);
+			// 09/08/15 - We think we do not want to keep the vLOD in cached memory so instead
+			// of doing a DropMetaOI, we are going to do a DropObjectInstance
+			//DropMetaOI( vSubtask, vLOD );
+			DropObjectInstance(vLOD);
+			/*
+			// Commit the XOD to LPLR file.
+			GetViewByName( &vXOD, "TZZOXODO", 0, zLEVEL_TASK );
+			GetStringFromAttribute( szFileName, zsizeof( szFileName ),
+									vTaskLPLR, "LPLR", "ExecDir" );
+			ofnTZCMWKSO_AppendSlash( szFileName );
+			strcat_s( szFileName, zsizeof( szFileName ), szLODName );
+			strcat_s( szFileName, zsizeof( szFileName ), ".XOD" );
+			CommitOI_ToFile( vXOD, szFileName, zSINGLE );
+			*/
+
+			// Commit the XOD to LPLR file.
+			GetStringFromAttribute(szTemp, zsizeof(szTemp), vTaskLPLR, "LPLR", "ExecDir");
+			SysConvertEnvironmentString(szFileName, zsizeof(szFileName), szTemp);
+			ofnTZCMWKSO_AppendSlash(szFileName);
+			strcat_s(szFileName, zsizeof(szFileName), szLODName);
+			strcat_s(szFileName, zsizeof(szFileName), ".XOD");
+			TraceLineS("*** Committing workstation file: ", szFileName);
+			// DisplayObjectInstance( vXOD, "", "" );
+			CommitOI_ToFile(vXOD, szFileName, zSINGLE);
+			// 09/08/15 - Adding drop of the xod view.
+			DropObjectInstance(vXOD);
+
+		}
+	}
+
+	if (fLog)
+		fclose(fLog);
+	else
+		TraceLineS("Completed XOD build", "");
+
+	return;
+
+}
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: RunRebuildXOD
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
+RunRebuildXOD( zVIEW vSubtask)
+{
+	zVIEW vTZMSGWRK = 0;
+	zVIEW vTaskLPLR = 0;
+
+	TraceLineS("Before ProcessXods", "");
+	ProcessXods(vSubtask, "hfifusion", "");
+	TraceLineS("AFTER ProcessXods", "");
+
+	return( 0 );
+} // RunRebuildXOD
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: RunRebuildXDM
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
+RunRebuildXDM( zVIEW vSubtask)
+{
+	zVIEW vTZMSGWRK = 0;
+	zVIEW vTaskLPLR = 0;
+
+	RebuildXDM(vSubtask);
+
+	return( 0 );
+} // RunRebuildXDM
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: RunRebuildMeta
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
+RunRebuildMeta( zVIEW vSubtask)
+{
+	zVIEW vTZMSGWRK = 0;
+	zVIEW vTaskLPLR = 0;
+
+	// Rebuild Meta
+	zwTZCMSLPD_RebuildMetaLists(vSubtask);
+
+	return( 0 );
+} // RunRebuildMeta
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: RunRebuildJava
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
+RunRebuildJava( zVIEW vSubtask)
+{
+	zVIEW vTZMSGWRK = 0;
+	zVIEW vTaskLPLR = 0;
+
+	// This will build a list of all vml files to be parsed/generated
+	RebuildTargetList(vSubtask);
+	GetViewByName(&vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK);
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Before parsing/generating VML/Java",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+	MakeAllTargets(vSubtask, vTaskLPLR, "Java");
+
+	return( 0 );
+} // RunRebuildJava
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: RunRebuildDTE
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
+RunRebuildDTE( zVIEW vSubtask)
+{
+	zVIEW vTZMSGWRK = 0;
+	zVIEW vTaskLPLR = 0;
+
+	// Do we need to do this?
+	zwTZTEUPDD_InitTool(vSubtask);
+	TraceLineS("Before zwTZTEUPDD_InitTool", "");
+	TraceLineS("Before zwTZTEUPDD_RebuildTablesRels", "");
+
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Before building Tables/Rel",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+
+	zwTZTEUPDD_RebuildTablesRels(vSubtask);
+	zwTZTEUPDD_SaveModelDTE(vSubtask);
+
+	return( 0 );
+} // RunRebuildDTE
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//  OPERATION: RunRebuildAllJSP
+//
+/////////////////////////////////////////////////////////////////////////////
+zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
+RunRebuildAllJSP( zVIEW vSubtask)
+{
+	zVIEW vTZMSGWRK = 0;
+	zVIEW vTaskLPLR = 0;
+	zSHORT nRC;
+
+	if (GetViewByName(&vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK) < 0)
+	{
+		TraceLineS("TaskLPLR does not exist", "");
+	}
+	else
+	{
+		TraceLineS("TaskLPLR DOES EXIST :)", "");
+		nRC = GenerateAllJSPJavaAllDialogs(vSubtask);
+	}
+
+	return( 0 );
+} // RunRebuildAllJSP
+

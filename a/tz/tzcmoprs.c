@@ -390,7 +390,7 @@ InitializeLPLR( zVIEW  vSubtask,
    LPTASK lpTask;
    zSHORT nRC;
 
-   //TraceLineS("*** InitializeLPLR *** ", "");
+   TraceLineS("*** InitializeLPLR *** ", "");
 
    // Check to make sure that the Workstation Administration tool is not up.
    lpTask = 0;
@@ -414,6 +414,7 @@ InitializeLPLR( zVIEW  vSubtask,
       }
    }
 
+   TraceLineS("*** InitializeLPLR *** 2", "");
    GetViewByName( &vZeidonCM, "ZeidonCM", vSubtask, zLEVEL_APPLICATION );
    if ( vZeidonCM == 0 )
    {
@@ -434,6 +435,7 @@ InitializeLPLR( zVIEW  vSubtask,
       SetNameForView( vActiveMetas, "OpenCM_Metas", vZeidonCM, zLEVEL_SUBTASK );
    }
 
+   TraceLineS("*** InitializeLPLR *** 3", "");
    fnGetTaskOI_ListName( vSubtask, szLPLR_Name, zsizeof( szLPLR_Name ) );
    GetViewByName( &vTaskMetas, szLPLR_Name, vZeidonCM, zLEVEL_SUBTASK );
    if ( vTaskMetas == 0 )
@@ -471,6 +473,7 @@ InitializeLPLR( zVIEW  vSubtask,
       SetNameForView( WKS_View, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
    }
 
+   TraceLineS("*** InitializeLPLR *** 4 ", szLPLR_Name);
    if ( pchLPLR_NameIn &&
         zstrcmp( pchLPLR_NameIn, "CM New User" ) == 0 )
    {
@@ -508,6 +511,7 @@ InitializeLPLR( zVIEW  vSubtask,
       }
    }
 
+   TraceLineS("*** InitializeLPLR *** 5", "");
    GetStringFromAttribute( szLPLR_Name, zsizeof( szLPLR_Name ), WKS_View, "LPLR", "Name" );
    GetStringFromAttribute( szErrMsg, zsizeof( szErrMsg ), WKS_View, "LPLR", "ExecDir" ); // borrow szErrMsg for a sec...
    SysConvertEnvironmentString( szLPLR_Spec, zsizeof( szLPLR_Spec ), szErrMsg );
@@ -570,7 +574,8 @@ InitializeLPLR( zVIEW  vSubtask,
          }
       }
 
-      if ( nRC == 0 )
+	  TraceLineS("*** InitializeLPLR *** 6", "");
+	  if ( nRC == 0 )
          SetNameForView( vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
       else
       {
@@ -615,6 +620,7 @@ InitializeLPLR( zVIEW  vSubtask,
       SetNameForView( vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK );
    }
 
+   TraceLineS("*** InitializeLPLR *** 7", "");
    GetIntegerFromAttribute( &lTaskUseCnt, vLPLR, "LPLR", "TaskUseCount" );
    lTaskUseCnt++;
    SetAttributeFromInteger( vLPLR, "LPLR", "TaskUseCount", lTaskUseCnt );
@@ -1881,6 +1887,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
       return( -1 );
 
    GetStringFromAttribute( szMetaOI_Name, zsizeof( szMetaOI_Name ), vMOI, SRC_CMOD[ nType ].szOD_ROOT, SRC_CMOD[ nType ].szOD_NAME );
+   TraceLineS("fnCommitMetaOI MetaOIName =========== ", szMetaOI_Name);
 
    // If the view is read-only, then we can't commit it.
    nRC = MiGetUpdateForView( vMOI );
@@ -1900,6 +1907,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
 
    // Get the ZKey for the OI we are about to commit.
    GetIntegerFromAttribute( &lMetaOI_ZKey, vMOI, SRC_CMOD[ nType ].szOD_ROOT, "ZKey" );
+   TraceLineI("fnCommitMetaOI lMetaOI_ZKey =========== ", lMetaOI_ZKey);
 
    // Position on the correct W_MetaType. If it doesn't exist, create one.
    if ( SetCursorFirstEntityByInteger( vLPLR, "W_MetaType", "Type", nType, "" ) != zCURSOR_SET )
@@ -1964,7 +1972,8 @@ fnCommitMetaOI( zVIEW  vSubtask,
 
    if ( nRC == 1 ) // duplicate found and renamed
    {
-      GetStringFromAttribute( szMetaOI_Name, zsizeof( szMetaOI_Name ), vMOI, SRC_CMOD[ nType ].szOD_ROOT, SRC_CMOD[ nType ].szOD_NAME );
+	   GetStringFromAttribute( szMetaOI_Name, zsizeof( szMetaOI_Name ), vMOI, SRC_CMOD[ nType ].szOD_ROOT, SRC_CMOD[ nType ].szOD_NAME );
+	   TraceLineS("fnCommitMetaOI duplicate found and renamed =========== ", szMetaOI_Name);
    }
 
    if ( nType == zSOURCE_DOMAINGRP_META || nType == zSOURCE_GOPGRP_META )
@@ -2130,6 +2139,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
    }
 
    nRC = fnGetDirectorySpec( vMOI, szFileSpec, zsizeof( szFileSpec ), nType, TRUE );
+   TraceLineS("fnCommitMetaOI szFileSpec 1 =========== ", szFileSpec);
 
    switch ( nType )
    {
@@ -2176,6 +2186,7 @@ fnCommitMetaOI( zVIEW  vSubtask,
    } // switch ( nType )...
 
    strcat_s( szFileSpec, zsizeof( szFileSpec ), SRC_CMOD[ nType ].szOD_EXT );
+   TraceLineS("fnCommitMetaOI szFileSpec 2 =========== ", szFileSpec);
    GetVariableFromAttribute( szDesc, 0, zTYPE_STRING, 255, vMOI, SRC_CMOD[ nType ].szOD_ROOT, "Desc", "", 0 );
 
    // Commit the XWD/XRA if a Dialog Meta.
@@ -2294,12 +2305,14 @@ fnCommitMetaOI( zVIEW  vSubtask,
       // Keep it the same format.
       if ( MiCompareOI_ToRelease( vMOI, szlReleaseCompatible ) <= 0 )
       {
+		  TraceLineS("fnCommitMetaOI CommitOI_ToFile 1 We get here on normal Save!! =========== ", szFileSpec);
          MiSetOI_ReleaseForView( vMOI, szlReleaseCompatible );
          nRC = CommitOI_ToFile( vMOI, szFileSpec, zSINGLE );
       }
       else
       {
-         MiSetOI_ReleaseForView( vMOI, szlReleaseCurrent );
+		  TraceLineS("fnCommitMetaOI CommitOI_ToFile 2 =========== ", szFileSpec);
+		  MiSetOI_ReleaseForView( vMOI, szlReleaseCurrent );
          nRC = CommitOI_ToFile( vMOI, szFileSpec,
                                 zSINGLE | zENCODE_BLOBS | zNO_NULL_STRING_TERM );
       }
@@ -2308,13 +2321,15 @@ fnCommitMetaOI( zVIEW  vSubtask,
    if ( nRC == 2 )
    {
       // Force it to compatibility format.
-      MiSetOI_ReleaseForView( vMOI, szlReleaseCompatible );
+	   TraceLineS("fnCommitMetaOI CommitOI_ToFile 3 =========== ", szFileSpec);
+	   MiSetOI_ReleaseForView( vMOI, szlReleaseCompatible );
       nRC = CommitOI_ToFile( vMOI, szFileSpec, zSINGLE );
    }
    else
    {
       // Use the current release version of the software.
-      MiSetOI_ReleaseForView( vMOI, szlReleaseCurrent );
+	   TraceLineS("fnCommitMetaOI CommitOI_ToFile 4 =========== ", szFileSpec);
+	   MiSetOI_ReleaseForView( vMOI, szlReleaseCurrent );
       nRC = CommitOI_ToFile( vMOI, szFileSpec,
                              zSINGLE | zENCODE_BLOBS | zNO_NULL_STRING_TERM );
    }

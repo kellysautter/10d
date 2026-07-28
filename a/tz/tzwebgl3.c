@@ -803,7 +803,7 @@ GenJSPJ_ActionRecurs( zVIEW     vDialogMenu,
 //:                            STRING ( 255 )   szFormName,
 //:                            STRING ( 2 )     szActionPrefix )
 
-//:   VIEW vWork    REGISTERED AS TZPTWRKO
+//:   VIEW vWork    BASED ON LOD  TZPTWRKO
 zOPER_EXPORT zVOID OPERATION
 GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
                             zVIEW     vDialogMenuRoot,
@@ -814,7 +814,6 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
                             zPCHAR    szActionPrefix )
 {
    zVIEW     vWork = 0; 
-   zSHORT    RESULT; 
    //:VIEW vDialog2 BASED ON LOD  TZWDLGSO
    zVIEW     vDialog2 = 0; 
    //:STRING ( 34 )    szActionName
@@ -829,6 +828,7 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
    zSHORT    bListButton = 0; 
    //:SHORT            nRC
    zSHORT    nRC = 0; 
+   zSHORT    RESULT; 
    zSHORT    lTempInteger_0; 
    zCHAR     szTempString_0[ 33 ]; 
    zSHORT    lTempInteger_1; 
@@ -837,12 +837,14 @@ GenJSP_MenuFunctionsRecurs( zVIEW     vDialog,
    zSHORT    lTempInteger_4; 
    zSHORT    lTempInteger_5; 
 
-   RESULT = GetViewByName( &vWork, "TZPTWRKO", vDialog, zLEVEL_TASK );
 
    //:// KJS 12/16/16 - I switched "WL_QC( vDialog" to "WL_QC( vDialogRoot".
    //:// The reason is because sometimes we call this operation when looking at resusable actions from a different dialog.
    //:// If so, vDialog (gotten from ActivateMetaOI_ByZKey) is not always associated with the open file that we are generating to. Because of this, the actions don't
-   //:// get created. So changing to vDialogRoot which was build off of the original vDialog.   
+   //:// get created. So changing to vDialogRoot which was build off of the original vDialog. 
+   //:// KJS 07/27/26 - Need to get view by vDialogRoot.  
+   //:nRC = GetViewByName( vWork, "TZPTWRKO", vDialogRoot, zLEVEL_TASK )
+   nRC = GetViewByName( &vWork, "TZPTWRKO", vDialogRoot, zLEVEL_TASK );
 
    //:FOR EACH vDialog.Option
    RESULT = SetCursorFirstEntity( vDialog, "Option", "" );

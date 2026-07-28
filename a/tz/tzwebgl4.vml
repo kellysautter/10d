@@ -3634,7 +3634,6 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
          END  
          // KJS 06/11/26 - Is this where I should put logic for the two div classes in bootstrap5
          IF szBootstrap5 = "Y" AND ZeidonStringFind( szClassHTML, 1, "input-group" ) > 0 AND ZeidonStringFind( szClassHTML, 1, "input-group-sm" ) > 0
-            TraceLineS("HERE", "HERE")
             // We assume that input-group is always first?
             nPosition = ZeidonStringFind( szClassHTML, 1, "input-group-sm" )
             nPosition = nPosition + 14
@@ -6264,6 +6263,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
                 STRING ( 34 )    szActionName,
                 INTEGER          lTraceLevel )
 
+   VIEW vWork       BASED ON LOD TZPTWRKO
    VIEW vLPLR       BASED ON LOD TZCMLPLO
    VIEW vDialogTemp BASED ON LOD TZWDLGSO
    VIEW vDialogCtrl BASED ON LOD TZWDLGSO
@@ -6291,6 +6291,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    STRING ( 50 )    szPublicKey
    STRING ( 3 )     szBuffer
    STRING ( 1 )     InsertBlankFlag
+   STRING ( 1 )     szTomcat10
    STRING ( 1 )     szCommentAdded
    STRING ( 1 )     szDialogClassCreated
    STRING ( 1 )     szUploadTransferFileFlag
@@ -6300,6 +6301,7 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    STRING ( 1 )     szProductionMode
    STRING ( 1 )     szGridScopeOI
    STRING ( 1 )     szNoMonitorTaskLogout
+   STRING ( 1 )     szAppendDateTime
    INTEGER          lControl
    INTEGER          lMaxStringLth
    INTEGER          lActionType
@@ -6312,7 +6314,8 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    SHORT            nRC
 
    InsertBlankFlag = "N"
-   
+   nRC = GetViewByName(vWork, "TZPTWRKO", vDialogRoot, zLEVEL_TASK)
+   szTomcat10 = vWork.Root.Tomcat10   
    //TraceLineS("*** GenJSPJ_Action *** ", "")
 
    // KJS 12/16/16 - I switched "WL_QC( vDialog" to "WL_QC( vDialogRoot".
@@ -6375,7 +6378,6 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
    END
 
-//**********************************
    szProductionMode = "" // this was something I tried but not using here...
 
    // KJS 11/05/09
@@ -6568,12 +6570,15 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
    IF vDialogCtrl > 0
       CreateViewFromView( vDialogTemp, vDialogCtrl )
       ResetViewFromSubobject( vDialogTemp )
+      szAppendDateTime = "N"
       SET CURSOR FIRST vDialogTemp.WebControlProperty WHERE vDialogTemp.WebControlProperty.Name = "File Transfer to Server"
       IF RESULT < zCURSOR_SET
          SET CURSOR FIRST vDialogTemp.WebControlProperty WHERE vDialogTemp.WebControlProperty.Name = "File Upload with DateTime"
+         szAppendDateTime = "Y"
       END
       IF RESULT < zCURSOR_SET
          SET CURSOR FIRST vDialogTemp.WebControlProperty WHERE vDialogTemp.WebControlProperty.Name = "File Upload w/o DateTime"
+         szAppendDateTime = "N"
       END
       IF RESULT >= zCURSOR_SET
          szUploadTransferFileFlag = "Y"
@@ -6589,30 +6594,123 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
       //filename that is being uploaded into that mapping.
 
       CreateViewFromView( vDialogTemp, vDialogCtrl )
+      
+      IF szTomcat10 = "Y"
+         // KJS 07/08/26 - In Tomcat 10/11 - The file upload process is new.
+         szWriteBuffer = "      int iFileLth = 0;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      int iFileLthMax = 10485760;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
-         // Aadit, wants there to be an upload file limit, so that for email attachment, the file isn't too big to bring
-         // down the mail server. This really needs to be an updatable field...
-         szWriteBuffer = "      if ( iFileLth > iFileLthMax )"  //10485760
-         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "      {"
-         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "         VmlOperation.CreateMessage( task, ^" + szCtrlTag + "^, ^This file is too large!^, ^This file is too large!^ );"
-         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "         break;"
-         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         FOR EACH vDialogTemp.Control
+   
+            IF vDialogTemp.ControlDef.Tag = "PushBtn"
+               //Get the mapping
+               SET CURSOR FIRST vDialogTemp.CtrlMapLOD_Attribute WITHIN vDialogTemp.Control
+               IF RESULT >= zCURSOR_SET
+                   szWriteBuffer = "      String savePath = " + vDialogTemp.CtrlMapView.Name + ".cursor( ^" +
+                                  vDialogTemp.CtrlMapRelatedEntity.Name + "^ ).getAttribute( ^" + vDialogTemp.CtrlMapER_Attribute.Name + "^ ).getString( ^^ );"
+                   WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 1 )
+               END
+            END
+            IF vDialogTemp.ControlDef.Tag = "EditBox"
+                                           //256
+               //Get the mapping
+               SET CURSOR FIRST vDialogTemp.CtrlMapLOD_Attribute WITHIN vDialogTemp.Control
+               IF RESULT >= zCURSOR_SET
+                  szUploadViewName = vDialogTemp.CtrlMapView.Name
+                  szCtrlTag = vDialogTemp.Control.Tag
+               END
+            END
+         END
+           
+         szWriteBuffer = "      // Creates the save directory if it does not exist"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         //szWriteBuffer = "         String fileName2 = null;"
+         //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      File fileSaveDir = new File(savePath);"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      if (!fileSaveDir.exists()) {"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "          fileSaveDir.mkdir();"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "      }"
-         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-         // KJS 08/31/20 - Give message if no file was selected.
-         szWriteBuffer = "      if ( iFileLth == -1 )"
-         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      String fileName = ^^;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      Part filePart = request.getPart(^" + szCtrlTag + "^);"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      if ( vKZXMLPGO.cursor( ^Session^ ).getAttribute( ^PrintFileName^ ).getString( ^^ ).length() > 0 )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "          fileName = vKZXMLPGO.cursor( ^Session^ ).getAttribute( ^PrintFileName^ ).getString( ^^ );"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      else"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "          fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+   
+         szWriteBuffer = "      // if we are appending datetime"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      DateFormat dateFormat = new SimpleDateFormat(^yyyymmddhhmmsss^);"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         IF szAppendDateTime = "N"
+            szWriteBuffer = "      String strDateTime = ^^;"
+         ELSE
+            szWriteBuffer = "      String strDateTime = dateFormat.format(new java.util.Date());"
+         END
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "      if ( strDateTime.length() > 0 )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "      {"
-         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "         VmlOperation.CreateMessage( task, ^" + szCtrlTag + "^, ^No file was selected.^, ^No file was selected.^ );"
-         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "         break;"
-         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "      }"
-         WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "           int l = fileName.lastIndexOf(^.^);"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "           if ( l == -1 )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "              strInputFileName = fileName + strDateTime;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "           else"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "              strInputFileName = fileName.substring(0, l) + strDateTime + ^.^ + fileName.substring(l + 1);"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "       }"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "       else"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "          strInputFileName = fileName;"  
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         
+         szWriteBuffer = "       // Saves the file on the server"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "       String filePath = savePath + strInputFileName;"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "       filePart.write(filePath);"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+      END
+
+      // Aadit, wants there to be an upload file limit, so that for email attachment, the file isn't too big to bring
+      // down the mail server. This really needs to be an updatable field...
+      szWriteBuffer = "      if ( iFileLth > iFileLthMax )"  //10485760
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      {"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         VmlOperation.CreateMessage( task, ^" + szCtrlTag + "^, ^This file is too large!^, ^This file is too large!^ );"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         break;"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      }"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      // KJS 08/31/20 - Give message if no file was selected.
+      szWriteBuffer = "      if ( iFileLth == -1 )"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      {"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         VmlOperation.CreateMessage( task, ^" + szCtrlTag + "^, ^No file was selected.^, ^No file was selected.^ );"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         break;"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      }"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
 
       //I wanted to do the "SET CURSOR..." but because Control doesn't really have a parent
       //the c code that gets generated is only looking for ControlDef under Control (not all controls) and so
@@ -6645,8 +6743,6 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
                szWriteBuffer = "         if ( " + vDialogTemp.CtrlMapView.Name + ".cursor( ^" +
                                vDialogTemp.CtrlMapRelatedEntity.Name + "^ ).checkExistenceOfEntity( ).toInt() >= 0 )"
                WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
-               //szWriteBuffer = "         if ( nRC >= 0 )"
-               //WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "         {"
                WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
 
@@ -6703,7 +6799,13 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
 
             END
          END
-      END
+      END  //FOR EACH vDialogTemp.Control
+      
+      szWriteBuffer = "      // Clear out PrintFileName"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "      vKZXMLPGO.cursor(^Session^).getAttribute(^PrintFileName^).setValue(^^);"
+      WL_QC( vDialogRoot, lFile, szWriteBuffer, "^", 0 )
+      
       DropView( vDialogTemp )
 
    ELSE

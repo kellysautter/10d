@@ -376,6 +376,7 @@ zwTZTEUPDD_InitTool( zVIEW vSubtask )
    zVIEW       vTZTEDBLO;
    zSHORT      nRC;
 
+   TraceLineS("*** zwTZTEUPDD_InitTool *** 1", "");
    nRC = oTZ__PRFO_GetViewToProfile( &vT, "TE", vSubtask, zCURRENT_OI );
    if ( nRC >= 0 )
       SetNameForView( vT, "ProfileXFER", vSubtask, zLEVEL_TASK );
@@ -383,9 +384,11 @@ zwTZTEUPDD_InitTool( zVIEW vSubtask )
    ActivateOI_FromFile( &vTZTEDBLO, "tztedblo", vSubtask, "tztedblo.xdl",
                         zMULTIPLE );
    SetNameForView( vTZTEDBLO, "TZTEDBLO", vSubtask, zLEVEL_TASK );
+   TraceLineS("*** zwTZTEUPDD_InitTool *** 2", "");
 
    if ( InitializeDefaultLPL( vSubtask ) < 0 )
       return( -1 );
+   TraceLineS("*** zwTZTEUPDD_InitTool *** 3", "");
 
    // Always have a Named List of Meta's!
    // This is done to be consistent with other dialogs.  The only time
@@ -393,6 +396,7 @@ zwTZTEUPDD_InitTool( zVIEW vSubtask )
    // This fact is used a "flag" to the RtnFromSubwnd logic.
    RetrieveViewForMetaList( vSubtask, &vT, zSOURCE_DTE_META );
    SetNameForView( vT, "CM_DTE_List", vSubtask, zLEVEL_TASK );
+   TraceLineS("*** zwTZTEUPDD_InitTool *** 4", "");
 
    nRC = zwfnTZTEUPDD_InitDTE( vSubtask, vT );
    if ( nRC < 0 )
@@ -402,6 +406,7 @@ zwTZTEUPDD_InitTool( zVIEW vSubtask )
       SetWindowActionBehavior( vSubtask, zWAB_ReturnToParent, "", "" );
       return( 0 );
    }
+   TraceLineS("*** zwTZTEUPDD_InitTool *** 5", "");
 
    // DGC 12/4/96  Following is short term fix for new-style dbhandler stuff.
    // It can be removed soon.
@@ -454,6 +459,7 @@ zwTZTEUPDD_InitTool( zVIEW vSubtask )
       }
    }
 #endif
+   TraceLineS("*** zwTZTEUPDD_InitTool *** 6", "");
 
    return( 0 );
 }
@@ -467,6 +473,7 @@ zwfnTZTEUPDD_InitDTE( zVIEW vSubtask,
    zVIEW       vLPLR;
    LPVIEWCSR   lpViewCsr;
    LPVIEWOI    lpViewOI;
+   TraceLineS("*** zwfnTZTEUPDD_InitDTE *** 1", "");
 
    if ( GetViewByName( &vLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK ) < 0 )
       return( -1 );
@@ -474,8 +481,10 @@ zwfnTZTEUPDD_InitDTE( zVIEW vSubtask,
    // Load the "MODEL" DTE in the LPLR
    if ( GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_TASK ) < 0 )
    {
-      oTZTENVRO_GetUpdViewForDTE_P( vSubtask, &vDTE );
-      if ( vDTE )
+	   TraceLineS("*** zwfnTZTEUPDD_InitDTE *** 2", "");
+	   oTZTENVRO_GetUpdViewForDTE_P( vSubtask, &vDTE );
+	   TraceLineS("*** zwfnTZTEUPDD_InitDTE *** 3", "");
+	   if ( vDTE )
       {
          SetNameForView( vDTE, "TE_DB_Environ", vSubtask, zLEVEL_TASK );
          // Set window Title with check out state
@@ -483,9 +492,11 @@ zwfnTZTEUPDD_InitDTE( zVIEW vSubtask,
                                     "TE_DB_Environ", vDTE,
                                     "TE_DB_Environ", zSOURCE_DTE_META );
 
-         // if field sequence does not exist, set it and remove update flag
+		 TraceLineS("*** zwfnTZTEUPDD_InitDTE *** 4", "");
+		 // if field sequence does not exist, set it and remove update flag
          oTZTENVRO_SetFieldSequence( vDTE );
-         lpViewCsr = (LPVIEWCSR) SysGetPointerFromHandle( vDTE->hViewCsr );
+		 TraceLineS("*** zwfnTZTEUPDD_InitDTE *** 5", "");
+		 lpViewCsr = (LPVIEWCSR) SysGetPointerFromHandle( vDTE->hViewCsr );
          lpViewOI  = (LPVIEWOI) SysGetPointerFromHandle( lpViewCsr->hViewOI );
          lpViewOI->bUpdatedFile = FALSE;
 
@@ -501,6 +512,7 @@ zwfnTZTEUPDD_InitDTE( zVIEW vSubtask,
          return( -1 );
    }
 
+   TraceLineS("*** zwfnTZTEUPDD_InitDTE *** 6", "");
    return( 0 );
 }
 
@@ -725,7 +737,7 @@ zwTZTEUPDD_SaveModelDTE( zVIEW  vSubtask )
 
    // Sort Attributes in original sequence
    oTZTENVRO_SortFields( vDTE, vSubtask );
-
+   TraceLineS("BEFORE DTE Commit ", "");
    nRC = CommitMetaOI( vSubtask, vDTE, zSOURCE_DTE_META );
    if ( nRC < 0 )
    {
@@ -737,6 +749,7 @@ zwTZTEUPDD_SaveModelDTE( zVIEW  vSubtask )
    else
    {
       // save XDM here in the future..................
+	   TraceLineI("Commit for vDTE ", nRC);
    }
    DropView( vDTE );
 
@@ -1049,8 +1062,11 @@ zwTZTEUPDD_RebuildTablesRels( zVIEW vSubtask )
    zPCHAR   szDS;
    zSHORT   nRC;
 
+   TraceLineS("*** zwTZTEUPDD_RebuildTablesRels 1", "");
+
    if ( GetViewByName( &vDTE, "TE_DB_Environ", vSubtask, zLEVEL_ANY ) < 0 )
       return( -1 );
+   TraceLineS("*** zwTZTEUPDD_RebuildTablesRels 2", "");
 
    if ( zwTZTEUPDD_CloseTablRecordWindow( vSubtask ) < 0 )
    {
@@ -1072,6 +1088,7 @@ zwTZTEUPDD_RebuildTablesRels( zVIEW vSubtask )
                    zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP );
       return( 0 );
    }
+   TraceLineS("*** zwTZTEUPDD_RebuildTablesRels 3", "");
 
    if ( CountEntitiesForView( vDTE, "TE_DBMS_Source" ) > 1 )
    {
@@ -1109,6 +1126,7 @@ zwTZTEUPDD_RebuildTablesRels( zVIEW vSubtask )
    }
    else
       fnRebuildTables( vSubtask, vDTE, vEMD, "TE_DB_Environ" );
+   TraceLineS("*** zwTZTEUPDD_RebuildTablesRels 4", "");
 
    // Send Error List Window
    if ( GetViewByName( &vErrorList, "TZTEERR", vSubtask, zLEVEL_TASK ) >= 0 )

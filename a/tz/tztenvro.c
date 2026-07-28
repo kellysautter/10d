@@ -2229,17 +2229,20 @@ oTZTENVRO_GetUpdViewForDTE_P( zVIEW vSubtask, zPVIEW pvTZTENVRO )
    zCHAR  sz[ 255 ];
 
    *pvTZTENVRO = 0;
-
+   TraceLineS("*** oTZTENVRO_GetUpdViewForDTE_P *** 1", "");
    nRC = RetrieveViewForMetaList( vSubtask, &vCM_List, zSOURCE_DTE_META );
-
+   //IssueError(vSubtask, 0, 0, "stop");
 #if 1
    // This code was added by DonC on 4/21/96 to handle single TE.
    // It replaced the code below.
    // Note that it will activate the TE even if it is only a REFER view.
 
+   TraceLineS("*** oTZTENVRO_GetUpdViewForDTE_P *** 2", "");
    nRC = CheckExistenceOfEntity( vCM_List, "W_MetaDef" );
+   TraceLineS("*** oTZTENVRO_GetUpdViewForDTE_P *** 3", "");
    if ( nRC < zCURSOR_SET )
       RetrieveViewForMetaList( vSubtask, &vCM_List, zREFER_DTE_META );
+   TraceLineS("*** oTZTENVRO_GetUpdViewForDTE_P *** 4", "");
 
    nRC = CheckExistenceOfEntity( vCM_List, "W_MetaDef" );
    if ( nRC >= zCURSOR_SET )
@@ -2247,22 +2250,27 @@ oTZTENVRO_GetUpdViewForDTE_P( zVIEW vSubtask, zPVIEW pvTZTENVRO )
       nRC = ActivateMetaOI( vSubtask, &vDTE, vCM_List, zSOURCE_DTE_META, zSINGLE | zACTIVATE_ROOTONLY );
       if ( nRC < 0 )
          return( -2 );
+	  TraceLineS("*** oTZTENVRO_GetUpdViewForDTE_P *** 5", "");
    }
    else
    {
       GetViewByName( &vLPL, "TaskLPLR", vSubtask, zLEVEL_TASK );
       if ( vLPL )
          GetStringFromAttribute( sz, zsizeof( sz ), vLPL, "LPLR", "Name" );
+	  TraceLineS("*** oTZTENVRO_GetUpdViewForDTE_P *** 6", "");
 
       ActivateEmptyMetaOI( vSubtask, &vDTE, zSOURCE_DTE_META, zSINGLE | zLEVEL_APPLICATION );
       if ( vDTE == 0 )
          return( -2 );
+	  TraceLineS("*** oTZTENVRO_GetUpdViewForDTE_P *** 7", "");
 
       CreateTE_MetaEntity( vSubtask, vDTE, "TE_DB_Environ", zPOS_AFTER );
       SetAttributeFromString( vDTE, "TE_DB_Environ", "Name", sz );
       SetAttributeFromAttribute( vDTE, "TE_DB_Environ", "Desc", vLPL, "LPLR", "Desc" );
       SetAttributeFromString( vDTE, "TE_DB_Environ", "Type", "P" );
+	  TraceLineS("*** oTZTENVRO_GetUpdViewForDTE_P *** 8", "");
    }
+   TraceLineS("*** oTZTENVRO_GetUpdViewForDTE_P *** 9", "");
 
 #else
    The following code was eliminated by DonC on 4/21/96 because it was set

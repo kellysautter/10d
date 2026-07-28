@@ -1,7 +1,7 @@
-z1000-Zeidon    TZEDWRKO TZZOLODO                         11/05/25   16:21:53 1.0a2   
+z1000-Zeidon    TZEDWRKO TZZOLODO                         05/12/26   12:09:48 1.0a2   
 eLOD       1
 aZKey      1329464
-aNextZKeyToAssign 190011761
+aNextZKeyToAssign 190011778
 aName      TZEDWRKO
 aDesc      Editor work object ( 1 per session )
 
@@ -360,6 +360,157 @@ aDesc      Name of error file.
 
 eDomainRec 7
 
+eLOD_EntityChild 4
+aName      Operation
+aIndentName       Operation
+aIndentLvl 6
+aZKey      190011762
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 5
+aZKey      190011763
+aWork      Y
+aSeqNo_LOD_Entity 1
+
+eER_AttributeRec 6
+aName      Name
+aZKey      190011764
+aNotNull   Y
+aDesc      Name of the operation
+
+eDomainRec 7
+aZKey      90000038
+aName      QSName
+aDomainType E
+aDataType  S
+aMaxStringLth 32
+aDesc      QuinSoft Name
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      190011765
+aWork      Y
+aSeqNo_LOD_Entity 3
+
+eER_AttributeRec 6
+aName      Desc
+aZKey      190011766
+aDesc      Operation description
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      190011767
+aWork      Y
+aSeqNo_LOD_Entity 4
+
+eER_AttributeRec 6
+aName      Type
+aZKey      190011768
+aLth       1
+aNotNull   Y
+aDesc      Object or Global
+
+eDomainRec 7
+aZKey      1320608
+aName      ZeidonOperationTypes
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      types of operations that can be defined for Zeidon (VML)
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      190011769
+aWork      Y
+aSeqNo_LOD_Entity 5
+
+eER_AttributeRec 6
+aName      ReturnDesc
+aZKey      190011770
+aLth       64
+aDesc      Desription of operation return code
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      190011771
+aWork      Y
+aSeqNo_LOD_Entity 6
+
+eER_AttributeRec 6
+aName      ReturnDataType
+aZKey      190011772
+aLth       1
+aDesc      Variable type of Return Code
+
+eDomainRec 7
+aZKey      1319844
+aName      DataType3GL
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      VML Supported Types...
+aContextRestriction N
+
+eLOD_AttributeRec 5
+aZKey      190011773
+aWork      Y
+aSeqNo_LOD_Entity 7
+
+eER_AttributeRec 6
+aName      OrdinalValue
+aZKey      190011774
+aLth       4
+aDesc      Ordinal Value of operation within the executable module
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      190011775
+aWork      Y
+aSeqNo_LOD_Entity 8
+
+eER_AttributeRec 6
+aName      Class
+aZKey      190011776
+aDesc      108
+Grouping of operation types
+The meaning is bitwise:
+0x00000001 = generated operation, do not show in list 
+
+eDomainRec 7
+
+eLOD_AttributeRec 5
+aZKey      190011777
+aWork      Y
+aUpdate    Y
+
+eER_AttributeRec 6
+aName      DoNotMergeFlag
+aZKey      190011778
+aDesc      If set, then a merge from another LPLR will not modify either the prototype or the code for this Operation.
+
+eDomainRec 7
+aZKey      90000014
+aName      Y/N
+aDomainType T
+aDataType  S
+aMaxStringLth 1
+aDesc      Yes or No
+aContextRestriction N
+
 eLOD_AttributeRec 4
 aZKey      1329482
 aWork      Y
@@ -399,13 +550,6 @@ aZKey      1329497
 aDesc      Y = active, N = inactive, null = inactive
 
 eDomainRec 6
-aZKey      90000014
-aName      Y/N
-aDomainType T
-aDataType  S
-aMaxStringLth 1
-aDesc      Yes or No
-aContextRestriction N
 
 eLOD_AttributeRec 4
 aZKey      1329498
@@ -1083,6 +1227,64 @@ eER_Attribute 4
 
 eDomain    5
 
+eLOD_Attribute 3
+awkSequence 3
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 4
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 5
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 6
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 7
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 8
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Entity 2
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+eLOD_Attribute 3
+awkSequence 2
+
+eER_Attribute 4
+
+eDomain    5
+
 eSourceFile 2
 aZKey      92000637
 aName      TZEDWRKO
@@ -1099,167 +1301,197 @@ i31        8
 i37        8
 i42        8
 i48        8
-i51        8
-i54        8
-i60        57
-i63        8
-i66        45
-i69        45
-i72        8
-i75        45
-i78        8
-i81        8
-i84        8
-i87        8
-i90        8
-i93        8
-i96        8
-i99        8
-i102       8
-i105       8
-i108       8
-i111       8
-i114       8
-i117       8
+i55        34
+i61        8
+i67        45
+i70        45
+i76        8
+i79        8
+i82        73
+i85        73
+i88        8
+i91        45
+i94        45
+i97        8
+i100       45
+i103       8
+i106       8
+i109       8
+i112       8
+i115       8
+i118       8
 i121       8
-i124       45
-i127       57
-i130       45
+i124       8
+i127       8
+i130       8
 i133       8
 i136       8
-i137       1
-i138       125
-i139       126
-i140       57
-i141       128
-i142       129
-i143       45
-i144       131
-i145       132
+i139       8
+i142       8
 i146       8
-i147       134
-i148       135
-i149       8
-i150       2
-i151       49
-i152       50
-i153       8
-i154       52
-i155       53
-i156       8
-i157       55
-i158       56
-i159       57
-i160       58
-i161       59
-i162       57
-i163       61
-i164       62
-i165       8
-i166       64
-i167       65
+i149       45
+i152       73
+i155       45
+i158       8
+i161       8
+i162       1
+i163       150
+i164       151
+i165       73
+i166       153
+i167       154
 i168       45
-i169       67
-i170       68
-i171       45
-i172       70
-i173       71
+i169       156
+i170       157
+i171       8
+i172       159
+i173       160
 i174       8
-i175       73
+i175       2
 i176       74
-i177       45
-i178       76
+i177       75
+i178       8
 i179       77
-i180       8
-i181       79
+i180       78
+i181       8
 i182       80
-i183       8
-i184       82
+i183       81
+i184       73
 i185       83
-i186       8
-i187       85
+i186       84
+i187       73
 i188       86
-i189       8
-i190       88
+i189       87
+i190       8
 i191       89
-i192       8
-i193       91
+i192       90
+i193       45
 i194       92
-i195       8
-i196       94
+i195       93
+i196       45
 i197       95
-i198       8
-i199       97
+i198       96
+i199       8
 i200       98
-i201       8
-i202       100
+i201       99
+i202       45
 i203       101
-i204       8
-i205       103
+i204       102
+i205       8
 i206       104
-i207       8
-i208       106
+i207       105
+i208       8
 i209       107
-i210       8
-i211       109
+i210       108
+i211       8
 i212       110
-i213       8
-i214       112
+i213       111
+i214       8
 i215       113
-i216       8
-i217       115
+i216       114
+i217       8
 i218       116
-i219       8
-i220       3
-i221       18
-i222       19
+i219       117
+i220       8
+i221       119
+i222       120
 i223       8
-i224       21
-i225       22
+i224       122
+i225       123
 i226       8
-i227       4
-i228       15
-i229       16
-i230       8
-i231       5
-i232       6
-i233       7
-i234       8
-i235       9
-i236       10
-i237       8
-i238       12
-i239       13
-i240       8
-i241       24
-i242       35
-i243       36
+i227       125
+i228       126
+i229       8
+i230       128
+i231       129
+i232       8
+i233       131
+i234       132
+i235       8
+i236       134
+i237       135
+i238       8
+i239       137
+i240       138
+i241       8
+i242       140
+i243       141
 i244       8
-i245       25
-i246       26
-i247       27
+i245       3
+i246       18
+i247       19
 i248       8
-i249       29
-i250       30
+i249       21
+i250       22
 i251       8
-i252       32
-i253       33
-i254       34
-i255       38
-i256       46
-i257       47
-i258       8
-i259       39
-i260       40
-i261       41
+i252       4
+i253       15
+i254       16
+i255       8
+i256       5
+i257       6
+i258       7
+i259       8
+i260       9
+i261       10
 i262       8
-i263       43
-i264       44
-i265       45
-i266       118
-i267       119
-i268       120
+i263       12
+i264       13
+i265       8
+i266       24
+i267       35
+i268       36
 i269       8
-i270       122
-i271       123
-i272       45
+i270       25
+i271       26
+i272       27
+i273       8
+i274       29
+i275       30
+i276       8
+i277       32
+i278       33
+i279       34
+i280       38
+i281       46
+i282       47
+i283       8
+i284       39
+i285       40
+i286       41
+i287       8
+i288       43
+i289       44
+i290       45
+i291       49
+i292       50
+i293       51
+i294       52
+i295       53
+i296       54
+i297       34
+i298       56
+i299       57
+i300       58
+i301       59
+i302       60
+i303       8
+i304       62
+i305       63
+i306       64
+i307       65
+i308       66
+i309       45
+i310       68
+i311       69
+i312       45
+i313       71
+i314       72
+i315       73
+i316       143
+i317       144
+i318       145
+i319       8
+i320       147
+i321       148
+i322       45

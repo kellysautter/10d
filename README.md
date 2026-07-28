@@ -1,3 +1,38 @@
+Changes 07/28/26
+* Changes for Tomcat 11
+* Changes for buildlplr
+
+***** There are a lot of changes missing from this readme.md. I should look over the 10c file and add to here. I just added the latest from 2026.
+Changes 06/25/2026
+* Changed the generation code to use text-start/text-end instead of text-right/text-left for bootstrap5.
+
+Changes 06/16/2026
+* Added alternate jsp generation for bootstrap5. This requires a zeidon.ini insertion line of the following.
+;; at the GMC we are moving to bootstrap 5. This needs some different jsp generation.
+Bootstrap5=Y
+
+Changes 06/02/26
+* Changes for jasperreports 7.0.6 version. This affects jasper xls exports and is changes to jsp pages, only when an export action is present.
+
+Change 05/20/26
+* jsp generation changes for TinyMCE (changed location of tinymce.min.js and added TinyMCESet.js)
+* js generation changes for TinyMCE (add setMLEdits() to actions on page that have tinymce)
+
+Change 04/27/26
+* Move js call processControlActions from the bottom of the jsp file to "_AfterPageLoaded" code in the js file. This
+  is because the new TinyMCE textarea is not disabled correctly unless it is in afterpageloaded (a change was also made to zeidonctrlactions.js in lplr).
+* Changed jsp include location of tinymce js code from 
+         "./js/tinymce/jscripts/tiny_mce/tiny_mce.js"
+  to
+         "./js/tinymce/tinymce.min.js"
+  This can be changed with a value in zeidon tools zeidon.ini file if necessary (TinyMCEJavaScript=)
+* JSP change MLEdit log line from info to debug
+  task.log( ).info( "Entity.Attribute: " + strErrorMapValue ) to
+  task.log( ).debug( "Entity.Attribute: " + strErrorMapValue ) 
+* For MLEdit controls with wysiwyg class. We had been not including meSimple if another class...
+
+
+
 Changes made 04/25/24
 * Incorporated Don's autodesign changes
 * Added a new field to TZCMLPLO.LOD (LPLR.AutodesignBase) 

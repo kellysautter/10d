@@ -45,15 +45,14 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-# The following line had "NDEBUG" not "_DEBUG" but I something is wrong with the original debug link (or something), so I am currently making this always debug.
-CPP_PROJ=/nologo /ML /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\tz" /I ".\\" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /Fp"$(INTDIR)\buildlplr.pch" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
+CPP_PROJ=/nologo /ML /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\tz" /I ".\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /Fp"$(INTDIR)\buildlplr.pch" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
 MTL_PROJ=/nologo /D "NDEBUG" /mktyplib203 /win32
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\buildlplr.bsc"
 BSC32_SBRS= \
 
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kzoengaa.lib tzlodopr.lib tzvmpopr.lib tzvmlip.lib tzvmlopr.lib tzteupdd.lib tzcmslpd.lib tzedcmpd.lib tzcmslpd.lib /nologo /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\buildlplr.pdb" /machine:I386 /out:"..\..\..\w\bin\buildlplr.exe" /libpath:"$(KZD):\$(KZV)\w\libz" /libpath:"$(KZD):\$(KZV)\w\libr"
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kzoengaa.lib tzlodopr.lib /nologo /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\buildlplr.pdb" /machine:I386 /out:"..\..\..\w\bin\buildlplr.exe" /libpath:"$(KZD):\$(KZV)\w\libz" /libpath:"$(KZD):\$(KZV)\w\libr"
 LINK32_OBJS= \
    "$(INTDIR)\buildlplr.obj"
 
@@ -81,14 +80,14 @@ CLEAN :
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
-CPP_PROJ=/nologo /ML /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\tz" /I ".\\" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /Fp"$(INTDIR)\buildlplr.pch" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
+CPP_PROJ=/nologo /ML /W3 /Gm /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\tz" /I ".\\" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "__WIN32__" /FR"$(INTDIR)\\" /Fp"$(INTDIR)\buildlplr.pch" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
 MTL_PROJ=/nologo /D "_DEBUG" /mktyplib203 /win32
 BSC32=bscmake.exe
 BSC32_FLAGS=/nologo /o"$(OUTDIR)\buildlplr.bsc"
 BSC32_SBRS= \
 
 LINK32=link.exe
-LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kzoengaa.lib tzlodopr.lib tzvmpopr.lib tzvmlip.lib tzvmlopr.lib tzteupdd.lib tzcmslpd.lib tzedcmpd.lib tzcmslpd.lib /nologo /subsystem:windows /incremental:yes /pdb:"$(OUTDIR)\buildlplr.pdb" /debug /machine:I386 /out:"..\..\..\w\bin\buildlplr.exe" /libpath:"$(KZD):\$(KZV)\w\libz" /libpath:"$(KZD):\$(KZV)\w\libr"
+LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kzoengaa.lib tzlodopr.lib /nologo /subsystem:windows /incremental:yes /pdb:"$(OUTDIR)\buildlplr.pdb" /debug /machine:I386 /out:"..\..\..\w\bin\buildlplr.exe" /libpath:"$(KZD):\$(KZV)\w\libz" /libpath:"$(KZD):\$(KZV)\w\libr"
 LINK32_OBJS= \
    "$(INTDIR)\buildlplr.obj"
 
@@ -144,7 +143,7 @@ SOURCE=.\buildlplr.c
 
 !IF  "$(CFG)" == "buildlplr - Win32 Release"
 
-CPP_SWITCHES=/nologo /ML /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\tz" /I ".\\" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "__WIN32__" /Fp"$(INTDIR)\buildlplr.pch" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
+CPP_SWITCHES=/nologo /ML /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\tz" /I ".\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "__WIN32__" /Fp"$(INTDIR)\buildlplr.pch" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
 
 "$(INTDIR)\buildlplr.obj" : $(SOURCE) "$(INTDIR)"
    $(CPP) @<<
@@ -154,7 +153,7 @@ CPP_SWITCHES=/nologo /ML /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(
 
 !ELSEIF  "$(CFG)" == "buildlplr - Win32 Debug"
 
-CPP_SWITCHES=/nologo /ML /W3 /EHsc /O2 /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\tz" /I ".\\" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "__WIN32__" /Fp"$(INTDIR)\buildlplr.pch" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
+CPP_SWITCHES=/nologo /ML /W3 /Gm /EHsc /ZI /Od /I "$(KZD):\$(KZV)\w\incz" /I "$(KZD):\$(KZV)\w\incr" /I "$(KZD):\$(KZV)\a\incz" /I "$(KZD):\$(KZV)\a\incr" /I "$(KZD):\$(KZV)\a\tz" /I ".\\" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "__WIN32__" /Fp"$(INTDIR)\buildlplr.pch" /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c
 
 "$(INTDIR)\buildlplr.obj" : $(SOURCE) "$(INTDIR)"
    $(CPP) @<<

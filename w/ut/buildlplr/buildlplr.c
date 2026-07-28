@@ -48,6 +48,7 @@
 #include "zeidonop.h"
 #include "tz__oprs.h"
 #include "tzlodopr.h"
+#include "tzcm_opr.hg"
 #include "buildlplr.h"
 
 int PASCAL WinMain(HANDLE, HANDLE, LPSTR, int);
@@ -61,6 +62,36 @@ long APIENTRY MainWndProc(HWND   hWnd,      /* window handle       */
 static void ProcessXods( zVIEW vSubtask,
                           zCHAR *cTE_Name, zCHAR *cLogFile );
 static char* extract_name( char *pc, char* cTarget, size_t lMax );
+static zSHORT GenerateAllJSPJavaAllDialogs(zVIEW vSubtask);
+
+
+zOPER_EXPORT zSHORT OPERATION
+zwTZTEUPDD_RebuildTablesRels(zVIEW vSubtask);
+
+zOPER_EXPORT zSHORT OPERATION
+zwTZTEUPDD_InitTool(zVIEW vSubtask);
+
+zOPER_EXPORT zSHORT OPERATION
+zwfnTZTEUPDD_InitDTE(zVIEW vSubtask, zVIEW vCM_List);
+zOPER_EXPORT zSHORT OPERATION
+zwTZTEUPDD_SaveModelDTE(zVIEW vSubtask);
+zOPER_EXPORT zSHORT OPERATION
+zwTZTEUPDD_SwitchLPLR(zVIEW vSubtask);
+zOPER_EXPORT zSHORT OPERATION
+zwTZCMSLPD_RebuildMetaLists(zVIEW vSubtask);
+
+zOPER_EXPORT zSHORT OPERATION
+zwTZCMSLPD_SwitchLPLR(zVIEW vSubtask);
+
+zOPER_EXPORT zSHORT OPERATION
+oTZWDLGSO_GenerateJSPJava(zVIEW vDialog, zVIEW vSubtask);
+static zSHORT GenerateAllJSPJavaAllDialogs(zVIEW vSubtask);
+
+zOPER_EXPORT zSHORT OPERATION
+RebuildTargetList(zVIEW     vSubtask);
+zOPER_EXPORT zSHORT OPERATION
+MakeAllTargets(zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang);
+
 
 /*
 ** globals
@@ -277,6 +308,38 @@ long APIENTRY MainWndProc(HWND hWnd,   /* window handle                 */
     return DefWindowProc (hWnd, message, wParam, lParam);
 } // MainWndProc
 
+zVIEW LOCALOPER
+fnCreateMsgObj(zVIEW vSubtask)
+{
+	zVIEW  vMsgQ;
+	zLONG  lTask;
+
+	GetViewByName(&vMsgQ, "__MSGQ", vSubtask, zLEVEL_TASK);
+	if (vMsgQ == 0)
+	{
+		LPAPP lpApp;
+
+		if (ActivateEmptyObjectInstance(&vMsgQ, "KZMSGQOO", vSubtask, zMULTIPLE) < 0)
+		{
+			zCHAR szMsg[512];
+
+			strcpy_s(szMsg, zsizeof(szMsg), "Cannot load Message Object: ");
+			strcat_s(szMsg, zsizeof(szMsg), "KZMSGQOO");
+			SysMessageBox(vSubtask, "System Error", szMsg, 1);
+			return(0);
+		}
+
+		SetNameForView(vMsgQ, "__MSGQ", vSubtask, zLEVEL_TASK);
+		CreateEntity(vMsgQ, "Task", zPOS_FIRST);
+		lTask = SysGetTaskFromView(vSubtask);
+		SetAttributeFromInteger(vMsgQ, "Task", "Id", lTask);
+
+		//fnGetApplicationForSubtask(&lpApp, vSubtask);
+		SetAttributeFromString(vMsgQ, "Task", "Client", "hfifusion");
+	}
+
+	return(vMsgQ);
+}
 /****************************************************************************
 
     FUNCTION: RunAppl
@@ -287,37 +350,148 @@ long APIENTRY MainWndProc(HWND hWnd,   /* window handle                 */
 
 void RunAppl( )
 {
-   zVIEW vSubtask = NULL;
-   zSHORT nRC;
-   char cNet = '\0', cError = '\0' ;
-   char cApplication[ 32 ], cTE_Name[ 256 ], cLogFile[ 256 ] ;
-   char *pc;
 
-   //HANDLE hInstance = (HANDLE) GetWindowLong( hWnd, GWL_HINSTANCE );
-   //LPSTR  lpCmdLine = (LPSTR) GetWindowLong( hWnd, GWL_USERDATA );
+	zVIEW vSubtask = NULL;
+	zVIEW vTZMSGWRK = 0;
+	zVIEW vTaskLPLR = 0;
+	zVIEW  vZeidonCM = 0;
+	zVIEW  vTZCMSLPL = 0;
+	zVIEW  vTZCMWKSO = 0;
+	zSHORT nRC;
+	char cNet = '\0', cError = '\0';
+	char cApplication[32], cTE_Name[256], cLogFile[256];
+	char *pc;
 
-   // Analyze the Command Line
+	//HANDLE hInstance = (HANDLE) GetWindowLong( hWnd, GWL_HINSTANCE );
+	//LPSTR  lpCmdLine = (LPSTR) GetWindowLong( hWnd, GWL_USERDATA );
 
-   // The command line is
-   // "-p Application" "-t TE-Name" "[-n]" ["Log-File"]
-   // "Application" and "TE-Name" are  required
+	// Analyze the Command Line
+
+	// The command line is
+	// "-p Application" "-t TE-Name" "[-n]" ["Log-File"]
+	// "Application" and "TE-Name" are  required
+	nRC = RegisterZeidonApplication(&vSubtask, 0L, 0L, WM_USER + 1, "~~Zeidon_Tools~", 0, 0);
+
+	TraceLineS("tzedcm2d RunAppl", "");
+	//IssueError(vSubtask, 0, 0, "stop");
+	// Create a work object that indicates whether or not the messages should pop-up. 
+	// We do not want pop-up messages here.
+	if (GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_TASK) < 0 && GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_APPLICATION) < 0)
+	{
+		TraceLineS("buildlplr Create TZMSGWRK", "");
+		//://DropObjectInstance( vWork )
+		ActivateEmptyObjectInstance(&vTZMSGWRK, "TZMSGWRK", vSubtask, zSINGLE);
+		CreateEntity(vTZMSGWRK, "Messages", zPOS_AFTER);
+		SetNameForView(vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_TASK);
+		SetAttributeFromInteger(vTZMSGWRK, "Messages", "NoMsg", 1);
+	}
+	else
+		TraceLineS("tzedcm2d TZMSGWRK no created", "");
 
 
-// nRC = RegisterZeidonApplication( &vSubtask, (zLONG) hInstance, (zLONG) hWnd,
-//                                  WM_USER + 1, "~~Zeidon_Tools~", 0, 0 );
-   nRC = ( &vSubtask, 0L, 0L,
-                                    WM_USER + 1, "~~Zeidon_Tools~", 0, 0 );
+	TraceLineS("Before InitializeLPLR", "");
+	nRC = InitializeLPLR(vSubtask, "hfifusion");
+	TraceLineI("After InitializeLPLR ", nRC);
+
+	fnCreateMsgObj(vSubtask);
 
 
-   nRC= InitializeLPLR( vSubtask, "hfifusion" );
+	//GetViewByName(&vTZCMSLPL, "TZCMSLPL", vSubtask, zLEVEL_TASK);
 
-   ProcessXods( vSubtask, "hfifusion", "" );
+	MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	   "Before zwTZCMSLPD_SwitchLPLR",
+	   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
 
-   UnregisterZeidonApplication( vSubtask );
+	/* For now we will assume that the lplr we want is the one marked default in TZCMWKS8.POR
+	nRC = zwTZTEUPDD_SwitchLPLR(vSubtask);
+	TraceLineI("After zwTZTEUPDD_SwitchLPLR ", nRC);
+	*/
+	// This is done in tzcmslpd.zwTZCMSLPD_InitDialog
+	nRC = GetViewByName(&vZeidonCM, "ZeidonCM", vSubtask, zLEVEL_APPLICATION);
+	TraceLineI("buildlplr ZeidonCM ", nRC);
+	nRC = GetViewByName(&vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK);
+	TraceLineI("buildlplr TZCMWKSO ", nRC);
+	nRC = CreateViewFromViewForTask(&vTZCMSLPL, vTZCMWKSO, 0);
+	SetNameForView(vTZCMSLPL, "TZCMSLPL", vSubtask, zLEVEL_TASK);
+
+	nRC = zwTZCMSLPD_SwitchLPLR(vSubtask);
+	TraceLineI("After zwTZCMSLPD_SwitchLPLR ", nRC);
+	MessageSend(vSubtask, "TE00423", "Physical Data Model",
+		"After zwTZCMSLPD_SwitchLPLR",
+		zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+		
+	// Rebuild Meta
+	zwTZCMSLPD_RebuildMetaLists(vSubtask);
+	TraceLineS("Before RebuildXDM", "");
+
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Before building domain xdm",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+
+	RebuildXDM(vSubtask);
+
+
+	TraceLineS("Before zwTZTEUPDD_InitTool", "");
+	// InitTools uses the default lplr. I have the above SwitchLPLR because we would like to switch to the lplr
+	// we are passing in. But for now I think I will keep that commented out. It's not working.
+	zwTZTEUPDD_InitTool(vSubtask);
+	TraceLineS("Before zwTZTEUPDD_InitTool", "");
+	TraceLineS("Before zwTZTEUPDD_RebuildTablesRels", "");
+
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Before building Tables/Rel",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+
+	zwTZTEUPDD_RebuildTablesRels(vSubtask);
+
+	zwTZTEUPDD_SaveModelDTE(vSubtask);
+	//TraceLineS("Before RebuildMetaLists", "");
+
+	//RebuildMetaLists( vSubtask);
+
+   //MessageSend(vSubtask, "TE00423", "Physical Data Model",
+   //   "Before generating all jsps",
+   //   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+
+	if (GetViewByName(&vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK) < 0)
+	{
+		TraceLineS("TaskLPLR does not exist", "");
+	}
+	else
+	{
+		TraceLineS("TaskLPLR DOES EXIST :)", "");
+		nRC = GenerateAllJSPJavaAllDialogs(vSubtask);
+	}
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Before building xods",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+
+	TraceLineS("Before ProcessXods", "");
+	ProcessXods(vSubtask, "hfifusion", "");
+	TraceLineS("AFTER ProcessXods", "");
+	// This will build a list of all vml files to be parsed/generated
+	RebuildTargetList(vSubtask);
+	GetViewByName(&vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK);
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Before parsing/generating VML/Java",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+	MakeAllTargets(vSubtask, vTaskLPLR, "Java");
+
+	//MessageSend(vSubtask, "TE00423", "Physical Data Model",
+	//   "Process Completed",
+	//   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
+
+	UnregisterZeidonApplication(vSubtask);
+
+	//linux command killall name to delete a process. Need to create a linux killapps.cmd?
+	//TASKKILL / IM kzoengwa.exe / F
+	//TASKKILL / IM mtxdebug.exe / F
+	//TASKKILL / IM kzoeclnt.exe / F
+	//TASKKILL / IM zdr.exe / F
 }
 
 static void ProcessXods( zVIEW vSubtask,
-                          zCHAR *cTE_Name, zCHAR *cLogFile )RegisterZeidonApplication
+                          zCHAR *cTE_Name, zCHAR *cLogFile )
 {
    FILE *fLog=NULL;
    zVIEW vTaskLPLR = NULL;
@@ -542,3 +716,64 @@ static char* extract_name( char *pc, char* cTarget, size_t lMax )
    pc1 = pc1 + strspn( pc1, " "); // Blank-Eli
    return pc1;
 }
+
+
+static zSHORT GenerateAllJSPJavaAllDialogs(zVIEW vSubtask)
+{
+	zVIEW  vValidate;
+	zVIEW  vTZWINDOW;
+	zVIEW  vTaskLPLR;
+	zPCHAR pchDlg;
+	zPCHAR pchWnd;
+	zCHAR  szMsg[256];
+	zCHAR  SourceFileName[514] = { 0 };
+	zCHAR  DialogName[256];
+	zSHORT nRC;
+
+	TraceLineS("Inside GenerateAllJSPJavaAllDialogs !!", "");
+
+	nRC = GetViewByName(&vTaskLPLR, "TaskLPLR", vSubtask, zLEVEL_TASK);
+	TraceLineI("Get View vTaskLPLR ", nRC);
+
+	// Prompt operator to ensure ALL windows are to be generated.
+	GetAddrForAttribute(&pchDlg, vTaskLPLR, "LPLR", "Name");
+
+	if (SetCursorFirstEntityByInteger(vTaskLPLR, "W_MetaType", "Type", 11, 0) >= zCURSOR_SET)
+	{
+		nRC = SetCursorFirstEntity(vTaskLPLR, "W_MetaDef", 0);
+		while (nRC == zCURSOR_SET)
+		{
+			//:SourceFileName = SourceLPLR.LPLR.MetaSrcDir + "\" + DialogName + ".PWD"
+			GetStringFromAttribute(SourceFileName, zsizeof(SourceFileName), vTaskLPLR, "LPLR", "MetaSrcDir");
+			GetStringFromAttribute(DialogName, zsizeof(DialogName), vTaskLPLR, "W_MetaDef", "Name");
+			TraceLineS("SourceFileName ", SourceFileName);
+			TraceLineS("DialogName ", DialogName);
+			if (zstrcmp(DialogName, "AD_Base") != 0 && zstrcmp(DialogName, "AD_BASE") != 0)
+			{
+				ZeidonStringConcat(SourceFileName, 1, 0, "\\", 1, 0, 514);
+				ZeidonStringConcat(SourceFileName, 1, 0, DialogName, 1, 0, 514);
+				ZeidonStringConcat(SourceFileName, 1, 0, ".PWD", 1, 0, 514);
+
+				nRC = ActivateOI_FromFile(&vTZWINDOW, "TZWDLGSO", vTaskLPLR, SourceFileName, 8192);
+				CreateViewFromViewForTask(&vValidate, vTZWINDOW, 0);
+
+				nRC = SetCursorFirstEntity(vTZWINDOW, "Window", 0);
+				while (nRC == zCURSOR_SET)
+				{
+					GetAddrForAttribute(&pchWnd, vTZWINDOW, "Window", "Tag");
+					zsprintf(szMsg, "Generating JSP Java: %s.%s", pchDlg, pchWnd);
+					TraceLineS("Generating jsp: ", szMsg);
+					//MB_SetMessage(vSubtask, 1, szMsg);
+					SetViewFromView(vValidate, vTZWINDOW);
+					//ValidateCtrlAndActionTags(vSubtask, vValidate);
+					oTZWDLGSO_GenerateJSPJava(vTZWINDOW, vSubtask);
+					nRC = SetCursorNextEntity(vTZWINDOW, "Window", 0);
+				}
+				DropObjectInstance(vTZWINDOW);
+			}
+			nRC = SetCursorNextEntity(vTaskLPLR, "W_MetaDef", 0);
+		}
+	}
+	return(0);
+
+} // GenerateAllJSPJavaAllDialogs

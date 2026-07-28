@@ -1120,12 +1120,20 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
       ACTIVATE vWork EMPTY
       CREATE ENTITY vWork.Root
       NAME VIEW vWork "TZPTWRKO"
-   END
+      // KJS 07/27/26 - When running this from a buildlplr, if we don't save using vDialog, when this is used in 
+      // tzwebgl4, we get an error. The above NAME VIEW has a 0 as the third parameter.
+      SetNameForView(vWork, "TZPTWRKO", vSubtask, zLEVEL_TASK)
+   END 
   
    NAME VIEW vDialog "GenJSP_Dialog"
    szDialogTag = vDialog.Dialog.Tag
    szWindowTag = vDialog.Window.Tag
    szFormName = szDialogTag + szWindowTag
+
+   CreateViewFromViewForTask( vDialogRoot, vDialog, 0 )
+   NAME VIEW vDialogRoot "DialogRoot"
+   // KJS 07/27/26 - We need to save this name using vDialogRoot. Otherwise, we get errors in buildlplr.
+   SetNameForView(vWork, "TZPTWRKO", vDialogRoot, zLEVEL_TASK)
 
    szWriteBuffer = "Generating JSP Java: " + szDialogTag + "." + szWindowTag
    MB_SetMessage( vSubtask, 1, szWriteBuffer )
@@ -1170,6 +1178,10 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    vWork.Root.BootstrapOuterCard = szBootstrapOuterCard
    vWork.Root.BootstrapDataTables = szBootstrapDataTables
    vWork.Root.Bootstrap5 = szBootstrap5
+   IF szTOMCAT10 = "N"
+      szTOMCAT10 = ""
+   END
+   vWork.Root.Tomcat10 = szTOMCAT10
    vDialog.Dialog.wWebUsesLanguageConversion = szLangConvFlag
    vDialog.Dialog.wWebUsesControlActions = szUseZeidonCtrlActions
    vDialog.Dialog.wWebUsesControlActionsView = szUseZeidonCtrlActView
@@ -1196,9 +1208,6 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
                    zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
       RETURN -1
    END
-
-   CreateViewFromViewForTask( vDialogRoot, vDialog, 0 )
-   NAME VIEW vDialogRoot "DialogRoot"
 
    szStyleIsjMobile = ""
    szStyleIsBootstrap = ""
@@ -1425,6 +1434,16 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "<%@ page import=^jakarta.servlet.http.*^ %>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      IF szHasFileUpload = "Y"
+         szWriteBuffer = "<%@ page import=^java.nio.file.Paths^ %>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<%@ page import=^jakarta.servlet.http.HttpServlet^ %>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<%@ page import=^jakarta.servlet.http.HttpServletRequest^ %>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "<%@ page import=^jakarta.servlet.http.HttpServletResponse^ %>"
+         WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
+      END
    ELSE
       szWriteBuffer = "<%@ page import=^javax.servlet.*^ %>"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
@@ -1651,6 +1670,10 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
       szWriteBuffer = "   {"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       OrderEntityForView( vDialog, "Control", "PSDLG_Y A PSDLG_X A" )
+// KJS 07/24/26 - I am trying this SetName because when I try to run from buildlplr, in GenJSPJ_InputRecurs, we
+// don't find vLPLR when using vDialog. It would find using vSubtask which we don't pass in. Which perhaps we should
+// do?
+SetNameForView(vLPLR, "TaskLPLR", vDialog, zLEVEL_TASK)
       GenJSPJ_InputMapRecurs( vDialog, szViewName, lFileJSP, szWriteBuffer, lTableRowCnt, "" )
       szWriteBuffer = "   }"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
@@ -1998,49 +2021,12 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    END
 
    // Generate Transfer File to Server logic if there is a GroupBox of type "File Transfer to Server".
-   /*
-   szHasFileUpload = ""
-   CreateViewFromView( vDialogTemp, vDialog )
-   lControl = zQUAL_STRING + zPOS_FIRST + zRECURS
-   szCtrlTag = "File Transfer to Server"
-   nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
-                          szCtrlTag, "", "", 0, "Window", "" )
-   szDateTimeFileUpload = "Y" // Add datetime to upload file.                          
-   IF nRC < zCURSOR_SET
-      szCtrlTag = "File Upload with DateTime"
-      nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
-                             szCtrlTag, "", "", 0, "Window", "" )
-      szDateTimeFileUpload = "Y"                             
-   END
-   IF nRC < zCURSOR_SET
-      szCtrlTag = "File Upload w/o DateTime"
-      nRC = SetEntityCursor( vDialogTemp, "WebControlProperty", "Name", lControl,
-                             szCtrlTag, "", "", 0, "Window", "" )
-      szDateTimeFileUpload = "N"                             
-   END
-   DropView( vDialogTemp )
-   */
-   
-   //IF nRC >= zCURSOR_SET
-   IF szHasFileUpload = "Y"
+   IF szHasFileUpload = "Y" AND szTOMCAT10 = ""
       GenJSPJ_ProcessFileIn( vDialog, szDateTimeFileUpload, lFileJSP, szWriteBuffer )
    END
  
-   // vKZXMLPGO
-
-   //szWriteBuffer = "   vKZXMLPGO = task.getViewByName( ^KZXMLPGO^ );"
-   //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //szWriteBuffer = "   if ( VmlOperation.isValid( vKZXMLPGO ) )"
-   //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //szWriteBuffer = "   {"
-   //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //szWriteBuffer = "      vKZXMLPGO = JspWebUtils.createWebSession( null, task, userId );"
    szWriteBuffer = "vKZXMLPGO = JspWebUtils.createWebSession( null, task, ^^ );"
    WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //szWriteBuffer = "      vKZXMLPGO.setName(^KZXMLPGO^ );"
-   //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
-   //szWriteBuffer = "   }"
-   //WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 1 )
 
    // Always keep track of the current page we are on.
    szWriteBuffer = "vKZXMLPGO.cursor( ^Session^ ).getAttribute( ^CurrentPageName^ ).setValue( ^" + szFormName + "^ );"
@@ -2078,7 +2064,7 @@ GenerateJSPJava( VIEW vDialog BASED ON LOD TZWDLGSO,
    END
    
    // KJS 07/29/20
-   IF szHasFileUpload = "Y"
+   IF szHasFileUpload = "Y" AND szTOMCAT10 = ""
       szWriteBuffer = "if ( strActionToProcess != null && strActionToProcess.equals(^" + szUploadAction + "^))"
       WL_QC( vDialog, lFileJSP, szWriteBuffer, "^", 0 )
       szWriteBuffer = "{"

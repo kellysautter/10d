@@ -729,6 +729,19 @@ END
 DIALOG OPERATION
 Prebuild_Init( VIEW vSubtask )
 
+   VIEW vWork BASED ON LOD  TZMSGWRK
+
    InitializeLPLR( vSubtask, "" )
+
+   // Generate a JSP file for formatting the Window that has current position.
+   GET VIEW vWork NAMED "TZMSGWRK"
+   IF RESULT < 0
+      IF GetViewByName(vWork, "TZMSGWRK", vSubtask, zLEVEL_APPLICATION) < 0
+         ACTIVATE vWork EMPTY
+         CREATE ENTITY vWork.Messages
+         NAME VIEW vWork "TZMSGWRK"
+         SetNameForView( vWork, "TZMSGWRK", 0, zLEVEL_APPLICATION )
+      END
+   END
 
 END

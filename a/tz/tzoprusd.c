@@ -909,12 +909,15 @@ wTZOPRUSD_SaveOperation( zVIEW vSubtask )
    if ( szReturnType[ 0 ] == 'V' &&
         zstrcmp( szObjectName, "TZZOLODO" ) == 0 )
    {
-      if ( zstrlen( szOperationName ) > 22 )
+      // KJS 06/12/25 - I thought there was a reason this could only be 22 if the name of the LOD was long. But I am not seeing an
+      // issue at the moment, so we will allow... for now...
+      //if ( zstrlen( szOperationName ) > 22 )
+      if ( zstrlen( szOperationName ) > 32 )
       {
          DropView( vMetaView2 );
          MessageSend( vSubtask, "OP00814",
                       "Operations",
-                      "VML operation name restricted to 22 characters.",
+                      "VML operation name restricted to 32 characters.",
                        zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 );
          SetFocusToCtrl( vSubtask, "edName" );
          SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, 0, 0 );

@@ -1877,7 +1877,7 @@ public:
    zCHAR   m_chMultiLine;
    UINT    m_uFormat;
 
-   zCHAR   m_szFaceName[ 32 ];  // LF_FACENAME == 32
+   zCHAR   m_szFaceName[ 100 ];  // LF_FACENAME == 32
    zBOOL   m_bBold;
    zBOOL   m_bItalic;
    zBOOL   m_bStrikeout;

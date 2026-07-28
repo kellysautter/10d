@@ -226,7 +226,9 @@ zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 TZEDFRMD_DisableActions( zVIEW vSubtask );
 
 zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
-TZEDFRMD_EnableEditMenuActions( zVIEW vSubtask );
+TZEDFRMD_EnableEditMenuActions(zVIEW vSubtask);
+zOPER_EXPORT zSHORT  OPERATION
+OPList_GetOps(zVIEW vSubtask);
 
 zLONG
 FindBeginOfOperation( zVIEW    vSubtask,
@@ -1729,6 +1731,7 @@ TZEDFRMD_OpenSubwindow( zVIEW vSubtask )
 
    mGetWorkView( &vEdWrk, vSubtask );
    SetNameForView( vEdWrk, "__EditorSubtask", vSubtask, zLEVEL_TASK );
+   OPList_GetOps(vSubtask);
    return( 0 );
 }
 
@@ -3080,6 +3083,7 @@ AEQ_GetViews( zVIEW vSubtask )
    mGetWorkView( &vEdWrk, vSubtask );
    if ( vEdWrk == 0 )
    {
+	   GetViewByName(&vEdWrk, "TZEDWRKO", vSubtask, zLEVEL_TASK);
       strcpy_s( szMsg, zsizeof( szMsg ), "TZEDWRKO not Available at GetViews." );
       OperatorPrompt( vSubtask, "ED - Error", szMsg, 0, zBUTTONS_OK, 0, 0 );
       return( zCALL_ERROR );
@@ -3431,8 +3435,8 @@ AEQ_SelectView( zVIEW vSubtask )
       {
          CreateEntity( vEdWrk, "Attribute", zPOS_LAST );
          SetAttributeFromAttribute( vEdWrk, "Attribute", "AttributeName", vLOD, "ER_Attribute", "Name" );
-		 SetAttributeFromAttribute(vEdWrk, "Attribute", "DomainName", vLOD, "Domain", "DerivedName");
-		 SetAttributeFromAttribute(vEdWrk, "Attribute", "Description", vLOD, "ER_Attribute", "Desc");
+	 SetAttributeFromAttribute( vEdWrk, "Attribute", "DomainName", vLOD, "Domain", "DerivedName" );
+	 SetAttributeFromAttribute( vEdWrk, "Attribute", "Description", vLOD, "ER_Attribute", "Desc" );
 
          nRC = SetCursorNextEntity( vLOD, "LOD_Attribute", "" );
       }
@@ -5229,7 +5233,7 @@ SaveAndParseC( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 SaveAndParseJava( zVIEW vSubtask )
 {
-   return( SaveAndParse( vSubtask, "Java", TRUE ) );
+   return( SaveAndParse( vSubtask, "J", TRUE ) );
 }
 
 zOPER_EXPORT zSHORT OPERATION
@@ -5318,7 +5322,7 @@ GenerateC( zVIEW vSubtask )
 zOPER_EXPORT zSHORT OPERATION
 GenerateJava( zVIEW vSubtask )
 {
-   return( Generate( vSubtask, "Java", TRUE ) );
+   return( Generate( vSubtask, "J", TRUE ) );
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -5335,7 +5339,7 @@ GenerateCompileJava( zVIEW vSubtask )
    zCHAR    szJavaCompileBat[ 256 ] = { 0 };
    zCHAR    szLPLR_Name[ 33 ] = { 0 };
 
-   nRC = Generate( vSubtask, "Java", TRUE );
+   nRC = Generate( vSubtask, "J", TRUE );
 
    if ( nRC )
       return( nRC );
@@ -5444,7 +5448,7 @@ fnTZEDFRMD_SaveFile( zVIEW    vSubtask,
          else
             if ( lRC == zRESPONSE_NO )
             {
-               if ( SaveAndParse( vSubtask, "Java", TRUE ) != 0 )
+               if ( SaveAndParse( vSubtask, "J", TRUE ) != 0 )
                   return( -1 );
             }
       }
@@ -5690,7 +5694,7 @@ fnSaveWithCheckForParse( zVIEW vSubtask )
             else
             if ( lRC == zRESPONSE_NO )
             {
-               nRC = fnParseIt( vSubtask, vEdWrk, vSource, szFileName, "Java", TRUE );
+               nRC = fnParseIt( vSubtask, vEdWrk, vSource, szFileName, "J", TRUE );
             }
          }
          return( nRC );
@@ -7430,10 +7434,10 @@ TZEDFRMD_EditReplaceAll( zVIEW vSubtask )
 zOPER_EXPORT zSHORT /* DIALOG */  OPERATION
 ParseGenerateJava( zVIEW vSubtask )
 {
-   zSHORT nRC = SaveAndParse( vSubtask, "Java", FALSE );
+   zSHORT nRC = SaveAndParse( vSubtask, "Ja", FALSE );
    if ( nRC == 0 )
    {
-      nRC = Generate( vSubtask, "Java", FALSE );
+      nRC = Generate( vSubtask, "J", FALSE );
       if ( nRC == 0 )
       {
          MessagePrompt( vSubtask, "ED0010", szlZeidonEditor, "Parse/Generate completed successfully.", 0, 0, 0, zICON_INFORMATION );
@@ -7453,7 +7457,7 @@ ParseGenerateJava( zVIEW vSubtask )
 zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
 zwTZEDFRMD_LoadOperationList( zVIEW vSubtask )
 {
-/*
+
    zVIEW  vWindow;
 
    if ( GetSubtaskForWindowName( vSubtask, &vWindow, "DIALOGOPERLIST" ) >= 0 )
@@ -7461,7 +7465,7 @@ zwTZEDFRMD_LoadOperationList( zVIEW vSubtask )
       SetWindowState( vWindow, zWINDOW_STATUS_DESTROY, 1 );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, "", "" );
    }
-*/
+
    return( 0 );
    
 } // zwTZEDFRMD_LoadOperationList
@@ -7475,14 +7479,12 @@ zwTZEDFRMD_LoadOperationList( zVIEW vSubtask )
 zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
 zwTZEDFRMD_DestroyWindow( zVIEW vSubtask )
 {
-/*
-   zVIEW  vWindow;
 
    SetWindowState( vSubtask, zWINDOW_STATUS_DESTROY, 1 );
 
    //if ( GetSubtaskForWindowName( vSubtask, &vWindow, "UPD_ACT" ) >= 0 )
    //   SetWindowState( vWindow, zWINDOW_STATUS_SETFOCUS, 1 );
-*/
+
    return( 0 );
 
 } // wTZEDFRMD_DestroyWindow
@@ -7496,35 +7498,47 @@ zwTZEDFRMD_DestroyWindow( zVIEW vSubtask )
 zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
 zwTZEDFRMD_GotoSourceOper( zVIEW vSubtask )
 {
-/*
+
    zVIEW    vTZOPRUSO = 0;
    zVIEW    vTemp;
    zLONG    lLine = 0, lCol = 0, lIndex = 0;
    zLONG    lReturnedBuffSize = MAX_TOKEN_LTH;
    zCHAR    strOperName[ 64 ];
    CString  strOperSrch = "\\bOPERATION[^!-~°§²³´ßäöüÄÖÜ]+%s[^!-~°§²³´ßäöüÄÖÜ]*(";
-   //CString  strOperSrch = "\\bOPERATION[^!-~            ]+%s[^!-~            ]*(";
    LPSTR    szBuffer = NULL;
    CString  strDelimiter = "\t,)( ";
    long     lTBEDTDefaultSearchBehavior = 5;
- 
+
+   zPCHAR   pchOperName = 0;
+   zPCHAR   pchInvokingTool = 0;
+   zCHAR    szOperSrch[256];
+   zLONG    lMetaType = 0;
+   zCHAR    szMetaName[33];
+   zBOOL    bFileExists = FALSE;
+   zBOOL    bCFile = FALSE;
+   zVIEW    vEdWrk = 0;
+   zVIEW    vSource = 0;
+   zVIEW    vTaskLPLR = 0;
+   zVIEW    vProfileXFER = 0;
+   //zLONG    lLine = -1;
+   zBOOL    bReadOnly = FALSE;
+
+   SetCursorFirstEntityByString(vSubtask, "Wnd", "Tag", "TZEDFRMD", 0);
+
    // Get the subtask for the editor window.
    GetParentWindow( &vTemp, vSubtask );
  
-   ZDrTBEdt *oEditor =
-      (ZDrTBEdt *) GetActiveX_WrapperInstance( vTemp, EDIT_CONTROL_NAME );
-
-   if ( oEditor == 0 )
-      return( 0 );
-
    CString strSearchString;
 
    GetViewByName( &vTZOPRUSO, "TZOPRUSO", vSubtask, zLEVEL_TASK );
    GetStringFromAttribute( strOperName, zsizeof( strOperName ), vTZOPRUSO, "OperationList", "Name" );
+   GetStringFromAttribute(szMetaName, zsizeof(szMetaName), vTZOPRUSO, "SourceFile", "Name");
 
    strSearchString.Format( strOperSrch, strOperName );
 
    lIndex = 0; // search from begin of file
+   GotoCurrentOperation(vSubtask, vTZOPRUSO, strOperName, szMetaName, bCFile);
+   /* this is 10c code, 10d is different
    oEditor->FindTextPosition( strSearchString, &lIndex,
                               lTBEDTDefaultSearchBehavior );
 
@@ -7548,8 +7562,8 @@ zwTZEDFRMD_GotoSourceOper( zVIEW vSubtask )
       strSearchString.Format( "Operation \'%s\' could not be located", strOperName );
       MB_SetMessage( vSubtask, MAIN_DIL, strSearchString );
    }
-  
-*/
+  */
+
    return( 0 );
 } // TZEDFRMD_GotoSourceOper
 
@@ -7562,7 +7576,7 @@ zwTZEDFRMD_GotoSourceOper( zVIEW vSubtask )
 zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
 zwTZEDFRMD_LoadGLOperList( zVIEW vSubtask )
 {
-/*
+
    zVIEW  vWindow;
 
    if ( GetSubtaskForWindowName( vSubtask, &vWindow, "GLOBALOPERLIST" ) >= 0 )
@@ -7570,7 +7584,7 @@ zwTZEDFRMD_LoadGLOperList( zVIEW vSubtask )
       SetWindowState( vWindow, zWINDOW_STATUS_DESTROY, 1 );
       SetWindowActionBehavior( vSubtask, zWAB_StayOnWindow, "", "" );
    }
-*/
+
    return( 0 );
    
 } // zwTZEDFRMD_LoadOperationList
@@ -7583,7 +7597,7 @@ zwTZEDFRMD_LoadGLOperList( zVIEW vSubtask )
 zOPER_EXPORT zSHORT /*DIALOG */  OPERATION
 zwTZEDFRMD_GotoGlobalOper( zVIEW vSubtask )
 {
-/*
+
    zVIEW    vTZOPRUSO = 0;
    zVIEW    vTemp;
    zLONG    lLine = 0, lCol = 0, lIndex = 0;
@@ -7635,11 +7649,150 @@ zwTZEDFRMD_GotoGlobalOper( zVIEW vSubtask )
       MB_SetMessage( vSubtask, MAIN_DIL, strSearchString );
    }
   
-*/
+
    return( 0 );
 } // TZEDFRMD_GotoSourceOper
 
 
+//////////////////////// KJS 05/12/26
+
+zOPER_EXPORT zSHORT OPERATION
+OPList_GetOps(zVIEW vSubtask)
+{
+	static zCHAR szOperationString[] = "\\bOPERATION[^!-~°§²³´ßäöüÄÖÜ]+";
+	zVIEW    vEdWrk;
+	zVIEW    vEditorSubtask;
+	zVIEW    vTZWINDOW;
+	zLONG    lLine = 0, lCol = 0;
+	zLONG    lOrigLine = 0, lOrigCol = 0;
+	zLONG    lOperationEndLine = -1, lOperationStartLine = -1;
+	zLONG    lIndexAfterObjectName = 0;
+	zCHAR    szMsg[100];
+	zCHAR    szOperName[33];
+	zSHORT   nRC;
+
+	mGetWorkView(&vEdWrk, vSubtask);
+	if (vEdWrk == 0)
+	{
+		strcpy_s(szMsg, zsizeof(szMsg), "TZEDWRKO not Available at GetViews.");
+		OperatorPrompt(vSubtask, "ED - Error", szMsg, 0, zBUTTONS_OK, 0, 0);
+		return(zCALL_ERROR);
+	}
+
+	if (CompareAttributeToString(vEdWrk, szlBuffer, szlLanguageType, szlVML_File) != 0)
+	{
+		strcpy_s(szMsg, zsizeof(szMsg), "'Get Views' only works on VML Files.");
+		OperatorPrompt(vSubtask, "ED - Error", szMsg, 0, zBUTTONS_OK, 0, 0);
+		return(zCALL_ERROR);
+	}
+
+   // Clear out any old operations
+   nRC = SetCursorFirstEntity( vEdWrk, "Operation", "" );
+   while ( nRC == zCURSOR_SET )
+      nRC = DeleteEntity( vEdWrk, "Operation", zREPOS_NEXT );
+
+   
+	GetIntegerFromAttribute((zPLONG)&vEditorSubtask, vEdWrk, szlBuffer, "vSubtask");
+
+	zLONG ZKey;
+
+	//GetViewByName(&vTZWINDOW, "TZWINDOW", vSubtask, zLEVEL_TASK);
+	// We get either TZOPRUSO (Dialog/Object operation list), or TZOGSRCO (Global Oper List)
+	GetViewByName(&vTZWINDOW, "TZOPRUSO", vSubtask, zLEVEL_TASK);
+	if (vTZWINDOW == 0)
+		GetViewByName(&vTZWINDOW, "TZOGSRCO", vSubtask, zLEVEL_TASK);		
+	GetIntegerFromAttribute(&ZKey, vTZWINDOW, "Operation", szlZKey);
+	for (nRC = SetCursorFirstEntity(vTZWINDOW, "Operation", "");
+		nRC >= zCURSOR_SET;
+		nRC = SetCursorNextEntity(vTZWINDOW, "Operation", ""))
+	{
+		if (CompareAttributeToInteger(vTZWINDOW, "Operation", "Class", 0) == 0)
+		{
+			GetStringFromAttribute(szOperName, zsizeof(szOperName), vTZWINDOW, "Operation", "Name");
+			CreateEntity(vEdWrk, "Operation", zPOS_LAST);
+			SetAttributeFromString(vEdWrk, "Operation", "Name", szOperName);
+			SetAttributeFromAttribute(vEdWrk, "Operation", "Type", vTZWINDOW, "Operation", "Type");
+		}
+	}
+	// Position on the original operation the user clicked on.
+	SetCursorFirstEntityByInteger(vTZWINDOW, "Operation", "ZKey", ZKey, "");
+	OrderEntityForView( vEdWrk, "Operation", "Name A" );
+	GetStringFromAttribute(szOperName, zsizeof(szOperName), vTZWINDOW, "Operation", "Name");
+	SetCursorFirstEntityByString(vEdWrk, "Operation", "Name", szOperName, "");
+
+	return(0);
+
+} // OPList_SelectOp
+zOPER_EXPORT zSHORT OPERATION
+OPList_SelectOp(zVIEW vSubtask)
+{
+	zLONG    lLine = 0, lCol = 0, lIndex = 0;
+	zLONG    lReturnedBuffSize = MAX_TOKEN_LTH;
+	zCHAR    strOperName[64];
+	CString  strOperSrch = "\\bOPERATION[^!-~°§²³´ßäöüÄÖÜ]+%s[^!-~°§²³´ßäöüÄÖÜ]*(";
+	LPSTR    szBuffer = NULL;
+	CString  strDelimiter = "\t,)( ";
+	zPCHAR   pchOperName = 0;
+	zCHAR    szMsg[256];
+	zCHAR    szOperSrch[256];
+	zBOOL    bCFile = FALSE;
+	zVIEW    vEdWrk;
+	zVIEW    vEditorSubtask;
+	//zLONG    lLine = -1;
+	zBOOL    bReadOnly = FALSE;
+
+	TraceLine("!!! OPList_SelectOp 1");
+
+	mGetWorkView(&vEdWrk, vSubtask);
+	if (vEdWrk == 0)
+	{
+		strcpy_s(szMsg, zsizeof(szMsg), "TZEDWRKO not Available at GetViews.");
+		OperatorPrompt(vSubtask, "ED - Error", szMsg, 0, zBUTTONS_OK, 0, 0);
+		return(zCALL_ERROR);
+	}
+	TraceLine("!!! OPList_SelectOp 2");
+	GetParentWindow(&vEditorSubtask, vSubtask);
+	if (vEditorSubtask == 0)
+	{
+		TraceLine("!!! OPList_SelectOp Yes we have vEditroSubtask");
+	}
+	CString strSearchString;
+
+	//GetViewByName(&vTZOPRUSO, "TZOPRUSO", vSubtask, zLEVEL_TASK);
+	GetStringFromAttribute(strOperName, zsizeof(strOperName), vEdWrk, "Operation", "Name");
+
+	sprintf_s(szOperSrch, zsizeof(szOperSrch), "\\bOPERATION[^!-~°§²³´ßäöüÄÖÜ]+%s[^!-~°§²³´ßäöüÄÖÜ]*(", strOperName);
+	//strSearchString.Format(strOperSrch, strOperName);
+	DWORD  dwTBEDTDefaultSearchBehavior = FIND_MATCH_CASE | FIND_WHOLE_WORD;
+	zBOOL  bTextFound;
+
+	EDT_SetCursorPositionByLineCol(vEditorSubtask, lLine, lCol);
+	bTextFound = EDT_FindTextPosition(vEditorSubtask, strOperName, &lLine, &lCol, dwTBEDTDefaultSearchBehavior);
+	if (bTextFound)
+	{
+		EDT_SetCursorPositionByLineCol(vEditorSubtask, lLine, lCol);
+		TraceLine("(xxx) Return from search line: %d  col: %d", lLine, lCol);
+
+		// Skipping lines where the search text is part of a comment
+		while (fnIsCommentAtIndex(vEditorSubtask, lLine, lCol) && lLine > -1) // 1998.10.15  TMV check lLine
+		{
+			lLine++;
+			EDT_SetCursorPositionByLineCol(vEditorSubtask, lLine, lCol);
+			bTextFound = EDT_FindTextPosition(vEditorSubtask, strOperName, &lLine, &lCol, dwTBEDTDefaultSearchBehavior);
+			EDT_SetCursorPositionByLineCol(vEditorSubtask, lLine, lCol);
+		}
+		SetFocusToCtrl(vEditorSubtask, EDIT_CONTROL_NAME);
+	}
+
+	return(0);
+} // OPList_SelectOp
+
+zOPER_EXPORT zSHORT OPERATION
+OPList_Close(zVIEW vSubtask)
+{
+	fnSaveSubwindowPosition(vSubtask, "DialogOperList");
+	return(0);
+}
 #ifdef __cplusplus
 }
 #endif

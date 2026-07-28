@@ -17,6 +17,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                          STRING ( 100 )    szRepeatGrpKey )
 
    VIEW vWork    REGISTERED AS TZPTWRKO
+   VIEW vMsgWrk  REGISTERED AS TZMSGWRK
    VIEW vDialog2 BASED ON LOD TZWDLGSO
    VIEW vList    BASED ON LOD TZWDLGSO  // identifies attribute mapping for list entries
    VIEW vEntity  BASED ON LOD TZWDLGSO  // identifies entity mapping for list entries
@@ -625,15 +626,22 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          END    
          // KJS 11/12/21 - Should I add a check here so I can let user know if they are in bootstrap but their outer group doesn't have card card-body class?
+         //lNoMsg = 0; // KJS 07/13/26
+         //IF GetViewByName( vMsgWork, "TZMSGWRK", vDialog, zLEVEL_TASK ) >= 0
+         //   GetIntegerFromAttribute(lNoMsg, vMsgWork, "Messages", "NoMsg");
+         //END
          szClass = vDialog.Control.CSS_Class     
          IF lIndexStrLth = 0 AND szStyleIsBootstrap = "Y" AND szBootstrapOuterCard = "" AND szToggleFlag = "" AND szToggleFlag2 = "" AND 
-            vDialog.Control.WebCtrlType != "Hidden" AND ( ZeidonStringFind( szClass, 1, "card-body" ) <= 0 ) AND vWork.Root.GaveErrorMessage = ""
+            vDialog.Control.WebCtrlType != "Hidden" AND ( ZeidonStringFind( szClass, 1, "card-body" ) <= 0 ) AND vWork.Root.GaveErrorMessage = "" //AND lNoMsg = 0             
                vWork.Root.GaveErrorMessage = "Y"               
                szMsg = "When generating for bootstrap, the outer div should probably have a class 'card card-body', or divs do not show correctly. Also File upload div"
                szMsg = szMsg + " does not display. Use zeidon ini setting of BootstrapOuterCard=Y and the card-body div will automatically be added."
+               // KJS 07/10/26 - I don't think anyone knows what this is... taking out for now.
+               /*
                MessageSend( vDialog, "", "XSL Generation",
                             szMsg,
                             zMSGQ_OBJECT_CONSTRAINT_WARNING, 0 )
+               */
          END
 
       END  // End of "GroupBox"
@@ -1662,7 +1670,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                   szClass = vDialog.Control.CSS_Class
                   // KJS 06/11/26 - Is this where I should put logic for the two div classes in bootstrap5
                   IF szBootstrap5 = "Y" AND ZeidonStringFind( szClass, 1, "input-group" ) > 0 AND ZeidonStringFind( szClass, 1, "input-group-sm" ) > 0
-                     TraceLineS("HERE", "HERE")
                      // We assume that input-group is always first?
                      nPosition = ZeidonStringFind( szClass, 1, "input-group-sm" )
                      nPosition = nPosition + 14
@@ -2625,9 +2632,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
             lTableRowCnt = lTableRowCnt + 1   // Set up iTableRowCnt variable suffix.
             szSuffix = lTableRowCnt
-         // X_Size = vDialog.Control.SZDLG_X
-         // lWidth = X_Size * 2
-         // zIntegerToString( szWidth, 10, lWidth )
 
             //KJS 02/12/08 - We had been looping through CtrlCtrl instead of setting
             //the view to the subobject but if there is a hidden column, then
@@ -2738,15 +2742,12 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
             IF vGroupParent != 0
                // KJS 01/30/14 - I'm thinking "Relative Positioning" is old. I only use this in one pwd and when I take it
                // out and use "Div/No Height", the results look exactly the same so I am going to take this off grid controls.
-               //*
-               SET CURSOR FIRST vGroupParent.WebControlProperty WHERE vGroupParent.WebControlProperty.Name = "Relative Positioning"
+                SET CURSOR FIRST vGroupParent.WebControlProperty WHERE vGroupParent.WebControlProperty.Name = "Relative Positioning"
                IF RESULT >= zCURSOR_SET
                   szWebCtrlType = "RelativePos"
                ELSE
                   szWebCtrlType = vGroupParent.Control.WebCtrlType
                END
-               //*/
-               //szWebCtrlType = vGroupParent.Control.WebCtrlType
             END
 
             // KJS 6/19/08 - We want to add filtering on a table.  If the user chooses the web control property "Filter Rows" then
@@ -2832,7 +2833,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
 
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                
-//kkkkkkkkkkkk grid parent entity
+               // grid parent entity
                CreateViewFromView( vDialog2, vDialog )
                SET CURSOR NEXT vDialog2.CtrlMap
                IF vDialog2.CtrlMapLOD_Entity EXISTS
@@ -2907,6 +2908,9 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            szWriteBuffer = "<%"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         END
+                        // 07/16/26
+                        szWriteBuffer = "   strErrorMapValue = ^^;"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                         szWriteBuffer = "   " + vDialog.CtrlMapView.Name + " = " +
                                         "task.getViewByName( ^" + vDialog.CtrlMapView.Name + "^ );"
                         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -2976,7 +2980,25 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            END 
                         ELSE
                            szClass = ""
-                        END  
+                        END 
+                        // KJS 06/26/26 
+                        IF szBootstrap5 = "Y" AND szClass = ""
+                           // KJS 06/26/26 - Previously, we were only adding the class to the <th> if it was numeric and we added the above text-end/right.
+                           // David L says that for bootstrap5 we need to always display the class on the <th>? Or would that only be if it's start/end.
+                           // I'm going to start with just text-start/end
+                           szClass = vDialog.Control.CSS_Class
+                           IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-start" ) > 0
+                              szClass = " text-start"
+                           ELSE
+                              IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-end" ) > 0
+                                 szClass = " text-end"
+                              ELSE
+                                 // No text-start or text-end
+                                 szClass = ""
+                              END
+                           END
+                        ELSE
+                        END
                         //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
                         // KJS 03/04/25 // this is the first occurance
                         szSortOnClick = ""
@@ -2988,17 +3010,11 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                               // This is the select checkbox and we don't want to sort on this... it's for clicking all entries in grid.
                            ELSE
                            IF szParentEntityName != vDialog.CtrlMapRelatedEntity.Name
-                              //szSortOnClick = " id=^" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + 
-                              //                "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + "' )^"
-                              szSortOnClick = " id=^" + vDialog.Control.Tag + "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + 
+                               szSortOnClick = " id=^" + vDialog.Control.Tag + "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + 
                                               vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + "." + szParentEntityName + "' )^"
-                                              //"^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + szParentEntityName + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
                            ELSE
-                              //szSortOnClick = " id=^" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name + 
-                              //                "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + szParentEntityName + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
                               szSortOnClick = " id=^" + vDialog.Control.Tag + "^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + 
                                               vDialog.CtrlMapView.Name + "." + szParentEntityName + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
-                                              //"^ onclick=^_TableSort( '" + vDialog.Control.Tag + "', '" + vDialog.CtrlMapView.Name + "." + vDialog.CtrlMapRelatedEntity.Name + "." +  vDialog.CtrlMapER_Attribute.Name +"' )^"
                            END
                            END
                         END
@@ -3008,7 +3024,6 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                            ELSE
                               szWriteBuffer = "   <th class=^" + szClass + "^"
                            END
-                           //szWriteBuffer = szWriteBuffer + "><%=strErrorMapValue%></th>"
                         ELSE
                            szWriteBuffer = "   <th style=^" + szAbsoluteWidth + "^"//><%=strErrorMapValue%></th>"
                         END
@@ -3073,7 +3088,25 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         ELSE
                            szClass = ""
                         END  
-                        
+                         // KJS 06/26/26 
+                        IF szBootstrap5 = "Y" AND szClass = ""
+                           // KJS 06/26/26 - Previously, we were only adding the class to the <th> if it was numeric and we added the above text-end/right.
+                           // David L says that for bootstrap5 we need to always display the class on the <th>? Or would that only be if it's start/end.
+                           // I'm going to start with just text-start/end
+                           szClass = vDialog.Control.CSS_Class
+                           IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-start" ) > 0
+                              szClass = " text-start"
+                           ELSE
+                              IF ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-end" ) > 0
+                                 szClass = " text-end"
+                              ELSE
+                                 // No text-start or text-end
+                                 szClass = ""
+                              END
+                           END
+                        ELSE
+                        END
+                       
                         //kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
                         // KJS 03/04/25  // this is second occurance
                         szSortOnClick = ""
@@ -3888,7 +3921,7 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                      IF szStyleIsBootstrap = "Y" AND vDialog.CtrlMapER_Domain EXISTS AND 
                         ( vDialog.CtrlMapER_Domain.DataType = "M" OR vDialog.CtrlMapER_Domain.DataType = "L" )
                         IF szBootstrap5 = "Y"
-                           IF ZeidonStringFind( szClass, 1, "text-start" ) <= 0
+                           IF ZeidonStringFind( szClass, 1, "text-start" ) <= 0  AND ZeidonStringFind( vDialog.Control.CSS_Class, 1, "text-end" ) <= 0
                               szClass = szClass + " text-end"
                            END
                         ELSE
@@ -3955,6 +3988,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                         SET CURSOR FIRST vDialog.CtrlMapLOD_Attribute WITHIN vDialog.Control
                         IF RESULT >= zCURSOR_SET 
                            szWriteBuffer = "<%"
+                           WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                           
+                           //07/16/26                           
+                           szWriteBuffer = "   strErrorMapValue = ^^;"
                            WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
 
                            // Check if this is the same view as the grid.
@@ -4564,11 +4601,10 @@ GenJSPJ_CrteCtrlsRecurs( VIEW vDialog      BASED ON LOD TZWDLGSO,
                                     szWriteBuffer = "      }"
                                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
             
-            IF szAutoIncludeComboBlank = "Y"
-               szWriteBuffer = "      }"
-               WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
-            
-            END
+                                    IF szAutoIncludeComboBlank = "Y"
+                                       szWriteBuffer = "      }"
+                                       WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+                                    END
                                  END
 
                                  IF lSubtype = 0
@@ -6094,7 +6130,7 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
             IF szControlType = "Grid"
 
                szCtrlTag = vDialog.Control.Tag
-               TraceLineS("INPUT Grid control tag ", szCtrlTag )
+               //TraceLineS("INPUT Grid control tag ", szCtrlTag )
                szWriteBuffer = "      // " + szControlType + ": " + szCtrlTag
                WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
                szWriteBuffer = "      iTableRowCnt = 0;"
@@ -6159,8 +6195,8 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                   END
 
                   szCtrlTag = vDialog.Control.Tag
-                  TraceLineS("INPUT Grid sub control tag ", szCtrlTag )
-                  TraceLineS("INPUT Grid sub control type ", szCtrlCtrlType )
+                  //TraceLineS("INPUT Grid sub control tag ", szCtrlTag )
+                  //TraceLineS("INPUT Grid sub control type ", szCtrlCtrlType )
 
                   IF szCtrlCtrlType = "EditBox" OR
                      szCtrlCtrlType = "ComboBox" OR
@@ -6374,52 +6410,56 @@ GenJSPJ_InputMapRecurs( VIEW vDialog BASED ON LOD TZWDLGSO,
                      END
                      
                      szCheckBoxValue = vDialog.Control.RadioOrCheckboxValue
-
-                     // try
-                     szWriteBuffer = "            try"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "            {"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "               if ( webMapping )"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "                  VmlOperation.CreateMessage( task, ^" +
-                                                        szCtrlTag + "^, ^^, strMapValue );"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "               else"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "                  if ( strMapValue"  + " != null )"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "                     vGridTmp.cursor( ^" +
-                                  vDialog.CtrlMapRelatedEntity.Name +
-                                  "^ ).getAttribute( ^" + vDialog.CtrlMapER_Attribute.Name +
-                                  "^ ).setValue( strMapValue, ^^ );" //KKKKKKK
-                                  //"^ ).setValue( ^" + szCheckBoxValue + "^, ^^ );" //KKKKKKK
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "                  else"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
-                     szWriteBuffer = "                     vGridTmp.cursor( ^" +
-                                  vDialog.CtrlMapRelatedEntity.Name +
-                                  "^ ).getAttribute( ^" + vDialog.CtrlMapER_Attribute.Name +
-                                  "^ ).setValue( ^^, ^^ );"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "            }"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     // catch
-                     szWriteBuffer = "            catch ( InvalidAttributeValueException e )"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "            {"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "               nMapError = -16;"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     // KJS 02/27/12 Specifically using strTag...
-                     szWriteBuffer = "               VmlOperation.CreateMessage( task, strTag, e.getReason( ), strMapValue );"
-                  // szWriteBuffer = "            VmlOperation.CreateMessage( task, ^" + szCtrlTag + "^, e.getReason( ), strMapValue );"
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "            }" 
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-                     szWriteBuffer = "         }"  // End of  if ( strMapValue != null || strMapValuehidden != null )
-                     WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+                     IF vDialog.CtrlMap EXISTS
+                        // try
+                        szWriteBuffer = "            try"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "            {"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "               if ( webMapping )"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "                  VmlOperation.CreateMessage( task, ^" +
+                                                           szCtrlTag + "^, ^^, strMapValue );"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "               else"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "                  if ( strMapValue"  + " != null )"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "                     vGridTmp.cursor( ^" +
+                                     vDialog.CtrlMapRelatedEntity.Name +
+                                     "^ ).getAttribute( ^" + vDialog.CtrlMapER_Attribute.Name +
+                                     "^ ).setValue( strMapValue, ^^ );" //KKKKKKK
+                                     //"^ ).setValue( ^" + szCheckBoxValue + "^, ^^ );" //KKKKKKK
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "                  else"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "'", 0 )
+                        szWriteBuffer = "                     vGridTmp.cursor( ^" +
+                                     vDialog.CtrlMapRelatedEntity.Name +
+                                     "^ ).getAttribute( ^" + vDialog.CtrlMapER_Attribute.Name +
+                                     "^ ).setValue( ^^, ^^ );"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "            }"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        // catch
+                        szWriteBuffer = "            catch ( InvalidAttributeValueException e )"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "            {"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "               nMapError = -16;"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        // KJS 02/27/12 Specifically using strTag...
+                        szWriteBuffer = "               VmlOperation.CreateMessage( task, strTag, e.getReason( ), strMapValue );"
+                     // szWriteBuffer = "            VmlOperation.CreateMessage( task, ^" + szCtrlTag + "^, e.getReason( ), strMapValue );"
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "            }" 
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+                        szWriteBuffer = "         }"  // End of  if ( strMapValue != null || strMapValuehidden != null )
+                        WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
                      // end of try/catch
+                     ELSE
+                        // Should we put in a comment that there was no mapping?
+                        
+                     END
                   END
 
                   IF szCtrlCtrlType = "ComboBox" OR

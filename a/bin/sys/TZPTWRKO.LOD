@@ -1,7 +1,7 @@
-z1000-Zeidon    TZPTWRKO TZZOLODO                         06/11/26   10:31:33 1.0a2   
+z1000-Zeidon    TZPTWRKO TZZOLODO                         07/08/26   11:29:08 1.0a2   
 eLOD       1
 aZKey      130121239
-aNextZKeyToAssign 130121256
+aNextZKeyToAssign 130121258
 aName      TZPTWRKO
 aDesc      Dialog Painter jsp generation work object
 
@@ -139,8 +139,21 @@ aZKey      130121256
 
 eDomainRec 5
 
+eLOD_AttributeRec 3
+aZKey      130121257
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      Tomcat10
+aZKey      130121258
+aDesc      Using Tomcat higher than 9 (currently 10 or 11)
+
+eDomainRec 5
+
 eLOD_Entity 2
-awkSelectedAttributeForDragSort 7
+awkSelectedAttributeForDragSort 9
 
 eLOD_Attribute 3
 awkSequence 1
@@ -198,34 +211,45 @@ eER_Attribute 4
 
 eDomain    5
 
+eLOD_Attribute 3
+awkSequence 9
+
+eER_Attribute 4
+
+eDomain    5
+
 i10        4
 i13        4
 i16        4
 i19        4
 i22        4
 i25        4
-i26        1
-i27        2
-i28        3
-i29        4
-i30        5
-i31        6
-i32        7
-i33        8
-i34        9
-i35        4
-i36        11
-i37        12
+i28        4
+i29        1
+i30        2
+i31        3
+i32        4
+i33        5
+i34        6
+i35        7
+i36        8
+i37        9
 i38        4
-i39        14
-i40        15
+i39        11
+i40        12
 i41        4
-i42        17
-i43        18
+i42        14
+i43        15
 i44        4
-i45        20
-i46        21
+i45        17
+i46        18
 i47        4
-i48        23
-i49        24
+i48        20
+i49        21
 i50        4
+i51        23
+i52        24
+i53        4
+i54        26
+i55        27
+i56        4

@@ -10,6 +10,8 @@ extern "C"
  
 #include "ZEIDONOP.H"
 
+zSHORT ProcessXods( zVIEW, zPCHAR, zPCHAR );
+
 zOPER_EXPORT zSHORT OPERATION
 Prebuild_Init( zVIEW     vSubtask );
 
@@ -89,14 +91,44 @@ ExternalTargetRefresh( zVIEW     vSubtask );
 
 
 //:DIALOG OPERATION
+//:Prebuild_Init( VIEW vSubtask )
+
+//:   VIEW vWork BASED ON LOD  TZMSGWRK
 zOPER_EXPORT zSHORT OPERATION
 Prebuild_Init( zVIEW     vSubtask )
 {
+   zVIEW     vWork = 0; 
+   zSHORT    RESULT; 
+   zSHORT    lTempInteger_0; 
 
-   //:Prebuild_Init( VIEW vSubtask )
 
    //:InitializeLPLR( vSubtask, "" )
    InitializeLPLR( vSubtask, "" );
+
+   //:// Generate a JSP file for formatting the Window that has current position.
+   //:GET VIEW vWork NAMED "TZMSGWRK"
+   RESULT = GetViewByName( &vWork, "TZMSGWRK", vSubtask, zLEVEL_TASK );
+   //:IF RESULT < 0
+   if ( RESULT < 0 )
+   { 
+      //:IF GetViewByName(vWork, "TZMSGWRK", vSubtask, zLEVEL_APPLICATION) < 0
+      lTempInteger_0 = GetViewByName( &vWork, "TZMSGWRK", vSubtask, zLEVEL_APPLICATION );
+      if ( lTempInteger_0 < 0 )
+      { 
+         //:ACTIVATE vWork EMPTY
+         RESULT = ActivateEmptyObjectInstance( &vWork, "TZMSGWRK", vSubtask, zSINGLE );
+         //:CREATE ENTITY vWork.Messages
+         RESULT = CreateEntity( vWork, "Messages", zPOS_AFTER );
+         //:NAME VIEW vWork "TZMSGWRK"
+         SetNameForView( vWork, "TZMSGWRK", 0, zLEVEL_TASK );
+         //:SetNameForView( vWork, "TZMSGWRK", 0, zLEVEL_APPLICATION )
+         SetNameForView( vWork, "TZMSGWRK", 0, zLEVEL_APPLICATION );
+      } 
+
+      //:END
+   } 
+
+   //:END
    return( 0 );
 // END
 } 

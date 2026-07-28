@@ -1,0 +1,59 @@
+z1000-Zeidon    TZMSGWRK TZZOLODO                         05/22/26   18:21:33 1.0a2   
+eLOD       1
+aZKey      217501951
+aNextZKeyToAssign 217501954
+aName      TZMSGWRK
+aDesc      Message Work Object
+
+eLOD_EntityParent 2
+aName      Messages
+aIndentName Messages
+aIndentLvl 0
+aZKey      217501952
+aCreate    Y
+aDelete    Y
+aUpdate    Y
+aInclude   N
+aInclSrc   Y
+aExclude   N
+aRecursive N
+aDerived   N
+aWork      Y
+aParentDeleteBehave D
+aDupEntityInstance N
+aDupRelationshipInstance N
+
+eLOD_AttributeRec 3
+aZKey      217501953
+aWork      Y
+aUpdate    Y
+aSeqOrder  Y
+
+eER_AttributeRec 4
+aName      NoMsg
+aZKey      217501954
+
+eDomainRec 5
+aZKey      90000044
+aName      Integer
+aDomainType E
+aDataType  L
+aMaxStringLth 4
+aDecimalFormat 0
+aDesc      Integer numbers from -lots to +lots.
+aContextRestriction N
+
+eLOD_Entity 2
+awkSelectedAttributeForDragSort 1
+
+eLOD_Attribute 3
+awkSequence 1
+
+eER_Attribute 4
+
+eDomain    5
+
+i5         1
+i6         2
+i7         3
+i8         4

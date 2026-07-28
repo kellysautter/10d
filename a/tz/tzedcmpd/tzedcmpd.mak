@@ -17,7 +17,8 @@
 MODULE         = tzedcmpd
 TARGETS        = $(Z_BIN)\$(MODULE).dll
 C_DEPENDENTS   =
-LINKDLLS       = tzlodopr.lib tzvmpopr.lib tzvmlopr.lib truegrid.lib tzvmlip.lib
+#LINKDLLS       = tzlodopr.lib tzvmpopr.lib tzvmlopr.lib truegrid.lib tzvmlip.lib
+LINKDLLS       = tzlodopr.lib tzvmpopr.lib tzvmlopr.lib truegrid.lib tzvmlip.lib tzteupdd.lib tzcmslpd.lib
 DRIVER_APP     = YES
 OBJS           = $(Z_OBJ)\tzedcm2d.obj
 CPP_OBJS       = $(Z_OBJ)\$(MODULE).obj

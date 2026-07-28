@@ -165,10 +165,12 @@ MessageSend( zVIEW   vSubtask,
 {
    LPTASK         lpCurrentTask;
    LPMQINTERFACE  lpMQInterface;
-   zVIEW          vMsgQ;
-// zPLONG         lplTaskID;
+   zVIEW          vMsgQ = 0;
+   zVIEW          vTZMSGWRK = 0;
+   // zPLONG         lplTaskID;
    zSHORT         nRC = zCALL_ERROR;
    zCHAR          sz[ 10 ];
+   zLONG          lNoMsg = 0;
 
    lpCurrentTask = fnOperationCall( iMessageSend, vSubtask, 0 );
    if ( lpCurrentTask == 0 )
@@ -176,6 +178,14 @@ MessageSend( zVIEW   vSubtask,
       TraceLine( "MessageSend Task Error: %s  %s  %s  %d",
                  cpcMsgId, cpcTitle, cpcMsgText, lMsgType );
    }
+
+   if (GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_TASK) >= 0)
+   {
+	   GetIntegerFromAttribute(&lNoMsg, vTZMSGWRK, "Messages", "NoMsg");
+	   TraceLine("MessageSend vTZMSGWRK NoMsg:  %d", lNoMsg);
+   }
+   else
+	   TraceLine("MessageSend vTZMSGWRK DOES NOT EXIST  %d", lNoMsg);
 
 // lplTaskID = &lpCurrentTask->lTaskID;
 
@@ -278,11 +288,14 @@ MessageSend( zVIEW   vSubtask,
             {
                if ( vMsgQ )
                {
-                  MQ_MessageSend pfn = (MQ_MessageSend) lpMQInterface->pfnMQ[ 0 ];
-               // TraceLineS( "MessagePrompt Trying to pop up a message box: ",
-               //             cpcMsgText );
-                  nRC = (*pfn)( vMsgQ, vSubtask, cpcMsgId, cpcTitle,
-                                cpcMsgText, lMsgType, bBeep );
+				   if (lNoMsg == 0)
+				   {
+					   MQ_MessageSend pfn = (MQ_MessageSend)lpMQInterface->pfnMQ[0];
+					   // TraceLineS( "MessagePrompt Trying to pop up a message box: ",
+					   //             cpcMsgText );
+					   nRC = (*pfn)(vMsgQ, vSubtask, cpcMsgId, cpcTitle,
+						   cpcMsgText, lMsgType, bBeep);
+				   }
                   DropView( vMsgQ );
                }
                else
@@ -293,11 +306,14 @@ MessageSend( zVIEW   vSubtask,
          {
             if ( vMsgQ )
             {
-               MQ_MessageSend pfn = (MQ_MessageSend) lpMQInterface->pfnMQ[ 0 ];
-            // TraceLineS( "MessagePrompt Trying to pop up a message box: ",
-            //             cpcMsgText );
-               nRC = (*pfn)( vMsgQ, vSubtask, cpcMsgId, cpcTitle,
-                          cpcMsgText, lMsgType, bBeep );
+				if (lNoMsg == 0)
+				{
+					MQ_MessageSend pfn = (MQ_MessageSend)lpMQInterface->pfnMQ[0];
+					// TraceLineS( "MessagePrompt Trying to pop up a message box: ",
+					//             cpcMsgText );
+					nRC = (*pfn)(vMsgQ, vSubtask, cpcMsgId, cpcTitle,
+						cpcMsgText, lMsgType, bBeep);
+				}
                DropView( vMsgQ );
             }
             else
