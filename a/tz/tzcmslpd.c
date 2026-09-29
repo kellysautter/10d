@@ -105,12 +105,8 @@ zwTZCMSLPD_SwitchLPLR( zVIEW vSubtask )
    zCHAR  szDirectoryName[ 514 ] = { 0 };
    zSHORT nRC;
 
-   TraceLineS("zwTZCMSLPD_SwitchLPLR 1", "");
-
    nRC = GetViewByName( &vZeidonCM, "ZeidonCM", vSubtask, zLEVEL_APPLICATION );
-   TraceLineI("zwTZCMSLPD_SwitchLPLR ZeidonCM ", nRC);
    nRC = GetViewByName( &vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK );
-   TraceLineI("zwTZCMSLPD_SwitchLPLR TZCMWKSO ", nRC);
    if ( vTZCMWKSO == 0 )  // View isn't there
    {
       MessageSend( vSubtask, "CM00602", "Configuration Management",
@@ -152,26 +148,20 @@ zwTZCMSLPD_SwitchLPLR( zVIEW vSubtask )
    }
 
    nRC = GetViewByName( &vTZCMSLPL, "TZCMSLPL", vSubtask, zLEVEL_TASK );
-   TraceLineI("zwTZCMSLPD_SwitchLPLR TZCMSLPL ", nRC);
 
    // Get the previous Default LPLR ZKey.
    GetIntegerFromAttribute( &lDfltZKey, vTZCMWKSO, "RepositoryClient",
                             "DefaultLPLR_ZKey" );
-   TraceLineS("zwTZCMSLPD_SwitchLPLR 2", "");
 
    // Get and set the new Default LPLR ZKey.
    GetIntegerFromAttribute( &lZKey, vTZCMSLPL, "LPLR", "ZKey" );
-   TraceLineS("zwTZCMSLPD_SwitchLPLR 3", "");
    TerminateLPLR( vSubtask );
-   TraceLineS("zwTZCMSLPD_SwitchLPLR 4", "");
 
    // PETTIT - In the future I will check the return code and continue with the
    // switch based upon it.
    SetAttributeFromInteger( vTZCMWKSO, "RepositoryClient",
                             "DefaultLPLR_ZKey", lZKey );
-   TraceLineS("zwTZCMSLPD_SwitchLPLR 5", "");
    SetCursorFirstEntityByInteger( vTZCMWKSO, "LPLR", "ZKey", lZKey, "" );
-   TraceLineS("zwTZCMSLPD_SwitchLPLR 6", "");
 
    // Establish new position on workstation.
    if ( InitializeDefaultLPL( vSubtask ) < 0 )
@@ -181,7 +171,6 @@ zwTZCMSLPD_SwitchLPLR( zVIEW vSubtask )
       oTZCMWKSO_CommitWorkstation( vTZCMWKSO );
       DropNameForView( vTZCMSLPL, "TZCMSLPL", vSubtask, zLEVEL_TASK );
    }
-   TraceLineS("zwTZCMSLPD_SwitchLPLR 7", "");
 #if 0
    // KJS 04/30/15
    nRC = GetViewByName( &TZCMULWO, "TZCMULWO", vSubtask, zLEVEL_TASK );

@@ -1091,7 +1091,8 @@ MakeAllTargets( zVIEW vSubtask, zVIEW vTaskLPLR, zCPCHAR cpcGenLang )
       {
 		  zVIEW vTZMSGWRK = 0;
 		  zLONG iMsg = 0;
-		  if (GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_TASK) > 0)
+		  if ((GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_TASK) > 0) ||
+			  (GetViewByName(&vTZMSGWRK, "TZMSGWRK", vSubtask, zLEVEL_APPLICATION) > 0))
 			  GetIntegerFromAttribute(&iMsg, vTZMSGWRK, "Messages", "NoMsg");
 		  if (iMsg == 0)
 		  {

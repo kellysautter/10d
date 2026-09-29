@@ -135,9 +135,8 @@ int PASCAL WinMain(HANDLE hInstance,       /* current instance  */
 
     /* Perform initializations that apply to a specific instance
      */
-	//if (!InitInstance(hInstance, lpCmdLine, nCmdShow))
-	// Using nCmdShow, a window pops up. With SW_HIDE, the window does not appear.
-    if (!InitInstance(hInstance, lpCmdLine, SW_HIDE))
+
+    if (!InitInstance(hInstance, lpCmdLine, nCmdShow))
         return (FALSE);
 
     /* Acquire and dispatch messages until a WM_QUIT message is received.
@@ -230,7 +229,7 @@ BOOL InitInstance(HANDLE hInstance, /* Current instance identifier.       */
 	*/
 	hWnd = CreateWindow(
       "buildlplr",                    /* See RegisterClass() call.          */
-      "Zeidon Build All LPLR",      /* Text for window title bar.         */
+      "Zeidon Generate XODs",      /* Text for window title bar.         */
       WS_OVERLAPPEDWINDOW,         /* Window style.                      */
       CW_USEDEFAULT,               /* Default horizontal position.       */
       CW_USEDEFAULT,               /* Default vertical position.         */
@@ -396,6 +395,9 @@ void RunAppl( )
 
 	fnCreateMsgObj(vSubtask);
 
+
+	//GetViewByName(&vTZCMSLPL, "TZCMSLPL", vSubtask, zLEVEL_TASK);
+
 	MessageSend(vSubtask, "TE00423", "Physical Data Model",
 	   "Before zwTZCMSLPD_SwitchLPLR",
 	   zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
@@ -406,12 +408,17 @@ void RunAppl( )
 	*/
 	// This is done in tzcmslpd.zwTZCMSLPD_InitDialog
 	nRC = GetViewByName(&vZeidonCM, "ZeidonCM", vSubtask, zLEVEL_APPLICATION);
+	TraceLineI("buildlplr ZeidonCM ", nRC);
 	nRC = GetViewByName(&vTZCMWKSO, "TZCMWKSO", vZeidonCM, zLEVEL_SUBTASK);
+	TraceLineI("buildlplr TZCMWKSO ", nRC);
 	nRC = CreateViewFromViewForTask(&vTZCMSLPL, vTZCMWKSO, 0);
 	SetNameForView(vTZCMSLPL, "TZCMSLPL", vSubtask, zLEVEL_TASK);
 
 	nRC = zwTZCMSLPD_SwitchLPLR(vSubtask);
 	TraceLineI("After zwTZCMSLPD_SwitchLPLR ", nRC);
+	MessageSend(vSubtask, "TE00423", "Physical Data Model",
+		"After zwTZCMSLPD_SwitchLPLR",
+		zMSGQ_OBJECT_CONSTRAINT_ERROR, zBEEP);
 		
 	// Rebuild Meta
 	zwTZCMSLPD_RebuildMetaLists(vSubtask);
@@ -477,10 +484,10 @@ void RunAppl( )
 	UnregisterZeidonApplication(vSubtask);
 
 	//linux command killall name to delete a process. Need to create a linux killapps.cmd?
-	//TASKKILL /IM kzoengwa.exe /F
-	//TASKKILL /IM mtxdebug.exe /F
-	//TASKKILL /IM kzoeclnt.exe /F
-	//TASKKILL /IM zdr.exe /F
+	//TASKKILL / IM kzoengwa.exe / F
+	//TASKKILL / IM mtxdebug.exe / F
+	//TASKKILL / IM kzoeclnt.exe / F
+	//TASKKILL / IM zdr.exe / F
 }
 
 static void ProcessXods( zVIEW vSubtask,

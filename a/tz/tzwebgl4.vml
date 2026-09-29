@@ -3913,10 +3913,29 @@ GenJSPJ_CrteText( VIEW vDialog      BASED ON LOD TZWDLGSO,
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "      }"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      
+      // KJS 09/14/26
+      // I added this code because I was thinking it would be good to show the Control.Text if the mapped value is blank.
+      // But then on a page there was a text control to display an error message. The derived value was blank so it showed the control.text, but in 
+      // that instance, that is not what we would want. So I am taking this out. But I'm going to leave the code in case this is
+      // something we might want to revisit.
+      /*
+      szText2 = vDialog.Control.Text
+      zSearchAndReplace( szText2, 1000, "\", "\\" )
+      szStyle = "\" + QUOTES 
+      zSearchAndReplace( szText2, 1000, QUOTES, szStyle )
+
+      szWriteBuffer = "      if ( strTextDisplayValue.length() == 0 )"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      szWriteBuffer = "         strTextDisplayValue = ^" + szText2 + "^;"
+      WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      */
+      
       szWriteBuffer = "   }"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
       szWriteBuffer = "%>"
       WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+      
    
       // KJS 09/30/16 - Language Conversion.
       // I'm not sure that I want to use language conversion on mapped fields, but then again, I'm thinking maybe we should.
@@ -6636,18 +6655,20 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "      }"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "      String fileName = ^^;"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
          szWriteBuffer = "      Part filePart = request.getPart(^" + szCtrlTag + "^);"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "      if ( vKZXMLPGO.cursor( ^Session^ ).getAttribute( ^PrintFileName^ ).getString( ^^ ).length() > 0 )"
+         
+         szWriteBuffer = "      String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "          fileName = vKZXMLPGO.cursor( ^Session^ ).getAttribute( ^PrintFileName^ ).getString( ^^ );"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "      else"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "          fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();"
-         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         
+         //szWriteBuffer = "      if ( vKZXMLPGO.cursor( ^Session^ ).getAttribute( ^PrintFileName^ ).getString( ^^ ).length() > 0 )"
+         //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         //szWriteBuffer = "          fileName = vKZXMLPGO.cursor( ^Session^ ).getAttribute( ^PrintFileName^ ).getString( ^^ );"
+         //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         //szWriteBuffer = "      else"
+         //WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         //szWriteBuffer = "          fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();"
+         //WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
    
          szWriteBuffer = "      // if we are appending datetime"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
@@ -6682,8 +6703,18 @@ GenJSPJ_Action( VIEW vDialog     BASED ON LOD TZWDLGSO,
          
          szWriteBuffer = "       // Saves the file on the server"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
-         szWriteBuffer = "       String filePath = savePath + strInputFileName;"
+         szWriteBuffer = "       String filePath = savePath;"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         
+         szWriteBuffer = "      if ( vKZXMLPGO.cursor( ^Session^ ).getAttribute( ^PrintFileName^ ).getString( ^^ ).length() > 0 )"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "          filePath = filePath + vKZXMLPGO.cursor( ^Session^ ).getAttribute( ^PrintFileName^ ).getString( ^^ );"  
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         szWriteBuffer = "      else"
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 0 )
+         szWriteBuffer = "          filePath = filePath + strInputFileName;"  
+         WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
+         
          szWriteBuffer = "       filePart.write(filePath);"
          WL_QC( vDialog, lFile, szWriteBuffer, "^", 1 )
       END
